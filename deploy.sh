@@ -13,8 +13,7 @@ git push origin master
 
 
 # Build the project. 
-#hugo # if using a theme, replace by `hugo -t <yourtheme>`
-hugo -t hyde-y
+hugo # if using a theme, replace by `hugo -t <yourtheme>`
 
 # Go To Public folder
 cd public
