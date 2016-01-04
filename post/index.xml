@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Me and the Web</title>
-    <link>/post/</link>
+    <link>http://lovelock.github.io/post/</link>
     <description>Recent content in Posts on Me and the Web</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -10,14 +10,14 @@
     <webMaster>frostwong@gmail.com (Frost Wong)</webMaster>
     <copyright>(c) 2013-2015 Frost Wong. All rights reserved.</copyright>
     <lastBuildDate>Fri, 04 Dec 2015 23:12:52 +0000</lastBuildDate>
-    <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://lovelock.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>HTML中的input[type=radio]的一个小发现</title>
-      <link>/2015/12/04/html%E4%B8%AD%E7%9A%84inputtyperadio%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E5%8F%91%E7%8E%B0/</link>
+      <link>http://lovelock.github.io/2015/12/04/html%E4%B8%AD%E7%9A%84inputtyperadio%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E5%8F%91%E7%8E%B0/</link>
       <pubDate>Fri, 04 Dec 2015 23:12:52 +0000</pubDate>
       <author>frostwong@gmail.com (Frost Wong)</author>
-      <guid>/2015/12/04/html%E4%B8%AD%E7%9A%84inputtyperadio%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E5%8F%91%E7%8E%B0/</guid>
+      <guid>http://lovelock.github.io/2015/12/04/html%E4%B8%AD%E7%9A%84inputtyperadio%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E5%8F%91%E7%8E%B0/</guid>
       <description>&lt;p&gt;昨天在写一个表单时，一个无意的错误让我发现了HTML radio类型的input的一个特性。&lt;/p&gt;
 
 &lt;p&gt;在一个表单&lt;code&gt;&amp;lt;form&amp;gt;&amp;lt;/form&amp;gt;&lt;/code&gt; 中，相同name的input[type=radio]只有最后一个才会正常的渲染checked。&lt;/p&gt;
@@ -32,10 +32,10 @@
     
     <item>
       <title>OS X完全卸载JDK的方法</title>
-      <link>/2015/12/04/os-x%E5%AE%8C%E5%85%A8%E5%8D%B8%E8%BD%BDjdk%E7%9A%84%E6%96%B9%E6%B3%95/</link>
+      <link>http://lovelock.github.io/2015/12/04/os-x%E5%AE%8C%E5%85%A8%E5%8D%B8%E8%BD%BDjdk%E7%9A%84%E6%96%B9%E6%B3%95/</link>
       <pubDate>Fri, 04 Dec 2015 23:04:43 +0000</pubDate>
       <author>frostwong@gmail.com (Frost Wong)</author>
-      <guid>/2015/12/04/os-x%E5%AE%8C%E5%85%A8%E5%8D%B8%E8%BD%BDjdk%E7%9A%84%E6%96%B9%E6%B3%95/</guid>
+      <guid>http://lovelock.github.io/2015/12/04/os-x%E5%AE%8C%E5%85%A8%E5%8D%B8%E8%BD%BDjdk%E7%9A%84%E6%96%B9%E6%B3%95/</guid>
       <description>&lt;p&gt;刚用OS X时想着可能会用到Java，毕竟Jetbrains的产品都要依赖Java。但新版本的这些IDE都自带java-bundle了，所以就没有必要留着了。&lt;/p&gt;
 
 &lt;p&gt;看了Java官网的指南，发现无法删干净，而在&lt;a href=&#34;https://stackoverflow.com/questions/19039752/removing-java-8-jdk-from-mac/23092014#23092014&#34; target=&#34;_blank&#34;&gt;StackOverFlow&lt;/a&gt;上发现了这条，完美！&lt;/p&gt;
@@ -55,10 +55,10 @@ sudo rm -rf /Library/Preferences/com.oracle.java.Helper-Tool.plist
     
     <item>
       <title>JavaScript闭包深究</title>
-      <link>/2015/12/02/javascript%E9%97%AD%E5%8C%85%E6%B7%B1%E7%A9%B6/</link>
+      <link>http://lovelock.github.io/2015/12/02/javascript%E9%97%AD%E5%8C%85%E6%B7%B1%E7%A9%B6/</link>
       <pubDate>Wed, 02 Dec 2015 21:35:12 +0800</pubDate>
       <author>frostwong@gmail.com (Frost Wong)</author>
-      <guid>/2015/12/02/javascript%E9%97%AD%E5%8C%85%E6%B7%B1%E7%A9%B6/</guid>
+      <guid>http://lovelock.github.io/2015/12/02/javascript%E9%97%AD%E5%8C%85%E6%B7%B1%E7%A9%B6/</guid>
       <description>
 
 &lt;h2 id=&#34;问题来源:1b67d25b866c1e409bcdd7713c6840f7&#34;&gt;问题来源&lt;/h2&gt;
@@ -411,10 +411,10 @@ foo();
     
     <item>
       <title>my-thoughts-about-programming</title>
-      <link>/2015/11/28/my-thoughts-about-programming/</link>
+      <link>http://lovelock.github.io/2015/11/28/my-thoughts-about-programming/</link>
       <pubDate>Sat, 28 Nov 2015 20:32:28 +0000</pubDate>
       <author>frostwong@gmail.com (Frost Wong)</author>
-      <guid>/2015/11/28/my-thoughts-about-programming/</guid>
+      <guid>http://lovelock.github.io/2015/11/28/my-thoughts-about-programming/</guid>
       <description>
 
 &lt;h2 id=&#34;可见性-visibility:10ad5a88fcc6e1d2ef89dfbea5429035&#34;&gt;可见性 Visibility&lt;/h2&gt;
@@ -427,10 +427,10 @@ foo();
     
     <item>
       <title>xhprof方便的插入要检测的代码</title>
-      <link>/2015/11/25/xhprof%E6%96%B9%E4%BE%BF%E7%9A%84%E6%8F%92%E5%85%A5%E8%A6%81%E6%A3%80%E6%B5%8B%E7%9A%84%E4%BB%A3%E7%A0%81/</link>
+      <link>http://lovelock.github.io/2015/11/25/xhprof%E6%96%B9%E4%BE%BF%E7%9A%84%E6%8F%92%E5%85%A5%E8%A6%81%E6%A3%80%E6%B5%8B%E7%9A%84%E4%BB%A3%E7%A0%81/</link>
       <pubDate>Wed, 25 Nov 2015 22:10:51 +0000</pubDate>
       <author>frostwong@gmail.com (Frost Wong)</author>
-      <guid>/2015/11/25/xhprof%E6%96%B9%E4%BE%BF%E7%9A%84%E6%8F%92%E5%85%A5%E8%A6%81%E6%A3%80%E6%B5%8B%E7%9A%84%E4%BB%A3%E7%A0%81/</guid>
+      <guid>http://lovelock.github.io/2015/11/25/xhprof%E6%96%B9%E4%BE%BF%E7%9A%84%E6%8F%92%E5%85%A5%E8%A6%81%E6%A3%80%E6%B5%8B%E7%9A%84%E4%BB%A3%E7%A0%81/</guid>
       <description>&lt;p&gt;本文只是给自己搞的一个小封装做个入口。&lt;/p&gt;
 
 &lt;p&gt;一次给同事写的一个接口做重构，上线以后发现性能恶化严重，导致了线上的严重问题，我马上想到用xhprof查一下问题，结果由于用的是Yaf框架，里面对一些目录结构做了错误的判断，导致用起来很不方便。所以在问题解决之后我想着把这个xhprof的web目录做成一个独立的vhost，这样用起来就方便了，由于和主体项目所使用的框架无关，也不会受到不良影响。&lt;/p&gt;
@@ -443,10 +443,10 @@ foo();
     
     <item>
       <title>Facebook的用户体验</title>
-      <link>/2015/11/22/facebook%E7%9A%84%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C/</link>
+      <link>http://lovelock.github.io/2015/11/22/facebook%E7%9A%84%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C/</link>
       <pubDate>Sun, 22 Nov 2015 13:56:28 +0000</pubDate>
       <author>frostwong@gmail.com (Frost Wong)</author>
-      <guid>/2015/11/22/facebook%E7%9A%84%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C/</guid>
+      <guid>http://lovelock.github.io/2015/11/22/facebook%E7%9A%84%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C/</guid>
       <description>&lt;p&gt;上个星期登录Gmail突然发现多了好多Facebook的动态，仔细一看，原来我的头像都已经被别人换了。好吧，这还是我人生第一次帐号被盗的经历。&lt;/p&gt;
 
 &lt;p&gt;马上改密码，结果重置完密码要登录了，却跳转到验证用户身份页，放出来几张“好友”的照片，让你认出来这都是谁。&lt;/p&gt;
@@ -473,10 +473,10 @@ foo();
     
     <item>
       <title>Vagrant使用说明</title>
-      <link>/2015/11/03/vagrant%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/</link>
+      <link>http://lovelock.github.io/2015/11/03/vagrant%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/</link>
       <pubDate>Tue, 03 Nov 2015 15:43:55 +0000</pubDate>
       <author>frostwong@gmail.com (Frost Wong)</author>
-      <guid>/2015/11/03/vagrant%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/</guid>
+      <guid>http://lovelock.github.io/2015/11/03/vagrant%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/</guid>
       <description>
 
 &lt;h1 id=&#34;创建自己的box:9e3f0de184e47f0c606d1209a89f77ee&#34;&gt;创建自己的box&lt;/h1&gt;
@@ -614,10 +614,10 @@ config.vm.box = &amp;quot;Debian&amp;quot;
     
     <item>
       <title>Symfony一对多关系的YAML配置</title>
-      <link>/2015/11/01/symfony%E4%B8%80%E5%AF%B9%E5%A4%9A%E5%85%B3%E7%B3%BB%E7%9A%84yaml%E9%85%8D%E7%BD%AE/</link>
+      <link>http://lovelock.github.io/2015/11/01/symfony%E4%B8%80%E5%AF%B9%E5%A4%9A%E5%85%B3%E7%B3%BB%E7%9A%84yaml%E9%85%8D%E7%BD%AE/</link>
       <pubDate>Sun, 01 Nov 2015 16:11:21 +0000</pubDate>
       <author>frostwong@gmail.com (Frost Wong)</author>
-      <guid>/2015/11/01/symfony%E4%B8%80%E5%AF%B9%E5%A4%9A%E5%85%B3%E7%B3%BB%E7%9A%84yaml%E9%85%8D%E7%BD%AE/</guid>
+      <guid>http://lovelock.github.io/2015/11/01/symfony%E4%B8%80%E5%AF%B9%E5%A4%9A%E5%85%B3%E7%B3%BB%E7%9A%84yaml%E9%85%8D%E7%BD%AE/</guid>
       <description>
 
 &lt;h1 id=&#34;用yaml方式配置对象关系:95124f6a163f0297f3e6978446cdcbd0&#34;&gt;用YAML方式配置对象关系&lt;/h1&gt;
@@ -761,10 +761,10 @@ Database schema updated successfully! &amp;quot;10&amp;quot; queries were execut
     
     <item>
       <title>给Linux新手的一些建议</title>
-      <link>/2015/10/19/%E7%BB%99linux%E6%96%B0%E6%89%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E5%BB%BA%E8%AE%AE/</link>
+      <link>http://lovelock.github.io/2015/10/19/%E7%BB%99linux%E6%96%B0%E6%89%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E5%BB%BA%E8%AE%AE/</link>
       <pubDate>Mon, 19 Oct 2015 21:49:06 +0000</pubDate>
       <author>frostwong@gmail.com (Frost Wong)</author>
-      <guid>/2015/10/19/%E7%BB%99linux%E6%96%B0%E6%89%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E5%BB%BA%E8%AE%AE/</guid>
+      <guid>http://lovelock.github.io/2015/10/19/%E7%BB%99linux%E6%96%B0%E6%89%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E5%BB%BA%E8%AE%AE/</guid>
       <description>
 
 &lt;p&gt;由于关注了知乎上Linux相关的一些话题，总是断断续续的有人邀请我回答各种Linux的问题——开始看到这种邀请的时候其实我是拒绝的，因为我觉得这种问题网上大把大把的答案，怎么还会有人问呢？后来回想了一下自己当初的经历才明白，原来就是有了太多的教程，而很多写教程的人自己都不怎么明白，怎么能讲的清楚呢？&lt;/p&gt;
@@ -859,10 +859,10 @@ sudo systemctl enable iptables
     
     <item>
       <title>MySQL真·UTF8后遇到的问题</title>
-      <link>/2015/10/17/mysql%E7%9C%9Futf8%E5%90%8E%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/</link>
+      <link>http://lovelock.github.io/2015/10/17/mysql%E7%9C%9Futf8%E5%90%8E%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/</link>
       <pubDate>Sat, 17 Oct 2015 16:59:58 +0000</pubDate>
       <author>frostwong@gmail.com (Frost Wong)</author>
-      <guid>/2015/10/17/mysql%E7%9C%9Futf8%E5%90%8E%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
+      <guid>http://lovelock.github.io/2015/10/17/mysql%E7%9C%9Futf8%E5%90%8E%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
       <description>&lt;p&gt;昨天写了一篇MySQL/MariaDB将字符集从utf8迁移到utf8mb4的总结，今天继续我的最佳实践，想到在设计数据库时要考虑到用户的email是不能重复的，所以想给它加上一个&lt;code&gt;UNI&lt;/code&gt;标记，然后遇到了这样一个问题：
 &lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/b_Screen%20Shot%202015-10-17%20at%205.03.08%20PM.png&#34; alt=&#34;MySQL设计UNI报错&#34; /&gt;&lt;/p&gt;
 
@@ -886,10 +886,10 @@ sudo systemctl enable iptables
     
     <item>
       <title>MySQL迁移到真·UTF8全过程</title>
-      <link>/2015/10/17/mysql%E8%BF%81%E7%A7%BB%E5%88%B0%E7%9C%9Futf8%E5%85%A8%E8%BF%87%E7%A8%8B/</link>
+      <link>http://lovelock.github.io/2015/10/17/mysql%E8%BF%81%E7%A7%BB%E5%88%B0%E7%9C%9Futf8%E5%85%A8%E8%BF%87%E7%A8%8B/</link>
       <pubDate>Sat, 17 Oct 2015 01:06:29 +0000</pubDate>
       <author>frostwong@gmail.com (Frost Wong)</author>
-      <guid>/2015/10/17/mysql%E8%BF%81%E7%A7%BB%E5%88%B0%E7%9C%9Futf8%E5%85%A8%E8%BF%87%E7%A8%8B/</guid>
+      <guid>http://lovelock.github.io/2015/10/17/mysql%E8%BF%81%E7%A7%BB%E5%88%B0%E7%9C%9Futf8%E5%85%A8%E8%BF%87%E7%A8%8B/</guid>
       <description>
 
 &lt;h1 id=&#34;为什么要做:a8f56eab2e412e1ca18a9ca1b5a9303e&#34;&gt;为什么要做？&lt;/h1&gt;
@@ -965,10 +965,10 @@ OPTIMIZE TABLE table_name;
     
     <item>
       <title>也谈封杀</title>
-      <link>/2015/10/09/%E4%B9%9F%E8%B0%88%E5%B0%81%E6%9D%80/</link>
+      <link>http://lovelock.github.io/2015/10/09/%E4%B9%9F%E8%B0%88%E5%B0%81%E6%9D%80/</link>
       <pubDate>Fri, 09 Oct 2015 18:47:29 +0000</pubDate>
       <author>frostwong@gmail.com (Frost Wong)</author>
-      <guid>/2015/10/09/%E4%B9%9F%E8%B0%88%E5%B0%81%E6%9D%80/</guid>
+      <guid>http://lovelock.github.io/2015/10/09/%E4%B9%9F%E8%B0%88%E5%B0%81%E6%9D%80/</guid>
       <description>&lt;p&gt;看到&lt;a href=&#34;https://blog.coding.net/blog/art-of-block&#34; target=&#34;_blank&#34;&gt;读《robbin 谈社区运营：封杀的艺术》有感&lt;/a&gt;提到了社区之间的封杀，因为我用社区比较少，最近才接触到&lt;a href=&#34;https://coding.net&#34; target=&#34;_blank&#34;&gt;Coding.net&lt;/a&gt;这个优秀的工具，所以并没有感受到社区之间的屏蔽、封杀。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;让我感受最深的是国内BAT三大巨头的明争暗斗。&lt;/strong&gt;&lt;/p&gt;
@@ -1003,10 +1003,10 @@ OPTIMIZE TABLE table_name;
     
     <item>
       <title>Bower使用简明教程</title>
-      <link>/2015/10/08/bower%E4%BD%BF%E7%94%A8%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/</link>
+      <link>http://lovelock.github.io/2015/10/08/bower%E4%BD%BF%E7%94%A8%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/</link>
       <pubDate>Thu, 08 Oct 2015 18:10:45 +0000</pubDate>
       <author>frostwong@gmail.com (Frost Wong)</author>
-      <guid>/2015/10/08/bower%E4%BD%BF%E7%94%A8%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/</guid>
+      <guid>http://lovelock.github.io/2015/10/08/bower%E4%BD%BF%E7%94%A8%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/</guid>
       <description>&lt;p&gt;最近接触到Node.js，于是摇身一变前后端全部用JavaScript实现，这样其实导致界限不清晰了——其实很清晰，但当你看一个.js文件的时候总是要想一下这是前端逻辑还是后端逻辑，感觉怪怪的。后端需要的模块可以用npm这个大杀器安装，虽然前端的依赖也可以用它解决，但其实有更专业的解决方案——&lt;a href=&#34;http://bower.io&#34; target=&#34;_blank&#34;&gt;bower&lt;/a&gt;。官方简介里面其实并没有提到它是专门用来解决前端依赖的，看它的用例以及别的项目的使用情况也可以看到
 ，通常的用法就是&lt;code&gt;&amp;lt;script src=&amp;quot;bower_components/xxx_lib/xxxx.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;&lt;/code&gt;，这就已经很明显了，不是吗？&lt;/p&gt;
 
@@ -1066,10 +1066,10 @@ bower_components
     
     <item>
       <title>这一天，就这样过去了</title>
-      <link>/2015/10/08/%E8%BF%99%E4%B8%80%E5%A4%A9%E5%B0%B1%E8%BF%99%E6%A0%B7%E8%BF%87%E5%8E%BB%E4%BA%86/</link>
+      <link>http://lovelock.github.io/2015/10/08/%E8%BF%99%E4%B8%80%E5%A4%A9%E5%B0%B1%E8%BF%99%E6%A0%B7%E8%BF%87%E5%8E%BB%E4%BA%86/</link>
       <pubDate>Thu, 08 Oct 2015 15:47:46 +0000</pubDate>
       <author>frostwong@gmail.com (Frost Wong)</author>
-      <guid>/2015/10/08/%E8%BF%99%E4%B8%80%E5%A4%A9%E5%B0%B1%E8%BF%99%E6%A0%B7%E8%BF%87%E5%8E%BB%E4%BA%86/</guid>
+      <guid>http://lovelock.github.io/2015/10/08/%E8%BF%99%E4%B8%80%E5%A4%A9%E5%B0%B1%E8%BF%99%E6%A0%B7%E8%BF%87%E5%8E%BB%E4%BA%86/</guid>
       <description>&lt;p&gt;我是来自中国大陆的一名开发者。&lt;/p&gt;
 
 &lt;p&gt;最近的项目需要用到WebRTC相关的技术，通过搜索引擎找到了&lt;a href=&#34;http://www.html5rocks.com&#34; target=&#34;_blank&#34;&gt;http://www.html5rocks.com&lt;/a&gt;这个网站，在上面找到了很多有用的信息，我知道了要搭建一个完整的WebRTC应用，需要浏览器支持&lt;code&gt;getUserMedia&lt;/code&gt;等一系列API，这个网站我在自己的笔记本电脑上时可以访问的，但换了个电脑就不能访问了，问了别人，他们说是这个电脑没有配置一个东西，具体他说是什么我忘记了，而我自己的电脑上什么时候装了什么我也&lt;strong&gt;忘记&lt;/strong&gt;了。&lt;/p&gt;
@@ -1094,10 +1094,10 @@ CDN吗？真是不理解。诶，算了，不纠结这个了，我现在终于�
     
     <item>
       <title>终于下决心把博客空间迁移到国内了</title>
-      <link>/2015/09/26/%E7%BB%88%E4%BA%8E%E4%B8%8B%E5%86%B3%E5%BF%83%E6%8A%8A%E5%8D%9A%E5%AE%A2%E7%A9%BA%E9%97%B4%E8%BF%81%E7%A7%BB%E5%88%B0%E5%9B%BD%E5%86%85%E4%BA%86/</link>
+      <link>http://lovelock.github.io/2015/09/26/%E7%BB%88%E4%BA%8E%E4%B8%8B%E5%86%B3%E5%BF%83%E6%8A%8A%E5%8D%9A%E5%AE%A2%E7%A9%BA%E9%97%B4%E8%BF%81%E7%A7%BB%E5%88%B0%E5%9B%BD%E5%86%85%E4%BA%86/</link>
       <pubDate>Sat, 26 Sep 2015 21:17:35 +0000</pubDate>
       <author>frostwong@gmail.com (Frost Wong)</author>
-      <guid>/2015/09/26/%E7%BB%88%E4%BA%8E%E4%B8%8B%E5%86%B3%E5%BF%83%E6%8A%8A%E5%8D%9A%E5%AE%A2%E7%A9%BA%E9%97%B4%E8%BF%81%E7%A7%BB%E5%88%B0%E5%9B%BD%E5%86%85%E4%BA%86/</guid>
+      <guid>http://lovelock.github.io/2015/09/26/%E7%BB%88%E4%BA%8E%E4%B8%8B%E5%86%B3%E5%BF%83%E6%8A%8A%E5%8D%9A%E5%AE%A2%E7%A9%BA%E9%97%B4%E8%BF%81%E7%A7%BB%E5%88%B0%E5%9B%BD%E5%86%85%E4%BA%86/</guid>
       <description>&lt;p&gt;写博客也有一段时间了，但产出并不是很多，最重要的是没有读者。
 因为百度是无法爬到&lt;a href=&#34;https://github.com&#34; target=&#34;_blank&#34;&gt;GitHub&lt;/a&gt;的内容的，因此用GitHub Pages搭建的博客网站往往是不能在百度里面搜到的，但我写的又是中文的文章，所以。。。。
 当然其实最主要的原因是文章的质量不高。
