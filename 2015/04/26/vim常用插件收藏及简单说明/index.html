@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>vim常用插件收藏及简单说明  &middot; Me and the Web</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="">
+
+
+<meta property="og:title" content="vim常用插件收藏及简单说明  &middot; Me and the Web ">
+<meta property="og:site_name" content="Me and the Web"/>
+<meta property="og:url" content="http://unixera.com/2015/04/26/vim%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6%E6%94%B6%E8%97%8F%E5%8F%8A%E7%AE%80%E5%8D%95%E8%AF%B4%E6%98%8E/" />
+<meta property="og:locale" content="en-us">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:description" content=""/>
+<meta property="og:article:published_time" content="2015-04-26T01:18:12&#43;08:00" />
+<meta property="og:article:modified_time" content="2015-04-26T01:18:12&#43;08:00" />
+
+  
+
+  
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@frostwong" />
+<meta name="twitter:creator" content="@frostwong" />
+<meta name="twitter:title" content="vim常用插件收藏及简单说明" />
+<meta name="twitter:description" content="" />
+<meta name="twitter:url" content="http://unixera.com/2015/04/26/vim%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6%E6%94%B6%E8%97%8F%E5%8F%8A%E7%AE%80%E5%8D%95%E8%AF%B4%E6%98%8E/" />
+<meta name="twitter:domain" content="http://unixera.com">
+  
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "vim常用插件收藏及简单说明",
+    "author": {
+      "@type": "Person",
+      "name": "http://profiles.google.com/+?rel=author"
+    },
+    "datePublished": "2015-04-26",
+    "description": "",
+    "wordCount":  99 
+  }
+</script>
+
+
+
+<link rel="canonical" href="http://unixera.com/2015/04/26/vim%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6%E6%94%B6%E8%97%8F%E5%8F%8A%E7%AE%80%E5%8D%95%E8%AF%B4%E6%98%8E/" />
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://unixera.com/touch-icon-144-precomposed.png">
+<link href="http://unixera.com/favicon.png" rel="icon">
+
+<meta name="generator" content="Hugo 0.15" />
+
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href='https://fonts.googleapis.com/css?family=Merriweather:300%7CRaleway%7COpen+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://unixera.com/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://unixera.com/css/style.css">
+<link rel="stylesheet" href="http://unixera.com/css/highlight/default.css">
+
+  
+</head>
+<body>
+  <main id="main-wrapper" class="container main_wrapper has-sidebar">
+    <header id="main-header" class="container main_header">
+  <div class="container brand">
+  <div class="container title h1-like">
+  <a class="baselink" href="http://unixera.com">
+  Frost Wong
+
+</a>
+
+</div>
+
+  
+<div class="container topline">
+  
+  Be a better WEB developer
+
+
+</div>
+
+
+</div>
+
+  <nav class="container nav primary no-print">
+  
+
+
+  
+<a href="http://unixera.com/about">About</a>
+
+<a href="http://unixera.com/post" title="Show list of posts">Posts</a>
+
+<a href="http://unixera.com/tags" title="Show list of tags">Tags</a>
+
+
+</nav>
+
+<div class="container nav secondary no-print">
+  
+<a id="contact-link-email" class="contact_link" href="mailto:frostwong@gmail.com">
+  <span class="fa fa-envelope-square"></span><span>email</span></a>
+
+
+
+<a id="contact-link-github" class="contact_link" href="https://github.com/lovelock">
+  <span class="fa fa-github-square"></span><span>github</span></a>
+
+
+
+
+
+
+
+
+
+
+
+<a id="contact-link-twitter" class="contact_link" href="https://twitter.com/frostwong">
+  <span class="fa fa-twitter-square"></span><span>twitter</span></a>
+
+
+
+
+
+
+
+</div>
+
+
+  
+
+</header>
+
+
+<article id="main-content" class="container main_content single">
+  <header class="container hat">
+  <h1>vim常用插件收藏及简单说明
+</h1>
+
+  <div class="metas">
+<time datetime="2015-04-26">26 Apr, 2015</time>
+
+
+  
+  &middot; Read in about 1 min
+  &middot; (99 Words)
+  <br>
+  
+
+
+</div>
+
+</header>
+
+  <div class="container content">
+  <p>使用VIM也有四五年的时间了，期间自己搞过配置也用过不少别人的配置，但总是觉得哪里不对，很多配置我永远都用不到，但它的存在导致了VIM启动缓慢，也有速度很快，声称awesome的配置文件，实际使用起来
+离自己的需求还差的很远，因此我想先在此把自己需要的功能整理规划一下，然后自己搞一套既能适应现在的习惯又能不浪费性能的配置。</p>
+
+<p>下面是有需要的插件列表：</p>
+
+<ol>
+<li><p>插件管理工具 <a href="https://github.com/gmarik/Vundle.vim" target="_blank">gmarik/Vundle.vim</a></p></li>
+
+<li><p>查找工具</p>
+
+<ul>
+<li><a href="https://github.com/scrooloose/nerdtree" target="_blank">scrooloose/nerdtree</a> + <a href="https://github.com/jistr/vim-nerdtree-tabs" target="_blank">vim-nerdtree-tabs</a> 像Project一样展示目录树</li>
+<li>ag 快速搜索目录中的文件</li>
+<li>ctrlp + ctrlp-funky 搜索文件 + 搜索当前文件中的函数</li>
+<li><a href="https://github.com/amix/open_file_under_cursor.vim" target="_blank">open_file_under_cursor</a> 打开位于光标下方的文件</li>
+<li>Tagbar 显示tag列表</li>
+<li>taglist 函数跳转（可以跨文件）</li>
+<li>vim-multiple-cursors 多光标编辑</li>
+<li>EasyMotion 快速查找</li>
+</ul></li>
+
+<li><p>语言相关</p>
+
+<ul>
+<li>Python klen/php-mode 可认为是个Python IDE，功能强大，以一当十</li>
+<li>PHP StanAngeloff/php.vim 语法高亮</li>
+<li>JavaScript
+
+<ul>
+<li>jslint/jshint JS语法检查</li>
+<li>pangloss/vim-javascript</li>
+<li>jelera/vim-javascript-syntax</li>
+<li>vim-coffe-script</li>
+</ul></li>
+<li>html
+
+<ul>
+<li>Emmet.vim 神器，不怎么用，但还是留着吧，尝试着用一下</li>
+</ul></li>
+<li>css
+
+<ul>
+<li>Better CSS Syntax for Vim</li>
+</ul></li>
+<li>Markdown
+
+<ul>
+<li>vim-markdown 这个不能没有</li>
+<li>Markdown syntax</li>
+</ul></li>
+<li>JSON
+
+<ul>
+<li>JSON.vim</li>
+</ul></li>
+</ul></li>
+
+<li><p>补全工具</p>
+
+<ul>
+<li>YouCompleteMe 补全神器，就是编译起来挺麻烦的</li>
+<li>SuperTab 不用Tab的补全就不是真正的补全</li>
+<li>ultisnips 代码片段，需要学习</li>
+</ul></li>
+
+<li><p>语法检查</p>
+
+<ul>
+<li>syntastic</li>
+</ul></li>
+
+<li><p>代码整洁</p>
+
+<ul>
+<li>vim-surround 方便的为选中的部分添加成对的符号</li>
+<li>vim-comentary 方便的注释/取消注释</li>
+<li>Tabular 符号对齐</li>
+<li>EasyAlign</li>
+<li>Indent Guides 代码缩进</li>
+</ul></li>
+
+<li><p>版本控制</p>
+
+<ul>
+<li>fugitive.vim git wrapper</li>
+</ul></li>
+
+<li><p>系统工具</p>
+
+<ul>
+<li>vimproc.vim vim内的交互式shell</li>
+<li><del>quickrun 在vim内执行脚本 用的时候一直觉得很不方便，因为执行结果会在一个新的window打开，还要再关闭现在已经配置好了一个快捷键，执行完回车即可关闭结果</del></li>
+</ul></li>
+
+<li><p>杂项</p>
+
+<ul>
+<li>airline 漂亮的状态栏</li>
+<li>kien/rainbow_parentheses.vim 给成对的符号显示不同的颜色</li>
+<li>Gundo 显示历史改动</li>
+</ul></li>
+</ol>
+
+<p>能想到的插件就是这些，除了这些还需要加上一些我个人比较喜欢的定制</p>
+
+<ol>
+<li><p>相对行号，因为之前用NertCommenter，如果要注释掉下面的几行，就直接看左边的行号而不需要再像绝对行号的时候那么数了。</p></li>
+
+<li><p>把&rdquo;;&ldquo;映射给&rdquo;:&ldquo;，因为Normal模式下&rdquo;;&ldquo;很不常用，而&rdquo;:&ldquo;很常用，两个应该换一换。</p></li>
+
+<li><p>Leader键用&rdquo;,&ldquo;，不知道当初是哪个配置把我带到这个沟里的，现在适应了就很难改了。</p></li>
+</ol>
+
+</div>
+
+
+  <footer class="container">
+  <div class="container navigation no-print">
+  <h2>Navigation</h2>
+  
+  
+
+    
+    <a class="prev" href="http://unixera.com/2015/04/25/octopress%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/" title="octopress原理浅析">
+      Previous
+    </a>
+    
+
+    
+    <a class="next" href="http://unixera.com/2015/04/28/javascript%E6%89%A7%E8%A1%8C%E6%80%BB%E7%BB%93/" title="JavaScript执行总结">
+      Next
+    </a>
+    
+
+  
+
+
+</div>
+
+  <div class="container comments">
+  <h2>Comments</h2>
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+</footer>
+
+</article>
+      <footer id="main-footer" class="container main_footer">
+  
+
+  <div class="container nav foot no-print">
+  
+<a href="http://unixera.com/license">license</a>
+
+
+  <a class="toplink" href="#">back to top</a>
+
+</div>
+
+  <div class="container credits">
+  
+<div class="container footline">
+  
+  Learn what you eager
+
+
+</div>
+
+
+  
+<div class="container copyright">
+  
+  &copy; 2013-2015 Frost Wong. All rights reserved.
+
+
+</div>
+
+
+</div>
+
+</footer>
+
+    </main>
+    
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="http://unixera.com/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+    
+  </body>
+</html>
+

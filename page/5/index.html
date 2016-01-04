@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Me and the Web </title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="">
+
+
+<meta property="og:title" content="Me and the Web ">
+<meta property="og:site_name" content="Me and the Web"/>
+<meta property="og:url" content="http://unixera.com/" />
+<meta property="og:locale" content="en-us">
+
+
+<meta property="og:type" content="website" />
+
+
+
+<link href="http://unixera.com/index.xml" rel="alternate" type="application/rss+xml" title="Me and the Web" />
+
+<link rel="canonical" href="http://unixera.com/" />
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://unixera.com/touch-icon-144-precomposed.png">
+<link href="http://unixera.com/favicon.png" rel="icon">
+
+<meta name="generator" content="Hugo 0.15" />
+
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href='https://fonts.googleapis.com/css?family=Merriweather:300%7CRaleway%7COpen+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://unixera.com/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://unixera.com/css/style.css">
+<link rel="stylesheet" href="http://unixera.com/css/highlight/default.css">
+
+  
+</head>
+<body>
+  <main id="main-wrapper" class="container main_wrapper has-sidebar">
+    <header id="main-header" class="container main_header">
+  <div class="container brand">
+  <div class="container title h1-like">
+  <a class="baselink" href="http://unixera.com">
+  Frost Wong
+
+</a>
+
+</div>
+
+  
+<div class="container topline">
+  
+  Be a better WEB developer
+
+
+</div>
+
+
+</div>
+
+  <nav class="container nav primary no-print">
+  
+
+
+  
+<a href="http://unixera.com/about">About</a>
+
+<a href="http://unixera.com/post" title="Show list of posts">Posts</a>
+
+<a href="http://unixera.com/tags" title="Show list of tags">Tags</a>
+
+
+</nav>
+
+<div class="container nav secondary no-print">
+  
+<a id="contact-link-email" class="contact_link" href="mailto:frostwong@gmail.com">
+  <span class="fa fa-envelope-square"></span><span>email</span></a>
+
+
+
+<a id="contact-link-github" class="contact_link" href="https://github.com/lovelock">
+  <span class="fa fa-github-square"></span><span>github</span></a>
+
+
+
+
+
+
+
+
+
+
+
+<a id="contact-link-twitter" class="contact_link" href="https://twitter.com/frostwong">
+  <span class="fa fa-twitter-square"></span><span>twitter</span></a>
+
+
+
+
+
+
+
+</div>
+
+
+  
+
+</header>
+
+
+<section id="main-content" class="container main_content homepage">
+  <header class="container header">
+    <h1>Me and the Web
+</h1>
+
+    <span>last update: <time datetime="2015-12-04T23:12:52Z">4 December at 11:12pm</time>
+</span>
+
+  </header>
+  
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/08/31/mac%E4%BD%BF%E7%94%A8vmware-fusion%E5%AE%89%E8%A3%85ubuntu/">Mac使用VMware Fusion安装Ubuntu
+</a>
+</h2>
+
+  <time datetime="2015-08-31">31 Aug, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    越来越觉得我用Mac和Windows也没有什么区别。 用Windows的时候是因为没有类Unix环境，所以需要在虚拟机里面搭建一些Web环境，然后用SecureCRT或者XShell登录进行操作。当然主要是用VirtualBox比较多，因为它比较轻量，功能也没有什么缺陷。非要说缺陷，我觉得VMware的NAT功能比VirtualBox要好。前者是建立了一个192.168开头的虚拟网段，虚拟机使用这个网段的IP，虚拟机可以和宿主机相互通信，并且在类似学校的需要认证才能上网的环境下是可以直接上网的。但VirtualBox就不行了，它 的NAT模式默认用的是10.网段的地址，如果要用宿主机访问虚拟机，就需要端口转发，说起来容易，但谁也不想去操作，否则只能用桥接模式了，但在需要认证的时候就不行了，尤其是某些帐号只能允许一个客户端在线时。 抛却Windows的诸多不便，用上了Mac却不想让一堆随时可能修改的开发环境把Mac环境搞乱，编程语言的那些东西还好，但各种服务就不想在Mac上搭建了，所以虚拟机还是唯一的出路了。PD总刷存在感，在Launchpad里面加上一堆难看的图标，受不了。有时需要带图像界面的Ubuntu，这时VirtualBox的性能就成了问题，最终找到了Vmware Fusion了，这才是一款踏踏实实的产品，VMware的产品一直都那么让人信赖。 闲言少叙，其实我要说的是在高分屏下如何解决Ubuntu糊掉的问题。 之前用PD的时候也看到这个方法，但没有用，这下在VMware Fusion上面可以。 很简单，在&rdquo;All Settings/Display&rdquo;中找到&rdquo;Scale for menu and title bars&rdquo;，把这个bar拉到2就可以了。当然如果你觉得2太大了，也可以选择1.5或者其他。我觉得2是最合适的，也正是正常大小，因为Mac屏幕的分辨率宽和高分别是普通分辨率的2倍，调成2倍就和在普通屏幕上一样大小了，但不会糊掉。 废话好多。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/08/31/mac%E4%BD%BF%E7%94%A8vmware-fusion%E5%AE%89%E8%A3%85ubuntu/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/08/12/rime%E8%BE%93%E5%85%A5%E6%B3%95%E5%9C%A8mac%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/">Rime输入法在Mac上的应用
+</a>
+</h2>
+
+  <time datetime="2015-08-12">12 Aug, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    天啊，过几天要回家陪老婆生孩子，现在在赶项目，我竟然还在这里瞎写，真是罪过。 在我用Linux的那几年，输入法一直用的是Fcitx，而引擎用的是Rime，输入方案是double_pinyin_mspy。用Mac也有一段时间了，想着Rime虽然跨平台，但现在项目好像没有那么活跃了，于是就用了最流行的搜狗输入法，但用起来总感觉还是不那么舒服，可能是我有开源的洁癖？管他呢，还是想尝试一下这个鼠须管。 首先说一下它的优点： 高度可定制 开源，没有安全隐患 轻量，快速，完全无卡顿 对使用场景优化，可定制默认英文的应用 缺点也很明显——没有词库，需要从新培养。 但我觉得它自带的词库其实也已经够用了，我本身也不是那么赶潮流的人，而且输入的大多是计算机相关的词汇，所以这个对我的影响并不大。 好了，现在就来说一下安装和配置环节吧。 brew cask install squirrel 然后它就会提示你输入密码了，然后给一堆提示，然后就安装好了。这时你会看到状态栏已经多了一个输入法图标，没错就是它。 现在就可以体验一下它的极速输入体验了。 那么来配置一下它吧。 先说一下配置的原理。Rime自带了很多很多的默认配置，写在squirrel.yaml，default.yaml等配置文件中，当然如果要追究YAML的格式规范，那就超出本文的范畴了。而我们可以自定义名为squirrel.custom.yaml和default.custom.yaml来修改配置。而这个配置会在我们点击Deploy时作为补丁打到默认配置中，相应的，默认的配置文件的内容也会发生变化。 我主观上认为微软的双拼方案是最流行的方案（或者它的变种搜狗双拼）因为我用的就是它！但事实上OS X自带的双拼方案却只有自然码，很蛋疼。我的修改主要在两个方面，输入方案和外观样式。 打开Library/Input Methods/Squirrel.app/Contents/SharedSupport会看到一系列的bin和yaml文件，其中bin是用来支持各种输入方案的，而yaml是相应的配置这些方案的。如果要使用微软双拼方案，就把double_pinyin_mspy.schema.yaml拷贝到Library/Rime目录里，或者做个软链，然后在Library/Rime中新建一个default.custome.yaml文件，输入下面的内容： patch: schema_list: - schema: double_pinyin_mspy - schema: luna_pinyin_simp 然后重新部署一下，就可以看到效果了，输入方案剩下朙月拼音和微软双拼了。 这时发现默认的皮肤虽然好看，但是字体太大了，所以就调小一些吧，而且竖行的选字界面也不太习惯，调成横向的吧。 # squirrel.custom.yaml patch: &quot;style/horizontal&quot;: true &quot;style/font_point&quot;: 16 再重新部署一下，看起来很舒服，用起来也舒服了吧。 解释一下优点中的第四点，这对程序员来说是极好的，因为写代码主要是英文，输入中文的概率很低，而Rime自带了一些默认为英文输入的配置，例如Alfred/Terminal/iTerm2等，这一点简直是不能再贴心了，当然如果你想，是可以自定义这些设置的。如果想深度定制，可以看下官方的而文档。 好了，兴奋完了，回去好好赶项目了。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/08/12/rime%E8%BE%93%E5%85%A5%E6%B3%95%E5%9C%A8mac%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/08/11/jsonp%E5%8E%9F%E7%90%86%E5%85%A8%E8%A7%A3%E6%9E%90/">jsonp原理全解析
+</a>
+</h2>
+
+  <time datetime="2015-08-11">11 Aug, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    昨天写了一篇关于iframe间跨域通讯问题的总结，想着既然提到了jsonp这个长久以来曽令我困惑的技术，就再总结一篇吧。 主要参考了这篇文章。 起因 jsonp是为了解决跨域请求而产生的技术，这里的跨域并不是iframe之间通讯的那种，后者是禁止了一个域的js操作位于另一个域的资源，往往是为了在iframe之间传递变量，而jsonp则是为了解决跨域请求接口。但说到底，还是同源策略引起的。 原理 jsonp的出现是优秀的工程师智慧的结晶。可能是受到“所有带src属性的标签都可以跨域访问资源”这个事实的启发。设想一下，诸如&lt;script&gt;/&lt;img&gt;/&lt;iframe这些标签，它们请求后返回的是脚本或者图片或者页面，那么能不能返回一个函数调用呢？当然能。 如，在本地的页面上定义一个函数function_example &lt;script&gt; function function_example() { alert(&quot;我是本地定义的函数&quot;); } &lt;/script&gt; &lt;script src=&quot;http://remotehost.com/remote.js&quot;/&gt;&lt;/script&gt; 《JavaScript高级程序设计》第一章提到了脚本加载是按照顺序执行的，也就是说在加载remote.js时，前面定义function_example的脚本已经加载了，即该函数已经定义了。那么如果在remote.js中调用该函数，会出现什么情况呢？当然函数就被执行了。 function_example(); 上面就是jsonp实现的基础原理。 实践 那么具体到使用应该怎么操作呢？ 不要看到在第一个例子中引入了remote.js文件就误以为我们真的是要引入js文件了，要记得我们的目的是请求服务接口，所以，服务端应该返回类似function_example()这样的形式才可以，也即需要返回一个由函数名包含的结果，括号中才是真正的结果，那么结果当然要用JavaScript原生支持的json格式才完美了。所以我们看到的jsonp的返回值多数形如callback({&quot;aa&quot;: &quot;bb&quot;, &quot;cc&quot;: &quot;dd&quot;})。 前端 &lt;script&gt; function handler(result) { alert(result.login); } var url = &quot;http://remotehost.com/index.php?name=frost&amp;pass=123&amp;callback=handler&quot;; var script = document.createElement(&quot;script&quot;); script.setAttribute(&quot;src&quot;, url); document.getElementsByTagName(&quot;head&quot;)[0].appendChild(script); &lt;/script&gt; 那服务端应该怎么处理呢？ &lt;?php $name = $_GET['name']; $pass = $_GET['pass']; $callback = $_GET['callback']; // do something $result = [ &quot;login&quot;: &quot;true&quot;, &quot;other&quot;: &quot;foobar&quot; ]; echo json_encode($result); 上面的代码能完成要求吗？显然不能，因为它返回的是一个json对象，而不是能够执行的js指令。 因此，最后一句应该写成 echo $callback .
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/08/11/jsonp%E5%8E%9F%E7%90%86%E5%85%A8%E8%A7%A3%E6%9E%90/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/08/10/iframe%E9%97%B4%E9%80%9A%E4%BF%A1%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">iframe间通信方法总结
+</a>
+</h2>
+
+  <time datetime="2015-08-10">10 Aug, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    在对外提供Web组件时常常会遇到iframe间的通信问题，本文旨在总结目前主流的解决方案，并给出了详细的代码示例。 解决方案大体有以下几种： window.postMessage Cross Frame(aba) window.name 而窗体间的通信问题分为以下几种： child和parent之间 child和child之间 本文代码示例的代码仓库。 下面详细介绍这些方法。 window.postMessage 这种方法有局限，因为是HTML5的API，所以只支持到IE8及以上的IE浏览器，其他现代浏览器当然没有问题。 child和parent之间的通信 child和parent之间用window.postMessage通信不受同源策略的限制，只需要在被调用方判断一下是否是可以接受的调用方就可以了。具体是在parent（也就是主window）里实现如下： &lt;iframe src=&quot;http://iframe1.unixera.com/iframe1.html&quot; id=&quot;iframe1&quot;&gt; &lt;/iframe&gt; &lt;div&gt; &lt;input type=&quot;submit&quot; id=&quot;send&quot;/&gt; &lt;/div&gt; &lt;div&gt; &lt;span&gt;Message from Child&lt;/span&gt; &lt;div id=&quot;message_handler&quot;&gt; &lt;/div&gt; &lt;/div&gt; &lt;script src=&quot;iframe1.js&quot;&gt;&lt;/script&gt; window.onload = function () { var message_handler = document.getElementById(&quot;message_handler&quot;); var btn = document.getElementById(&quot;send&quot;); function sendMessage(e) { e.preventDefault(); document.getElementById(&quot;iframe1&quot;).contentWindow.postMessage(&quot;Welcome to unixera.com&quot;, &quot;http://iframe1.unixera.com&quot;); } function receiveMessage(e) { if (e.origin !== &quot;http://container.unixera.com&quot;) { return; } message_handler.innerHTML = e.data; e.source.postMessage(&quot;Response
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/08/10/iframe%E9%97%B4%E9%80%9A%E4%BF%A1%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/07/31/python%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/">Python日志处理总结
+</a>
+</h2>
+
+  <time datetime="2015-07-31">31 Jul, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    前段时间写了一篇比较简单的Python处理日志的笔记，现在又遇到了类似的问题，干脆我就把这中间会遇到的各种问题总结一下，大致可以得到一个简单的日志处理框架。 文件读取 批量文件读取 标准库: Lib/glob glob库可以用来读取符合指定&rdquo;Unix风格&rdquo;路径下的文件列表。 用法: frost@Hack-Station [12:08:15] [~/Playground/tmp] -&gt; % ls 1.gif 2.gif card.gif frost@Hack-Station [12:08:28] [~/Playground/tmp] -&gt; % ipython2 Python 2.7.10 (default, Jul 13 2015, 12:05:58) Type &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information. IPython 3.2.1 -- An enhanced Interactive Python. ? -&gt; Introduction and overview of IPython's features. %quickref -&gt; Quick reference. help -&gt; Python's own help system. object? -&gt; Details about 'object', use 'object??' for extra details.
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/07/31/python%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+  
+<div class="container pagination">
+  
+
+
+<a aria-label="First" href="http://unixera.com/">
+  <span aria-hidden="true">««</span>
+</a>
+
+<a aria-label="Previous" href="http://unixera.com/page/4/">
+  <span aria-hidden="true">«</span>
+</a>
+
+
+<a href="http://unixera.com/">
+  1
+</a>
+
+<a href="http://unixera.com/page/2/">
+  2
+</a>
+
+<a href="http://unixera.com/page/3/">
+  3
+</a>
+
+<a href="http://unixera.com/page/4/">
+  4
+</a>
+
+<a class="active" href="http://unixera.com/page/5/">
+  5
+</a>
+
+<a href="http://unixera.com/page/6/">
+  6
+</a>
+
+<a href="http://unixera.com/page/7/">
+  7
+</a>
+
+<a href="http://unixera.com/page/8/">
+  8
+</a>
+
+<a href="http://unixera.com/page/9/">
+  9
+</a>
+
+<a href="http://unixera.com/page/10/">
+  10
+</a>
+
+
+<a aria-label="Next" href="http://unixera.com/page/6/">
+  <span aria-hidden="true">»</span>
+</a>
+
+<a aria-label="Last" href="http://unixera.com/page/10/">
+  <span aria-hidden="true">»»</span>
+</a>
+
+
+</div>
+
+
+</section>
+
+      <footer id="main-footer" class="container main_footer">
+  
+
+  <div class="container nav foot no-print">
+  
+<a href="http://unixera.com/license">license</a>
+
+
+  <a class="toplink" href="#">back to top</a>
+
+</div>
+
+  <div class="container credits">
+  
+<div class="container footline">
+  
+  Learn what you eager
+
+
+</div>
+
+
+  
+<div class="container copyright">
+  
+  &copy; 2013-2015 Frost Wong. All rights reserved.
+
+
+</div>
+
+
+</div>
+
+</footer>
+
+    </main>
+    
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="http://unixera.com/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+    
+  </body>
+</html>
+

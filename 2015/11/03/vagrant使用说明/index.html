@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Vagrant使用说明  &middot; Me and the Web</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="">
+
+
+<meta property="og:title" content="Vagrant使用说明  &middot; Me and the Web ">
+<meta property="og:site_name" content="Me and the Web"/>
+<meta property="og:url" content="http://unixera.com/2015/11/03/vagrant%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" />
+<meta property="og:locale" content="en-us">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:description" content=""/>
+<meta property="og:article:published_time" content="2015-11-03T15:43:55Z" />
+<meta property="og:article:modified_time" content="2015-11-03T15:43:55Z" />
+
+  
+
+  
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@frostwong" />
+<meta name="twitter:creator" content="@frostwong" />
+<meta name="twitter:title" content="Vagrant使用说明" />
+<meta name="twitter:description" content="" />
+<meta name="twitter:url" content="http://unixera.com/2015/11/03/vagrant%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" />
+<meta name="twitter:domain" content="http://unixera.com">
+  
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "Vagrant使用说明",
+    "author": {
+      "@type": "Person",
+      "name": "http://profiles.google.com/+?rel=author"
+    },
+    "datePublished": "2015-11-03",
+    "description": "",
+    "wordCount":  150 
+  }
+</script>
+
+
+
+<link rel="canonical" href="http://unixera.com/2015/11/03/vagrant%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" />
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://unixera.com/touch-icon-144-precomposed.png">
+<link href="http://unixera.com/favicon.png" rel="icon">
+
+<meta name="generator" content="Hugo 0.15" />
+
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href='https://fonts.googleapis.com/css?family=Merriweather:300%7CRaleway%7COpen+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://unixera.com/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://unixera.com/css/style.css">
+<link rel="stylesheet" href="http://unixera.com/css/highlight/default.css">
+
+  
+</head>
+<body>
+  <main id="main-wrapper" class="container main_wrapper has-sidebar">
+    <header id="main-header" class="container main_header">
+  <div class="container brand">
+  <div class="container title h1-like">
+  <a class="baselink" href="http://unixera.com">
+  Frost Wong
+
+</a>
+
+</div>
+
+  
+<div class="container topline">
+  
+  Be a better WEB developer
+
+
+</div>
+
+
+</div>
+
+  <nav class="container nav primary no-print">
+  
+
+
+  
+<a href="http://unixera.com/about">About</a>
+
+<a href="http://unixera.com/post" title="Show list of posts">Posts</a>
+
+<a href="http://unixera.com/tags" title="Show list of tags">Tags</a>
+
+
+</nav>
+
+<div class="container nav secondary no-print">
+  
+<a id="contact-link-email" class="contact_link" href="mailto:frostwong@gmail.com">
+  <span class="fa fa-envelope-square"></span><span>email</span></a>
+
+
+
+<a id="contact-link-github" class="contact_link" href="https://github.com/lovelock">
+  <span class="fa fa-github-square"></span><span>github</span></a>
+
+
+
+
+
+
+
+
+
+
+
+<a id="contact-link-twitter" class="contact_link" href="https://twitter.com/frostwong">
+  <span class="fa fa-twitter-square"></span><span>twitter</span></a>
+
+
+
+
+
+
+
+</div>
+
+
+  
+
+</header>
+
+
+<article id="main-content" class="container main_content single">
+  <header class="container hat">
+  <h1>Vagrant使用说明
+</h1>
+
+  <div class="metas">
+<time datetime="2015-11-03">3 Nov, 2015</time>
+
+
+  
+  &middot; Read in about 1 min
+  &middot; (150 Words)
+  <br>
+  
+
+
+</div>
+
+</header>
+
+  <div class="container content">
+  
+
+<h1 id="创建自己的box:9e3f0de184e47f0c606d1209a89f77ee">创建自己的box</h1>
+
+<h2 id="安装:9e3f0de184e47f0c606d1209a89f77ee">安装</h2>
+
+<h3 id="最小化安装:9e3f0de184e47f0c606d1209a89f77ee">最小化安装</h3>
+
+<ol>
+<li>用户vagrant，密码vagrant</li>
+</ol>
+
+<p>这个安装的时候设置就好了，如果是CentOS会让你选择是否让这个用户做管理员，勾选就好了。其他的后面再设置。
+2. 设置.ssh/authorized_keys</p>
+
+<pre><code>mkdir -p /home/vagrant/.ssh
+wget --no-check-certificate https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub -O /home/vagrant/.ssh/authorized_keys
+chmod 0700 /home/vagrant/.ssh
+chmod 0600 /home/vagrant/.ssh/authorized_keys
+chown -R vagrant /home/vagrant/.ssh
+</code></pre>
+
+<h3 id="更新系统:9e3f0de184e47f0c606d1209a89f77ee">更新系统</h3>
+
+<p>Debian:
+<code>sudo apt-get update &amp;&amp; sudo apt-get dist-upgrade</code></p>
+
+<p>CentOS:
+<code>sudo yum update</code></p>
+
+<h3 id="安装virtualbox-guest-additions:9e3f0de184e47f0c606d1209a89f77ee">安装VirtualBox Guest Additions</h3>
+
+<p>设备-&gt;安装VirtualBox Guest Additions，就可以把相应的iso『放在』虚拟机的光驱里。只有安装了这些附加功能才能正常用端口映射和目录同步功能。</p>
+
+<p>Debian</p>
+
+<pre><code>apt-get install build-essential module-assistant
+m-a prepare
+cd /media/cdrom
+sh VBoxLinuxAdditions-x86.run
+</code></pre>
+
+<p>CentOS</p>
+
+<pre><code>sudo yum groupinstall &quot;Development Tools&quot;
+sudo yum install kernel-devel
+sudo mkdir /media/cdrom/
+sudo mount /dev/cdrom /media/cdrom/
+sudo ./VBoxLinuxAdditions.run
+</code></pre>
+
+<h3 id="配置用户权限:9e3f0de184e47f0c606d1209a89f77ee">配置用户权限</h3>
+
+<ol>
+<li><p>设置vagrant用户的sudo权限
+Debian:
+<code>root@debian:~# gpasswd -a vagrant sudo</code></p></li>
+
+<li><p>设置vagrant用户的sudo权限无需密码</p></li>
+</ol>
+
+<p><code>root@debian:~# visudo</code>
+把下面这行</p>
+
+<pre><code>%sudo	ALL=(ALL:ALL) ALL
+</code></pre>
+
+<p>改成</p>
+
+<pre><code>%sudo	ALL=(ALL:ALL) NOPASSWD:ALL
+</code></pre>
+
+<p>这是Debian的习惯，CentOS系的用的组是wheel，所以也是一样把相应的wheel组的设置改一下。</p>
+
+<h3 id="其他:9e3f0de184e47f0c606d1209a89f77ee">其他</h3>
+
+<p>如果还要安装其他的包，这时候可以开始了，当然也可以之后用vagrant登陆再安装。</p>
+
+<h2 id="打包:9e3f0de184e47f0c606d1209a89f77ee">打包</h2>
+
+<p><code>vagrant package --base Debian --output Debian.box</code></p>
+
+<h2 id="添加:9e3f0de184e47f0c606d1209a89f77ee">添加</h2>
+
+<p><code>vagrant box add --name Debian Debian.box</code></p>
+
+<h1 id="设置自己的box:9e3f0de184e47f0c606d1209a89f77ee">设置自己的box</h1>
+
+<h2 id="生成配置:9e3f0de184e47f0c606d1209a89f77ee">生成配置</h2>
+
+<p>到你喜欢的目录执行<code>vagrant init</code>，会生成一个Vagrantfile的文件，按下面的说明做一些修改。</p>
+
+<h2 id="基本配置:9e3f0de184e47f0c606d1209a89f77ee">基本配置</h2>
+
+<pre><code>config.ssh.insert_key = false
+config.vm.box = &quot;Debian&quot;
+</code></pre>
+
+<h2 id="同步目录:9e3f0de184e47f0c606d1209a89f77ee">同步目录</h2>
+
+<p><code>config.vm.synced_folder &quot;./Code&quot;, &quot;/home/vagrant/Code&quot;</code></p>
+
+<h2 id="端口映射:9e3f0de184e47f0c606d1209a89f77ee">端口映射</h2>
+
+<p>这里只添加一条HTTP用的80端口，需要其他的可以再添加。
+<code>config.vm.network &quot;forwarded_port&quot;, guest: 80, host: 8000</code></p>
+
+<h1 id="使用自己的box:9e3f0de184e47f0c606d1209a89f77ee">使用自己的box</h1>
+
+<h2 id="开机:9e3f0de184e47f0c606d1209a89f77ee">开机</h2>
+
+<p>正常开机<code>vagrant up</code></p>
+
+<h2 id="关机:9e3f0de184e47f0c606d1209a89f77ee">关机</h2>
+
+<p>优雅的关机<code>vagrant halt</code></p>
+
+<h2 id="登陆:9e3f0de184e47f0c606d1209a89f77ee">登陆</h2>
+
+<p><code>vagrant ssh</code>因为前面已经设置了免密码登陆，所以这时候就可以很任性的随意登陆了。</p>
+
+<h1 id="后记:9e3f0de184e47f0c606d1209a89f77ee">后记</h1>
+
+<p>所以现在我们安装完一个完整的方便分发的开发环境了，然而有什么用呢？</p>
+
+<p>想象一下这样的场景，你有一台配置还可以的Windows电脑，然后你需要Linux下的开发环境。这时问题来了，如果你装个虚拟机，在虚拟机里开发，那你就和你喜欢的IDE无缘了—-这么说有点绝对，你还是可以用sftp之类的协议实现文件同步的，但明显没有我们现在这种方式优雅。</p>
+
+<p>设置一个同步目录，你在本地任性的用你喜欢的任何IDE写代码，写完之后访问127.0.0.1:8080就可以访问，这是一种什么样的体验啊？（当然，如果你有多个域名要用，还是配个本地域名比较好）</p>
+
+<p>还有，你说我是Mac，什么服务器，开发语言都可以安装在本地，和Linux也没有什么差别。这个问题我也考虑过，但我个人的爱好是把他们隔离开。你的Mac上安装个Apache了，Nginx了总感觉怪怪的，而且搞不好这些东西哪里配置不好你的宿主机都无法工作了。所以，用虚拟机是成本最低的一种方式了。</p>
+
+<p>我上面总结的这些仅限于<strong>个人</strong>使用，团队用的话还需要更多的配置，例如前面使用了insecure key，这就是不适合团队用的——但我还没有见过有团队用这个东西，至于puppet/chef更是没见过了。需要用到的时候再了解也不晚。</p>
+
+</div>
+
+
+  <footer class="container">
+  <div class="container navigation no-print">
+  <h2>Navigation</h2>
+  
+  
+
+    
+    <a class="prev" href="http://unixera.com/2015/11/01/symfony%E4%B8%80%E5%AF%B9%E5%A4%9A%E5%85%B3%E7%B3%BB%E7%9A%84yaml%E9%85%8D%E7%BD%AE/" title="Symfony一对多关系的YAML配置">
+      Previous
+    </a>
+    
+
+    
+    <a class="next" href="http://unixera.com/2015/11/22/facebook%E7%9A%84%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C/" title="Facebook的用户体验">
+      Next
+    </a>
+    
+
+  
+
+
+</div>
+
+  <div class="container comments">
+  <h2>Comments</h2>
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+</footer>
+
+</article>
+      <footer id="main-footer" class="container main_footer">
+  
+
+  <div class="container nav foot no-print">
+  
+<a href="http://unixera.com/license">license</a>
+
+
+  <a class="toplink" href="#">back to top</a>
+
+</div>
+
+  <div class="container credits">
+  
+<div class="container footline">
+  
+  Learn what you eager
+
+
+</div>
+
+
+  
+<div class="container copyright">
+  
+  &copy; 2013-2015 Frost Wong. All rights reserved.
+
+
+</div>
+
+
+</div>
+
+</footer>
+
+    </main>
+    
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="http://unixera.com/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+    
+  </body>
+</html>
+

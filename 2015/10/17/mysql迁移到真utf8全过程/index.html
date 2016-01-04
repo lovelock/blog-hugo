@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>MySQL迁移到真·UTF8全过程  &middot; Me and the Web</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="">
+
+
+<meta property="og:title" content="MySQL迁移到真·UTF8全过程  &middot; Me and the Web ">
+<meta property="og:site_name" content="Me and the Web"/>
+<meta property="og:url" content="http://unixera.com/2015/10/17/mysql%E8%BF%81%E7%A7%BB%E5%88%B0%E7%9C%9Futf8%E5%85%A8%E8%BF%87%E7%A8%8B/" />
+<meta property="og:locale" content="en-us">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:description" content=""/>
+<meta property="og:article:published_time" content="2015-10-17T01:06:29Z" />
+<meta property="og:article:modified_time" content="2015-10-17T01:06:29Z" />
+
+  
+
+  
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@frostwong" />
+<meta name="twitter:creator" content="@frostwong" />
+<meta name="twitter:title" content="MySQL迁移到真·UTF8全过程" />
+<meta name="twitter:description" content="" />
+<meta name="twitter:url" content="http://unixera.com/2015/10/17/mysql%E8%BF%81%E7%A7%BB%E5%88%B0%E7%9C%9Futf8%E5%85%A8%E8%BF%87%E7%A8%8B/" />
+<meta name="twitter:domain" content="http://unixera.com">
+  
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "MySQL迁移到真·UTF8全过程",
+    "author": {
+      "@type": "Person",
+      "name": "http://profiles.google.com/+?rel=author"
+    },
+    "datePublished": "2015-10-17",
+    "description": "",
+    "wordCount":  88 
+  }
+</script>
+
+
+
+<link rel="canonical" href="http://unixera.com/2015/10/17/mysql%E8%BF%81%E7%A7%BB%E5%88%B0%E7%9C%9Futf8%E5%85%A8%E8%BF%87%E7%A8%8B/" />
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://unixera.com/touch-icon-144-precomposed.png">
+<link href="http://unixera.com/favicon.png" rel="icon">
+
+<meta name="generator" content="Hugo 0.15" />
+
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href='https://fonts.googleapis.com/css?family=Merriweather:300%7CRaleway%7COpen+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://unixera.com/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://unixera.com/css/style.css">
+<link rel="stylesheet" href="http://unixera.com/css/highlight/default.css">
+
+  
+</head>
+<body>
+  <main id="main-wrapper" class="container main_wrapper has-sidebar">
+    <header id="main-header" class="container main_header">
+  <div class="container brand">
+  <div class="container title h1-like">
+  <a class="baselink" href="http://unixera.com">
+  Frost Wong
+
+</a>
+
+</div>
+
+  
+<div class="container topline">
+  
+  Be a better WEB developer
+
+
+</div>
+
+
+</div>
+
+  <nav class="container nav primary no-print">
+  
+
+
+  
+<a href="http://unixera.com/about">About</a>
+
+<a href="http://unixera.com/post" title="Show list of posts">Posts</a>
+
+<a href="http://unixera.com/tags" title="Show list of tags">Tags</a>
+
+
+</nav>
+
+<div class="container nav secondary no-print">
+  
+<a id="contact-link-email" class="contact_link" href="mailto:frostwong@gmail.com">
+  <span class="fa fa-envelope-square"></span><span>email</span></a>
+
+
+
+<a id="contact-link-github" class="contact_link" href="https://github.com/lovelock">
+  <span class="fa fa-github-square"></span><span>github</span></a>
+
+
+
+
+
+
+
+
+
+
+
+<a id="contact-link-twitter" class="contact_link" href="https://twitter.com/frostwong">
+  <span class="fa fa-twitter-square"></span><span>twitter</span></a>
+
+
+
+
+
+
+
+</div>
+
+
+  
+
+</header>
+
+
+<article id="main-content" class="container main_content single">
+  <header class="container hat">
+  <h1>MySQL迁移到真·UTF8全过程
+</h1>
+
+  <div class="metas">
+<time datetime="2015-10-17">17 Oct, 2015</time>
+
+
+  
+  &middot; Read in about 1 min
+  &middot; (88 Words)
+  <br>
+  
+
+
+</div>
+
+</header>
+
+  <div class="container content">
+  
+
+<h1 id="为什么要做:a8f56eab2e412e1ca18a9ca1b5a9303e">为什么要做？</h1>
+
+<p>写这篇总结的起因是我觉得应该深入的学习一下PHP了，结果找到了<a href="http://phpbestpractices.justjavac.com" target="_blank">PHP最佳实践中文版</a>，其中关于PHP和UTF8一节引起了我的兴趣。我之前还一直以为我们的数据库用的是完整的UTF8，看完之后我惊呆了。</p>
+
+<p>原来我们的以为的utf8并不是真正意义上的UTF-8，或者说不是完整的，因为它只包含了<a href="https://mariadb.com/kb/en/mariadb/unicode/" target="_blank">不大于3个8位字节组成的字符</a>，而4个字节组成的字符则未能包含，如𝌆、💩等常用字符。</p>
+
+<p>随着现在网络用语的发达，越来越多的表情符号层出不穷，真是为这种符号的存储发愁啊，所以保险起见，以后接触到的项目中，如果我的意见可以被接受，那么我将遵守这个规则——使用utf8mb4而不是utf8。</p>
+
+<p>那如果已经使用了utf8了，怎么更新呢？下面是操作步骤。</p>
+
+<h2 id="备份:a8f56eab2e412e1ca18a9ca1b5a9303e">备份</h2>
+
+<p>对数据库的修改操作毕竟是危险的，如果你的数据很重要，最好还是备份一下数据库。</p>
+
+<h2 id="升级mysql服务器:a8f56eab2e412e1ca18a9ca1b5a9303e">升级MySQL服务器</h2>
+
+<p>utf8mb4是从MySQL5.5.3版本引入的（对应相同版本的MariaDB)，因此如果想使用utf8mb4，至少应升级到5.5.3版本。</p>
+
+<h2 id="修改数据库-数据表和列:a8f56eab2e412e1ca18a9ca1b5a9303e">修改数据库、数据表和列</h2>
+
+<pre><code class="language-sql"># 每个数据库
+ALTER DATABASE database_name CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+# 每张数据表
+ALTER TABLE table_name CONVERT TO CHARACTER SET utf8 COLLATE utf8mb4_unicode_ci;
+# 每列数据
+ALTER TABLE table_name CHANGE column_name column_name VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+</code></pre>
+
+<blockquote>
+<p>注意，不要直接复制粘贴上面的代码，根据实际的数据进行操作。</p>
+</blockquote>
+
+<h2 id="检查列和索引键的长度:a8f56eab2e412e1ca18a9ca1b5a9303e">检查列和索引键的长度</h2>
+
+<p>这一步很不容易想到，当我们从utf8更新到utf8mb4时，字节的长度并没有发生变化，但字符长度却变化了。
+<code>TINYTEXT</code>类型可以容纳255个字节，在utf8编码时，可以包含255/3=85个unicode字符，而在utf8mb4时，只可以包含255/4=63.75=63个字符。因此，当这个字段的长度有可能超过63个字符时，就需要把<code>TINYTEXT</code>修改成<code>TEXT</code>从而容纳更多的字符。</p>
+
+<h2 id="修改连接-客户端-服务端字符集:a8f56eab2e412e1ca18a9ca1b5a9303e">修改连接、客户端、服务端字符集</h2>
+
+<p>这一步就是修改my.conf（在不同的操作系统中有不同的命名）。</p>
+
+<pre><code class="language-ini">[client]
+default-character-set = utf8mb4
+
+[mysql]
+default-character-set = utf8mb4
+
+[mysqld]
+character-set-client-handshake = FALSE
+character-set-server = utf8mb4
+collation-server = utf8mb4-unicode-ci
+</code></pre>
+
+<p>这时就可以查看更新的结果了
+<img src="http://7xn2pe.com1.z0.glb.clouddn.com/b_Screen%20Shot%202015-10-17%20at%201.43.38%20AM.png" alt="更新结果" /></p>
+
+<h2 id="修复和优化所有表:a8f56eab2e412e1ca18a9ca1b5a9303e">修复和优化所有表</h2>
+
+<pre><code class="language-sql">PREPARE TABLE table_name;
+OPTIMIZE TABLE table_name;
+</code></pre>
+
+<p>如果不执行这两步可能出现数据无法更新的情况。好在用一条指令就能修复和优化所有数据库</p>
+
+<pre><code>mysqlcheck -uroot -p --auto-repaire --optimize --all-databases
+</code></pre>
+
+<p>这会弹出密码输入提示，然后对所有数据库执行修复和优化操作。</p>
+
+</div>
+
+
+  <footer class="container">
+  <div class="container navigation no-print">
+  <h2>Navigation</h2>
+  
+  
+
+    
+    <a class="prev" href="http://unixera.com/2015/10/09/%E4%B9%9F%E8%B0%88%E5%B0%81%E6%9D%80/" title="也谈封杀">
+      Previous
+    </a>
+    
+
+    
+    <a class="next" href="http://unixera.com/2015/10/17/mysql%E7%9C%9Futf8%E5%90%8E%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/" title="MySQL真·UTF8后遇到的问题">
+      Next
+    </a>
+    
+
+  
+
+
+</div>
+
+  <div class="container comments">
+  <h2>Comments</h2>
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+</footer>
+
+</article>
+      <footer id="main-footer" class="container main_footer">
+  
+
+  <div class="container nav foot no-print">
+  
+<a href="http://unixera.com/license">license</a>
+
+
+  <a class="toplink" href="#">back to top</a>
+
+</div>
+
+  <div class="container credits">
+  
+<div class="container footline">
+  
+  Learn what you eager
+
+
+</div>
+
+
+  
+<div class="container copyright">
+  
+  &copy; 2013-2015 Frost Wong. All rights reserved.
+
+
+</div>
+
+
+</div>
+
+</footer>
+
+    </main>
+    
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="http://unixera.com/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+    
+  </body>
+</html>
+

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>给Linux新手的一些建议  &middot; Me and the Web</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="">
+
+
+<meta property="og:title" content="给Linux新手的一些建议  &middot; Me and the Web ">
+<meta property="og:site_name" content="Me and the Web"/>
+<meta property="og:url" content="http://unixera.com/2015/10/19/%E7%BB%99linux%E6%96%B0%E6%89%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E5%BB%BA%E8%AE%AE/" />
+<meta property="og:locale" content="en-us">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:description" content=""/>
+<meta property="og:article:published_time" content="2015-10-19T21:49:06Z" />
+<meta property="og:article:modified_time" content="2015-10-19T21:49:06Z" />
+
+  
+
+  
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@frostwong" />
+<meta name="twitter:creator" content="@frostwong" />
+<meta name="twitter:title" content="给Linux新手的一些建议" />
+<meta name="twitter:description" content="" />
+<meta name="twitter:url" content="http://unixera.com/2015/10/19/%E7%BB%99linux%E6%96%B0%E6%89%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E5%BB%BA%E8%AE%AE/" />
+<meta name="twitter:domain" content="http://unixera.com">
+  
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "给Linux新手的一些建议",
+    "author": {
+      "@type": "Person",
+      "name": "http://profiles.google.com/+?rel=author"
+    },
+    "datePublished": "2015-10-19",
+    "description": "",
+    "wordCount":  80 
+  }
+</script>
+
+
+
+<link rel="canonical" href="http://unixera.com/2015/10/19/%E7%BB%99linux%E6%96%B0%E6%89%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E5%BB%BA%E8%AE%AE/" />
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://unixera.com/touch-icon-144-precomposed.png">
+<link href="http://unixera.com/favicon.png" rel="icon">
+
+<meta name="generator" content="Hugo 0.15" />
+
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href='https://fonts.googleapis.com/css?family=Merriweather:300%7CRaleway%7COpen+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://unixera.com/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://unixera.com/css/style.css">
+<link rel="stylesheet" href="http://unixera.com/css/highlight/default.css">
+
+  
+</head>
+<body>
+  <main id="main-wrapper" class="container main_wrapper has-sidebar">
+    <header id="main-header" class="container main_header">
+  <div class="container brand">
+  <div class="container title h1-like">
+  <a class="baselink" href="http://unixera.com">
+  Frost Wong
+
+</a>
+
+</div>
+
+  
+<div class="container topline">
+  
+  Be a better WEB developer
+
+
+</div>
+
+
+</div>
+
+  <nav class="container nav primary no-print">
+  
+
+
+  
+<a href="http://unixera.com/about">About</a>
+
+<a href="http://unixera.com/post" title="Show list of posts">Posts</a>
+
+<a href="http://unixera.com/tags" title="Show list of tags">Tags</a>
+
+
+</nav>
+
+<div class="container nav secondary no-print">
+  
+<a id="contact-link-email" class="contact_link" href="mailto:frostwong@gmail.com">
+  <span class="fa fa-envelope-square"></span><span>email</span></a>
+
+
+
+<a id="contact-link-github" class="contact_link" href="https://github.com/lovelock">
+  <span class="fa fa-github-square"></span><span>github</span></a>
+
+
+
+
+
+
+
+
+
+
+
+<a id="contact-link-twitter" class="contact_link" href="https://twitter.com/frostwong">
+  <span class="fa fa-twitter-square"></span><span>twitter</span></a>
+
+
+
+
+
+
+
+</div>
+
+
+  
+
+</header>
+
+
+<article id="main-content" class="container main_content single">
+  <header class="container hat">
+  <h1>给Linux新手的一些建议
+</h1>
+
+  <div class="metas">
+<time datetime="2015-10-19">19 Oct, 2015</time>
+
+
+  
+  &middot; Read in about 1 min
+  &middot; (80 Words)
+  <br>
+  
+
+
+</div>
+
+</header>
+
+  <div class="container content">
+  
+
+<p>由于关注了知乎上Linux相关的一些话题，总是断断续续的有人邀请我回答各种Linux的问题——开始看到这种邀请的时候其实我是拒绝的，因为我觉得这种问题网上大把大把的答案，怎么还会有人问呢？后来回想了一下自己当初的经历才明白，原来就是有了太多的教程，而很多写教程的人自己都不怎么明白，怎么能讲的清楚呢？</p>
+
+<p>闲话少说，还是来谈谈自己的看法吧。</p>
+
+<p>邀请我回答的这些问题中，以CentOS安装在个人笔记本或台式机上的问题居多，这里且不论这些提问者完全不想着去用搜索功能了，我就在想这个误区从哪里起始呢？</p>
+
+<p>多数人都知道《鸟哥的Linux私房菜》，甚至有人听别人说这是Linux入门的圣书，恨不得买来马上研读一番，而事实上多数买来的人也并没有读。重点是这本书里用的是CentOS。</p>
+
+<p>于是乎很多不明就里的『学习者』就开始上网搜索如何在自己的笔记本上安装CentOS的教程，这其中会有一些比较极端，把原来的系统格掉，直接上Linux，而更多人则是选择双系统。</p>
+
+<p>这里我想重申一下我在知乎上的观点，如果你想在实体机上体验Linux，那么不要在你的笔记本或者台式机上安装CentOS，Ubuntu/Fedora/OpenSUSE是可以尝试的，这其中还是比较推荐Ubuntu，毕竟它的桌面版就顾名思义就是为桌面而生的，经过这么多年的发展稳定性也已经不错了。相反，CentOS本身面向的就是那些需要用企业级的RHEL而又不想付费的企业用户，它的目标是安装在机房里整整齐齐的刀片机上，而不是你的笔记本——它没法忍受你的双显卡，这种协议的限制导致它不能用一些字体的补丁，导致字体看起来眼睛都要瞎了。</p>
+
+<p>鉴于大多数初学者目前都是Windows『重度用户』的事实，我的建议是安装一个VirtualBox，到<a href="http://mirror.bit.edu.cn" target="_blank">北京理工大学开源镜像站</a>:[1]下载一个Debian的CD镜像，然后把Linux安装到虚拟机中。</p>
+
+<p>下面是理由。</p>
+
+<h2 id="为什么是debian:4801f74c6c4f5bdbda294b1be0930bed">为什么是Debian？</h2>
+
+<p>因为轻量，相比CentOS对新手更为友好，更新更为迅速。我就不说什么自由相关的了，这些情怀的东西等你体会到了它的好处以后再谈也不晚。</p>
+
+<p>首先是轻量，我以前做运维的时候曾经蛋疼的测试过几个系统，时间是2013年12月份，测试的系统是Debian/FreeBSD/Ubuntu Server，忘记有没有CentOS了。测试方法就是在虚拟机的配置中逐步减少分配给虚拟机的内存大小，果然第一个挂掉的就是Ubuntu，在内存等于128M的时候已经提示无法开机，而当我把FreeBSD的内存设置到64M的时候它仍然很流畅，并且内存占用只有10M左右，而Debian比前者占用要稍高一些，但也能保证流畅运行。考虑到大多数同学的2G或者4G的内存，所以虚拟机能轻量就轻量吧。至于FreeBSD，毕竟不是主流，参考资料也比较少，虽然我自己比较喜欢，但也仅仅是喜欢，并不推荐。</p>
+
+<p>那友好在什么地方呢？</p>
+
+<h3 id="友好体现在默认开启的服务上:4801f74c6c4f5bdbda294b1be0930bed">友好体现在默认开启的服务上</h3>
+
+<p>安装时有多种选择，你可以像我一样安装一个没有只有系统基本组件的裸系统，也可以安装一个带基本的桌面环境的系统，甚至还可以选择一些服务，如邮件服务、HTTP服务等。这里我推荐还是最小安装。安装过程很直观。当然现在的CentOS的安装器也不错，只是没有选择安装类型而已。</p>
+
+<p>Debian在安装过程中会让你填写一个在线的镜像源地址，这里可以填写我上面的推荐，安装完成开机以后你就可以用这个镜像源更新系统了。很方便吧？另外很重要的一点是安装完之后的系统默认网络服务是开启的，也就是说你是直接可以上网的，这也是CentOS让我很不解的一点，从我接触到它开始，它一直是默认不开启网络服务的，这让一些新手很受伤。</p>
+
+<p>还有一点很重要，对很多想要接触Linux的同学来说，很可能就是为了用LAMP/LNMP的环境，但用CentOS时你可能会莫名其妙的遇到403错误，然后你找遍各种论坛，费了半天劲，原来就是SELinux惹的祸。这个玩意我们平时虽然不怎么用得到，但真的很让你摸不着看头脑。我也没有细究其使用，通常大家都关掉了，因为实在太难用了。</p>
+
+<p>多说两句，它的大概意思就是每个文件（目录在Linux看来也是文件）除了我们知道的rwx权限，i(mmutable)还有粘滞位(Sticky bit)之外，还有另外一套权限机制，也就是所谓的上下文信息了。举例来说，它给可以提供Web服务的目录一个特殊权限，如果你在Apache/Nginx里配置了别的vhost，比如默认是在/var/www目录下，而你在/srv/http目录下新建了vhost，那就别想好好过了，因为后者是不具备提供Web服务的权限的，反过来说，外界是无法通过Http请求访问这个目录里的内容的，所以你就得到了403。当然如果知道问题症结的话也很容易解决，只需要给后者赋予同样的上下文信息即可——然并卵，我们通常的做法是
+1. 临时做法<code>sudo setenforce 0</code>
+2. 永久做法是把<code>/etc/sysconfig/selinux</code>中的<code>SELINUX=enforcing　</code>改成<code>SELINUX=disabled</code>，重启</p>
+
+<p>我要说的是Debian默认就不开启这个让人迷惑的功能。</p>
+
+<p>至于iptables这个大神器当然是要学的，不过好在现在两个平台上都有了简单的前端工具，Debian系有<code>ufw</code>，一看这名字就知道是Ubuntu贡献的，RH平台上有<code>firewalld</code>。值得一提的是<code>ufw</code>b本身就是在iptables之外让用户可以更直观的操作防火墙，而后者则是直接让iptables做了备选方案，可说是一个替代iptables的服务，当然底层也还是ipfilter(这里我不太确定它封装的是iptables还是ipfilter)。默认没有安装iptables-services，而如果要用iptables，就需要</p>
+
+<pre><code>sudo systemctl mask firewalld
+sudo systemctl sopt firewalld
+sudo systemctl unmask iptables
+sudo systemctl start iptables
+sudo systemctl enable iptables
+</code></pre>
+
+<p>2015-10-25更新
+刚刚又发现一个神奇的东西，因为昨天花了点时间捣鼓了一下Vagrant，发现这玩意儿还真是出奇的好用，又能用Linux上的运行环境又能用宿主机上的IDE，虽然我是个Vim党，但也无法阻挡PhpStorm的诱惑啊。
+好了，我想说的是这个
+<img src="http://7xn2pe.com1.z0.glb.clouddn.com/b_屏幕快照%202015-10-25%20下午3.45.13.png" alt="Debian打包的MySQL/MariaDB默认使用utf8mb4字符集" /></p>
+
+<p>这就是一个社区的偏好问题了，前面的文章也已经提到过字符集的问题，Debian竟然从发行版打包时优化了这个问题，赞一个。</p>
+
+<h3 id="友好体现在方便的软件安装上:4801f74c6c4f5bdbda294b1be0930bed">友好体现在方便的软件安装上</h3>
+
+<p>曾经我一度以为Windows的软件安装方式是最好的，下一步下一步，多方便，而Linux还要找这种包，配置、编译、安装，多麻烦。直到我了解到原来还有<code>apt-get</code>这种包管理利器。然而，你Debian有<code>apt-get</code>，那我CentOS有<code>yum</code>啊，怎么你就能胜我一筹呢？原因并不在于两种工具的区别，当然我更喜欢<code>apt-get</code>，毕竟有<code>apt-get autoremove</code>，而在于软件仓库。在Debian的仓库里，有vim-nox这个包含了所有脚本语言支持的Vim发行版——如果可以这么说的话，让你在安装提高效率的Vim插件的时候不必受限于这些因素；有下载神器axel，一个<code>axel -n 10 some_url</code>撑满你的带宽，过多的就不解释了。</p>
+
+<h3 id="友好体现在便捷的系统升级:4801f74c6c4f5bdbda294b1be0930bed">友好体现在便捷的系统升级</h3>
+
+<p>我个人是喜欢用Debian Sid，也就是不稳定版的，是因为它的软件包最新，我说这话你不要不以为然，当你发现一个很新奇的东西想尝试一下，看下自己的CentOS，这个库太老，这个库仓库里没有，这时候你就知道一个<code>apt-get update &amp;&amp; apt-get dist-upgrade</code>是多么爽了，永远保持最新。</p>
+
+<h2 id="为什么是北京理工大学镜像站:4801f74c6c4f5bdbda294b1be0930bed">为什么是北京理工大学镜像站？</h2>
+
+<p>这个就是细枝末节的东西了，我最开始是用校内的<a href="http://mirror.buaa.edu.cn" target="_blank">北京航空航天大学开源镜像站</a>的，只可惜它只在校内可以访问，离开学校以后就用<a href="http://mirrors.ustc.edu.cn" target="_blank">中国科技大学开源镜像站</a>，这个可以说是国内镜像站里面看起来最现代化、文档最齐全的，但毕竟服务器在合肥（？），还不如找个北京的，于是就看到了我们的兄弟院校北京理工。速度不错。</p>
+
+<h2 id="为什么是virtualbox:4801f74c6c4f5bdbda294b1be0930bed">为什么是VirtualBox？</h2>
+
+<p>当然，除了VB，你在Windows上还有VMware Workstation和VMware Player可供选择，我这里没有讽刺谁的意思，毕竟自己也用过不少盗版软件，但后我估计VMware估计没有多少人买得起，既然开源也是一种选择，就没有必要再去搞什么破解了，能用就行，这也是学习过程中的一个重要原则，在找工具的过程中不要忘了自己用这个工具的目的。</p>
+
+<p>要注意的是VirtualBox默认用的NAT网络方式和VMware是不同的，前者是真正意义上的NAT，你的宿主机网卡和虚拟机网卡所在不是同一个网段，例如宿主机在192.168网段，而虚拟机就会在10.0网段，这样宿主机和虚拟机是无法直接通信的，我指的是ssh远程登录。而VMware不同，它的默认比较人性化，默认就可以。</p>
+
+<p>当然要改变这个并不难，只需要把虚拟机关机，在网络设置里面设置成网桥(bridged)模式，再开机，就会发现虚拟机和宿主机在同一个网段了。</p>
+
+<p>可不要小瞧VirtualBox，虽然是开源项目，但它的虚拟硬盘技术可是各种虚拟机技术里最厉害的，随度相当快。</p>
+
+<h2 id="为什么是cd镜像:4801f74c6c4f5bdbda294b1be0930bed">为什么是CD镜像？</h2>
+
+<p>我认为DVD镜像已经是上个时代的产物了，现在应该被淘汰。</p>
+
+<p>那个时候网速慢，下载个软件包要等上很久，于是各家Linux发行商就用派光盘的方式售卖安装盘，把默认没有安装的软件包都打包在一个DVD里，它既可以当做安装盘，又可以当做软件仓库。然而现在网络那么发达，根本没有必要用这种方式了，而且这种方式有一个缺点是无法更新——是的，你只能安装，无法更新，因为光盘是死的，它的内容就是刻录时的内容。</p>
+
+<p>CD就好很多了，一般400多M，下载下来也很快，安装迅速，好处不胜枚举。</p>
+
+<h2 id="总结:4801f74c6c4f5bdbda294b1be0930bed">总结</h2>
+
+<p>最终我的建议是在VirtualBox中安装Debian虚拟机，配置网桥模式，用XShell（伪）远程登录。最好在你配置好自己比较喜欢的环境之后把虚拟机Clone一份，这样如果把Clone的弄坏了，可以很快的复制一个出来，成本几乎为0，就省去了安装的麻烦。毕竟你学会了安装Linux并没有什么卵用，尤其是双系统。</p>
+
+</div>
+
+
+  <footer class="container">
+  <div class="container navigation no-print">
+  <h2>Navigation</h2>
+  
+  
+
+    
+    <a class="prev" href="http://unixera.com/2015/10/17/mysql%E7%9C%9Futf8%E5%90%8E%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/" title="MySQL真·UTF8后遇到的问题">
+      Previous
+    </a>
+    
+
+    
+    <a class="next" href="http://unixera.com/2015/11/01/symfony%E4%B8%80%E5%AF%B9%E5%A4%9A%E5%85%B3%E7%B3%BB%E7%9A%84yaml%E9%85%8D%E7%BD%AE/" title="Symfony一对多关系的YAML配置">
+      Next
+    </a>
+    
+
+  
+
+
+</div>
+
+  <div class="container comments">
+  <h2>Comments</h2>
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+</footer>
+
+</article>
+      <footer id="main-footer" class="container main_footer">
+  
+
+  <div class="container nav foot no-print">
+  
+<a href="http://unixera.com/license">license</a>
+
+
+  <a class="toplink" href="#">back to top</a>
+
+</div>
+
+  <div class="container credits">
+  
+<div class="container footline">
+  
+  Learn what you eager
+
+
+</div>
+
+
+  
+<div class="container copyright">
+  
+  &copy; 2013-2015 Frost Wong. All rights reserved.
+
+
+</div>
+
+
+</div>
+
+</footer>
+
+    </main>
+    
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="http://unixera.com/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+    
+  </body>
+</html>
+

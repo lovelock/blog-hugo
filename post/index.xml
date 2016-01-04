@@ -1,0 +1,1111 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Me and the Web</title>
+    <link>http://unixera.com/post/</link>
+    <description>Recent content in Posts on Me and the Web</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>frostwong@gmail.com (Frost Wong)</managingEditor>
+    <webMaster>frostwong@gmail.com (Frost Wong)</webMaster>
+    <copyright>(c) 2013-2015 Frost Wong. All rights reserved.</copyright>
+    <lastBuildDate>Fri, 04 Dec 2015 23:12:52 +0000</lastBuildDate>
+    <atom:link href="http://unixera.com/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>HTML中的input[type=radio]的一个小发现</title>
+      <link>http://unixera.com/2015/12/04/html%E4%B8%AD%E7%9A%84inputtyperadio%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E5%8F%91%E7%8E%B0/</link>
+      <pubDate>Fri, 04 Dec 2015 23:12:52 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://unixera.com/2015/12/04/html%E4%B8%AD%E7%9A%84inputtyperadio%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E5%8F%91%E7%8E%B0/</guid>
+      <description>&lt;p&gt;昨天在写一个表单时，一个无意的错误让我发现了HTML radio类型的input的一个特性。&lt;/p&gt;
+
+&lt;p&gt;在一个表单&lt;code&gt;&amp;lt;form&amp;gt;&amp;lt;/form&amp;gt;&lt;/code&gt; 中，相同name的input[type=radio]只有最后一个才会正常的渲染checked。&lt;/p&gt;
+
+&lt;p&gt;也就是说，如果一个表格中有很多条目，这时每一列都会有相同的name，这时你会发现及时每个条目的input[type=radio]都有正确的checked属性，但并不能看到它被选中——只有最后一行正常。&lt;/p&gt;
+
+&lt;p&gt;起初我还以为这是个bug，仔细一想，其实这是更合理的方式。&lt;/p&gt;
+
+&lt;p&gt;因为，在一个表单中，每个不同的name就是一个参数，如果同一个name的参数出现了多次，服务端也会以最后一个为准。如此看来，这样的实现反倒会让开发者在参数输入就发现问题。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>OS X完全卸载JDK的方法</title>
+      <link>http://unixera.com/2015/12/04/os-x%E5%AE%8C%E5%85%A8%E5%8D%B8%E8%BD%BDjdk%E7%9A%84%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Fri, 04 Dec 2015 23:04:43 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://unixera.com/2015/12/04/os-x%E5%AE%8C%E5%85%A8%E5%8D%B8%E8%BD%BDjdk%E7%9A%84%E6%96%B9%E6%B3%95/</guid>
+      <description>&lt;p&gt;刚用OS X时想着可能会用到Java，毕竟Jetbrains的产品都要依赖Java。但新版本的这些IDE都自带java-bundle了，所以就没有必要留着了。&lt;/p&gt;
+
+&lt;p&gt;看了Java官网的指南，发现无法删干净，而在&lt;a href=&#34;https://stackoverflow.com/questions/19039752/removing-java-8-jdk-from-mac/23092014#23092014&#34; target=&#34;_blank&#34;&gt;StackOverFlow&lt;/a&gt;上发现了这条，完美！&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;sudo rm -rf /Library/Java/JavaVirtualMachines/jdk&amp;lt;version&amp;gt;.jdk
+sudo rm -rf /Library/PreferencePanes/JavaControlPanel.prefPane
+sudo rm -rf /Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin
+sudo rm -rf /Library/LaunchAgents/com.oracle.java.Java-Updater.plist
+sudo rm -rf /Library/PrivilegedHelperTools/com.oracle.java.JavaUpdateHelper
+sudo rm -rf /Library/LaunchDaemons/com.oracle.java.JavaUpdateHelper.plist
+sudo rm -rf /Library/Preferences/com.oracle.java.Helper-Tool.plist
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;记录一下。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>JavaScript闭包深究</title>
+      <link>http://unixera.com/2015/12/02/javascript%E9%97%AD%E5%8C%85%E6%B7%B1%E7%A9%B6/</link>
+      <pubDate>Wed, 02 Dec 2015 21:35:12 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://unixera.com/2015/12/02/javascript%E9%97%AD%E5%8C%85%E6%B7%B1%E7%A9%B6/</guid>
+      <description>
+
+&lt;h2 id=&#34;问题来源:1b67d25b866c1e409bcdd7713c6840f7&#34;&gt;问题来源&lt;/h2&gt;
+
+&lt;p&gt;刚刚看到微信公众号推送的一篇文章, &lt;a href=&#34;http://www.cnblogs.com/xxcanghai/p/4991870.html&#34; target=&#34;_blank&#34;&gt;大部分人都会做错的经典JS闭包面试题&lt;/a&gt;,里面出现了一道很有意思的题目，让我有兴趣自己尝试一下。&lt;/p&gt;
+
+&lt;p&gt;题目是这样的&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function fun(n, o) {
+	console.log(o);
+	
+	return {
+		fun: function (m) {
+			return fun(m, n);
+		}
+	};
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;问题是下面这三行的输出分别是什么。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;注意不是问a, b, c的值，是输出。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var a = fun(0);  a.fun(1);  a.fun(2);  a.fun(3);//undefined,?,?,?
+var b = fun(0).fun(1).fun(2).fun(3);//undefined,?,?,?
+var c = fun(0).fun(1);  c.fun(2);  c.fun(3);//undefined,?,?,?
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;答案在最后，如果有兴趣可以先尝试自己分析一下。这道题的答案并没有争议，但我看了原作者的分析之后，感觉到可能有点问题，于是找到了经常翻阅的《JavaScript the Good Parts》再来参详一遍第四章吧，大概翻了一下发现这本书并没有太详细的介绍这部分，于是找了一篇博文&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:1b67d25b866c1e409bcdd7713c6840f7:refer1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:1b67d25b866c1e409bcdd7713c6840f7:refer1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;，详细的研究一下。&lt;/p&gt;
+
+&lt;p&gt;函数(function)在JavaScript中是一等公民，老道说它是几乎完美的——当然也存在瑕疵，当你用过它变态的&lt;code&gt;this&lt;/code&gt;特性以后，肯定会对这句话的严谨表示赞同。&lt;/p&gt;
+
+&lt;p&gt;我们知道，在JavaScript中创建对象时，对象字面量会连接到&lt;code&gt;Object.prototype&lt;/code&gt;。而函数对象会连接到&lt;code&gt;Function.prototype&lt;/code&gt;。那么&lt;code&gt;Function.prototype&lt;/code&gt;又连接到谁呢？答案还是&lt;code&gt;Object.prototype&lt;/code&gt;。因为在JavaScript中，函数、数组、对象(指我们经常见到的JSON对象)都是对象(特指原型链的对象)。&lt;/p&gt;
+
+&lt;h2 id=&#34;探究:1b67d25b866c1e409bcdd7713c6840f7&#34;&gt;探究&lt;/h2&gt;
+
+&lt;p&gt;根据《JavaScript the Good Parts》的说法，函数的定义有4个要素。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;// 创建一个名为add的变量，并把一个函数赋值给它
+
+var add = function (a, b) {
+	return a + b;
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;函数字面量包括4个部分：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;保留字&lt;code&gt;function&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;函数名&lt;/li&gt;
+&lt;li&gt;包围在圆括号内的一组参数&lt;/li&gt;
+&lt;li&gt;包围在花括号中的一组语句，它是函数的主题，在函数调用时被执行&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;从上面函数的定义可以看到，这个&lt;code&gt;add&lt;/code&gt; 并不是函数字面量的一部分。而作为函数字面量的函数名却可以不存在，这也就是匿名函数。&lt;/p&gt;
+
+&lt;p&gt;重点来了：&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;函数字面量可以出现在任何允许表达式出现的地方。函数也可以被定义在其他函数中。一个内部函数除了可以访问自己的参数和变量，同时也能自由访问把它嵌套在其中的父函数的参数与变量。通过函数字面量创建的函数对象包含一个连到外部上下文的连接。这被称为闭包(closure)。它是JavaScript强大表现力的来源。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;函数的定义方式:1b67d25b866c1e409bcdd7713c6840f7&#34;&gt;函数的定义方式&lt;/h3&gt;
+
+&lt;p&gt;先来看一下JavaScript定义函数的各种方法&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function A() {}     // 函数声明
+var B = function () {}; // 函数表达式
+var C = (function () {}); // 带有分组操作符的函数表达式
+var D = function foo() {}; // 命名的函数表达式
+var E = (function () {
+            return function () {};
+        }());           // 返回函数的立即执行的函数表达式
+var F = new Function (); // 函数构造器
+var G = new Function () {}; // 特殊情况，对象构造器
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;不看不知道，竟然还有那么多种方式，老实说，我只有过第1、2、5这三种，并且没有区分的那么细致。下面详细的剖析一下这种方式的使用场景。&lt;/p&gt;
+
+&lt;h4 id=&#34;a-name-函数声明-a-函数声明:1b67d25b866c1e409bcdd7713c6840f7&#34;&gt;&lt;a name=&#34;函数声明&#34;&gt;&lt;/a&gt;函数声明&lt;/h4&gt;
+
+&lt;h5 id=&#34;a-name-作用域提升-a-作用域提升:1b67d25b866c1e409bcdd7713c6840f7&#34;&gt;&lt;a name=&#34;作用域提升&#34;&gt;&lt;/a&gt;作用域提升&lt;/h5&gt;
+
+&lt;p&gt;这种方式是见到的最多的声明函数的方式了，而且这种方式会引发『作用域提升』(Hoisting)，不知道是不是这么翻译，但我一说下面的你就知道是什么意思了。&lt;/p&gt;
+
+&lt;p&gt;如果这么写&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;A();
+function A() {
+    console.log(&#39;foo&#39;);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;你可能会担心出现&lt;code&gt;A is not a function&lt;/code&gt;这种错误吧？但是这里不会有，一切都会正常运行。因为在执行这段代码时，解释器会把它当做下面的这样来执行&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function A() {
+    console.log(&#39;foo&#39;);
+}
+A();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样当然不会有问题了。&lt;/p&gt;
+
+&lt;p&gt;这里说到变量的作用域提升，你可能会想到下面这种例子，&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;console.log(A);
+
+var A = &#39;foo&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这时也会发生一个变量提升，但不同的是，这段代码等同于下面的&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var A;
+
+console.log(A);
+
+A = &#39;foo&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;所以，这段代码的输出会是&lt;code&gt;undefined&lt;/code&gt;，而不是&lt;code&gt;A is not defined&lt;/code&gt;的错误信息。也就是说，这种方式的变量作用域提升只会把变量的&lt;strong&gt;声明&lt;/strong&gt;提升，而不会把&lt;strong&gt;定义&lt;/strong&gt;提升。&lt;/p&gt;
+
+&lt;p&gt;变量声明和函数声明方式的不同了，上面说了，函数在JavaScript里是可以赋值给变量的，那么用函数表达式定义的函数也是一个变量，本质上会和上面&lt;strong&gt;变量作用域提升&lt;/strong&gt;出现同样的效果。即&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;B();
+
+var B = function () {
+    console.log(&#39;foo&#39;);
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;并不会有输出，并且会报错，&lt;code&gt;B is not a function&lt;/code&gt;，因为它等同于&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var B;
+
+B();
+
+B = function () {
+    console.log(&#39;foo&#39;);
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在执行函数B的时候，B只是一个变量声明，解释器并不知道它是一个函数或者一个普通的变量，但看报错结果&lt;code&gt;B is not a function&lt;/code&gt;就可以知道，在执行函数B的时候，解释器是知道B的存在的，也就是B已经被声明过，只是它不知道它是函数而已，否则报的错就是&lt;code&gt;B is not defined&lt;/code&gt;了。&lt;/p&gt;
+
+&lt;h5 id=&#34;不能在-if-或其他条件语句中使用函数声明:1b67d25b866c1e409bcdd7713c6840f7&#34;&gt;不能在&lt;code&gt;if&lt;/code&gt;或其他条件语句中使用函数声明&lt;/h5&gt;
+
+&lt;p&gt;也就是说，不能这样&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;if (true) {
+    function foo() {
+        return &#39;foo&#39;;
+    }
+} else {
+    function foo() {
+        return &#39;bar&#39;;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;当我想在&lt;a href=&#34;http:jsbin.com&#34; target=&#34;_blank&#34;&gt;JSbin&lt;/a&gt;中执行这段代码时，它报出了以下错误
+&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/b_Screen%20Shot%202015-12-05%20at%2010.20.25%20PM.png&#34; alt=&#34;条件语句中用函数声明报错&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;建议的方式是这样的&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var foo;
+
+if (true) {
+    foo = function () {
+        return &#39;foo&#39;;
+    };
+} else {
+    foo = function () {
+        return &#39;bar&#39;;
+    };
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;永远不要&lt;/strong&gt;这样写，不同的浏览器可能会表现出不同的行为。&lt;/p&gt;
+
+&lt;h5 id=&#34;必须有函数名:1b67d25b866c1e409bcdd7713c6840f7&#34;&gt;必须有函数名&lt;/h5&gt;
+
+&lt;p&gt;声明一个没有赋值的函数是不能不带函数名的，也就是，无法这样声明以下函数&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function () {
+    return &#39;blahblah&#39;;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/b_Screen%20Shot%202015-12-05%20at%2010.24.19%20PM.png&#34; alt=&#34;用函数声明的方式声明不带函数名的函数报错信息&#34; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;a-name-函数表达式-a-函数表达式:1b67d25b866c1e409bcdd7713c6840f7&#34;&gt;&lt;a name=&#34;函数表达式&#34;&gt;&lt;/a&gt;函数表达式&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;var B = function () {};&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;函数表达式和函数声明的方式很类似，但不同的是函数被赋值给了一个变量。要知道函数在JavaScript里并不是primitive的，也就是说它是可以再分解的，但这并不妨碍函数是JavaScript世界的一等公民，它可以被赋值给变量，可以作为其他函数的返回值，可以作为参数传递给其他变量也可以存储在其他数据结构中。&lt;/p&gt;
+
+&lt;h5 id=&#34;匿名函数:1b67d25b866c1e409bcdd7713c6840f7&#34;&gt;匿名函数&lt;/h5&gt;
+
+&lt;p&gt;虽然函数赋值给了一个变量，但这个函数仍然是一个匿名函数，因为在函数定义的4个要素里，缺少了『函数名』这一要素。&lt;/p&gt;
+
+&lt;h5 id=&#34;变量的作用域提升:1b67d25b866c1e409bcdd7713c6840f7&#34;&gt;变量的作用域提升&lt;/h5&gt;
+
+&lt;p&gt;这在&lt;a href=&#34;#作用域提升&#34;&gt;上一节&lt;/a&gt;中已经讲过，这里略过。&lt;/p&gt;
+
+&lt;h4 id=&#34;带有分组操作符的函数表达式:1b67d25b866c1e409bcdd7713c6840f7&#34;&gt;带有分组操作符的函数表达式&lt;/h4&gt;
+
+&lt;p&gt;这种写法很应该很少见，或者说只会出现在测试题中了，因为它除了会带来迷惑之外并没有什么卵用（如果真有实际用处，请一定告诉我）。&lt;/p&gt;
+
+&lt;p&gt;可以这样理解这种写法。
+当你写&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function () {}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;的时候，它是一个『函数声明』，函数声明没有函数名是不正确的。而当你给它加上一对括号，那么它就成了一个『函数表达式』，还记得吗？函数表达式是可以赋值给变量的。&lt;/p&gt;
+
+&lt;p&gt;这时候就可以把&lt;code&gt;(function () {})&lt;/code&gt;理解成一个没有被赋值的函数表达式。它的存在是没有意义的，就像你写了一个这样的表达式&lt;code&gt;&#39;foo&#39;;&lt;/code&gt;，它能有什么意义？对，它是一个字符串，谁都知道它是一个字符串，但它并没有被赋值给任何一个变量，换言之，在依赖『引用计数』做垃圾回收的语言里（没有研究过JavaScript是不是这种），它在执行时是会被回收的——因为它并没有被引用过。只有当&lt;code&gt;var C = (function () {});&lt;/code&gt;时才有意义，而这时它和&lt;code&gt;var C = function () {};&lt;/code&gt;的意义是一样的。&lt;/p&gt;
+
+&lt;h4 id=&#34;带有变量名的函数声明:1b67d25b866c1e409bcdd7713c6840f7&#34;&gt;带有变量名的函数声明&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;var D = function foo() {}&lt;/code&gt; 这种写法简直综合了&lt;a href=&#34;#函数声明&#34;&gt;函数声明&lt;/a&gt;和&lt;a href=&#34;#函数表达式&#34;&gt;函数表达式&lt;/a&gt;，搞得更让人摸不到头脑了。&lt;/p&gt;
+
+&lt;h5 id=&#34;函数名只在函数内部可见:1b67d25b866c1e409bcdd7713c6840f7&#34;&gt;函数名只在函数内部可见&lt;/h5&gt;
+
+&lt;p&gt;在这种情况下，函数名在函数外部是不可见的，例如&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var D = function foo(){
+  console.log(typeof foo);
+};
+D();                       // function
+console.log(typeof foo);   // undefined
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;需要递归执行时很有用:1b67d25b866c1e409bcdd7713c6840f7&#34;&gt;需要递归执行时很有用&lt;/h5&gt;
+
+&lt;p&gt;想一下它的应用场景，在函数内部可以调用自己，但外部不需要知道它的实现机制。外部调用它仍然可以用变量名，然而调用变量名一次，却可以递归的调用函数内部的实现，是不是很酷炫呢？&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var countdown = function a(count){
+  if(count &amp;gt; 0) {
+    count--;
+    return a(count);  // we can also do this: a(--count), which is less clear
+  }
+  console.log(&#39;end of recursive function&#39;);
+}
+countdown(5);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;debug时很有用:1b67d25b866c1e409bcdd7713c6840f7&#34;&gt;debug时很有用&lt;/h5&gt;
+
+&lt;p&gt;这个嘛，看你有没有需要了，因为匿名的函数表达式是没有名字的，那再函数内部调用自己的时候也就无法记录被调用的函数名了，但如果函数表达式也有了名字，那事情就变得很奇妙了。&lt;/p&gt;
+
+&lt;h5 id=&#34;jscript的实现有坑:1b67d25b866c1e409bcdd7713c6840f7&#34;&gt;JScript的实现有坑&lt;/h5&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://kangax.github.io/nfe/&#34; target=&#34;_blank&#34;&gt;kangax&lt;/a&gt;指出，IE的ECMAScript实现——JScript对这一特性的实现是有坑的，所以，如果有对这方面的需求的话，最好回避这个功能。&lt;/p&gt;
+
+&lt;h4 id=&#34;立即执行的函数表达式:1b67d25b866c1e409bcdd7713c6840f7&#34;&gt;立即执行的函数表达式&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;var E = (function () { return function () {}; }())&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;要理解这一特性，先要把它做的事情分解&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;执行一个函数&lt;/li&gt;
+&lt;li&gt;函数的返回值是函数&lt;/li&gt;
+&lt;li&gt;将返回的函数赋给一个变量&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;为了深入浅出的理解这种做法，可以先尝试一种已经接受的方式，&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var foo = function () {
+    return &#39;bar&#39;;
+}
+
+var output = foo();
+console.log(output);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;很显然，这段代码的输出就是&lt;code&gt;bar&lt;/code&gt;。没什么好说的。&lt;/p&gt;
+
+&lt;p&gt;但是经过上面的讨论，我们知道了
+&lt;code&gt;var foo = function () { return function () {}; }&lt;/code&gt;是等价于&lt;code&gt;var foo = (function () { return function () {}; })&lt;/code&gt;的，那么同时加个括号呢？对，
+就变成了&lt;code&gt;(function () { return function () {}; })()&lt;/code&gt;。到这里，这种写法是不是就很好理解了呢？&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;mark&gt;注意&lt;/mark&gt;&lt;/strong&gt;这个特性很重要，尤其在模块模式下隐藏一些信息时很有用。最常见的jQuery就用到了这种方法。&lt;/p&gt;
+
+&lt;h4 id=&#34;构造器:1b67d25b866c1e409bcdd7713c6840f7&#34;&gt;构造器&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;var F = new Function();&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;这是一种很老的并且已经不推荐使用的写法。而且，根据老道的推荐，所有直接使用构造器，也就是使用了&lt;code&gt;new&lt;/code&gt;关键字的方式都不推荐使用。这是因为他是一个强迫症——好吧，原因如下：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;JavaScript的&lt;code&gt;new&lt;/code&gt;运算符创建一个继承于其运算数的原型的新对象，然后调用该运算数，把新创建的对象绑定给&lt;code&gt;this&lt;/code&gt;。这给运算数（应该是一个构造器函数）一个机会在返回给请求者前自定义新创建的对象。
+如果忘记了使用&lt;code&gt;new&lt;/code&gt;运算符，得到的就是一个普通的函数调用，并且&lt;code&gt;this&lt;/code&gt;被绑定到全局对象，而不是创建新的对象。这意外着当你的函数尝试去初始化新成员属性时它将会污染全局变量。这是一件非常糟糕的事情（老道非常不愿意看到JavaScript语言里的变量名的污染）。而且既没有编译时警告，也没有运行时警告。
+按照惯例，打算域&lt;code&gt;new&lt;/code&gt;结合使用的函数应该以首字母大写的形式命名，并且首字母大写形式应该只用来命名那些构造器函数。这个约定帮助我们进行区分（然而我还没有看到我修改的代码里真的遵守这个约定的），便于我们发现那些JavaScript语言自身经常忘记但却会带来昂贵代价的错误。
+&lt;strong&gt;一个更好的应对策略就是根本不去使用&lt;code&gt;new&lt;/code&gt;关键字。&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&#34;使用方法:1b67d25b866c1e409bcdd7713c6840f7&#34;&gt;使用方法&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var F = new Function (&#39;arg1&#39;, &#39;arg2&#39;, &#39;console.log(arg1 + &amp;quot;, &amp;quot; + arg2)&#39;);
+F(&#39;foo&#39;, &#39;bar&#39;); // &#39;foo, bar&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;避免使用-new-操作符:1b67d25b866c1e409bcdd7713c6840f7&#34;&gt;避免使用&lt;code&gt;new&lt;/code&gt;操作符&lt;/h5&gt;
+
+&lt;h5 id=&#34;怪癖:1b67d25b866c1e409bcdd7713c6840f7&#34;&gt;怪癖&lt;/h5&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://developer.mozilla.org/en/JavaScript/Reference/Functions_and_function_scope#Function_constructor_vs._function_declaration_vs._function_expression&#34; target=&#34;_blank&#34;&gt;MDN开发文档&lt;/a&gt;指出了另一个这种方式不好的地方，它不能正确的创建闭包。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function foo () {
+    var bar = &#39;bar&#39;;
+    
+    var first = new Function(&#39;console.log(typeof bar&#39;)&#39;);
+    first(); //undefined
+    
+    var second = function () {
+        console.log(typeof bar);
+    };
+    second(); // string
+}
+
+foo();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;从结果可以看到，使用构造器创建的函数并不能正确的创建闭包，所以，这种方式还是不要用了。&lt;/p&gt;
+
+&lt;h4 id=&#34;特殊情况:1b67d25b866c1e409bcdd7713c6840f7&#34;&gt;特殊情况&lt;/h4&gt;
+
+&lt;p&gt;说它是特殊情况是因为虽然用了&lt;code&gt;function&lt;/code&gt;关键字，但它并没有意义。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;new function() {}&lt;/code&gt;创建一个对象并且调用这个匿名函数来作为它的构造函数。如果函数返回的是一个对象，它的结果就是一个对象，否则就会从头创建一个对象并且函数在这个新函数的上下文中执行。（好绕，回头但针对这个问题再另起一篇）。&lt;/p&gt;
+
+&lt;p&gt;如果看到这了，你还没有整明白文章开头的那道题，那我也没有办法了。&lt;/p&gt;
+
+&lt;p&gt;答案：
+//a: undefined,0,0,0
+//b: undefined,0,1,2
+//c: undefined,0,1,1&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:1b67d25b866c1e409bcdd7713c6840f7:refer1&#34;&gt;&lt;a href=&#34;http://davidbcalhoun.com/2011/different-ways-of-defining-functions-in-javascript-this-is-madness/&#34; target=&#34;_blank&#34;&gt;Different Ways of Defining Functions in JavaScript (This Is Madness!)&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:1b67d25b866c1e409bcdd7713c6840f7:refer1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>my-thoughts-about-programming</title>
+      <link>http://unixera.com/2015/11/28/my-thoughts-about-programming/</link>
+      <pubDate>Sat, 28 Nov 2015 20:32:28 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://unixera.com/2015/11/28/my-thoughts-about-programming/</guid>
+      <description>
+
+&lt;h2 id=&#34;可见性-visibility:10ad5a88fcc6e1d2ef89dfbea5429035&#34;&gt;可见性 Visibility&lt;/h2&gt;
+
+&lt;h2 id=&#34;mvc:10ad5a88fcc6e1d2ef89dfbea5429035&#34;&gt;MVC&lt;/h2&gt;
+
+&lt;h2 id=&#34;隔离变化:10ad5a88fcc6e1d2ef89dfbea5429035&#34;&gt;隔离变化&lt;/h2&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>xhprof方便的插入要检测的代码</title>
+      <link>http://unixera.com/2015/11/25/xhprof%E6%96%B9%E4%BE%BF%E7%9A%84%E6%8F%92%E5%85%A5%E8%A6%81%E6%A3%80%E6%B5%8B%E7%9A%84%E4%BB%A3%E7%A0%81/</link>
+      <pubDate>Wed, 25 Nov 2015 22:10:51 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://unixera.com/2015/11/25/xhprof%E6%96%B9%E4%BE%BF%E7%9A%84%E6%8F%92%E5%85%A5%E8%A6%81%E6%A3%80%E6%B5%8B%E7%9A%84%E4%BB%A3%E7%A0%81/</guid>
+      <description>&lt;p&gt;本文只是给自己搞的一个小封装做个入口。&lt;/p&gt;
+
+&lt;p&gt;一次给同事写的一个接口做重构，上线以后发现性能恶化严重，导致了线上的严重问题，我马上想到用xhprof查一下问题，结果由于用的是Yaf框架，里面对一些目录结构做了错误的判断，导致用起来很不方便。所以在问题解决之后我想着把这个xhprof的web目录做成一个独立的vhost，这样用起来就方便了，由于和主体项目所使用的框架无关，也不会受到不良影响。&lt;/p&gt;
+
+&lt;p&gt;这里只留个地址，看项目的README吧。有希望能继续改进的小伙伴可以联系我。
+&lt;a href=&#34;https://github.com/lovelock/xhprof-web.git&#34; target=&#34;_blank&#34;&gt;github&lt;/a&gt;
+&lt;a href=&#34;https://git.coding.net/lovelock/xhprof-web.git&#34; target=&#34;_blank&#34;&gt;coding.net&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Facebook的用户体验</title>
+      <link>http://unixera.com/2015/11/22/facebook%E7%9A%84%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C/</link>
+      <pubDate>Sun, 22 Nov 2015 13:56:28 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://unixera.com/2015/11/22/facebook%E7%9A%84%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C/</guid>
+      <description>&lt;p&gt;上个星期登录Gmail突然发现多了好多Facebook的动态，仔细一看，原来我的头像都已经被别人换了。好吧，这还是我人生第一次帐号被盗的经历。&lt;/p&gt;
+
+&lt;p&gt;马上改密码，结果重置完密码要登录了，却跳转到验证用户身份页，放出来几张“好友”的照片，让你认出来这都是谁。&lt;/p&gt;
+
+&lt;p&gt;天了噜！！！！&lt;/p&gt;
+
+&lt;p&gt;我怎么知道那都是谁！！！！我的账号被盗了啊！！！！那里面都是盗我的账号的人的图片，我怎么会认识？&lt;/p&gt;
+
+&lt;p&gt;然后好玩的地方来了。&lt;/p&gt;
+
+&lt;p&gt;我来到Facebook的帮助页，找不到我想要的内容，因为并没有发现关于用好友的照片来验证身份的相关信息。&lt;/p&gt;
+
+&lt;p&gt;于是我想着也发起一个问题，等着大家来帮助我或者官方有人来帮我一下吧。但是&lt;strong&gt;发问题是需要登陆滴&lt;/strong&gt;，好吧，就这样陷入了一个死循环。&lt;/p&gt;
+
+&lt;p&gt;我不理解的是，在用照片验证好友身份时是存在『我在这一步遇到了麻烦』这样的链接的，但为什么就没有考虑到用户的账户已经被盗并且内容全部被黑客替换的情况呢？&lt;/p&gt;
+
+&lt;p&gt;我甚至恶意的猜测这黑客是深谙Facebook的身份认证机制的，窃取了你的账户之后马上上传一堆你不认识的人的照片，让你即使改了密码也无法登陆。&lt;/p&gt;
+
+&lt;p&gt;而且我看到帮助区有很多人都期待能得到Facebook官方的帮助，甚至有人说，那看起来很诱人，说是有官方的帮助，但实际上你问了问题从来得不到回复。&lt;/p&gt;
+
+&lt;p&gt;好吧，就是这样一个世界级的大公司。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Vagrant使用说明</title>
+      <link>http://unixera.com/2015/11/03/vagrant%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/</link>
+      <pubDate>Tue, 03 Nov 2015 15:43:55 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://unixera.com/2015/11/03/vagrant%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/</guid>
+      <description>
+
+&lt;h1 id=&#34;创建自己的box:9e3f0de184e47f0c606d1209a89f77ee&#34;&gt;创建自己的box&lt;/h1&gt;
+
+&lt;h2 id=&#34;安装:9e3f0de184e47f0c606d1209a89f77ee&#34;&gt;安装&lt;/h2&gt;
+
+&lt;h3 id=&#34;最小化安装:9e3f0de184e47f0c606d1209a89f77ee&#34;&gt;最小化安装&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;用户vagrant，密码vagrant&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;这个安装的时候设置就好了，如果是CentOS会让你选择是否让这个用户做管理员，勾选就好了。其他的后面再设置。
+2. 设置.ssh/authorized_keys&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mkdir -p /home/vagrant/.ssh
+wget --no-check-certificate https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub -O /home/vagrant/.ssh/authorized_keys
+chmod 0700 /home/vagrant/.ssh
+chmod 0600 /home/vagrant/.ssh/authorized_keys
+chown -R vagrant /home/vagrant/.ssh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;更新系统:9e3f0de184e47f0c606d1209a89f77ee&#34;&gt;更新系统&lt;/h3&gt;
+
+&lt;p&gt;Debian:
+&lt;code&gt;sudo apt-get update &amp;amp;&amp;amp; sudo apt-get dist-upgrade&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;CentOS:
+&lt;code&gt;sudo yum update&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;安装virtualbox-guest-additions:9e3f0de184e47f0c606d1209a89f77ee&#34;&gt;安装VirtualBox Guest Additions&lt;/h3&gt;
+
+&lt;p&gt;设备-&amp;gt;安装VirtualBox Guest Additions，就可以把相应的iso『放在』虚拟机的光驱里。只有安装了这些附加功能才能正常用端口映射和目录同步功能。&lt;/p&gt;
+
+&lt;p&gt;Debian&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;apt-get install build-essential module-assistant
+m-a prepare
+cd /media/cdrom
+sh VBoxLinuxAdditions-x86.run
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;CentOS&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo yum groupinstall &amp;quot;Development Tools&amp;quot;
+sudo yum install kernel-devel
+sudo mkdir /media/cdrom/
+sudo mount /dev/cdrom /media/cdrom/
+sudo ./VBoxLinuxAdditions.run
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;配置用户权限:9e3f0de184e47f0c606d1209a89f77ee&#34;&gt;配置用户权限&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;设置vagrant用户的sudo权限
+Debian:
+&lt;code&gt;root@debian:~# gpasswd -a vagrant sudo&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;设置vagrant用户的sudo权限无需密码&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;code&gt;root@debian:~# visudo&lt;/code&gt;
+把下面这行&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;%sudo	ALL=(ALL:ALL) ALL
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;改成&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;%sudo	ALL=(ALL:ALL) NOPASSWD:ALL
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这是Debian的习惯，CentOS系的用的组是wheel，所以也是一样把相应的wheel组的设置改一下。&lt;/p&gt;
+
+&lt;h3 id=&#34;其他:9e3f0de184e47f0c606d1209a89f77ee&#34;&gt;其他&lt;/h3&gt;
+
+&lt;p&gt;如果还要安装其他的包，这时候可以开始了，当然也可以之后用vagrant登陆再安装。&lt;/p&gt;
+
+&lt;h2 id=&#34;打包:9e3f0de184e47f0c606d1209a89f77ee&#34;&gt;打包&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;vagrant package --base Debian --output Debian.box&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;添加:9e3f0de184e47f0c606d1209a89f77ee&#34;&gt;添加&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;vagrant box add --name Debian Debian.box&lt;/code&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;设置自己的box:9e3f0de184e47f0c606d1209a89f77ee&#34;&gt;设置自己的box&lt;/h1&gt;
+
+&lt;h2 id=&#34;生成配置:9e3f0de184e47f0c606d1209a89f77ee&#34;&gt;生成配置&lt;/h2&gt;
+
+&lt;p&gt;到你喜欢的目录执行&lt;code&gt;vagrant init&lt;/code&gt;，会生成一个Vagrantfile的文件，按下面的说明做一些修改。&lt;/p&gt;
+
+&lt;h2 id=&#34;基本配置:9e3f0de184e47f0c606d1209a89f77ee&#34;&gt;基本配置&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;config.ssh.insert_key = false
+config.vm.box = &amp;quot;Debian&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;同步目录:9e3f0de184e47f0c606d1209a89f77ee&#34;&gt;同步目录&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;config.vm.synced_folder &amp;quot;./Code&amp;quot;, &amp;quot;/home/vagrant/Code&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;端口映射:9e3f0de184e47f0c606d1209a89f77ee&#34;&gt;端口映射&lt;/h2&gt;
+
+&lt;p&gt;这里只添加一条HTTP用的80端口，需要其他的可以再添加。
+&lt;code&gt;config.vm.network &amp;quot;forwarded_port&amp;quot;, guest: 80, host: 8000&lt;/code&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;使用自己的box:9e3f0de184e47f0c606d1209a89f77ee&#34;&gt;使用自己的box&lt;/h1&gt;
+
+&lt;h2 id=&#34;开机:9e3f0de184e47f0c606d1209a89f77ee&#34;&gt;开机&lt;/h2&gt;
+
+&lt;p&gt;正常开机&lt;code&gt;vagrant up&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;关机:9e3f0de184e47f0c606d1209a89f77ee&#34;&gt;关机&lt;/h2&gt;
+
+&lt;p&gt;优雅的关机&lt;code&gt;vagrant halt&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;登陆:9e3f0de184e47f0c606d1209a89f77ee&#34;&gt;登陆&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;vagrant ssh&lt;/code&gt;因为前面已经设置了免密码登陆，所以这时候就可以很任性的随意登陆了。&lt;/p&gt;
+
+&lt;h1 id=&#34;后记:9e3f0de184e47f0c606d1209a89f77ee&#34;&gt;后记&lt;/h1&gt;
+
+&lt;p&gt;所以现在我们安装完一个完整的方便分发的开发环境了，然而有什么用呢？&lt;/p&gt;
+
+&lt;p&gt;想象一下这样的场景，你有一台配置还可以的Windows电脑，然后你需要Linux下的开发环境。这时问题来了，如果你装个虚拟机，在虚拟机里开发，那你就和你喜欢的IDE无缘了—-这么说有点绝对，你还是可以用sftp之类的协议实现文件同步的，但明显没有我们现在这种方式优雅。&lt;/p&gt;
+
+&lt;p&gt;设置一个同步目录，你在本地任性的用你喜欢的任何IDE写代码，写完之后访问127.0.0.1:8080就可以访问，这是一种什么样的体验啊？（当然，如果你有多个域名要用，还是配个本地域名比较好）&lt;/p&gt;
+
+&lt;p&gt;还有，你说我是Mac，什么服务器，开发语言都可以安装在本地，和Linux也没有什么差别。这个问题我也考虑过，但我个人的爱好是把他们隔离开。你的Mac上安装个Apache了，Nginx了总感觉怪怪的，而且搞不好这些东西哪里配置不好你的宿主机都无法工作了。所以，用虚拟机是成本最低的一种方式了。&lt;/p&gt;
+
+&lt;p&gt;我上面总结的这些仅限于&lt;strong&gt;个人&lt;/strong&gt;使用，团队用的话还需要更多的配置，例如前面使用了insecure key，这就是不适合团队用的——但我还没有见过有团队用这个东西，至于puppet/chef更是没见过了。需要用到的时候再了解也不晚。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Symfony一对多关系的YAML配置</title>
+      <link>http://unixera.com/2015/11/01/symfony%E4%B8%80%E5%AF%B9%E5%A4%9A%E5%85%B3%E7%B3%BB%E7%9A%84yaml%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Sun, 01 Nov 2015 16:11:21 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://unixera.com/2015/11/01/symfony%E4%B8%80%E5%AF%B9%E5%A4%9A%E5%85%B3%E7%B3%BB%E7%9A%84yaml%E9%85%8D%E7%BD%AE/</guid>
+      <description>
+
+&lt;h1 id=&#34;用yaml方式配置对象关系:95124f6a163f0297f3e6978446cdcbd0&#34;&gt;用YAML方式配置对象关系&lt;/h1&gt;
+
+&lt;p&gt;这段时间在学习Symfony，看了Symfony Book和Symfony Cookbook，现在准备自己实现一个简单的博客系统，做一些简单的设计。&lt;/p&gt;
+
+&lt;h2 id=&#34;分析对象关系:95124f6a163f0297f3e6978446cdcbd0&#34;&gt;分析对象关系&lt;/h2&gt;
+
+&lt;p&gt;首先考虑会操作哪些对象。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;文章 Article&lt;/li&gt;
+&lt;li&gt;用户 User&lt;/li&gt;
+&lt;li&gt;评论 Comment&lt;/li&gt;
+&lt;li&gt;分类 Category&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;文章:95124f6a163f0297f3e6978446cdcbd0&#34;&gt;文章&lt;/h3&gt;
+
+&lt;p&gt;对文章来说，它包含的属性有&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- 标题
+- 概要
+- 正文
+- 作者
+- 创建时间
+- 更新时间
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;而作者是属于用户的，其属性不应该在Article对象中，分析文章和作者的关系，应该是一篇文章只能有一个作者，而一个作者可以写很多篇文章，这就是doctrine中的OneToMany和ManyToOne了。总感觉用Annotation的方式写这个关系不是那么明确，所以今天特意用yml配置文件的方式来实现这个概念。后面再详细说，这里要清楚的是对文章来说&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1. 文章对评论 OneToMany
+2. 文章对作者 ManyToOne
+3. 文章对分类 ManyToOne
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;用户:95124f6a163f0297f3e6978446cdcbd0&#34;&gt;用户&lt;/h3&gt;
+
+&lt;p&gt;对用户来说，包含的属性有&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- 用户名
+- 密码
+- 昵称
+- 角色
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;前面已经说过，用户可以创建多篇文章，因此&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1. 用户对文章 OneToMany
+2. 用户对评论 OneToMany
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;评论:95124f6a163f0297f3e6978446cdcbd0&#34;&gt;评论&lt;/h3&gt;
+
+&lt;p&gt;对评论来说，包含的属性有&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- 标题
+- 内容
+- 作者
+- 创建时间
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;和文章一样，它和作者是多对一的关系&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;评论对作者 ManyToOne&lt;/li&gt;
+&lt;li&gt;评论对文章 ManyToOne&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;分类:95124f6a163f0297f3e6978446cdcbd0&#34;&gt;分类&lt;/h3&gt;
+
+&lt;p&gt;对分类来说，只有一个属性（最简单的情况）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- 分类名称
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;它和文章是一对多的关系&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1. 分类对文章 OneToMany
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;实现:95124f6a163f0297f3e6978446cdcbd0&#34;&gt;实现&lt;/h2&gt;
+
+&lt;p&gt;这样，四个对象的关系就很明确了。具体到用yml来实现这些关系要注意的有两点。
+以用户和文章的关系为例。&lt;/p&gt;
+
+&lt;h3 id=&#34;onetomany:95124f6a163f0297f3e6978446cdcbd0&#34;&gt;OneToMany&lt;/h3&gt;
+
+&lt;p&gt;在YourBundle/Resources/config/doctrine/User.orm.yml中，除了user表自身的属性配置之外，还要加上以下配置&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    oneToMany:
+        articles:
+            targetEntity: Artcile
+            mappedBy: user
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;为了便于理解这段的意思，我们可以给&lt;code&gt;oneToMany&lt;/code&gt;加上一个主语——user，就可以这样理解了：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;一个user对应多个articles，articles对应的Entity是Article，articles是被user映射的（这个map是doctrine定义的叫法，相应的是inversedBy，没法解释了。。。。）&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这时对应的数据表是没有任何变化的，这只是声明了实体之间有这种关系，但并没有表现在数据库中。
+那么，既然有了用户对文章是一对多，那么必然存在文章对用户是多对一，即，数据表的变化需要两方面的配置才能生效。&lt;/p&gt;
+
+&lt;h3 id=&#34;manytoone:95124f6a163f0297f3e6978446cdcbd0&#34;&gt;ManyToOne&lt;/h3&gt;
+
+&lt;p&gt;在YourBundle/Resources/config/doctrine/Article.orm.yml中，除了article表自身的属性外，还要加上如下配置&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    manyToOne:
+        user:
+            targetEntity: User
+            inversedBy: articles
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;同样，我们还给这段配置加上主语articles来理解&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;articles对应一个userser对应的实体是User，对应User.orm.yml中的mappedBy: user的就是inversedBy: articles。注意另外一个对应，manyToOne下第一级的user是对应OneToMany中的mappedBy: user，而这里的inversedBy: articles对应User.orm.yml中的oneToMany下第一级的articles。下面就是最重要的改变数据表的配置了，在article表中插入一个名为user_id的列，而这一列对应
+user表中的id&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;写完这些，再执行&lt;code&gt;app/console doctrine:generate:entities YourBundle&lt;/code&gt;就会看到&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;Updating database schema...
+Database schema updated successfully! &amp;quot;10&amp;quot; queries were executed
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样的输出了，再连上数据库看下，就会发现相应的表结构都已经变了。&lt;/p&gt;
+
+&lt;h2 id=&#34;总结和练习:95124f6a163f0297f3e6978446cdcbd0&#34;&gt;总结和练习&lt;/h2&gt;
+
+&lt;p&gt;如前面所说的，这四个对象之前的关系可不止上面写的这些，作为练习，请读者把其他的关系也用yml的方式配置出来吧。&lt;/p&gt;
+
+&lt;p&gt;本文所用的代码位于[symfony练习题]&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>给Linux新手的一些建议</title>
+      <link>http://unixera.com/2015/10/19/%E7%BB%99linux%E6%96%B0%E6%89%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E5%BB%BA%E8%AE%AE/</link>
+      <pubDate>Mon, 19 Oct 2015 21:49:06 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://unixera.com/2015/10/19/%E7%BB%99linux%E6%96%B0%E6%89%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E5%BB%BA%E8%AE%AE/</guid>
+      <description>
+
+&lt;p&gt;由于关注了知乎上Linux相关的一些话题，总是断断续续的有人邀请我回答各种Linux的问题——开始看到这种邀请的时候其实我是拒绝的，因为我觉得这种问题网上大把大把的答案，怎么还会有人问呢？后来回想了一下自己当初的经历才明白，原来就是有了太多的教程，而很多写教程的人自己都不怎么明白，怎么能讲的清楚呢？&lt;/p&gt;
+
+&lt;p&gt;闲话少说，还是来谈谈自己的看法吧。&lt;/p&gt;
+
+&lt;p&gt;邀请我回答的这些问题中，以CentOS安装在个人笔记本或台式机上的问题居多，这里且不论这些提问者完全不想着去用搜索功能了，我就在想这个误区从哪里起始呢？&lt;/p&gt;
+
+&lt;p&gt;多数人都知道《鸟哥的Linux私房菜》，甚至有人听别人说这是Linux入门的圣书，恨不得买来马上研读一番，而事实上多数买来的人也并没有读。重点是这本书里用的是CentOS。&lt;/p&gt;
+
+&lt;p&gt;于是乎很多不明就里的『学习者』就开始上网搜索如何在自己的笔记本上安装CentOS的教程，这其中会有一些比较极端，把原来的系统格掉，直接上Linux，而更多人则是选择双系统。&lt;/p&gt;
+
+&lt;p&gt;这里我想重申一下我在知乎上的观点，如果你想在实体机上体验Linux，那么不要在你的笔记本或者台式机上安装CentOS，Ubuntu/Fedora/OpenSUSE是可以尝试的，这其中还是比较推荐Ubuntu，毕竟它的桌面版就顾名思义就是为桌面而生的，经过这么多年的发展稳定性也已经不错了。相反，CentOS本身面向的就是那些需要用企业级的RHEL而又不想付费的企业用户，它的目标是安装在机房里整整齐齐的刀片机上，而不是你的笔记本——它没法忍受你的双显卡，这种协议的限制导致它不能用一些字体的补丁，导致字体看起来眼睛都要瞎了。&lt;/p&gt;
+
+&lt;p&gt;鉴于大多数初学者目前都是Windows『重度用户』的事实，我的建议是安装一个VirtualBox，到&lt;a href=&#34;http://mirror.bit.edu.cn&#34; target=&#34;_blank&#34;&gt;北京理工大学开源镜像站&lt;/a&gt;:[1]下载一个Debian的CD镜像，然后把Linux安装到虚拟机中。&lt;/p&gt;
+
+&lt;p&gt;下面是理由。&lt;/p&gt;
+
+&lt;h2 id=&#34;为什么是debian:4801f74c6c4f5bdbda294b1be0930bed&#34;&gt;为什么是Debian？&lt;/h2&gt;
+
+&lt;p&gt;因为轻量，相比CentOS对新手更为友好，更新更为迅速。我就不说什么自由相关的了，这些情怀的东西等你体会到了它的好处以后再谈也不晚。&lt;/p&gt;
+
+&lt;p&gt;首先是轻量，我以前做运维的时候曾经蛋疼的测试过几个系统，时间是2013年12月份，测试的系统是Debian/FreeBSD/Ubuntu Server，忘记有没有CentOS了。测试方法就是在虚拟机的配置中逐步减少分配给虚拟机的内存大小，果然第一个挂掉的就是Ubuntu，在内存等于128M的时候已经提示无法开机，而当我把FreeBSD的内存设置到64M的时候它仍然很流畅，并且内存占用只有10M左右，而Debian比前者占用要稍高一些，但也能保证流畅运行。考虑到大多数同学的2G或者4G的内存，所以虚拟机能轻量就轻量吧。至于FreeBSD，毕竟不是主流，参考资料也比较少，虽然我自己比较喜欢，但也仅仅是喜欢，并不推荐。&lt;/p&gt;
+
+&lt;p&gt;那友好在什么地方呢？&lt;/p&gt;
+
+&lt;h3 id=&#34;友好体现在默认开启的服务上:4801f74c6c4f5bdbda294b1be0930bed&#34;&gt;友好体现在默认开启的服务上&lt;/h3&gt;
+
+&lt;p&gt;安装时有多种选择，你可以像我一样安装一个没有只有系统基本组件的裸系统，也可以安装一个带基本的桌面环境的系统，甚至还可以选择一些服务，如邮件服务、HTTP服务等。这里我推荐还是最小安装。安装过程很直观。当然现在的CentOS的安装器也不错，只是没有选择安装类型而已。&lt;/p&gt;
+
+&lt;p&gt;Debian在安装过程中会让你填写一个在线的镜像源地址，这里可以填写我上面的推荐，安装完成开机以后你就可以用这个镜像源更新系统了。很方便吧？另外很重要的一点是安装完之后的系统默认网络服务是开启的，也就是说你是直接可以上网的，这也是CentOS让我很不解的一点，从我接触到它开始，它一直是默认不开启网络服务的，这让一些新手很受伤。&lt;/p&gt;
+
+&lt;p&gt;还有一点很重要，对很多想要接触Linux的同学来说，很可能就是为了用LAMP/LNMP的环境，但用CentOS时你可能会莫名其妙的遇到403错误，然后你找遍各种论坛，费了半天劲，原来就是SELinux惹的祸。这个玩意我们平时虽然不怎么用得到，但真的很让你摸不着看头脑。我也没有细究其使用，通常大家都关掉了，因为实在太难用了。&lt;/p&gt;
+
+&lt;p&gt;多说两句，它的大概意思就是每个文件（目录在Linux看来也是文件）除了我们知道的rwx权限，i(mmutable)还有粘滞位(Sticky bit)之外，还有另外一套权限机制，也就是所谓的上下文信息了。举例来说，它给可以提供Web服务的目录一个特殊权限，如果你在Apache/Nginx里配置了别的vhost，比如默认是在/var/www目录下，而你在/srv/http目录下新建了vhost，那就别想好好过了，因为后者是不具备提供Web服务的权限的，反过来说，外界是无法通过Http请求访问这个目录里的内容的，所以你就得到了403。当然如果知道问题症结的话也很容易解决，只需要给后者赋予同样的上下文信息即可——然并卵，我们通常的做法是
+1. 临时做法&lt;code&gt;sudo setenforce 0&lt;/code&gt;
+2. 永久做法是把&lt;code&gt;/etc/sysconfig/selinux&lt;/code&gt;中的&lt;code&gt;SELINUX=enforcing　&lt;/code&gt;改成&lt;code&gt;SELINUX=disabled&lt;/code&gt;，重启&lt;/p&gt;
+
+&lt;p&gt;我要说的是Debian默认就不开启这个让人迷惑的功能。&lt;/p&gt;
+
+&lt;p&gt;至于iptables这个大神器当然是要学的，不过好在现在两个平台上都有了简单的前端工具，Debian系有&lt;code&gt;ufw&lt;/code&gt;，一看这名字就知道是Ubuntu贡献的，RH平台上有&lt;code&gt;firewalld&lt;/code&gt;。值得一提的是&lt;code&gt;ufw&lt;/code&gt;b本身就是在iptables之外让用户可以更直观的操作防火墙，而后者则是直接让iptables做了备选方案，可说是一个替代iptables的服务，当然底层也还是ipfilter(这里我不太确定它封装的是iptables还是ipfilter)。默认没有安装iptables-services，而如果要用iptables，就需要&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo systemctl mask firewalld
+sudo systemctl sopt firewalld
+sudo systemctl unmask iptables
+sudo systemctl start iptables
+sudo systemctl enable iptables
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;2015-10-25更新
+刚刚又发现一个神奇的东西，因为昨天花了点时间捣鼓了一下Vagrant，发现这玩意儿还真是出奇的好用，又能用Linux上的运行环境又能用宿主机上的IDE，虽然我是个Vim党，但也无法阻挡PhpStorm的诱惑啊。
+好了，我想说的是这个
+&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/b_屏幕快照%202015-10-25%20下午3.45.13.png&#34; alt=&#34;Debian打包的MySQL/MariaDB默认使用utf8mb4字符集&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这就是一个社区的偏好问题了，前面的文章也已经提到过字符集的问题，Debian竟然从发行版打包时优化了这个问题，赞一个。&lt;/p&gt;
+
+&lt;h3 id=&#34;友好体现在方便的软件安装上:4801f74c6c4f5bdbda294b1be0930bed&#34;&gt;友好体现在方便的软件安装上&lt;/h3&gt;
+
+&lt;p&gt;曾经我一度以为Windows的软件安装方式是最好的，下一步下一步，多方便，而Linux还要找这种包，配置、编译、安装，多麻烦。直到我了解到原来还有&lt;code&gt;apt-get&lt;/code&gt;这种包管理利器。然而，你Debian有&lt;code&gt;apt-get&lt;/code&gt;，那我CentOS有&lt;code&gt;yum&lt;/code&gt;啊，怎么你就能胜我一筹呢？原因并不在于两种工具的区别，当然我更喜欢&lt;code&gt;apt-get&lt;/code&gt;，毕竟有&lt;code&gt;apt-get autoremove&lt;/code&gt;，而在于软件仓库。在Debian的仓库里，有vim-nox这个包含了所有脚本语言支持的Vim发行版——如果可以这么说的话，让你在安装提高效率的Vim插件的时候不必受限于这些因素；有下载神器axel，一个&lt;code&gt;axel -n 10 some_url&lt;/code&gt;撑满你的带宽，过多的就不解释了。&lt;/p&gt;
+
+&lt;h3 id=&#34;友好体现在便捷的系统升级:4801f74c6c4f5bdbda294b1be0930bed&#34;&gt;友好体现在便捷的系统升级&lt;/h3&gt;
+
+&lt;p&gt;我个人是喜欢用Debian Sid，也就是不稳定版的，是因为它的软件包最新，我说这话你不要不以为然，当你发现一个很新奇的东西想尝试一下，看下自己的CentOS，这个库太老，这个库仓库里没有，这时候你就知道一个&lt;code&gt;apt-get update &amp;amp;&amp;amp; apt-get dist-upgrade&lt;/code&gt;是多么爽了，永远保持最新。&lt;/p&gt;
+
+&lt;h2 id=&#34;为什么是北京理工大学镜像站:4801f74c6c4f5bdbda294b1be0930bed&#34;&gt;为什么是北京理工大学镜像站？&lt;/h2&gt;
+
+&lt;p&gt;这个就是细枝末节的东西了，我最开始是用校内的&lt;a href=&#34;http://mirror.buaa.edu.cn&#34; target=&#34;_blank&#34;&gt;北京航空航天大学开源镜像站&lt;/a&gt;的，只可惜它只在校内可以访问，离开学校以后就用&lt;a href=&#34;http://mirrors.ustc.edu.cn&#34; target=&#34;_blank&#34;&gt;中国科技大学开源镜像站&lt;/a&gt;，这个可以说是国内镜像站里面看起来最现代化、文档最齐全的，但毕竟服务器在合肥（？），还不如找个北京的，于是就看到了我们的兄弟院校北京理工。速度不错。&lt;/p&gt;
+
+&lt;h2 id=&#34;为什么是virtualbox:4801f74c6c4f5bdbda294b1be0930bed&#34;&gt;为什么是VirtualBox？&lt;/h2&gt;
+
+&lt;p&gt;当然，除了VB，你在Windows上还有VMware Workstation和VMware Player可供选择，我这里没有讽刺谁的意思，毕竟自己也用过不少盗版软件，但后我估计VMware估计没有多少人买得起，既然开源也是一种选择，就没有必要再去搞什么破解了，能用就行，这也是学习过程中的一个重要原则，在找工具的过程中不要忘了自己用这个工具的目的。&lt;/p&gt;
+
+&lt;p&gt;要注意的是VirtualBox默认用的NAT网络方式和VMware是不同的，前者是真正意义上的NAT，你的宿主机网卡和虚拟机网卡所在不是同一个网段，例如宿主机在192.168网段，而虚拟机就会在10.0网段，这样宿主机和虚拟机是无法直接通信的，我指的是ssh远程登录。而VMware不同，它的默认比较人性化，默认就可以。&lt;/p&gt;
+
+&lt;p&gt;当然要改变这个并不难，只需要把虚拟机关机，在网络设置里面设置成网桥(bridged)模式，再开机，就会发现虚拟机和宿主机在同一个网段了。&lt;/p&gt;
+
+&lt;p&gt;可不要小瞧VirtualBox，虽然是开源项目，但它的虚拟硬盘技术可是各种虚拟机技术里最厉害的，随度相当快。&lt;/p&gt;
+
+&lt;h2 id=&#34;为什么是cd镜像:4801f74c6c4f5bdbda294b1be0930bed&#34;&gt;为什么是CD镜像？&lt;/h2&gt;
+
+&lt;p&gt;我认为DVD镜像已经是上个时代的产物了，现在应该被淘汰。&lt;/p&gt;
+
+&lt;p&gt;那个时候网速慢，下载个软件包要等上很久，于是各家Linux发行商就用派光盘的方式售卖安装盘，把默认没有安装的软件包都打包在一个DVD里，它既可以当做安装盘，又可以当做软件仓库。然而现在网络那么发达，根本没有必要用这种方式了，而且这种方式有一个缺点是无法更新——是的，你只能安装，无法更新，因为光盘是死的，它的内容就是刻录时的内容。&lt;/p&gt;
+
+&lt;p&gt;CD就好很多了，一般400多M，下载下来也很快，安装迅速，好处不胜枚举。&lt;/p&gt;
+
+&lt;h2 id=&#34;总结:4801f74c6c4f5bdbda294b1be0930bed&#34;&gt;总结&lt;/h2&gt;
+
+&lt;p&gt;最终我的建议是在VirtualBox中安装Debian虚拟机，配置网桥模式，用XShell（伪）远程登录。最好在你配置好自己比较喜欢的环境之后把虚拟机Clone一份，这样如果把Clone的弄坏了，可以很快的复制一个出来，成本几乎为0，就省去了安装的麻烦。毕竟你学会了安装Linux并没有什么卵用，尤其是双系统。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>MySQL真·UTF8后遇到的问题</title>
+      <link>http://unixera.com/2015/10/17/mysql%E7%9C%9Futf8%E5%90%8E%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Sat, 17 Oct 2015 16:59:58 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://unixera.com/2015/10/17/mysql%E7%9C%9Futf8%E5%90%8E%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
+      <description>&lt;p&gt;昨天写了一篇MySQL/MariaDB将字符集从utf8迁移到utf8mb4的总结，今天继续我的最佳实践，想到在设计数据库时要考虑到用户的email是不能重复的，所以想给它加上一个&lt;code&gt;UNI&lt;/code&gt;标记，然后遇到了这样一个问题：
+&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/b_Screen%20Shot%202015-10-17%20at%205.03.08%20PM.png&#34; alt=&#34;MySQL设计UNI报错&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;我当然不能放过这个学习的机会，猜想就是因为昨天的修改引起的。于是找到了&lt;a href=&#34;http://stackoverflow.com/questions/1814532/1071-specified-key-was-too-long-max-key-length-is-767-bytes&#34; target=&#34;_blank&#34;&gt;这篇问答&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;MyISAM引擎默认的key的长度是1000 Bytes，而InnoDB引擎相应的是767 Bytes，那么问题来了。当我把&lt;code&gt;email&lt;/code&gt;字段设置为&lt;code&gt;varchar(255)&lt;/code&gt;时，它的最大长度是255个字符，这意味着什么呢？昨天已经说过，utf8mb4引擎对应一个字符长度是4，那么就是&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;255 x 4 = 1020 &amp;gt; 767
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;另一方面，utf8时，&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;255 * 3 = 765 &amp;lt; 767
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;完美！&lt;/p&gt;
+
+&lt;p&gt;现在你知道为什么你公司数据里相当相当多的字符串的字段都是&lt;code&gt;varchar(255)&lt;/code&gt;了吧，因为即使用utf8，使用&lt;code&gt;varchar(256)&lt;/code&gt;的字段在作为索引时也会出错。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>MySQL迁移到真·UTF8全过程</title>
+      <link>http://unixera.com/2015/10/17/mysql%E8%BF%81%E7%A7%BB%E5%88%B0%E7%9C%9Futf8%E5%85%A8%E8%BF%87%E7%A8%8B/</link>
+      <pubDate>Sat, 17 Oct 2015 01:06:29 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://unixera.com/2015/10/17/mysql%E8%BF%81%E7%A7%BB%E5%88%B0%E7%9C%9Futf8%E5%85%A8%E8%BF%87%E7%A8%8B/</guid>
+      <description>
+
+&lt;h1 id=&#34;为什么要做:a8f56eab2e412e1ca18a9ca1b5a9303e&#34;&gt;为什么要做？&lt;/h1&gt;
+
+&lt;p&gt;写这篇总结的起因是我觉得应该深入的学习一下PHP了，结果找到了&lt;a href=&#34;http://phpbestpractices.justjavac.com&#34; target=&#34;_blank&#34;&gt;PHP最佳实践中文版&lt;/a&gt;，其中关于PHP和UTF8一节引起了我的兴趣。我之前还一直以为我们的数据库用的是完整的UTF8，看完之后我惊呆了。&lt;/p&gt;
+
+&lt;p&gt;原来我们的以为的utf8并不是真正意义上的UTF-8，或者说不是完整的，因为它只包含了&lt;a href=&#34;https://mariadb.com/kb/en/mariadb/unicode/&#34; target=&#34;_blank&#34;&gt;不大于3个8位字节组成的字符&lt;/a&gt;，而4个字节组成的字符则未能包含，如𝌆、💩等常用字符。&lt;/p&gt;
+
+&lt;p&gt;随着现在网络用语的发达，越来越多的表情符号层出不穷，真是为这种符号的存储发愁啊，所以保险起见，以后接触到的项目中，如果我的意见可以被接受，那么我将遵守这个规则——使用utf8mb4而不是utf8。&lt;/p&gt;
+
+&lt;p&gt;那如果已经使用了utf8了，怎么更新呢？下面是操作步骤。&lt;/p&gt;
+
+&lt;h2 id=&#34;备份:a8f56eab2e412e1ca18a9ca1b5a9303e&#34;&gt;备份&lt;/h2&gt;
+
+&lt;p&gt;对数据库的修改操作毕竟是危险的，如果你的数据很重要，最好还是备份一下数据库。&lt;/p&gt;
+
+&lt;h2 id=&#34;升级mysql服务器:a8f56eab2e412e1ca18a9ca1b5a9303e&#34;&gt;升级MySQL服务器&lt;/h2&gt;
+
+&lt;p&gt;utf8mb4是从MySQL5.5.3版本引入的（对应相同版本的MariaDB)，因此如果想使用utf8mb4，至少应升级到5.5.3版本。&lt;/p&gt;
+
+&lt;h2 id=&#34;修改数据库-数据表和列:a8f56eab2e412e1ca18a9ca1b5a9303e&#34;&gt;修改数据库、数据表和列&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sql&#34;&gt;# 每个数据库
+ALTER DATABASE database_name CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+# 每张数据表
+ALTER TABLE table_name CONVERT TO CHARACTER SET utf8 COLLATE utf8mb4_unicode_ci;
+# 每列数据
+ALTER TABLE table_name CHANGE column_name column_name VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;注意，不要直接复制粘贴上面的代码，根据实际的数据进行操作。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;检查列和索引键的长度:a8f56eab2e412e1ca18a9ca1b5a9303e&#34;&gt;检查列和索引键的长度&lt;/h2&gt;
+
+&lt;p&gt;这一步很不容易想到，当我们从utf8更新到utf8mb4时，字节的长度并没有发生变化，但字符长度却变化了。
+&lt;code&gt;TINYTEXT&lt;/code&gt;类型可以容纳255个字节，在utf8编码时，可以包含255/3=85个unicode字符，而在utf8mb4时，只可以包含255/4=63.75=63个字符。因此，当这个字段的长度有可能超过63个字符时，就需要把&lt;code&gt;TINYTEXT&lt;/code&gt;修改成&lt;code&gt;TEXT&lt;/code&gt;从而容纳更多的字符。&lt;/p&gt;
+
+&lt;h2 id=&#34;修改连接-客户端-服务端字符集:a8f56eab2e412e1ca18a9ca1b5a9303e&#34;&gt;修改连接、客户端、服务端字符集&lt;/h2&gt;
+
+&lt;p&gt;这一步就是修改my.conf（在不同的操作系统中有不同的命名）。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ini&#34;&gt;[client]
+default-character-set = utf8mb4
+
+[mysql]
+default-character-set = utf8mb4
+
+[mysqld]
+character-set-client-handshake = FALSE
+character-set-server = utf8mb4
+collation-server = utf8mb4-unicode-ci
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这时就可以查看更新的结果了
+&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/b_Screen%20Shot%202015-10-17%20at%201.43.38%20AM.png&#34; alt=&#34;更新结果&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;修复和优化所有表:a8f56eab2e412e1ca18a9ca1b5a9303e&#34;&gt;修复和优化所有表&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sql&#34;&gt;PREPARE TABLE table_name;
+OPTIMIZE TABLE table_name;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果不执行这两步可能出现数据无法更新的情况。好在用一条指令就能修复和优化所有数据库&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mysqlcheck -uroot -p --auto-repaire --optimize --all-databases
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这会弹出密码输入提示，然后对所有数据库执行修复和优化操作。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>也谈封杀</title>
+      <link>http://unixera.com/2015/10/09/%E4%B9%9F%E8%B0%88%E5%B0%81%E6%9D%80/</link>
+      <pubDate>Fri, 09 Oct 2015 18:47:29 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://unixera.com/2015/10/09/%E4%B9%9F%E8%B0%88%E5%B0%81%E6%9D%80/</guid>
+      <description>&lt;p&gt;看到&lt;a href=&#34;https://blog.coding.net/blog/art-of-block&#34; target=&#34;_blank&#34;&gt;读《robbin 谈社区运营：封杀的艺术》有感&lt;/a&gt;提到了社区之间的封杀，因为我用社区比较少，最近才接触到&lt;a href=&#34;https://coding.net&#34; target=&#34;_blank&#34;&gt;Coding.net&lt;/a&gt;这个优秀的工具，所以并没有感受到社区之间的屏蔽、封杀。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;让我感受最深的是国内BAT三大巨头的明争暗斗。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;毕竟开发者这个特殊的群体太聪明，给不了他们自由肯定心里不舒服。。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这句话深得我心，作为一个开发者，看到常用的App之间不能愉快的分享内容，就像嗓子眼有一口苍蝇一样恶心——而这罪魁祸首就是&lt;strong&gt;腾讯&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;为了扶植自己家的产品，就打击、屏蔽、封杀别家类似的产品，这就是国内顶尖公司的气度和胸怀。&lt;/p&gt;
+
+&lt;p&gt;腾讯有QQ音乐，我最喜欢的网易云音乐无法分享到微信好友、朋友圈或QQ好友、空间。&lt;/p&gt;
+
+&lt;p&gt;腾讯有拍拍，同时还和京东深度合作，淘宝就只能用一串看不懂的消息作为分享工具，用过的你自然知道这有多恶心。我甚至认为阿里在支付宝里集成了类似微信的功能就是为了对抗微信的封杀，然并卵。&lt;/p&gt;
+
+&lt;p&gt;腾讯&lt;strong&gt;现在&lt;/strong&gt;的海淘还不成气候，所以同属网易的&lt;strong&gt;考拉海购&lt;/strong&gt;可以幸免于难。可以想见不远的将来，为了给京东全球购提供更多的入口，考拉海淘也将被加入黑名单。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;号称拥有国内最好的产品经理的腾讯在利益面前完全置用户体验于不顾。当许多人都在吐槽百度虚假医疗信息吃相难看时，腾讯，你是应该嘲笑还是脸红？&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;我是一个普通的老百姓，只不过职业是程序员，经常莫名其妙的被挡在土啬内的经历让我对这种封杀行为特别厌恶，而在我们这个伟大的局域网内，我们的民族企业们，&lt;/p&gt;
+
+&lt;p&gt;你们就不能有一点胸襟吗？
+难道对自己的产品就那么没有信心？
+通过正常的方式无法达到你们的推广目的？&lt;/p&gt;
+
+&lt;p&gt;诚然，因为腾讯拥有无与伦比的用户基数，它才敢这样肆无忌惮，也正是因此，他们的这种做法很可能会收到预期的效果，而那些小公司就更是绞尽脑汁博眼球了。这句话是看到小猪短租最近的广告的感想，曾经的小猪，『有人情味儿的住宿』是它的口号，尽力维护房客和房东的利益，而现在它竟然公然站在了房东方，说什么房租太低、房租需要涨之类的说辞，虽然博得了潜在房东的好感——也未必，但那些潜在的房客怎么想？&lt;/p&gt;
+
+&lt;p&gt;你们这些公司啊，就不能关注一下自己的&lt;strong&gt;美誉度&lt;/strong&gt;吗？也许在投资人面前，你们的理想显得太不现实、太渺小，但我觉得起码的争取一下也不至于达到现在这样的结果。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Bower使用简明教程</title>
+      <link>http://unixera.com/2015/10/08/bower%E4%BD%BF%E7%94%A8%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/</link>
+      <pubDate>Thu, 08 Oct 2015 18:10:45 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://unixera.com/2015/10/08/bower%E4%BD%BF%E7%94%A8%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/</guid>
+      <description>&lt;p&gt;最近接触到Node.js，于是摇身一变前后端全部用JavaScript实现，这样其实导致界限不清晰了——其实很清晰，但当你看一个.js文件的时候总是要想一下这是前端逻辑还是后端逻辑，感觉怪怪的。后端需要的模块可以用npm这个大杀器安装，虽然前端的依赖也可以用它解决，但其实有更专业的解决方案——&lt;a href=&#34;http://bower.io&#34; target=&#34;_blank&#34;&gt;bower&lt;/a&gt;。官方简介里面其实并没有提到它是专门用来解决前端依赖的，看它的用例以及别的项目的使用情况也可以看到
+，通常的用法就是&lt;code&gt;&amp;lt;script src=&amp;quot;bower_components/xxx_lib/xxxx.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;&lt;/code&gt;，这就已经很明显了，不是吗？&lt;/p&gt;
+
+&lt;p&gt;以我这次项目中用到的&lt;code&gt;webrtc-adapter&lt;/code&gt;为例，写一个简单的使用流程。&lt;/p&gt;
+
+&lt;p&gt;首先要安装它&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;npm install [-g] bower&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;什么？没有装npm？那你可以先去搜索一下了。这里我提一点，因为Debian打包时把Node.js的二进制文件命名为&lt;code&gt;nodejs&lt;/code&gt;，而很多第三方包在用的时候第一行其实是&lt;code&gt;#!/usr/bin/env node&lt;/code&gt;，这样就会提示找不到Node.js的可执行文件，遇到这个情况有两种解决方案。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;安装nodejs-legacy包&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;sudo apt-get install nodejs-legacy&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;自己创建一个node&lt;a href=&#34;https://en.wikipedia.org/wiki/Symbolic_link&#34; target=&#34;_blank&#34;&gt;符号链接&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;sudo ln -s /usr/bin/nodejs /usr/bin/node&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;然后要知道需要用的模块的名字，比如我这是在&lt;a href=&#34;https://github.com/webrtc/adapter&#34; target=&#34;_blank&#34;&gt;adapter&lt;/a&gt;的文档里发现的这个名字。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;bower install webrtc-adapter&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;安装完成之后会在当前目录创建一个名为&lt;code&gt;bower_components&lt;/code&gt;的目录，其实就是把你要的repo下载到本地了。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;需要注意的是，当我们选择了使用bower作为包管理工具时，就默认排除了我更喜欢的另外一种方式——CDN。对，为了减轻自己的服务器的压力，通常会把一些公用的库的js的引用放在那些免费提供的CDN上，比如又拍云等等。那既然选择了bower的方式，就继续吧。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;假设我们是在一个git repo里面进行开发，你肯定不希望提交的时候把bower_components里的东西也提交，而是只保留一个清单文件，这个清单文件列出了已经下载的库的名称和版本信息。所以&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;bower init&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;那么问题来了，如果写完这个之后我又加了个依赖，难道还要手工修改&lt;code&gt;bower.json&lt;/code&gt;文件吗？当然不需要！只需要在安装的时候加个参数bower就帮你完成了&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;bower install jquery --save&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;这时会出现一个很神奇的交互界面，放心的填写自己的项目信息吧，注意前面的一长串信息都引用的库(依赖)没有关系，而是你自己的项目信息。最后会提示是否把已经下载的库加入本项目的依赖中，而且默认是Y（是），所以直接回车就行。一路回车就会看到当前目录下生成了一个&lt;code&gt;bower.json&lt;/code&gt;文件。但这还没完，这解决了不需要提交下载的依赖文件的问题，但没有解决不让git提交它们的问题，这时就需要&lt;code&gt;.gitignore&lt;/code&gt;文件出场了。&lt;/p&gt;
+
+&lt;p&gt;在当前目录下新建&lt;code&gt;.gitignore&lt;/code&gt;文件，添加以下内容&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;node_modules
+bower_components
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;经过上面的步骤，就可以放心的提交最小化的项目了。而部署项目的时候只需要再执行&lt;code&gt;bower install&lt;/code&gt;和&lt;code&gt;npm install&lt;/code&gt;就可以了。&lt;/p&gt;
+
+&lt;p&gt;更多详细信息可以参考&lt;code&gt;bower help&lt;/code&gt;。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;关于&lt;code&gt;npm install&lt;/code&gt;需要的&lt;code&gt;package.json&lt;/code&gt;这里没有提到，有兴趣的同学可以自行查找。&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>这一天，就这样过去了</title>
+      <link>http://unixera.com/2015/10/08/%E8%BF%99%E4%B8%80%E5%A4%A9%E5%B0%B1%E8%BF%99%E6%A0%B7%E8%BF%87%E5%8E%BB%E4%BA%86/</link>
+      <pubDate>Thu, 08 Oct 2015 15:47:46 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://unixera.com/2015/10/08/%E8%BF%99%E4%B8%80%E5%A4%A9%E5%B0%B1%E8%BF%99%E6%A0%B7%E8%BF%87%E5%8E%BB%E4%BA%86/</guid>
+      <description>&lt;p&gt;我是来自中国大陆的一名开发者。&lt;/p&gt;
+
+&lt;p&gt;最近的项目需要用到WebRTC相关的技术，通过搜索引擎找到了&lt;a href=&#34;http://www.html5rocks.com&#34; target=&#34;_blank&#34;&gt;http://www.html5rocks.com&lt;/a&gt;这个网站，在上面找到了很多有用的信息，我知道了要搭建一个完整的WebRTC应用，需要浏览器支持&lt;code&gt;getUserMedia&lt;/code&gt;等一系列API，这个网站我在自己的笔记本电脑上时可以访问的，但换了个电脑就不能访问了，问了别人，他们说是这个电脑没有配置一个东西，具体他说是什么我忘记了，而我自己的电脑上什么时候装了什么我也&lt;strong&gt;忘记&lt;/strong&gt;了。&lt;/p&gt;
+
+&lt;p&gt;于是我按照这篇文章顺利的在本地搞起了一个可以调用本地摄像头和麦克风的Web应用，不过一个完整的WebRTC应用还需要STUN/TURN/ICE服务器用于穿透NAT，百度了一下，发现有人说一个叫做Google的公司提供了一个STUN服务器，供公众使用，我没有听说过这个公司，但配置上这个服务器后，服务真的能用了。当然，WebRTC协议并没有规定Signalling Channel的实现，这里我用了&lt;a href=&#34;http://socket.io&#34; target=&#34;_blank&#34;&gt;Sockt.io&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;其实我最终的目的是要实现在iOS/Android上使用基于WebRTC的实时聊天服务，听说&lt;a href=&#34;https://github.com&#34; target=&#34;_blank&#34;&gt;Github&lt;/a&gt;上有很多有用的项目，我就想找一个看看，但在浏览器里面输入了这个网址之后并没有像百度那样马上打开，而是慢慢悠悠的很久才出现了一个没有样式的页面，我不知道是哪里出了问题，于是用5分钟拼命刷新这个页面，最后在同事的帮助下终于有了样式，当时我就很纳闷为什么据说这么牛逼的网站访问速度这么慢，难道他们不知道
+CDN吗？真是不理解。诶，算了，不纠结这个了，我现在终于可以开始搜索项目了，诶，搜索个东西还是这么慢，诶，找到了，&lt;a href=&#34;https://github.com/webrtc/apprtc&#34; target=&#34;_blank&#34;&gt;https://github.com/webrtc/apprtc&lt;/a&gt;，看起来好高大上的样子，还是英文的说明，我不怎么能看懂，但照着一步一步做总得会啊，于是装了&lt;code&gt;Node.js&lt;/code&gt;，用&lt;code&gt;npm&lt;/code&gt;装了那些东西，当执行到&lt;code&gt;npm install&lt;/code&gt;那一步时停住了，我不知道发生了什么，但看那篇英文说明里好像是要下载
+&lt;a href=&#34;https://cloud.google.com/appengine/downloads#Google_App_Engine_SDK_for_Python&#34; target=&#34;_blank&#34;&gt;https://cloud.google.com/appengine/downloads#Google_App_Engine_SDK_for_Python&lt;/a&gt;这个东西，又是这个叫Google的公司，前面它搞了个服务器，这又搞什么东西让我下载不下来呢？算了，我把这个项目下载下来吧。&lt;/p&gt;
+
+&lt;p&gt;上面写的是我昨天做的事情，现在还在下载这个项目，不知道为什么它那么慢，而且下载了30%多的时候老是出错，就不动了，我就点重试，就像我认为重启能解决所有问题一样，下载不下来肯定是这家网站不稳定导致的，多试几下肯定能好吧。但现在也还没有下载完，我有点不耐烦了。&lt;/p&gt;
+
+&lt;p&gt;算了，找个iOS能用的Demo来看看吧，咦，&lt;a href=&#34;https://github.com/ISBX/apprtc-ios&#34; target=&#34;_blank&#34;&gt;https://github.com/ISBX/apprtc-ios&lt;/a&gt;这个不错，下载吧，貌似这个项目不大，用了两个小时就下完了，还需要&lt;code&gt;CocoaPods&lt;/code&gt;，嗯，这个之前有人帮我装过，我只需要在项目所在的目录里执行&lt;code&gt;pod install&lt;/code&gt;就可以了，诶，不对，又出错了，&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/b_Screen%20Shot%202015-10-08%20at%204.02.41%20PM.png&#34; alt=&#34;报错图片&#34; /&gt;。&lt;/p&gt;
+
+&lt;p&gt;我不想搞了，作为一个程序员怎么都不会上网了呢？是不是我不适合干这行啊？&lt;/p&gt;
+
+&lt;p&gt;我觉得吧，百度才是这个世界上最好的网站，打开的速度快，界面还简洁。最重要的是他家老板长得帅。&lt;/p&gt;
+
+&lt;p&gt;明天辞职吧，回家种地可能要容易一些，再也不想看到这些那么慢的网站了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>终于下决心把博客空间迁移到国内了</title>
+      <link>http://unixera.com/2015/09/26/%E7%BB%88%E4%BA%8E%E4%B8%8B%E5%86%B3%E5%BF%83%E6%8A%8A%E5%8D%9A%E5%AE%A2%E7%A9%BA%E9%97%B4%E8%BF%81%E7%A7%BB%E5%88%B0%E5%9B%BD%E5%86%85%E4%BA%86/</link>
+      <pubDate>Sat, 26 Sep 2015 21:17:35 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://unixera.com/2015/09/26/%E7%BB%88%E4%BA%8E%E4%B8%8B%E5%86%B3%E5%BF%83%E6%8A%8A%E5%8D%9A%E5%AE%A2%E7%A9%BA%E9%97%B4%E8%BF%81%E7%A7%BB%E5%88%B0%E5%9B%BD%E5%86%85%E4%BA%86/</guid>
+      <description>&lt;p&gt;写博客也有一段时间了，但产出并不是很多，最重要的是没有读者。
+因为百度是无法爬到&lt;a href=&#34;https://github.com&#34; target=&#34;_blank&#34;&gt;GitHub&lt;/a&gt;的内容的，因此用GitHub Pages搭建的博客网站往往是不能在百度里面搜到的，但我写的又是中文的文章，所以。。。。
+当然其实最主要的原因是文章的质量不高。
+看到&lt;a href=&#34;https://gitcafe.com&#34; target=&#34;_blank&#34;&gt;GitCafe&lt;/a&gt;的网站感觉很不错，几乎提供了GitHub提供的所有功能，最重要的是国内的访问速度快，于是干脆就迁移到国内了，同时把disqus迁移到多说——说是迁移，其实完全没有负担——因为并没有历史评论，哈哈。&lt;/p&gt;
+
+&lt;p&gt;接下来还会写很多东西，希望我写的东西能给需要的人一些帮助吧。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

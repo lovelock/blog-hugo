@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>批量删除iTerm2的主题配置  &middot; Me and the Web</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="">
+
+
+<meta property="og:title" content="批量删除iTerm2的主题配置  &middot; Me and the Web ">
+<meta property="og:site_name" content="Me and the Web"/>
+<meta property="og:url" content="http://unixera.com/2015/09/20/%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4iterm2%E7%9A%84%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE/" />
+<meta property="og:locale" content="en-us">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:description" content=""/>
+<meta property="og:article:published_time" content="2015-09-20T22:03:35Z" />
+<meta property="og:article:modified_time" content="2015-09-20T22:03:35Z" />
+
+  
+
+  
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@frostwong" />
+<meta name="twitter:creator" content="@frostwong" />
+<meta name="twitter:title" content="批量删除iTerm2的主题配置" />
+<meta name="twitter:description" content="" />
+<meta name="twitter:url" content="http://unixera.com/2015/09/20/%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4iterm2%E7%9A%84%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE/" />
+<meta name="twitter:domain" content="http://unixera.com">
+  
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "批量删除iTerm2的主题配置",
+    "author": {
+      "@type": "Person",
+      "name": "http://profiles.google.com/+?rel=author"
+    },
+    "datePublished": "2015-09-20",
+    "description": "",
+    "wordCount":  20 
+  }
+</script>
+
+
+
+<link rel="canonical" href="http://unixera.com/2015/09/20/%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4iterm2%E7%9A%84%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE/" />
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://unixera.com/touch-icon-144-precomposed.png">
+<link href="http://unixera.com/favicon.png" rel="icon">
+
+<meta name="generator" content="Hugo 0.15" />
+
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href='https://fonts.googleapis.com/css?family=Merriweather:300%7CRaleway%7COpen+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://unixera.com/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://unixera.com/css/style.css">
+<link rel="stylesheet" href="http://unixera.com/css/highlight/default.css">
+
+  
+</head>
+<body>
+  <main id="main-wrapper" class="container main_wrapper has-sidebar">
+    <header id="main-header" class="container main_header">
+  <div class="container brand">
+  <div class="container title h1-like">
+  <a class="baselink" href="http://unixera.com">
+  Frost Wong
+
+</a>
+
+</div>
+
+  
+<div class="container topline">
+  
+  Be a better WEB developer
+
+
+</div>
+
+
+</div>
+
+  <nav class="container nav primary no-print">
+  
+
+
+  
+<a href="http://unixera.com/about">About</a>
+
+<a href="http://unixera.com/post" title="Show list of posts">Posts</a>
+
+<a href="http://unixera.com/tags" title="Show list of tags">Tags</a>
+
+
+</nav>
+
+<div class="container nav secondary no-print">
+  
+<a id="contact-link-email" class="contact_link" href="mailto:frostwong@gmail.com">
+  <span class="fa fa-envelope-square"></span><span>email</span></a>
+
+
+
+<a id="contact-link-github" class="contact_link" href="https://github.com/lovelock">
+  <span class="fa fa-github-square"></span><span>github</span></a>
+
+
+
+
+
+
+
+
+
+
+
+<a id="contact-link-twitter" class="contact_link" href="https://twitter.com/frostwong">
+  <span class="fa fa-twitter-square"></span><span>twitter</span></a>
+
+
+
+
+
+
+
+</div>
+
+
+  
+
+</header>
+
+
+<article id="main-content" class="container main_content single">
+  <header class="container hat">
+  <h1>批量删除iTerm2的主题配置
+</h1>
+
+  <div class="metas">
+<time datetime="2015-09-20">20 Sep, 2015</time>
+
+
+  
+  &middot; Read in about 1 min
+  &middot; (20 Words)
+  <br>
+  
+
+
+</div>
+
+</header>
+
+  <div class="container content">
+  <p>今天手欠把一堆大概有50个的colorscheme导入了iTerm2，最后发现也没有几个好看的，还是我的最爱Solarized最好，于是就想把那些新导入的都删掉，但死活找不到这些文件的路径。上网找了一番之后发现原来它并没有把这些主题文件放在自己的目录里，而是用plist的方式做了配置。那么就要找到这个配置文件了。它在<code>~/Library/Preferences/com.googlecode.iterm2.plist</code>。</p>
+
+<p>这时我激动万分，用我最爱的Vim打开它一看——竟然是二进制的。这时我们就有两种方法对它做修改了。</p>
+
+<ol>
+<li>用支持plist修改的编辑器。</li>
+</ol>
+
+<p>很显然这种方式更方便，但要知道这文件位于<code>~/Library</code>中，正常在Finder中是找不到这个路径的，而在命令行中是无法调起Xcode的编辑器的，这时就用到了Finder的Go to Folder功能，在里面输入上面提到的路径，回车就可以在Finder中打开这个路径了，然后用Xcode的编辑器打开，你会发现里面又一个Color相关的属性，点开一看，哇，好多配置，直接点击减号就删除了，保存，重启iTerm2，看看你导入的那些配置还在不在了。</p>
+
+<ol>
+<li>把它转换成纯文本格式，然后用普通的文本编辑器编辑，保存后重新转换格式。</li>
+</ol>
+
+<p>有了上面的方法，这个方法就显得有点多余了，但如果你不是一个开发者，没有安装Xcode——貌似不是开发者也不会装iTerm2——那这种方法就奏效了。
+首先为了保险起见，还是把这个文件备份一下。
+然后，用<code>plutil -convert xml1 com.googlecode.iterm2.plist</code>命令把plist转换成xml格式的纯文本。这时就可以用Vim打开了，同样找到上面说的Color相关的属性，批量删除之。
+在然后用<code>plutil -convert binary1 com.googlecode.iterm2.plist</code>命令把plist转换成二进制文件。
+最后把修改后的文件放回原来的位置。重启iTerm2，搞定收工。</p>
+
+<p>补充一下，<code>plutil -convert</code>接受三种格式的转换，<code>xml1/binary1/json</code>,所以其实第二步转换成json理论上也是可以的，但修改就没有那么方便了。</p>
+
+</div>
+
+
+  <footer class="container">
+  <div class="container navigation no-print">
+  <h2>Navigation</h2>
+  
+  
+
+    
+    <a class="prev" href="http://unixera.com/2015/09/20/%E6%89%93%E7%A0%B4%E7%9F%9B%E7%9B%BE/" title="打破矛盾">
+      Previous
+    </a>
+    
+
+    
+    <a class="next" href="http://unixera.com/2015/09/20/laravel%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-01/" title="Laravel学习笔记-01">
+      Next
+    </a>
+    
+
+  
+
+
+</div>
+
+  <div class="container comments">
+  <h2>Comments</h2>
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+</footer>
+
+</article>
+      <footer id="main-footer" class="container main_footer">
+  
+
+  <div class="container nav foot no-print">
+  
+<a href="http://unixera.com/license">license</a>
+
+
+  <a class="toplink" href="#">back to top</a>
+
+</div>
+
+  <div class="container credits">
+  
+<div class="container footline">
+  
+  Learn what you eager
+
+
+</div>
+
+
+  
+<div class="container copyright">
+  
+  &copy; 2013-2015 Frost Wong. All rights reserved.
+
+
+</div>
+
+
+</div>
+
+</footer>
+
+    </main>
+    
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="http://unixera.com/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+    
+  </body>
+</html>
+

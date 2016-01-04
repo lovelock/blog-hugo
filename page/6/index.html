@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Me and the Web </title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="">
+
+
+<meta property="og:title" content="Me and the Web ">
+<meta property="og:site_name" content="Me and the Web"/>
+<meta property="og:url" content="http://unixera.com/" />
+<meta property="og:locale" content="en-us">
+
+
+<meta property="og:type" content="website" />
+
+
+
+<link href="http://unixera.com/index.xml" rel="alternate" type="application/rss+xml" title="Me and the Web" />
+
+<link rel="canonical" href="http://unixera.com/" />
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://unixera.com/touch-icon-144-precomposed.png">
+<link href="http://unixera.com/favicon.png" rel="icon">
+
+<meta name="generator" content="Hugo 0.15" />
+
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href='https://fonts.googleapis.com/css?family=Merriweather:300%7CRaleway%7COpen+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://unixera.com/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://unixera.com/css/style.css">
+<link rel="stylesheet" href="http://unixera.com/css/highlight/default.css">
+
+  
+</head>
+<body>
+  <main id="main-wrapper" class="container main_wrapper has-sidebar">
+    <header id="main-header" class="container main_header">
+  <div class="container brand">
+  <div class="container title h1-like">
+  <a class="baselink" href="http://unixera.com">
+  Frost Wong
+
+</a>
+
+</div>
+
+  
+<div class="container topline">
+  
+  Be a better WEB developer
+
+
+</div>
+
+
+</div>
+
+  <nav class="container nav primary no-print">
+  
+
+
+  
+<a href="http://unixera.com/about">About</a>
+
+<a href="http://unixera.com/post" title="Show list of posts">Posts</a>
+
+<a href="http://unixera.com/tags" title="Show list of tags">Tags</a>
+
+
+</nav>
+
+<div class="container nav secondary no-print">
+  
+<a id="contact-link-email" class="contact_link" href="mailto:frostwong@gmail.com">
+  <span class="fa fa-envelope-square"></span><span>email</span></a>
+
+
+
+<a id="contact-link-github" class="contact_link" href="https://github.com/lovelock">
+  <span class="fa fa-github-square"></span><span>github</span></a>
+
+
+
+
+
+
+
+
+
+
+
+<a id="contact-link-twitter" class="contact_link" href="https://twitter.com/frostwong">
+  <span class="fa fa-twitter-square"></span><span>twitter</span></a>
+
+
+
+
+
+
+
+</div>
+
+
+  
+
+</header>
+
+
+<section id="main-content" class="container main_content homepage">
+  <header class="container header">
+    <h1>Me and the Web
+</h1>
+
+    <span>last update: <time datetime="2015-12-04T23:12:52Z">4 December at 11:12pm</time>
+</span>
+
+  </header>
+  
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/07/19/php%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E7%AC%AC%E4%B8%89%E6%AD%A5--%E4%BD%BF%E7%94%A8%E7%B1%BB/">PHP扩展开发第三步 —— 使用类
+</a>
+</h2>
+
+  <time datetime="2015-07-19">19 Jul, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    既然用PHP编程，少不了需要用到类，前面我们说了如何定义一个全局可以用的方法，那么现在就来看看怎么创建一个类吧。 注册 前面提到在 const zend_function_entry php_ext_example_functions[] = { PHP_FE(confirm_php_ext_example_compiled, NULL) PHP_FE(self_concat, NULL); PHP_FE_END } 中注册了PHP_FE入口，从外部可以访问self_concat方法，新定义的类当然也要在这里注册来才能被访问了。比如新建的类叫做SampleClass。就需要把这段代码改成 const zend_function_entry php_ext_example_functions[] = { PHP_ME(SampleClass, sayHello, NULL, ZEND_ACC_PUBLIC) PHP_FE(confirm_php_ext_example_compiled, NULL) PHP_FE(self_concat, NULL); PHP_FE_END } 但在这之前需要先定义一个全局zend_class_entry，用于zend_register_internal_class。 zend_class_entry *php_ext_example_class_entry; 在PHP扩展的生命周期中，扩展是在Module Initialization阶段初始化的，所以需要在PHP_MINIT_FUNCTION中注册类入口。 PHP_MINIT_FUNCTION(php_ext_example) { zend_class_entry tmp_ce; INIT_CLASS_ENTRY(tmp_ce, &quot;SampleClass&quot;, php_ext_example_functions); php_ext_example_class_entry = zend_register_internal_class(&amp;tmp_ce, TSRMLS_CC); return SUCCESS; } 可以看到，在PHP_MINIT_FUNCTION中用到了php_ext_sample_class_entry和php_ext_example_functions，所以后两者应该放在前者的前面。 这样就很明了了，下一步就是实现sayHello方法了。 在上一节已经讲过了关于闯入参数的问题，这里不再赘述。值得注意的是，定义类的方法用的是PHP_METHOD宏，而不是定义全局方法的PHP_FUNCTION。 执行完make就可以通过 sapi/cli/php --rc SampleClass就可以看到这个类的结构了。 但这里我有一个疑问，那就是self_concat和confirm_php_ext_example_compiled方法其实并不是SampleClass类的方法，但不知道为什么成了类的成员方法。 属性和常量 例如类SampleClass拥有一个属性foo，那么相应的我们要给它定义setter和getter。 有了刚才的经验，添加两个方法一定是不在话下了。 但是虽然有了这两个方法，但变量foo现在还不是SampleClass的属性，所以在执行getFoo()方法的时候也不能确定这个变量是否存在，所以出于安全的考虑还是应该给类添加这个属性。同样是在MINIT阶段，使用zend_declare_property_null zend_declare_property_null(php_ext_example_class_entry, &quot;foo&quot;, sizeof(&quot;foo&quot;) - 1, ZEND_ACC_PUBLIC TSRMLS_CC); 相应的，如果设置要给foo设置一个初始值，就要使用zend_declare_property的各种变种了， 见本系列博客的代码库。 同样，还有zend_declare_class_constant_*系列，用法和zend_declare_property_*类似。 继承和接口 和用户用PHP写的类一样，内部类也可以继承其他类或者实现接口。 举个最简单的例子，我们自定义一个异常类CustomException，继承自Exception。 同样，也可以定义一个接口。不过定义接口用的是zend_register_internal_interface。 #include &quot;zend_interfaces.h&quot; zend_class_entry *reversible_iterator_ce; const zend_function_entry reversible_iterator_functions[] = { PHP_ABSTRACT_ME(ReversibleIterator, prev, arginfo_void) PHP_FE_END }; PHP_MINIT_FUNCTION(test) { zend_class_entry tmp_ce; INIT_CLASS_ENTRY(tmp_ce, &quot;ReversibleIterator&quot;, reversible_iterator_functions); reversible_iterator_ce = zend_register_internal_interface(&amp;tmp_ce TSRMLS_CC); /* ReversibleIterator extends Iterator.
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/07/19/php%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E7%AC%AC%E4%B8%89%E6%AD%A5--%E4%BD%BF%E7%94%A8%E7%B1%BB/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/07/19/php%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E7%AC%AC%E4%BA%8C%E6%AD%A5--%E5%AE%9A%E4%B9%89%E6%96%B9%E6%B3%95/">PHP扩展开发第二步 —— 定义方法
+</a>
+</h2>
+
+  <time datetime="2015-07-19">19 Jul, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    上一节展示了如何一步一步的创建一个包含一个全局方法的扩展。现在来了解一下这个扩展是怎么生效的。 首先要知道ext_skel到底为我们做了什么，就我们的这个例子中string self_concat(string str, int n)而言 1. 创建一个函数原型，包括边界条件的检查等 2. 添加函数入口 具体到代码中也就是增加了这两部分。 对应第一条： /* {{{ proto string self_concat(string str, int n) */ PHP_FUNCTION(self_concat) { char *str = NULL; int argc = ZEND_NUM_ARGS(); int str_len; long n; if (zend_parse_parameters(argc TSRMLS_CC, &quot;sl&quot;, &amp;str, &amp;str_len, &amp;n) == FAILURE) return; php_error(E_WARNING, &quot;self_concat: not yet implemented&quot;); } /* }}} */ 对应第二条 /* {{{ myfunctions_functions[] * * Every user visible function must have an entry in myfunctions_functions[]. */ const zend_function_entry myfunctions_functions[] = { PHP_FE(confirm_myfunctions_compiled, NULL) /* For testing, remove later.
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/07/19/php%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E7%AC%AC%E4%BA%8C%E6%AD%A5--%E5%AE%9A%E4%B9%89%E6%96%B9%E6%B3%95/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/07/18/php%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E7%AC%AC%E4%B8%80%E6%AD%A5--%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%8F%AF%E5%B7%A5%E4%BD%9C%E7%9A%84%E6%96%B9%E6%B3%95/">PHP扩展开发第一步 —— 创建一个可工作的方法
+</a>
+</h2>
+
+  <time datetime="2015-07-18">18 Jul, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    这个问题困扰我已经很久了，但总是没有心情坐下来好好的研究一下，今天终于厘清了一点头绪，记录下来，留给像我一样对网络上的教程的理解能力没有那么好的同学。 我不想像那些正常的教程一样，先讲一番PHP的声明周期，来先看一下正反馈吧。请跟我一步一步来，让你先看到你的扩展可以工作。相关代码请查看https://github.com/lovelock/php_ext_example.git。 以鸟哥的用C/C++扩展你的PHP这篇文章中的例子作为我们的目标吧，简单的打印一个Hello World也没什么意思。 首先看PHP版本的代码： // PHP版本的self_concat函数 function self_concat($str, $n) { $result = &quot;&quot;; for ($i = 0; $i &lt; $n; $i++) { $result .= $str; } return $result; } 那么再来想如果我们写了一个PHP扩展，来实现这个功能，它替代了什么？ 对，我们本来用PHP写的逻辑现在放在了扩展里面用C实现了。这样的结果就是我们可以省掉上面PHP版本的self_concat函数的定义，在需要这个函数的地方直接调用就好了。 具体的步骤如下： 先给扩展取个名字吧，以php_ext_example为例 声明函数原型，就像C/C++中头文件中函数的声明一样，写在一个单独的文件中，声明了返回值、函数名、函数签名，注意没有分号。至于文件的后缀，貌似没有特别的要求，鸟哥用了def，看到有其他博客作者用了proto，本质是一样的。 string self_concat(string str, int n) 执行ext目录内的ext_skel命令，顾名思义，这个命令的作用就是为扩展开发者搭建起一套骨架，让我们在上面方便的进行自己的创作。这里我们需要加入两个参数，—extname和—proto。 ./ext_skel —extname=php_ext_example —proto=php_ext_example.proto 执行完这个命令就能在ext目录下看到php_ext_example目录了。打开里面发现一堆文件。 首先需要修改config.m4文件，找到 dnl PHP_ARG_WITH(php_ext_example, for php_ext_example support, dnl Make sure that the comment is aligned: dnl [ --with-php_ext_example Include php_ext_example support]) 要知道dnl是注释的意思，先把这几行的注释去掉，也就是让它生效。得到 PHP_ARG_WITH(php_ext_example, for php_ext_example support, Make sure that the comment is aligned: [ --with-php_ext_example Include php_ext_example support]) 它的意思是把--with-php_ext_example这个选项加入到configure的选项中去。 修改php_ext_example.c，重头戏来了，前面做的都是为这个做准备。找到PHP_FUNCTION(self_concat)这一行，这是函数的实现。先甭管为什么把这段代码敲进去。 PHP_FUNCTION(self_concat) { char *str = NULL; int argc = ZEND_NUM_ARGS(); int str_len; long n; char *result; char *ptr; int result_length; if (zend_parse_parameters(argc TSRMLS_CC, &quot;sl&quot;, &amp;str, &amp;str_len, &amp;n) == FAILURE) return; result_length = (str_len * n); result = (char *) emalloc(result_length + 1); ptr = result; while (n--) { memcpy(ptr, str, str_len); ptr += str_len; } ptr = '\0'; RETURN_STRINGL(result, result_length, 0); } OK，这个时候一个具有“重复打印字符串”功能的扩展就写好了。怎么证明它是能工作的呢？别着急，先把它编译进PHP吧。 还记得执行完ext_skel之后弹出的一段说明吗？ 1.
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/07/18/php%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E7%AC%AC%E4%B8%80%E6%AD%A5--%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%8F%AF%E5%B7%A5%E4%BD%9C%E7%9A%84%E6%96%B9%E6%B3%95/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/07/13/ios8%E5%8F%8A%E4%BB%A5%E4%B8%8B%E4%BD%BF%E7%94%A8nsurlconnectiondelegate%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/">iOS8及以下使用NSURLConnectionDelegate实现网络请求
+</a>
+</h2>
+
+  <time datetime="2015-07-13">13 Jul, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    花了点时间把iOS的网络请求算是有了一点肤浅的认识，在这个夜深人静的晚上记录以下。 首先，用到的类有NSURLRequest和NSURLConnection，遵循的协议NSURLConnectionDelegate。 NSURLConnectionDelegate在iOS9中已经废弃了，取而代之的是NSURLSessionDelegate，由于我这次适配的是iOS8.3，所以抽时间再写关于后者的用法。 简明的说一下流程： 发送请求这步其实经常会用到，但作为一款App，它需要的通常不是让服务器做什么改变，而是从服务端获取信息。因此，发送网络请求其实最重要的是怎样处理请求返回的结果。 在图中用等宽字体显示的函数就是NSURLConnectionDelegate定义的方法。 connection:didReceiveResponse: 这个方法也就是对服务器的响应做一个判断，通知该类（这里不知道应该怎么描述，是通知谁？）发送的请求服务器端已经给出响应。这时需要做初始化的工作了。我发发送请求就是为了得到数据，那么数据存在哪里呢？从connection:didReceiveData:的函数定义可以看到返回的数据是在这个函数的参数中，就需要一个可以全局访问的变量来保存数据，以在其余的流程里继续使用。而初始化又有问题，如何保证你这个全局变量不是已经被赋值呢？ 判断是否为NULL，如果为NULL，则初始化一个新的变量，否则，将变量的程度设置为0，其实也就是清空变量中存储的值。 connection:didReceiveData: 这个方法是对服务器返回的数据做处理。其实就是一个简单的赋值操作，将返回值赋给上面提到的变量。 connectionDidFinishLoading 这个方法才是最重要的，顾名思义，它用来处理最终你获取到的数据要干什么。比如把它赋给某个Label显示出来了，比如再次发送一个请求了。这里我只是要把整个流程走通，所以只是简单的把它的返回值赋给了当前视图中的一个Label。 提一下一个小的技巧 如何在日志中看到请求返回的结果？ 要知道，返回的结果是一个NSData数据类型，无法在NSLog函数里打印（其实是可以打印的，不过打出的结果是16进制的字符，人眼也看不懂），但如果你只是想比较一下两次的请求返回值不同，那么可以直接用 NSLog(@&quot;%@&quot;, data); 而如果要具体的看到返回值的内容，则要做进一步的处理 NSString *strData = [NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]; NSLog(@&quot;%@&quot;, strData); OK，简单的就是这样。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/07/13/ios8%E5%8F%8A%E4%BB%A5%E4%B8%8B%E4%BD%BF%E7%94%A8nsurlconnectiondelegate%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/07/12/centos7%E9%98%B2%E7%81%AB%E5%A2%99%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE/">CentOS7防火墙简单配置
+</a>
+</h2>
+
+  <time datetime="2015-07-12">12 Jul, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    防火墙这么个复杂的东西没有一个标准的配置方式真是太烦了，iptables的命令太繁琐，时间长了不用就忘记了，忘记可以记下来，可到了RHEL7竟然又加了个wrapper，叫什么firewall-cmd，我的天，你看看你取了个什么名字吧，不得不说红帽的人真是没有品位。 言归正传，通常我们的工作环境其实也打不到这个7，也不会接触这个东西。 打开一个端口 sudo firewall-cmd --zone=public --add-port=80/tcp --permanent 这就添加了一个80/tcp的端口 然后需要reload一下 sudo firewall-cmd --reload 说它是个wrapper是因为不管是这个firewall-cmd还是Ubuntu的ufw其实都是对iptables系列命令的一个封装，无非就是三步 添加一条记录 把这条记录写入内存 如果下次开机后还要它生效，那就把它写入文件 相应的，ufw的操作如下
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/07/12/centos7%E9%98%B2%E7%81%AB%E5%A2%99%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+  
+<div class="container pagination">
+  
+
+
+<a aria-label="First" href="http://unixera.com/">
+  <span aria-hidden="true">««</span>
+</a>
+
+<a aria-label="Previous" href="http://unixera.com/page/5/">
+  <span aria-hidden="true">«</span>
+</a>
+
+
+<a href="http://unixera.com/">
+  1
+</a>
+
+<a href="http://unixera.com/page/2/">
+  2
+</a>
+
+<a href="http://unixera.com/page/3/">
+  3
+</a>
+
+<a href="http://unixera.com/page/4/">
+  4
+</a>
+
+<a href="http://unixera.com/page/5/">
+  5
+</a>
+
+<a class="active" href="http://unixera.com/page/6/">
+  6
+</a>
+
+<a href="http://unixera.com/page/7/">
+  7
+</a>
+
+<a href="http://unixera.com/page/8/">
+  8
+</a>
+
+<a href="http://unixera.com/page/9/">
+  9
+</a>
+
+<a href="http://unixera.com/page/10/">
+  10
+</a>
+
+
+<a aria-label="Next" href="http://unixera.com/page/7/">
+  <span aria-hidden="true">»</span>
+</a>
+
+<a aria-label="Last" href="http://unixera.com/page/10/">
+  <span aria-hidden="true">»»</span>
+</a>
+
+
+</div>
+
+
+</section>
+
+      <footer id="main-footer" class="container main_footer">
+  
+
+  <div class="container nav foot no-print">
+  
+<a href="http://unixera.com/license">license</a>
+
+
+  <a class="toplink" href="#">back to top</a>
+
+</div>
+
+  <div class="container credits">
+  
+<div class="container footline">
+  
+  Learn what you eager
+
+
+</div>
+
+
+  
+<div class="container copyright">
+  
+  &copy; 2013-2015 Frost Wong. All rights reserved.
+
+
+</div>
+
+
+</div>
+
+</footer>
+
+    </main>
+    
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="http://unixera.com/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+    
+  </body>
+</html>
+

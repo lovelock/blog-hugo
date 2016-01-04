@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>iframe间通信方法总结  &middot; Me and the Web</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="">
+
+
+<meta property="og:title" content="iframe间通信方法总结  &middot; Me and the Web ">
+<meta property="og:site_name" content="Me and the Web"/>
+<meta property="og:url" content="http://unixera.com/2015/08/10/iframe%E9%97%B4%E9%80%9A%E4%BF%A1%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/" />
+<meta property="og:locale" content="en-us">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:description" content=""/>
+<meta property="og:article:published_time" content="2015-08-10T10:15:56Z" />
+<meta property="og:article:modified_time" content="2015-08-10T10:15:56Z" />
+
+  
+
+  
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@frostwong" />
+<meta name="twitter:creator" content="@frostwong" />
+<meta name="twitter:title" content="iframe间通信方法总结" />
+<meta name="twitter:description" content="" />
+<meta name="twitter:url" content="http://unixera.com/2015/08/10/iframe%E9%97%B4%E9%80%9A%E4%BF%A1%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/" />
+<meta name="twitter:domain" content="http://unixera.com">
+  
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "iframe间通信方法总结",
+    "author": {
+      "@type": "Person",
+      "name": "http://profiles.google.com/+?rel=author"
+    },
+    "datePublished": "2015-08-10",
+    "description": "",
+    "wordCount":  286 
+  }
+</script>
+
+
+
+<link rel="canonical" href="http://unixera.com/2015/08/10/iframe%E9%97%B4%E9%80%9A%E4%BF%A1%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/" />
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://unixera.com/touch-icon-144-precomposed.png">
+<link href="http://unixera.com/favicon.png" rel="icon">
+
+<meta name="generator" content="Hugo 0.15" />
+
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href='https://fonts.googleapis.com/css?family=Merriweather:300%7CRaleway%7COpen+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://unixera.com/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://unixera.com/css/style.css">
+<link rel="stylesheet" href="http://unixera.com/css/highlight/default.css">
+
+  
+</head>
+<body>
+  <main id="main-wrapper" class="container main_wrapper has-sidebar">
+    <header id="main-header" class="container main_header">
+  <div class="container brand">
+  <div class="container title h1-like">
+  <a class="baselink" href="http://unixera.com">
+  Frost Wong
+
+</a>
+
+</div>
+
+  
+<div class="container topline">
+  
+  Be a better WEB developer
+
+
+</div>
+
+
+</div>
+
+  <nav class="container nav primary no-print">
+  
+
+
+  
+<a href="http://unixera.com/about">About</a>
+
+<a href="http://unixera.com/post" title="Show list of posts">Posts</a>
+
+<a href="http://unixera.com/tags" title="Show list of tags">Tags</a>
+
+
+</nav>
+
+<div class="container nav secondary no-print">
+  
+<a id="contact-link-email" class="contact_link" href="mailto:frostwong@gmail.com">
+  <span class="fa fa-envelope-square"></span><span>email</span></a>
+
+
+
+<a id="contact-link-github" class="contact_link" href="https://github.com/lovelock">
+  <span class="fa fa-github-square"></span><span>github</span></a>
+
+
+
+
+
+
+
+
+
+
+
+<a id="contact-link-twitter" class="contact_link" href="https://twitter.com/frostwong">
+  <span class="fa fa-twitter-square"></span><span>twitter</span></a>
+
+
+
+
+
+
+
+</div>
+
+
+  
+
+</header>
+
+
+<article id="main-content" class="container main_content single">
+  <header class="container hat">
+  <h1>iframe间通信方法总结
+</h1>
+
+  <div class="metas">
+<time datetime="2015-08-10">10 Aug, 2015</time>
+
+
+  
+  &middot; Read in about 2 min
+  &middot; (286 Words)
+  <br>
+  
+
+
+</div>
+
+</header>
+
+  <div class="container content">
+  
+
+<p>在对外提供Web组件时常常会遇到iframe间的通信问题，本文旨在总结目前主流的解决方案，并给出了详细的代码示例。</p>
+
+<p>解决方案大体有以下几种：</p>
+
+<ol>
+<li><code>window.postMessage</code></li>
+<li><code>Cross Frame(aba)</code></li>
+<li><code>window.name</code></li>
+</ol>
+
+<p>而窗体间的通信问题分为以下几种：</p>
+
+<ol>
+<li>child和parent之间</li>
+<li>child和child之间</li>
+</ol>
+
+<p>本文代码示例的<a href="https://github.com/lovelock/cross-iframe-communication-exmaple.git" target="_blank">代码仓库</a>。
+下面详细介绍这些方法。</p>
+
+<h2 id="window-postmessage:65232aa40b5a50306ee2fa2e1ef922a0"><code>window.postMessage</code></h2>
+
+<p>这种方法有局限，因为是HTML5的API，所以只支持到IE8及以上的IE浏览器，其他现代浏览器当然没有问题。</p>
+
+<h3 id="child和parent之间的通信:65232aa40b5a50306ee2fa2e1ef922a0">child和parent之间的通信</h3>
+
+<p>child和parent之间用<code>window.postMessage</code>通信不受<a href="https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy" target="_blank">同源策略</a>的限制，只需要在被调用方判断一下是否是可以接受的调用方就可以了。具体是在parent（也就是主window）里实现如下：</p>
+
+<pre><code class="language-html">&lt;iframe src=&quot;http://iframe1.unixera.com/iframe1.html&quot; id=&quot;iframe1&quot;&gt;
+&lt;/iframe&gt;
+&lt;div&gt;
+    &lt;input type=&quot;submit&quot; id=&quot;send&quot;/&gt;
+&lt;/div&gt;
+&lt;div&gt;
+    &lt;span&gt;Message from Child&lt;/span&gt;
+    &lt;div id=&quot;message_handler&quot;&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;script src=&quot;iframe1.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+
+<pre><code class="language-javascript">window.onload = function () {
+    var message_handler = document.getElementById(&quot;message_handler&quot;);
+    var btn = document.getElementById(&quot;send&quot;);
+    
+    function sendMessage(e) {
+        e.preventDefault();
+        document.getElementById(&quot;iframe1&quot;).contentWindow.postMessage(&quot;Welcome to unixera.com&quot;, &quot;http://iframe1.unixera.com&quot;);
+    }
+    
+    function receiveMessage(e) {
+        if (e.origin !== &quot;http://container.unixera.com&quot;) {
+            return;
+        }
+        
+        message_handler.innerHTML = e.data;
+        
+        e.source.postMessage(&quot;Response from parent&quot;, e.origin);
+    }
+    
+    if (window.addEventListener) {
+        btn.addEventListener('click', sendMessage, false);
+        addEventListener('message', receiveMessage, false);
+    } else {
+        btn.attachEvent('onclick', sendMessage);
+        attachEvent('onmessage', receiveMessage);
+    }
+}
+</code></pre>
+
+<p>child iframe的代码如下：</p>
+
+<pre><code class="language-html">&lt;div&gt;
+    &lt;input type=&quot;submit&quot; id=&quot;send&quot;/&gt;
+&lt;/div&gt;
+&lt;div&gt;
+    &lt;span&gt;Message from Parent&lt;/span&gt;
+    &lt;div id=&quot;message_handler&quot;&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;script src=&quot;iframe1.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+
+<pre><code class="language-javascript">window.onload = function () {
+    var message_handler = document.getElementById(&quot;message_handler&quot;);
+    var btn = document.getElementById(&quot;send&quot;);
+    
+    function sendMessage(e) {
+        e.preventDefault();
+        parent.window.postMessage(&quot;Welcome to unixera.com&quot;, &quot;http://iframe1.unixera.com&quot;);
+    }
+    
+    function receiveMessage(e) {
+        if (e.origin !== &quot;http://container.unixera.com&quot;) {
+            return;
+        }
+        
+        message_handler.innerHTML = e.data;
+        
+        e.source.postMessage(&quot;Response from parent&quot;, e.origin);
+    }
+    
+    if (window.addEventListener) {
+        btn.addEventListener('click', sendMessage, false);
+        addEventListener('message', receiveMessage, false);
+    } else {
+        btn.attachEvent('onclick', sendMessage);
+        attachEvent('onmessage', receiveMessage);
+    }
+}
+</code></pre>
+
+<p>具体代码查看<code>parent-to-child</code>和<code>child-to-parent</code>代码分支。</p>
+
+<h3 id="child和child之间的通信:65232aa40b5a50306ee2fa2e1ef922a0">child和child之间的通信</h3>
+
+<p>主体代码和上面一样，但会遇到跨域的问题——可能你也会注意到了，主window和子iframe之间不存在跨域的问题，即使不是属于同一个一级域，类似<code>www.a.com</code>和<code>www.b.com</code>也不会出现问题。但iframe之间的通信就会出现这个问题，在<code>window.postMessage</code>这个方案中，可以通过设置<code>document.domain = &quot;unixera.com&quot;</code>，但这个设置也有局限性，如果iframe属于不同的一级域名，就无法设置。因此这种方法只适合站内不同子域间的通信。</p>
+
+<p>值得注意的是，如果一个主window内存在两个同级的iframe，则三个页面都需要设置<code>document.domain</code>。</p>
+
+<h2 id="cross-frame:65232aa40b5a50306ee2fa2e1ef922a0"><code>Cross Frame</code></h2>
+
+<p>这是一个通用的方法，简单来说是A iframe包含B iframe，在B iframe中调用了相关的接口，完成调用之后获取到结果，<code>location.href</code>到和A iframe位于同一个域的C iframe，在C iframe中调用A iframe中定义的方法，将B iframe中获取的结果作为参数传到要跳转的url后，在C iframe中通过<code>location.search</code>变量来获取变量。</p>
+
+<p>这个方法的基础是，在同一个域下，子iframe可以通过<code>parent.parent_function()</code>来调用其parent中定义的方法。
+<img src="http://7xn2pe.com1.z0.glb.clouddn.com/iframe.png" alt="aba方法图示" /></p>
+
+<p>A页面：</p>
+
+<pre><code class="language-html">&lt;iframe src=&quot;www.b.com/b.html&quot;&gt;&lt;/iframe&gt;
+&lt;script src=&quot;a.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+
+<pre><code class="language-javascript">function a_function (arg) {
+    alert(&quot;I received: &quot; + arg);
+}
+</code></pre>
+
+<p>B页面：</p>
+
+<pre><code class="language-html">&lt;script src=&quot;b.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+
+<pre><code class="language-javascript">$.ajax({
+    data: {
+        &quot;xx&quot;: &quot;yy&quot;
+    },
+    url: &quot;http://www.b.com/go.php&quot;,
+    success: function (response) {
+        location.href = &quot;http://www.a.com/c.html?arg=&quot; + response.result;
+    }
+});
+</code></pre>
+
+<p>C页面：</p>
+
+<pre><code class="language-html">&lt;script src=&quot;c.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+
+<pre><code class="language-javascript">var result = location.search.substring(1);
+var arg = result.split(&quot;=&quot;)[1];
+parent.a_function(arg);
+</code></pre>
+
+<h2 id="window-name:65232aa40b5a50306ee2fa2e1ef922a0"><code>window.name</code></h2>
+
+<p><code>window</code>对象的<code>name</code>属性是一个很特殊的属性，在设定了<code>window.name</code>之后，执行<code>location.href</code>跳转，<code>window.name</code>属性仍然不会发生变化，可以通过这种方式实现变量的传递。</p>
+
+<p>A页面：</p>
+
+<pre><code class="language-html">&lt;iframe src=&quot;www.b.com/b.html&quot;&gt;&lt;/iframe&gt;
+&lt;script src=&quot;a.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+
+<pre><code class="language-javascript">function a_function (arg) {
+    alert(&quot;I received: &quot; + arg);
+}
+</code></pre>
+
+<p>B页面：</p>
+
+<pre><code class="language-html">&lt;script src=&quot;b.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+
+<pre><code class="language-javascript">$.ajax({
+    data: {
+        &quot;xx&quot;: &quot;yy&quot;
+    },
+    url: &quot;http://www.b.com/go.php&quot;,
+    success: function (response) {
+        window.name = response.result;
+        location.href = &quot;http://www.a.com/c.html&quot;;
+    }
+});
+</code></pre>
+
+<p>C页面：</p>
+
+<pre><code class="language-html">&lt;script src=&quot;c.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+
+<pre><code class="language-javascript">var arg = window.name;
+parent.a_function(arg);
+</code></pre>
+
+<p>这次先介绍这些方法，大家有什么问题或者有更好的方法可以补充。
+其实写这篇总结是因为这次遇到了问题，花了好几天的时间又上网搜索，又是请教公司的前端大牛，才得到一些零碎的知识，但很明显这是不完整的，以后再遇到会继续更新。网上却找不到很完整的教程，其中的一些坑也没有人能详细的总结。故而写下这一篇具有操作性的教程，希望对读者有用。</p>
+
+<p>有些同学可能会疑问为什么jsonp没有提到，因为我认为它是前端和服务器端通信用到的，虽然和跨域有关，但和iframe并无关系，因此在此未涉及。同理，还有CORS。</p>
+
+</div>
+
+
+  <footer class="container">
+  <div class="container navigation no-print">
+  <h2>Navigation</h2>
+  
+  
+
+    
+    <a class="prev" href="http://unixera.com/2015/07/31/python%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/" title="Python日志处理总结">
+      Previous
+    </a>
+    
+
+    
+    <a class="next" href="http://unixera.com/2015/08/11/jsonp%E5%8E%9F%E7%90%86%E5%85%A8%E8%A7%A3%E6%9E%90/" title="jsonp原理全解析">
+      Next
+    </a>
+    
+
+  
+
+
+</div>
+
+  <div class="container comments">
+  <h2>Comments</h2>
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+</footer>
+
+</article>
+      <footer id="main-footer" class="container main_footer">
+  
+
+  <div class="container nav foot no-print">
+  
+<a href="http://unixera.com/license">license</a>
+
+
+  <a class="toplink" href="#">back to top</a>
+
+</div>
+
+  <div class="container credits">
+  
+<div class="container footline">
+  
+  Learn what you eager
+
+
+</div>
+
+
+  
+<div class="container copyright">
+  
+  &copy; 2013-2015 Frost Wong. All rights reserved.
+
+
+</div>
+
+
+</div>
+
+</footer>
+
+    </main>
+    
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="http://unixera.com/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+    
+  </body>
+</html>
+

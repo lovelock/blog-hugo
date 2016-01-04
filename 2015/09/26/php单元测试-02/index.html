@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>PHP单元测试-02  &middot; Me and the Web</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="">
+
+
+<meta property="og:title" content="PHP单元测试-02  &middot; Me and the Web ">
+<meta property="og:site_name" content="Me and the Web"/>
+<meta property="og:url" content="http://unixera.com/2015/09/26/php%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-02/" />
+<meta property="og:locale" content="en-us">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:description" content=""/>
+<meta property="og:article:published_time" content="2015-09-26T10:41:42Z" />
+<meta property="og:article:modified_time" content="2015-09-26T10:41:42Z" />
+
+  
+
+  
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@frostwong" />
+<meta name="twitter:creator" content="@frostwong" />
+<meta name="twitter:title" content="PHP单元测试-02" />
+<meta name="twitter:description" content="" />
+<meta name="twitter:url" content="http://unixera.com/2015/09/26/php%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-02/" />
+<meta name="twitter:domain" content="http://unixera.com">
+  
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "PHP单元测试-02",
+    "author": {
+      "@type": "Person",
+      "name": "http://profiles.google.com/+?rel=author"
+    },
+    "datePublished": "2015-09-26",
+    "description": "",
+    "wordCount":  149 
+  }
+</script>
+
+
+
+<link rel="canonical" href="http://unixera.com/2015/09/26/php%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-02/" />
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://unixera.com/touch-icon-144-precomposed.png">
+<link href="http://unixera.com/favicon.png" rel="icon">
+
+<meta name="generator" content="Hugo 0.15" />
+
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href='https://fonts.googleapis.com/css?family=Merriweather:300%7CRaleway%7COpen+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://unixera.com/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://unixera.com/css/style.css">
+<link rel="stylesheet" href="http://unixera.com/css/highlight/default.css">
+
+  
+</head>
+<body>
+  <main id="main-wrapper" class="container main_wrapper has-sidebar">
+    <header id="main-header" class="container main_header">
+  <div class="container brand">
+  <div class="container title h1-like">
+  <a class="baselink" href="http://unixera.com">
+  Frost Wong
+
+</a>
+
+</div>
+
+  
+<div class="container topline">
+  
+  Be a better WEB developer
+
+
+</div>
+
+
+</div>
+
+  <nav class="container nav primary no-print">
+  
+
+
+  
+<a href="http://unixera.com/about">About</a>
+
+<a href="http://unixera.com/post" title="Show list of posts">Posts</a>
+
+<a href="http://unixera.com/tags" title="Show list of tags">Tags</a>
+
+
+</nav>
+
+<div class="container nav secondary no-print">
+  
+<a id="contact-link-email" class="contact_link" href="mailto:frostwong@gmail.com">
+  <span class="fa fa-envelope-square"></span><span>email</span></a>
+
+
+
+<a id="contact-link-github" class="contact_link" href="https://github.com/lovelock">
+  <span class="fa fa-github-square"></span><span>github</span></a>
+
+
+
+
+
+
+
+
+
+
+
+<a id="contact-link-twitter" class="contact_link" href="https://twitter.com/frostwong">
+  <span class="fa fa-twitter-square"></span><span>twitter</span></a>
+
+
+
+
+
+
+
+</div>
+
+
+  
+
+</header>
+
+
+<article id="main-content" class="container main_content single">
+  <header class="container hat">
+  <h1>PHP单元测试-02
+</h1>
+
+  <div class="metas">
+<time datetime="2015-09-26">26 Sep, 2015</time>
+
+
+  
+  &middot; Read in about 1 min
+  &middot; (149 Words)
+  <br>
+  
+
+
+</div>
+
+</header>
+
+  <div class="container content">
+  
+
+<p>上一篇中讲了PHP单元测试的一些简单概念，这里详细说一下会用到的各种<code>assert*</code>函数。官方文档按照字母顺序逐一讲述了这些方法，但我觉得那很不合适，至少应该大概按照类别来分类。</p>
+
+<h2 id="数组相关:92a31ed3a62da4c4693982a6f032fbda">数组相关</h2>
+
+<ol>
+<li><p><code>assertArrayHasKey($expected_key, $actual_array)</code>
+如果<code>$expected_key</code>是<code>$actual_array</code>中元素的一个键值，则通过，否则不通过。也即</p>
+
+<pre><code class="language-php">foreach ($actual_array as $k =&gt; $v) {
+    if ($k === $expected_key) {
+        // 测试通过
+        return true;
+    }
+    // 测试不通过
+    return false;
+}
+</code></pre></li>
+
+<li><p><code>assertArraySubset($subset_array, $actual_array)</code>
+如果<code>$subset_array</code>是<code>$actual_array</code>的一个子数组，则通过，否则不通过。也即前者是后者的<strong>子集</strong>，这点很重要，其实由于在PHP中数组是作为HashTable存储的，所以是一般并不存在顺序的问题。因此这里只要求前者是后者的子集，而至于顺序则不要求。</p></li>
+
+<li><p><code>assertCount($count, $array)</code>
+如果<code>count($array) === $count)</code>则通过。注意这里<code>$count</code>的类型必须是整数。</p></li>
+</ol>
+
+<h2 id="类属性相关:92a31ed3a62da4c4693982a6f032fbda">类属性相关</h2>
+
+<ol>
+<li><p><code>assertClassHasAttribute($attributeName, $className)</code>
+如果类名为<code>$className</code>的类拥有一个名为<code>$attributeName</code>的属性，则通过，否则不通过。值得注意的是，这个测试通过与否与属性的值是否设置没有关系，即使是只声明了名为<code>$attributeName</code>的属性，这个测试也是通过的，但实例化该类之后<code>var_dump(new ClassAttr()-&gt;attr)</code>的结果却是<code>false</code>。</p></li>
+
+<li><p><code>assetClassHasStaticAttribute($staticAttributeName, $className)</code>
+这个自不必多说，和上面类似。只是用来判断静态属性。</p></li>
+</ol>
+
+<h3 id="对象关系:92a31ed3a62da4c4693982a6f032fbda">对象关系</h3>
+
+<ol>
+<li><code>assertObjectHasAttribute($attributeName, $object)</code>
+如果对象<code>$object</code>拥有属性<code>$attributeName</code>，则通过。</li>
+</ol>
+
+<h2 id="包含关系:92a31ed3a62da4c4693982a6f032fbda">包含关系</h2>
+
+<ol>
+<li><p><code>assertContains($needle, $haystack)</code>
+如果<code>$haystack</code>中包含<code>$needle</code>，则通过，否则不通过。这个包含可以是数组的包含，也可以是字符串的包含，注意，默认是区分大小写的，即<code>assertContains('foo', 'FooBar')</code>是不能通过测试的。但<code>assertContains('foo', 'FooBar', '', true)</code>则可以通过测试，也就是说第四个参数表示不区分大小写。至于第三个参数，其实是<code>$message</code>，也就是在测试不通过时报告
+详细信息的，我个人理解和<code>try/cache</code>里面的<code>Exception $e</code>里面的<code>getMessage()</code>可能有点类似，没有深究。</p></li>
+
+<li><p><code>assertContainsOnly($type, $array)</code>
+如果<code>$array</code>中只包含由<code>$type</code>指定的一种类型的变量，则通过，否则不通过。</p></li>
+
+<li><p><code>assertContainsOnlyInstanceOf($className, $instance_array)</code>
+如果<code>$instance_array</code>中的<strong>所有</strong>元素都是名为<code>$className</code>的类的实例，则通过，否则不通过。</p></li>
+
+<li><p><code>assertInstanceOf($className, $instance)</code>
+如果<code>$instance</code>是<code>$className</code>的实例，则通过。</p></li>
+</ol>
+
+<h2 id="相等相关:92a31ed3a62da4c4693982a6f032fbda">相等相关</h2>
+
+<h3 id="是非问题:92a31ed3a62da4c4693982a6f032fbda">是非问题</h3>
+
+<ol>
+<li><code>assertTrue($actual)</code></li>
+<li><code>assertFalse($actual)</code>
+上面两个判断的就是<code>true</code>和<code>false</code>，是<code>boolean</code>类型的，而不是我们平时理解的存在或者值不为空等等。</li>
+<li><code>assertNull($actual)</code>
+和上面两个一样，这个判断也是精确的，只有当<code>$actual === null</code>时才通过。</li>
+</ol>
+
+<h3 id="简单类型:92a31ed3a62da4c4693982a6f032fbda">简单类型</h3>
+
+<ol>
+<li><p><code>assertEquals($expected, $actual)</code>
+如果<code>$expectec == $actual</code>，则通过。注意这里的相等是和类型无关的，例如<code>assertEquals(1, '1')</code>是通过的。</p></li>
+
+<li><p><code>assertSame($expected, $actual)</code>
+如果<code>$expected === $actual</code>，则通过。注意这里的相等是需要类型也相同的，例如<code>assertSame(1, '1')</code>是不通过的。
+当然以上两个都是可以判断数组的。</p></li>
+
+<li><p><code>assertGreaterThan($expected, $actual)</code> 和 <code>assertGreaterThanOrEqual($expected, $actual)</code>
+如果<code>$expected &gt; $actual</code>则通过。后者比前者多包含了一个相等的情况。</p></li>
+
+<li><p><code>assertLessThan($expected, $actual)</code> 和 <code>assertLessThanOrEqual($expected, $actual)</code>
+如果<code>$expected &lt; $actual</code>则通过。后者比前者多包含了一个相等的情况。</p></li>
+
+<li><p><code>assertInternalType($type, $actual)</code>
+如果<code>gettype($actual) === $type</code>，则通过。</p></li>
+</ol>
+
+<h3 id="xml类型:92a31ed3a62da4c4693982a6f032fbda">XML类型</h3>
+
+<ol>
+<li><code>assertEqualXmlStructure</code></li>
+<li><code>assertXmlFileEqualsXmlFile</code></li>
+<li><code>assertXmlStringEqualsXmlFile</code></li>
+<li><code>assertXmlStringEqualsXmlString</code></li>
+</ol>
+
+<p>就我个人工作的经验来看，貌似XML在接口设计中已经很少见了，所以这里直接忽略吧，不喜欢XML。</p>
+
+<h3 id="json类型:92a31ed3a62da4c4693982a6f032fbda">JSON类型</h3>
+
+<ol>
+<li><p><code>assertJsonFileEqualsJsonFile($json_file1, $json_file2)</code>
+如果两个json内容相同，或者说包含的json格式可能不同(指空格、缩进等)，但值是相同的，则测试通过。</p></li>
+
+<li><p><code>assertJsonStringEqualsJsonFile($json_file, $json_encoded_string)</code>
+如果<code>$json_file</code>中包含的JSON的内容和<code>$json_encoded_string</code>一样，则通过。</p></li>
+
+<li><p><code>assertJsonStringEquaslJsonString($json_string1, $json_string2)</code>
+同上。</p></li>
+</ol>
+
+<h2 id="文件相关:92a31ed3a62da4c4693982a6f032fbda">文件相关</h2>
+
+<ol>
+<li><p><code>assertFileExists($file)</code>
+如果<code>$file</code>存在，则通过。</p></li>
+
+<li><p><code>assertStringMatchesFormat($format, $string)</code>
+如果<code>$string</code>的内容符合<code>$format</code>的格式，如<code>%s</code>、<code>%i</code>等，则通过。</p></li>
+
+<li><p><code>assertStringMatchesFormatFile('path/to/file', $string)</code>
+如果<code>$string</code>的内容符合<code>path/to/file</code>的文件中定义的格式，则通过。</p></li>
+</ol>
+
+<h2 id="正则表达式:92a31ed3a62da4c4693982a6f032fbda">正则表达式</h2>
+
+<ol>
+<li><code>assertRegExp($pattern, $string)</code>
+如果<code>$string</code>符合<code>$pattern</code>的模式，则通过。</li>
+</ol>
+
+<h2 id="字符串相关:92a31ed3a62da4c4693982a6f032fbda">字符串相关</h2>
+
+<ol>
+<li><p><code>assertStringStartsWith($start, $string)</code>
+如果<code>$string</code>以<code>$start</code>开头，则通过。</p></li>
+
+<li><p><code>assertStringEndsWith($end, $string)</code>
+如果<code>$string</code>以<code>$start</code>结尾，则通过。</p></li>
+</ol>
+
+<p>本文就介绍这么多，主要参考了<a href="https://phpunit.de/manual/current/en/appendixes.assertions.html" target="_blank">phpunit.de</a>，加上自己的理解，当然这远远不够全，最起码的是几乎每个方法都有相反的实现，例如<code>assertStringStartWidth</code>，同时也有<code>assertStringNotStartWith</code>， 但知道了一面的判断原则，另一面一定也可以触类旁通了。写了那么多，其实还是建议读者每条都自己写出来尝试下，多试试不同的
+条件，自然就理解了。</p>
+
+</div>
+
+
+  <footer class="container">
+  <div class="container navigation no-print">
+  <h2>Navigation</h2>
+  
+  
+
+    
+    <a class="prev" href="http://unixera.com/2015/09/22/php%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-01/" title="PHP单元测试-01">
+      Previous
+    </a>
+    
+
+    
+    <a class="next" href="http://unixera.com/2015/09/26/%E7%BB%88%E4%BA%8E%E4%B8%8B%E5%86%B3%E5%BF%83%E6%8A%8A%E5%8D%9A%E5%AE%A2%E7%A9%BA%E9%97%B4%E8%BF%81%E7%A7%BB%E5%88%B0%E5%9B%BD%E5%86%85%E4%BA%86/" title="终于下决心把博客空间迁移到国内了">
+      Next
+    </a>
+    
+
+  
+
+
+</div>
+
+  <div class="container comments">
+  <h2>Comments</h2>
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+</footer>
+
+</article>
+      <footer id="main-footer" class="container main_footer">
+  
+
+  <div class="container nav foot no-print">
+  
+<a href="http://unixera.com/license">license</a>
+
+
+  <a class="toplink" href="#">back to top</a>
+
+</div>
+
+  <div class="container credits">
+  
+<div class="container footline">
+  
+  Learn what you eager
+
+
+</div>
+
+
+  
+<div class="container copyright">
+  
+  &copy; 2013-2015 Frost Wong. All rights reserved.
+
+
+</div>
+
+
+</div>
+
+</footer>
+
+    </main>
+    
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="http://unixera.com/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+    
+  </body>
+</html>
+

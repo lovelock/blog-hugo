@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Me and the Web </title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="">
+
+
+<meta property="og:title" content="Me and the Web ">
+<meta property="og:site_name" content="Me and the Web"/>
+<meta property="og:url" content="http://unixera.com/" />
+<meta property="og:locale" content="en-us">
+
+
+<meta property="og:type" content="website" />
+
+
+
+<link href="http://unixera.com/index.xml" rel="alternate" type="application/rss+xml" title="Me and the Web" />
+
+<link rel="canonical" href="http://unixera.com/" />
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://unixera.com/touch-icon-144-precomposed.png">
+<link href="http://unixera.com/favicon.png" rel="icon">
+
+<meta name="generator" content="Hugo 0.15" />
+
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href='https://fonts.googleapis.com/css?family=Merriweather:300%7CRaleway%7COpen+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://unixera.com/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://unixera.com/css/style.css">
+<link rel="stylesheet" href="http://unixera.com/css/highlight/default.css">
+
+  
+</head>
+<body>
+  <main id="main-wrapper" class="container main_wrapper has-sidebar">
+    <header id="main-header" class="container main_header">
+  <div class="container brand">
+  <div class="container title h1-like">
+  <a class="baselink" href="http://unixera.com">
+  Frost Wong
+
+</a>
+
+</div>
+
+  
+<div class="container topline">
+  
+  Be a better WEB developer
+
+
+</div>
+
+
+</div>
+
+  <nav class="container nav primary no-print">
+  
+
+
+  
+<a href="http://unixera.com/about">About</a>
+
+<a href="http://unixera.com/post" title="Show list of posts">Posts</a>
+
+<a href="http://unixera.com/tags" title="Show list of tags">Tags</a>
+
+
+</nav>
+
+<div class="container nav secondary no-print">
+  
+<a id="contact-link-email" class="contact_link" href="mailto:frostwong@gmail.com">
+  <span class="fa fa-envelope-square"></span><span>email</span></a>
+
+
+
+<a id="contact-link-github" class="contact_link" href="https://github.com/lovelock">
+  <span class="fa fa-github-square"></span><span>github</span></a>
+
+
+
+
+
+
+
+
+
+
+
+<a id="contact-link-twitter" class="contact_link" href="https://twitter.com/frostwong">
+  <span class="fa fa-twitter-square"></span><span>twitter</span></a>
+
+
+
+
+
+
+
+</div>
+
+
+  
+
+</header>
+
+
+<section id="main-content" class="container main_content homepage">
+  <header class="container header">
+    <h1>Me and the Web
+</h1>
+
+    <span>last update: <time datetime="2015-12-04T23:12:52Z">4 December at 11:12pm</time>
+</span>
+
+  </header>
+  
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/10/17/mysql%E8%BF%81%E7%A7%BB%E5%88%B0%E7%9C%9Futf8%E5%85%A8%E8%BF%87%E7%A8%8B/">MySQL迁移到真·UTF8全过程
+</a>
+</h2>
+
+  <time datetime="2015-10-17">17 Oct, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    为什么要做？ 写这篇总结的起因是我觉得应该深入的学习一下PHP了，结果找到了PHP最佳实践中文版，其中关于PHP和UTF8一节引起了我的兴趣。我之前还一直以为我们的数据库用的是完整的UTF8，看完之后我惊呆了。 原来我们的以为的utf8并不是真正意义上的UTF-8，或者说不是完整的，因为它只包含了不大于3个8位字节组成的字符，而4个字节组成的字符则未能包含，如𝌆、💩等常用字符。 随着现在网络用语的发达，越来越多的表情符号层出不穷，真是为这种符号的存储发愁啊，所以保险起见，以后接触到的项目中，如果我的意见可以被接受，那么我将遵守这个规则——使用utf8mb4而不是utf8。 那如果已经使用了utf8了，怎么更新呢？下面是操作步骤。 备份 对数据库的修改操作毕竟是危险的，如果你的数据很重要，最好还是备份一下数据库。 升级MySQL服务器 utf8mb4是从MySQL5.5.3版本引入的（对应相同版本的MariaDB)，因此如果想使用utf8mb4，至少应升级到5.5.3版本。 修改数据库、数据表和列 # 每个数据库 ALTER DATABASE database_name CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci; # 每张数据表 ALTER TABLE table_name CONVERT TO CHARACTER SET utf8 COLLATE utf8mb4_unicode_ci; # 每列数据 ALTER TABLE table_name CHANGE column_name column_name VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 注意，不要直接复制粘贴上面的代码，根据实际的数据进行操作。 检查列和索引键的长度 这一步很不容易想到，当我们从utf8更新到utf8mb4时，字节的长度并没有发生变化，但字符长度却变化了。 TINYTEXT类型可以容纳255个字节，在utf8编码时，可以包含255/3=85个unicode字符，而在utf8mb4时，只可以包含255/4=63.75=63个字符。因此，当这个字段的长度有可能超过63个字符时，就需要把TINYTEXT修改成TEXT从而容纳更多的字符。 修改连接、客户端、服务端字符集 这一步就是修改my.conf（在不同的操作系统中有不同的命名）。 [client] default-character-set = utf8mb4 [mysql] default-character-set = utf8mb4 [mysqld] character-set-client-handshake = FALSE character-set-server = utf8mb4 collation-server
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/10/17/mysql%E8%BF%81%E7%A7%BB%E5%88%B0%E7%9C%9Futf8%E5%85%A8%E8%BF%87%E7%A8%8B/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/10/09/%E4%B9%9F%E8%B0%88%E5%B0%81%E6%9D%80/">也谈封杀
+</a>
+</h2>
+
+  <time datetime="2015-10-09">9 Oct, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    看到读《robbin 谈社区运营：封杀的艺术》有感提到了社区之间的封杀，因为我用社区比较少，最近才接触到Coding.net这个优秀的工具，所以并没有感受到社区之间的屏蔽、封杀。 让我感受最深的是国内BAT三大巨头的明争暗斗。 毕竟开发者这个特殊的群体太聪明，给不了他们自由肯定心里不舒服。。 这句话深得我心，作为一个开发者，看到常用的App之间不能愉快的分享内容，就像嗓子眼有一口苍蝇一样恶心——而这罪魁祸首就是腾讯。 为了扶植自己家的产品，就打击、屏蔽、封杀别家类似的产品，这就是国内顶尖公司的气度和胸怀。 腾讯有QQ音乐，我最喜欢的网易云音乐无法分享到微信好友、朋友圈或QQ好友、空间。 腾讯有拍拍，同时还和京东深度合作，淘宝就只能用一串看不懂的消息作为分享工具，用过的你自然知道这有多恶心。我甚至认为阿里在支付宝里集成了类似微信的功能就是为了对抗微信的封杀，然并卵。 腾讯现在的海淘还不成气候，所以同属网易的考拉海购可以幸免于难。可以想见不远的将来，为了给京东全球购提供更多的入口，考拉海淘也将被加入黑名单。 号称拥有国内最好的产品经理的腾讯在利益面前完全置用户体验于不顾。当许多人都在吐槽百度虚假医疗信息吃相难看时，腾讯，你是应该嘲笑还是脸红？ 我是一个普通的老百姓，只不过职业是程序员，经常莫名其妙的被挡在土啬内的经历让我对这种封杀行为特别厌恶，而在我们这个伟大的局域网内，我们的民族企业们， 你们就不能有一点胸襟吗？ 难道对自己的产品就那么没有信心？ 通过正常的方式无法达到你们的推广目的？ 诚然，因为腾讯拥有无与伦比的用户基数，它才敢这样肆无忌惮，也正是因此，他们的这种做法很可能会收到预期的效果，而那些小公司就更是绞尽脑汁博眼球了。这句话是看到小猪短租最近的广告的感想，曾经的小猪，『有人情味儿的住宿』是它的口号，尽力维护房客和房东的利益，而现在它竟然公然站在了房东方，说什么房租太低、房租需要涨之类的说辞，虽然博得了潜在房东的好感——也未必，但那些潜在的房客怎么想？ 你们这些公司啊，就不能关注一下自己的美誉度吗？也许在投资人面前，你们的理想显得太不现实、太渺小，但我觉得起码的争取一下也不至于达到现在这样的结果。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/10/09/%E4%B9%9F%E8%B0%88%E5%B0%81%E6%9D%80/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/10/08/bower%E4%BD%BF%E7%94%A8%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/">Bower使用简明教程
+</a>
+</h2>
+
+  <time datetime="2015-10-08">8 Oct, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    最近接触到Node.js，于是摇身一变前后端全部用JavaScript实现，这样其实导致界限不清晰了——其实很清晰，但当你看一个.js文件的时候总是要想一下这是前端逻辑还是后端逻辑，感觉怪怪的。后端需要的模块可以用npm这个大杀器安装，虽然前端的依赖也可以用它解决，但其实有更专业的解决方案——bower。官方简介里面其实并没有提到它是专门用来解决前端依赖的，看它的用例以及别的项目的使用情况也可以看到 ，通常的用法就是&lt;script src=&quot;bower_components/xxx_lib/xxxx.js&quot;&gt;&lt;/script&gt;，这就已经很明显了，不是吗？ 以我这次项目中用到的webrtc-adapter为例，写一个简单的使用流程。 首先要安装它 npm install [-g] bower 什么？没有装npm？那你可以先去搜索一下了。这里我提一点，因为Debian打包时把Node.js的二进制文件命名为nodejs，而很多第三方包在用的时候第一行其实是#!/usr/bin/env node，这样就会提示找不到Node.js的可执行文件，遇到这个情况有两种解决方案。 安装nodejs-legacy包 sudo apt-get install nodejs-legacy 自己创建一个node符号链接 sudo ln -s /usr/bin/nodejs /usr/bin/node 然后要知道需要用的模块的名字，比如我这是在adapter的文档里发现的这个名字。 bower install webrtc-adapter 安装完成之后会在当前目录创建一个名为bower_components的目录，其实就是把你要的repo下载到本地了。 需要注意的是，当我们选择了使用bower作为包管理工具时，就默认排除了我更喜欢的另外一种方式——CDN。对，为了减轻自己的服务器的压力，通常会把一些公用的库的js的引用放在那些免费提供的CDN上，比如又拍云等等。那既然选择了bower的方式，就继续吧。 假设我们是在一个git repo里面进行开发，你肯定不希望提交的时候把bower_components里的东西也提交，而是只保留一个清单文件，这个清单文件列出了已经下载的库的名称和版本信息。所以 bower init 那么问题来了，如果写完这个之后我又加了个依赖，难道还要手工修改bower.json文件吗？当然不需要！只需要在安装的时候加个参数bower就帮你完成了 bower install jquery --save 这时会出现一个很神奇的交互界面，放心的填写自己的项目信息吧，注意前面的一长串信息都引用的库(依赖)没有关系，而是你自己的项目信息。最后会提示是否把已经下载的库加入本项目的依赖中，而且默认是Y（是），所以直接回车就行。一路回车就会看到当前目录下生成了一个bower.json文件。但这还没完，这解决了不需要提交下载的依赖文件的问题，但没有解决不让git提交它们的问题，这时就需要.gitignore文件出场了。 在当前目录下新建.gitignore文件，添加以下内容 node_modules bower_components 经过上面的步骤，就可以放心的提交最小化的项目了。而部署项目的时候只需要再执行bower install和npm install就可以了。 更多详细信息可以参考bower help。 关于npm install需要的package.json这里没有提到，有兴趣的同学可以自行查找。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/10/08/bower%E4%BD%BF%E7%94%A8%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/10/08/%E8%BF%99%E4%B8%80%E5%A4%A9%E5%B0%B1%E8%BF%99%E6%A0%B7%E8%BF%87%E5%8E%BB%E4%BA%86/">这一天，就这样过去了
+</a>
+</h2>
+
+  <time datetime="2015-10-08">8 Oct, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    我是来自中国大陆的一名开发者。 最近的项目需要用到WebRTC相关的技术，通过搜索引擎找到了http://www.html5rocks.com这个网站，在上面找到了很多有用的信息，我知道了要搭建一个完整的WebRTC应用，需要浏览器支持getUserMedia等一系列API，这个网站我在自己的笔记本电脑上时可以访问的，但换了个电脑就不能访问了，问了别人，他们说是这个电脑没有配置一个东西，具体他说是什么我忘记了，而我自己的电脑上什么时候装了什么我也忘记了。 于是我按照这篇文章顺利的在本地搞起了一个可以调用本地摄像头和麦克风的Web应用，不过一个完整的WebRTC应用还需要STUN/TURN/ICE服务器用于穿透NAT，百度了一下，发现有人说一个叫做Google的公司提供了一个STUN服务器，供公众使用，我没有听说过这个公司，但配置上这个服务器后，服务真的能用了。当然，WebRTC协议并没有规定Signalling Channel的实现，这里我用了Sockt.io。 其实我最终的目的是要实现在iOS/Android上使用基于WebRTC的实时聊天服务，听说Github上有很多有用的项目，我就想找一个看看，但在浏览器里面输入了这个网址之后并没有像百度那样马上打开，而是慢慢悠悠的很久才出现了一个没有样式的页面，我不知道是哪里出了问题，于是用5分钟拼命刷新这个页面，最后在同事的帮助下终于有了样式，当时我就很纳闷为什么据说这么牛逼的网站访问速度这么慢，难道他们不知道 CDN吗？真是不理解。诶，算了，不纠结这个了，我现在终于可以开始搜索项目了，诶，搜索个东西还是这么慢，诶，找到了，https://github.com/webrtc/apprtc，看起来好高大上的样子，还是英文的说明，我不怎么能看懂，但照着一步一步做总得会啊，于是装了Node.js，用npm装了那些东西，当执行到npm install那一步时停住了，我不知道发生了什么，但看那篇英文说明里好像是要下载 https://cloud.google.com/appengine/downloads#Google_App_Engine_SDK_for_Python这个东西，又是这个叫Google的公司，前面它搞了个服务器，这又搞什么东西让我下载不下来呢？算了，我把这个项目下载下来吧。 上面写的是我昨天做的事情，现在还在下载这个项目，不知道为什么它那么慢，而且下载了30%多的时候老是出错，就不动了，我就点重试，就像我认为重启能解决所有问题一样，下载不下来肯定是这家网站不稳定导致的，多试几下肯定能好吧。但现在也还没有下载完，我有点不耐烦了。 算了，找个iOS能用的Demo来看看吧，咦，https://github.com/ISBX/apprtc-ios这个不错，下载吧，貌似这个项目不大，用了两个小时就下完了，还需要CocoaPods，嗯，这个之前有人帮我装过，我只需要在项目所在的目录里执行pod install就可以了，诶，不对，又出错了，。 我不想搞了，作为一个程序员怎么都不会上网了呢？是不是我不适合干这行啊？ 我觉得吧，百度才是这个世界上最好的网站，打开的速度快，界面还简洁。最重要的是他家老板长得帅。 明天辞职吧，回家种地可能要容易一些，再也不想看到这些那么慢的网站了。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/10/08/%E8%BF%99%E4%B8%80%E5%A4%A9%E5%B0%B1%E8%BF%99%E6%A0%B7%E8%BF%87%E5%8E%BB%E4%BA%86/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/09/26/%E7%BB%88%E4%BA%8E%E4%B8%8B%E5%86%B3%E5%BF%83%E6%8A%8A%E5%8D%9A%E5%AE%A2%E7%A9%BA%E9%97%B4%E8%BF%81%E7%A7%BB%E5%88%B0%E5%9B%BD%E5%86%85%E4%BA%86/">终于下决心把博客空间迁移到国内了
+</a>
+</h2>
+
+  <time datetime="2015-09-26">26 Sep, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    写博客也有一段时间了，但产出并不是很多，最重要的是没有读者。 因为百度是无法爬到GitHub的内容的，因此用GitHub Pages搭建的博客网站往往是不能在百度里面搜到的，但我写的又是中文的文章，所以。。。。 当然其实最主要的原因是文章的质量不高。 看到GitCafe的网站感觉很不错，几乎提供了GitHub提供的所有功能，最重要的是国内的访问速度快，于是干脆就迁移到国内了，同时把disqus迁移到多说——说是迁移，其实完全没有负担——因为并没有历史评论，哈哈。 接下来还会写很多东西，希望我写的东西能给需要的人一些帮助吧。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/09/26/%E7%BB%88%E4%BA%8E%E4%B8%8B%E5%86%B3%E5%BF%83%E6%8A%8A%E5%8D%9A%E5%AE%A2%E7%A9%BA%E9%97%B4%E8%BF%81%E7%A7%BB%E5%88%B0%E5%9B%BD%E5%86%85%E4%BA%86/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+  
+<div class="container pagination">
+  
+
+
+<a aria-label="First" href="http://unixera.com/">
+  <span aria-hidden="true">««</span>
+</a>
+
+<a aria-label="Previous" href="http://unixera.com/page/2/">
+  <span aria-hidden="true">«</span>
+</a>
+
+
+<a href="http://unixera.com/">
+  1
+</a>
+
+<a href="http://unixera.com/page/2/">
+  2
+</a>
+
+<a class="active" href="http://unixera.com/page/3/">
+  3
+</a>
+
+<a href="http://unixera.com/page/4/">
+  4
+</a>
+
+<a href="http://unixera.com/page/5/">
+  5
+</a>
+
+<a href="http://unixera.com/page/6/">
+  6
+</a>
+
+<a href="http://unixera.com/page/7/">
+  7
+</a>
+
+<a href="http://unixera.com/page/8/">
+  8
+</a>
+
+<a href="http://unixera.com/page/9/">
+  9
+</a>
+
+<a href="http://unixera.com/page/10/">
+  10
+</a>
+
+
+<a aria-label="Next" href="http://unixera.com/page/4/">
+  <span aria-hidden="true">»</span>
+</a>
+
+<a aria-label="Last" href="http://unixera.com/page/10/">
+  <span aria-hidden="true">»»</span>
+</a>
+
+
+</div>
+
+
+</section>
+
+      <footer id="main-footer" class="container main_footer">
+  
+
+  <div class="container nav foot no-print">
+  
+<a href="http://unixera.com/license">license</a>
+
+
+  <a class="toplink" href="#">back to top</a>
+
+</div>
+
+  <div class="container credits">
+  
+<div class="container footline">
+  
+  Learn what you eager
+
+
+</div>
+
+
+  
+<div class="container copyright">
+  
+  &copy; 2013-2015 Frost Wong. All rights reserved.
+
+
+</div>
+
+
+</div>
+
+</footer>
+
+    </main>
+    
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="http://unixera.com/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+    
+  </body>
+</html>
+

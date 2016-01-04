@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>homebrew使用心得  &middot; Me and the Web</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="">
+
+
+<meta property="og:title" content="homebrew使用心得  &middot; Me and the Web ">
+<meta property="og:site_name" content="Me and the Web"/>
+<meta property="og:url" content="http://unixera.com/2015-06-26-homebrewshi-yong-xin-de/" />
+<meta property="og:locale" content="en-us">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:description" content=""/>
+<meta property="og:article:published_time" content="2015-06-26T10:25:07&#43;08:00" />
+<meta property="og:article:modified_time" content="2015-06-26T10:25:07&#43;08:00" />
+
+  
+
+  
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@frostwong" />
+<meta name="twitter:creator" content="@frostwong" />
+<meta name="twitter:title" content="homebrew使用心得" />
+<meta name="twitter:description" content="" />
+<meta name="twitter:url" content="http://unixera.com/2015-06-26-homebrewshi-yong-xin-de/" />
+<meta name="twitter:domain" content="http://unixera.com">
+  
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "homebrew使用心得",
+    "author": {
+      "@type": "Person",
+      "name": "http://profiles.google.com/+?rel=author"
+    },
+    "datePublished": "2015-06-26",
+    "description": "",
+    "wordCount":  47 
+  }
+</script>
+
+
+
+<link rel="canonical" href="http://unixera.com/2015-06-26-homebrewshi-yong-xin-de/" />
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://unixera.com/touch-icon-144-precomposed.png">
+<link href="http://unixera.com/favicon.png" rel="icon">
+
+<meta name="generator" content="Hugo 0.15" />
+
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href='https://fonts.googleapis.com/css?family=Merriweather:300%7CRaleway%7COpen+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://unixera.com/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://unixera.com/css/style.css">
+<link rel="stylesheet" href="http://unixera.com/css/highlight/default.css">
+
+  
+</head>
+<body>
+  <main id="main-wrapper" class="container main_wrapper has-sidebar">
+    <header id="main-header" class="container main_header">
+  <div class="container brand">
+  <div class="container title h1-like">
+  <a class="baselink" href="http://unixera.com">
+  Frost Wong
+
+</a>
+
+</div>
+
+  
+<div class="container topline">
+  
+  Be a better WEB developer
+
+
+</div>
+
+
+</div>
+
+  <nav class="container nav primary no-print">
+  
+
+
+  
+<a href="http://unixera.com/about">About</a>
+
+<a href="http://unixera.com/post" title="Show list of posts">Posts</a>
+
+<a href="http://unixera.com/tags" title="Show list of tags">Tags</a>
+
+
+</nav>
+
+<div class="container nav secondary no-print">
+  
+<a id="contact-link-email" class="contact_link" href="mailto:frostwong@gmail.com">
+  <span class="fa fa-envelope-square"></span><span>email</span></a>
+
+
+
+<a id="contact-link-github" class="contact_link" href="https://github.com/lovelock">
+  <span class="fa fa-github-square"></span><span>github</span></a>
+
+
+
+
+
+
+
+
+
+
+
+<a id="contact-link-twitter" class="contact_link" href="https://twitter.com/frostwong">
+  <span class="fa fa-twitter-square"></span><span>twitter</span></a>
+
+
+
+
+
+
+
+</div>
+
+
+  
+
+</header>
+
+
+<article id="main-content" class="container main_content single">
+  <header class="container hat">
+  <h1>homebrew使用心得
+</h1>
+
+</header>
+
+  <div class="container content">
+  <p>今天同事问我在Mac OS X上安装软件的问题，我看到是下载的过程出了问题，并且出在证书上，想起来之前看到说curl在某个版本之后就把证书和二进制文件打包在一起了，就想着让她更新一下curl试试看。我之前在自己的机器上也用brew安装过curl，但并没有注意到其实安装的版本默认并没有生效。</p>
+
+<p>这里要引出的一种安装方式就是<code>keg-only</code>。</p>
+
+<p>看到这我就想插一句，国外的程序员们可真会玩儿，能给软件起很有意思的名字，连其中的组件都很有意思。比如这里，homehrew默认是把软件安装在<code>/usr/local/Cellar</code>目录中的，而<code>Cellar</code>的意思是<strong>酒窖</strong>。如果你了解过<code>FreeBSD</code>的目录树结构，就知道它这么做的意义了，是要把同一个来源的文件组织在一起，不扰乱整个目录树。相应的，<code>keg-only</code>中的<code>keg</code>的意思是<strong>酒桶</strong>。就让我试着用平实的语言来解释一下：
+Homebrew安装软件分为<a href="http://stackoverflow.com/questions/4691403/keg-only-homebrew-formulas" target="_blank">两种情况</a>。
+ 1. 系统没有自带的
+   这个没什么好说的，因为如果系统没有带，我们安装完相应的软件之后就自动的将编译好的二进制文件软链接到<code>PATH</code>中，这样才会生效。
+ 2. 系统自带的
+   如果系统自带的有这个软件，那么问题就不好办了，是直接覆盖呢，还是应该给用户一些选择？本着上面说过的原则，尽量少的影响原来的目录树，那么它在安装完二进制文件之后并没有做建软链的那一步操作，这就是所谓的<code>keg-only</code>的意思了。</p>
+
+<p>那么，如果我要更新curl，而OS X发行时本就是带着curl的，应该怎么办呢？当然作者已经替我们想到了这一点，</p>
+
+<pre><code>brew link curl --force
+</code></pre>
+
+<p>这样，它就会把需要的二进制链接到<code>PATH</code>中，要注意这时这些路径中是存在相应的二进制文件的，正是homebrew不敢确定是不是要直接帮我们做这些操作，才给我们提供了这个命令。</p>
+
+<p>那么如果你之前已经安装了不少软件了，发现有好几个没有建软链，难道要手工的一个一个执行？当然不用，可以参考下面的<a href="http://apple.stackexchange.com/questions/123900/is-there-a-quick-way-to-relink-my-homebrew-kegs" target="_blank">脚本</a></p>
+
+<pre><code class="language-bash">ls -1 /usr/local/Library/LinkedKegs | while read line; do
+    echo $LINE
+    brew unlink $LINE
+    brew link $LINE --force
+done
+</code></pre>
+
+<p>上面的脚本是利用了homebrew将<code>LinkedKegs</code>目录设置成了存放所有二进制文件的路径的特点，将其全部取出，删除全部软链，而后重新建立软链。</p>
+
+<p>其实也可以将<code>ls -1 /usr/local/Library/LinkedKegs</code>替换成<code>brew list -1</code>也可。</p>
+
+<p>另外别的诸如<code>brew install</code>，<code>brew uninstall</code>的方法就不说了。</p>
+
+</div>
+
+
+  
+</article>
+      <footer id="main-footer" class="container main_footer">
+  
+
+  <div class="container nav foot no-print">
+  
+<a href="http://unixera.com/license">license</a>
+
+
+  <a class="toplink" href="#">back to top</a>
+
+</div>
+
+  <div class="container credits">
+  
+<div class="container footline">
+  
+  Learn what you eager
+
+
+</div>
+
+
+  
+<div class="container copyright">
+  
+  &copy; 2013-2015 Frost Wong. All rights reserved.
+
+
+</div>
+
+
+</div>
+
+</footer>
+
+    </main>
+    
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="http://unixera.com/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+    
+  </body>
+</html>
+

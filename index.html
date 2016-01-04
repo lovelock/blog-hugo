@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Me and the Web </title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="">
+
+
+<meta property="og:title" content="Me and the Web ">
+<meta property="og:site_name" content="Me and the Web"/>
+<meta property="og:url" content="http://unixera.com/" />
+<meta property="og:locale" content="en-us">
+
+
+<meta property="og:type" content="website" />
+
+
+
+<link href="http://unixera.com/index.xml" rel="alternate" type="application/rss+xml" title="Me and the Web" />
+
+<link rel="canonical" href="http://unixera.com/" />
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://unixera.com/touch-icon-144-precomposed.png">
+<link href="http://unixera.com/favicon.png" rel="icon">
+
+<meta name="generator" content="Hugo 0.15" />
+
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href='https://fonts.googleapis.com/css?family=Merriweather:300%7CRaleway%7COpen+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://unixera.com/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://unixera.com/css/style.css">
+<link rel="stylesheet" href="http://unixera.com/css/highlight/default.css">
+
+  
+</head>
+<body>
+  <main id="main-wrapper" class="container main_wrapper has-sidebar">
+    <header id="main-header" class="container main_header">
+  <div class="container brand">
+  <div class="container title h1-like">
+  <a class="baselink" href="http://unixera.com">
+  Frost Wong
+
+</a>
+
+</div>
+
+  
+<div class="container topline">
+  
+  Be a better WEB developer
+
+
+</div>
+
+
+</div>
+
+  <nav class="container nav primary no-print">
+  
+
+
+  
+<a href="http://unixera.com/about">About</a>
+
+<a href="http://unixera.com/post" title="Show list of posts">Posts</a>
+
+<a href="http://unixera.com/tags" title="Show list of tags">Tags</a>
+
+
+</nav>
+
+<div class="container nav secondary no-print">
+  
+<a id="contact-link-email" class="contact_link" href="mailto:frostwong@gmail.com">
+  <span class="fa fa-envelope-square"></span><span>email</span></a>
+
+
+
+<a id="contact-link-github" class="contact_link" href="https://github.com/lovelock">
+  <span class="fa fa-github-square"></span><span>github</span></a>
+
+
+
+
+
+
+
+
+
+
+
+<a id="contact-link-twitter" class="contact_link" href="https://twitter.com/frostwong">
+  <span class="fa fa-twitter-square"></span><span>twitter</span></a>
+
+
+
+
+
+
+
+</div>
+
+
+  
+
+</header>
+
+
+<section id="main-content" class="container main_content homepage">
+  <header class="container header">
+    <h1>Me and the Web
+</h1>
+
+    <span>last update: <time datetime="2015-12-04T23:12:52Z">4 December at 11:12pm</time>
+</span>
+
+  </header>
+  
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/12/04/html%E4%B8%AD%E7%9A%84inputtyperadio%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E5%8F%91%E7%8E%B0/">HTML中的input[type=radio]的一个小发现
+</a>
+</h2>
+
+  <time datetime="2015-12-04">4 Dec, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    昨天在写一个表单时，一个无意的错误让我发现了HTML radio类型的input的一个特性。 在一个表单&lt;form&gt;&lt;/form&gt; 中，相同name的input[type=radio]只有最后一个才会正常的渲染checked。 也就是说，如果一个表格中有很多条目，这时每一列都会有相同的name，这时你会发现及时每个条目的input[type=radio]都有正确的checked属性，但并不能看到它被选中——只有最后一行正常。 起初我还以为这是个bug，仔细一想，其实这是更合理的方式。 因为，在一个表单中，每个不同的name就是一个参数，如果同一个name的参数出现了多次，服务端也会以最后一个为准。如此看来，这样的实现反倒会让开发者在参数输入就发现问题。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/12/04/html%E4%B8%AD%E7%9A%84inputtyperadio%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E5%8F%91%E7%8E%B0/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/12/04/os-x%E5%AE%8C%E5%85%A8%E5%8D%B8%E8%BD%BDjdk%E7%9A%84%E6%96%B9%E6%B3%95/">OS X完全卸载JDK的方法
+</a>
+</h2>
+
+  <time datetime="2015-12-04">4 Dec, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    刚用OS X时想着可能会用到Java，毕竟Jetbrains的产品都要依赖Java。但新版本的这些IDE都自带java-bundle了，所以就没有必要留着了。 看了Java官网的指南，发现无法删干净，而在StackOverFlow上发现了这条，完美！ sudo rm -rf /Library/Java/JavaVirtualMachines/jdk&lt;version&gt;.jdk sudo rm -rf /Library/PreferencePanes/JavaControlPanel.prefPane sudo rm -rf /Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin sudo rm -rf /Library/LaunchAgents/com.oracle.java.Java-Updater.plist sudo rm -rf /Library/PrivilegedHelperTools/com.oracle.java.JavaUpdateHelper sudo rm -rf /Library/LaunchDaemons/com.oracle.java.JavaUpdateHelper.plist sudo rm -rf /Library/Preferences/com.oracle.java.Helper-Tool.plist 记录一下。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/12/04/os-x%E5%AE%8C%E5%85%A8%E5%8D%B8%E8%BD%BDjdk%E7%9A%84%E6%96%B9%E6%B3%95/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/12/02/javascript%E9%97%AD%E5%8C%85%E6%B7%B1%E7%A9%B6/">JavaScript闭包深究
+</a>
+</h2>
+
+  <time datetime="2015-12-02">2 Dec, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    问题来源 刚刚看到微信公众号推送的一篇文章, 大部分人都会做错的经典JS闭包面试题,里面出现了一道很有意思的题目，让我有兴趣自己尝试一下。 题目是这样的 function fun(n, o) { console.log(o); return { fun: function (m) { return fun(m, n); } }; } 问题是下面这三行的输出分别是什么。 注意不是问a, b, c的值，是输出。 var a = fun(0); a.fun(1); a.fun(2); a.fun(3);//undefined,?,?,? var b = fun(0).fun(1).fun(2).fun(3);//undefined,?,?,? var c = fun(0).fun(1); c.fun(2); c.fun(3);//undefined,?,?,? 答案在最后，如果有兴趣可以先尝试自己分析一下。这道题的答案并没有争议，但我看了原作者的分析之后，感觉到可能有点问题，于是找到了经常翻阅的《JavaScript the Good Parts》再来参详一遍第四章吧，大概翻了一下发现这本书并没有太详细的介绍这部分，于是找了一篇博文1，详细的研究一下。 函数(function)在JavaScript中是一等公民，老道说它是几乎完美的——当然也存在瑕疵，当你用过它变态的this特性以后，肯定会对这句话的严谨表示赞同。 我们知道，在JavaScript中创建对象时，对象字面量会连接到Object.prototype。而函数对象会连接到Function.prototype。那么Function.prototype又连接到谁呢？答案还是Object.prototype。因为在JavaScript中，函数、数组、对象(指我们经常见到的JSON对象)都是对象(特指原型链的对象)。 探究 根据《JavaScript the Good Parts》的说法，函数的定义有4个要素。 // 创建一个名为add的变量，并把一个函数赋值给它 var add = function (a, b) { return a + b; }; 函数字面量包括4个部分： 保留字function 函数名
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/12/02/javascript%E9%97%AD%E5%8C%85%E6%B7%B1%E7%A9%B6/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/11/28/my-thoughts-about-programming/">my-thoughts-about-programming
+</a>
+</h2>
+
+  <time datetime="2015-11-28">28 Nov, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    可见性 Visibility MVC 隔离变化
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/11/28/my-thoughts-about-programming/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/11/25/xhprof%E6%96%B9%E4%BE%BF%E7%9A%84%E6%8F%92%E5%85%A5%E8%A6%81%E6%A3%80%E6%B5%8B%E7%9A%84%E4%BB%A3%E7%A0%81/">xhprof方便的插入要检测的代码
+</a>
+</h2>
+
+  <time datetime="2015-11-25">25 Nov, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    本文只是给自己搞的一个小封装做个入口。 一次给同事写的一个接口做重构，上线以后发现性能恶化严重，导致了线上的严重问题，我马上想到用xhprof查一下问题，结果由于用的是Yaf框架，里面对一些目录结构做了错误的判断，导致用起来很不方便。所以在问题解决之后我想着把这个xhprof的web目录做成一个独立的vhost，这样用起来就方便了，由于和主体项目所使用的框架无关，也不会受到不良影响。 这里只留个地址，看项目的README吧。有希望能继续改进的小伙伴可以联系我。 github coding.net
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/11/25/xhprof%E6%96%B9%E4%BE%BF%E7%9A%84%E6%8F%92%E5%85%A5%E8%A6%81%E6%A3%80%E6%B5%8B%E7%9A%84%E4%BB%A3%E7%A0%81/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+  
+<div class="container pagination">
+  
+
+
+<a aria-label="First" href="http://unixera.com/">
+  <span aria-hidden="true">««</span>
+</a>
+
+<a class="disabled" aria-label="Previous" href="#">
+  <span aria-hidden="true">«</span>
+</a>
+
+
+<a class="active" href="http://unixera.com/">
+  1
+</a>
+
+<a href="http://unixera.com/page/2/">
+  2
+</a>
+
+<a href="http://unixera.com/page/3/">
+  3
+</a>
+
+<a href="http://unixera.com/page/4/">
+  4
+</a>
+
+<a href="http://unixera.com/page/5/">
+  5
+</a>
+
+<a href="http://unixera.com/page/6/">
+  6
+</a>
+
+<a href="http://unixera.com/page/7/">
+  7
+</a>
+
+<a href="http://unixera.com/page/8/">
+  8
+</a>
+
+<a href="http://unixera.com/page/9/">
+  9
+</a>
+
+<a href="http://unixera.com/page/10/">
+  10
+</a>
+
+
+<a aria-label="Next" href="http://unixera.com/page/2/">
+  <span aria-hidden="true">»</span>
+</a>
+
+<a aria-label="Last" href="http://unixera.com/page/10/">
+  <span aria-hidden="true">»»</span>
+</a>
+
+
+</div>
+
+
+</section>
+
+      <footer id="main-footer" class="container main_footer">
+  
+
+  <div class="container nav foot no-print">
+  
+<a href="http://unixera.com/license">license</a>
+
+
+  <a class="toplink" href="#">back to top</a>
+
+</div>
+
+  <div class="container credits">
+  
+<div class="container footline">
+  
+  Learn what you eager
+
+
+</div>
+
+
+  
+<div class="container copyright">
+  
+  &copy; 2013-2015 Frost Wong. All rights reserved.
+
+
+</div>
+
+
+</div>
+
+</footer>
+
+    </main>
+    
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="http://unixera.com/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+    
+  </body>
+</html>
+

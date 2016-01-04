@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Me and the Web </title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="">
+
+
+<meta property="og:title" content="Me and the Web ">
+<meta property="og:site_name" content="Me and the Web"/>
+<meta property="og:url" content="http://unixera.com/" />
+<meta property="og:locale" content="en-us">
+
+
+<meta property="og:type" content="website" />
+
+
+
+<link href="http://unixera.com/index.xml" rel="alternate" type="application/rss+xml" title="Me and the Web" />
+
+<link rel="canonical" href="http://unixera.com/" />
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://unixera.com/touch-icon-144-precomposed.png">
+<link href="http://unixera.com/favicon.png" rel="icon">
+
+<meta name="generator" content="Hugo 0.15" />
+
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href='https://fonts.googleapis.com/css?family=Merriweather:300%7CRaleway%7COpen+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://unixera.com/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://unixera.com/css/style.css">
+<link rel="stylesheet" href="http://unixera.com/css/highlight/default.css">
+
+  
+</head>
+<body>
+  <main id="main-wrapper" class="container main_wrapper has-sidebar">
+    <header id="main-header" class="container main_header">
+  <div class="container brand">
+  <div class="container title h1-like">
+  <a class="baselink" href="http://unixera.com">
+  Frost Wong
+
+</a>
+
+</div>
+
+  
+<div class="container topline">
+  
+  Be a better WEB developer
+
+
+</div>
+
+
+</div>
+
+  <nav class="container nav primary no-print">
+  
+
+
+  
+<a href="http://unixera.com/about">About</a>
+
+<a href="http://unixera.com/post" title="Show list of posts">Posts</a>
+
+<a href="http://unixera.com/tags" title="Show list of tags">Tags</a>
+
+
+</nav>
+
+<div class="container nav secondary no-print">
+  
+<a id="contact-link-email" class="contact_link" href="mailto:frostwong@gmail.com">
+  <span class="fa fa-envelope-square"></span><span>email</span></a>
+
+
+
+<a id="contact-link-github" class="contact_link" href="https://github.com/lovelock">
+  <span class="fa fa-github-square"></span><span>github</span></a>
+
+
+
+
+
+
+
+
+
+
+
+<a id="contact-link-twitter" class="contact_link" href="https://twitter.com/frostwong">
+  <span class="fa fa-twitter-square"></span><span>twitter</span></a>
+
+
+
+
+
+
+
+</div>
+
+
+  
+
+</header>
+
+
+<section id="main-content" class="container main_content homepage">
+  <header class="container header">
+    <h1>Me and the Web
+</h1>
+
+    <span>last update: <time datetime="2015-12-04T23:12:52Z">4 December at 11:12pm</time>
+</span>
+
+  </header>
+  
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/05/06/bootstrap-modal%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/">Bootstrap Modal用法总结
+</a>
+</h2>
+
+  <time datetime="2015-05-06">6 May, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    这段时间前端后端同时写，对jQuery和Bootstrap用的比较多，说实话我对Modal很感兴趣，单纯的就是因为它好看，并且看起来友好，不像alert那么暴力，FF的实现还好，而Chrome的alert直接忽视所有其他操作，只能选择不再弹出，但只要选择了这个不再弹出，在重启这个页面之前（刷新没用）就不会再弹出了，真不明白这是什么逻辑。当然最重要的一点是Modal可以交互。 下面简单说说Modal的用法，当然基本上来自官方文档。 依赖 jQuery Bootstrap 没有对它们进行安全版本测试，就现在而言，使用最新的版本总是没有问题的。 基本组成 .modal Modal的主体div 通常我们会给它指定一个id，因为你总是会希望能更细粒度的控制一个modal的行为吧，况且文档中也说不可以使用叠加的modal，也就是说，同一时间一个页面上只能出现一个modal，如果直接使用.modal 来控制它的显示和隐藏，早晚会出现问题的 还有一个属性是role ，这个属性很有意思，其实没有什么特别的用途，只是在阅读代码时让你知道它的作用是一个对话框，为什么需要这个呢？因为&lt;div&gt; 这个标签本身不能表达这个意思，比如&lt;select&gt; 标签，你一看就知道它一定是一个下拉选择器，但&lt;div&gt; 呢？所以，这个role 就是用来说明标签本身无法说明的一些内容，比较常见的还有在一个.nav .nav-tabs 中的&lt;li&gt; 标签中，会添加role=&quot;option&quot; 这样的说明，就是告诉开发者这是一个功能的多个选项之一 通常我们会喜欢加上一些动画，最常用的是.fade ，当然如果你更喜欢直接，也可以忽视它 tabIndex=&quot;-1&quot; 关于这个属性的解释 .modal-dialog 关于这个没有找到更多的解释，我想大概是因为弹出的是一个对话框吧，没有见到更多的类型 同样这个class也可以有叠加选项，.modal-lg/.modal-md/.modal-sm 分别表示大中小三种型号 .modal-content 当然就是modal的内容了 .modal-header 内容的第一层，头部 可以在其中放置一个关闭按钮，比如右上角的一个x 等，为了诸如屏幕阅读器之类的用户辅助工具更好的工作，可以在这个关闭按钮上加上aria-labelledby 属性，值是.modal-title 的id ，当然也可以手动用aria-label=&quot;myModalTitle&quot; 来指定，但动态的写法更方便，不是吗？ .modal-title 放置在.modal-header 中，modal的标题 .modal-body modal的正文部分，需要显示的主要内容就在这个部分了 .modal-footer 通常用来放置确认/关闭等按钮 当然我们需要一个关闭modal的按钮，这个按钮需要添加一个data-dismiss=&quot;modal&quot; 的属性才能正确的完成功能，和上面那个x 按钮的功能是一样的 经过上面这几步，一个完整的modal对话框就完成了，但问题来了，怎么触发它呢？ 下面来说一下modal的触发方式。 按钮 这个应该是最常用的方式。需要注意的有几点 data-toggle=&quot;modal&quot; 指明这个按钮要触发的widget类型是modal，常见的还有 html data-toggle=&quot;modal&quot; data-toggle=&quot;collapse&quot; data-toggle=&quot;dropdown&quot; data-toggle=&quot;tab&quot; data-target=&quot;#myModal&quot; 指明这个按钮要触发的modal的id是myModal 有了这两个属性点击这个按钮时就可以触发这个modal了。 JavaScript方法 $('#myModal').modal(options) 关于options，有以下几个选项 backdrop，值可选布尔值(true/false)或'static' ，默认值是true，当设置为false 或'static' 时点击modal外的区域modal不消失，反之会消失
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/05/06/bootstrap-modal%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/05/05/jquery%E5%8A%A8%E6%80%81%E7%94%9F%E6%88%90%E5%85%83%E7%B4%A0/">jQuery动态生成元素
+</a>
+</h2>
+
+  <time datetime="2015-05-05">5 May, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    这些天做的项目中频繁遇到类似的问题，比如根据ajax返回的结果动态生成一个table或者select的options。这里做一个简单的总结。 生成元素 1. 生成table 2. 生成select 获取元素 1. 获取select的值 这个问题当时花了我不少时间，我们知道，在一个select中，带有selected标签的那个是不用点开就可以看到的那个，解决这个问题就要从这里入手。如果在option列表里没有手工指定哪个是选中的，那么默认是第一个。 2. 遍历一个table中tbody的所有元素
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/05/05/jquery%E5%8A%A8%E6%80%81%E7%94%9F%E6%88%90%E5%85%83%E7%B4%A0/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/05/02/javascript%E4%BB%A3%E7%A0%81%E7%BA%A6%E5%AE%9A/">JavaScript代码约定
+</a>
+</h2>
+
+  <time datetime="2015-05-02">2 May, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    原文标题：Code Conventions for the JavaScript Programming Language 作者：Douglas Crockford 这是JavaScript编程中的一系列代码约定和规则。灵感来自于Sun的Code Conventions for the Java Programming Language。当然，因为JavaScript不是Java，所以这篇文章也完全不同于前者。 对于一个组织而言，代码库的质量和软件的长期价值成正比。在它的生命周期内，一个程序会经手很多人。如果一个程序可以清晰的传达它的结构和和特点，在不远的将来修改时就不太可能会崩溃。 编码约定有助于减少代码的脆性。 所有JavaScript代码都是公开发送的。它也应该总是出版物的质量。 整齐很重要。 JavaScript文件 JavaScript程序应该以.js文件保存和传输。 JavaScript不应该嵌入在HTML文件中，除非代码是针对一个特定的session。将JS代码嵌入在HTML中，会导致由于不能通过缓存和压缩来减小页面体积而使其显著增加。 &lt;script src=filename.js标签在&lt;body&gt;&lt;/body&gt;标签中出现的越晚越好。这减小了其他页面组件的的脚本加载而带来的影响。没有必要用language或type属性。决定MIME类型是服务器而不是脚本标签的职责。 缩进 缩进的单位是4个空格。应该避免使用制表符，因为（在21世纪的今天）仍然没有取代制表符的标准。使用空格会产生更大的文件体积，但在内网这个增长不会很明显，而且这个差异会被minification缩小。 行长度 避免长于80个字符的行。当一个语句在一行不合适时，可能需要断行。把断行放在操作符之后，理想情况下放在逗号后面。操作符后面的换行会减少因为插入分号而掩盖的复制粘贴错误的可能性。下一行应该缩进8个空格。 注释 写注释时慷慨一些吧。留一些信息给将来可能会读到的人（可能是你自己），他可能会需要理解你做的事情。注释需要写好并写清晰，就像它们要标注的代码一样。偶尔一个幽默的金块儿可能会得到感恩，但挫折和怨恨可不能。 保持注释的更新很重要。有错误的注释会让代码更难阅读和理解。 只做有意义的注释。专注于那些不能被立即看到的。不要浪费阅读者的时间去看这些东西： i = 0; // Set i to zero 通常用行注释。留着块注释做正式的文档。 变量声明 所有的变量都应该在使用前声明。JavaScript不要求如此，但这样做可以让代码更易读并且容易检测到那些没有声明的隐式的全局变量。隐式的全局变量永远都不要用。全局变量的使用要尽量减少。 在函数题中，var语句应该是第一条语句。 最好给每个变量单独的行和注释。如果可能的话，尽量用字母顺序给它们排序。 var currentEntry, // currently selected table entry level, // indentation level size; // size of table JavaScript没有块作用域，所以在代码块中定义变量可能会让经验丰富的C系程序员很困惑。在函数开头定义所有的变量。 函数声明 所有的函数都应该显定义再使用。内部函数应该位于var语句之后。这样可以更容易的看出在这个作用域内包含的变量。 函数名和参数列表左括号之间不应该有空格。右括号和大括号之间应该有一个空格。函数体应该缩进4个空格。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/05/02/javascript%E4%BB%A3%E7%A0%81%E7%BA%A6%E5%AE%9A/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/05/02/%E5%87%BD%E6%95%B0%E9%BB%98%E8%AE%A4%E5%8F%82%E6%95%B0%E6%AF%94%E8%BE%83/">函数默认参数比较
+</a>
+</h2>
+
+  <time datetime="2015-05-02">2 May, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    当一个函数的参数很多，而有很多需要传输的数据都具有相同的属性值，那么我们可能希望可以不传入某些默认的参数，这就导致了函数默认参数这个需求的诞生。 第一次注意到这个需求是在JavaScript中。它的实现是这样的： function defaultParamTest(p1, p2, p3, p4) { p3 = p3 ? p3 : default_value_3; p4 = p4 ? p4 : default_value_4; // function body } 我不喜欢这样的实现，尝试着用我自己喜欢的方式，如下 /* 错误的代码 */ functon defaultParamTest (p1, p2, p3=default_value_3, p4=default_value_4) { // function body } 显然上面的是PHP的写法，JavaScript通不过。 既然说到了PHP的写法，那么就再写一段来展示一下。 function defaultParamTest ($p1, $p2, $p3=&quot;default_value_3&quot;, $p4=&quot;default_value_4&quot;) { // function body } 这种方式用起来简单直观，符合常理。 但今天又注意到Python的写法和PHP又有不同，这一点让我很惊喜。先上示例代码： def default_param_test(p1, p2, p3 = 'default_value_3', p4 = 'default_value_4'): # function body 这样的写法你可能会认为和PHP的没有什么区别，其实区别是很大的，因为Python的这个默认参数可以省略第三个只要传入第四个，而PHP不可以。举例如下 defaultParamTest($p1v,
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/05/02/%E5%87%BD%E6%95%B0%E9%BB%98%E8%AE%A4%E5%8F%82%E6%95%B0%E6%AF%94%E8%BE%83/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/05/02/%E6%88%91%E7%9A%84linux%E4%B9%8B%E8%B7%AF/">我的Linux之路
+</a>
+</h2>
+
+  <time datetime="2015-05-02">2 May, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    说出来可能会让人笑话，但现在从事做软件开发的我，在大学之前我几乎没有接触过电脑。大一的时候同学陪我去买电脑，那是第一次“拥有”一台电脑，那是一台没有预装Windows的华硕A42，于是我们去沙河镇上买D版系统盘，买的是XP，但谁知道怎么装都没法用，后来我自己研究的过程中就知道了Windows 7, 然后就发现原来这个机器的双显卡配置是无法用XP的，这个过程中就不停的上网搜索操作系统相关的内容，我已经忘记了是哪天发现了Linux这个单词，然后了解了相关的Wiki之后，我知道了这是一个叫做Linus的牛人开发的，后来呢，原来还有一个叫做Debian的GNU Linux发行版，然后就Ubuntu，发现这个怎么看怎么别扭，哦，原来还有个RHEL，哇塞，这个好高端，企业采用的啊，可惜当时大二，沙河校区的图书馆馆藏有限，能看到的书基本上全部是关于Red Hat Linux 9.0的，这个让我很不明白，为什么现在没有这个9.0了呢？当我傻傻分不清楚的时候在自己的笔记本上装了当时刚刚发布的RHEL6.0，咔咔的把硬盘上的所有资料全部搞没了。：( 后来就学乖了，在Windows 7里面装虚拟机尝试各种发行版，甚至FreeBSD/OpenBSD以致Darwin/Open Solaris都尝试过，这也算哥们儿最疯狂的时候吧。 当觉得自己的水平可以了就把硬盘格了，装了个Fedora17，老老实实的用了半年，这期间确实发现了Linux的优点，可能现在总结不出来具体的条款了，但就一条——舒服的命令行已经可以让我毫不犹豫的放弃Windows了。当然，我不是计算机专业的，我们的专业需要写Word和各种乱七八糟的东西，反正就是越来越觉得Linux实际上并不适合没有毕业的我的日常使用，中间又回归了一段时间Windows。 当快毕业的时候买了一台新电脑，买的时候就确定了即将毕业的我不会再怎么用Windows，也不会玩游戏，于是就搞了一台Clevo的准系统，w650sz，i7 4700M，8G内存，最重要的是它没有独显——也就没有必要再去搞什么bumblebee的双显卡切换了。 毕业后，我理所应当的做了程序员，我的电脑就再也没有被Windows占领过。现在用着的ArchLinux + i3-wm还是毕业那天晚上装的，用的旧了很多配置都搞的很舒服就不会再想从头再来了，而且Linux上的很多效率工具是Windows上无论怎么配置都得不到的，这个只有真正用过的人才能体会到。 所以，如果题主是想从别人这里问来使用Linux的体验，倒不如真的dive into it，自己亲身体验，你会发现它的好。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/05/02/%E6%88%91%E7%9A%84linux%E4%B9%8B%E8%B7%AF/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+  
+<div class="container pagination">
+  
+
+
+<a aria-label="First" href="http://unixera.com/">
+  <span aria-hidden="true">««</span>
+</a>
+
+<a aria-label="Previous" href="http://unixera.com/page/7/">
+  <span aria-hidden="true">«</span>
+</a>
+
+
+<a href="http://unixera.com/">
+  1
+</a>
+
+<a href="http://unixera.com/page/2/">
+  2
+</a>
+
+<a href="http://unixera.com/page/3/">
+  3
+</a>
+
+<a href="http://unixera.com/page/4/">
+  4
+</a>
+
+<a href="http://unixera.com/page/5/">
+  5
+</a>
+
+<a href="http://unixera.com/page/6/">
+  6
+</a>
+
+<a href="http://unixera.com/page/7/">
+  7
+</a>
+
+<a class="active" href="http://unixera.com/page/8/">
+  8
+</a>
+
+<a href="http://unixera.com/page/9/">
+  9
+</a>
+
+<a href="http://unixera.com/page/10/">
+  10
+</a>
+
+
+<a aria-label="Next" href="http://unixera.com/page/9/">
+  <span aria-hidden="true">»</span>
+</a>
+
+<a aria-label="Last" href="http://unixera.com/page/10/">
+  <span aria-hidden="true">»»</span>
+</a>
+
+
+</div>
+
+
+</section>
+
+      <footer id="main-footer" class="container main_footer">
+  
+
+  <div class="container nav foot no-print">
+  
+<a href="http://unixera.com/license">license</a>
+
+
+  <a class="toplink" href="#">back to top</a>
+
+</div>
+
+  <div class="container credits">
+  
+<div class="container footline">
+  
+  Learn what you eager
+
+
+</div>
+
+
+  
+<div class="container copyright">
+  
+  &copy; 2013-2015 Frost Wong. All rights reserved.
+
+
+</div>
+
+
+</div>
+
+</footer>
+
+    </main>
+    
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="http://unixera.com/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+    
+  </body>
+</html>
+

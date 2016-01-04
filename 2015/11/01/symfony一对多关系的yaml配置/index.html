@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Symfony一对多关系的YAML配置  &middot; Me and the Web</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="">
+
+
+<meta property="og:title" content="Symfony一对多关系的YAML配置  &middot; Me and the Web ">
+<meta property="og:site_name" content="Me and the Web"/>
+<meta property="og:url" content="http://unixera.com/2015/11/01/symfony%E4%B8%80%E5%AF%B9%E5%A4%9A%E5%85%B3%E7%B3%BB%E7%9A%84yaml%E9%85%8D%E7%BD%AE/" />
+<meta property="og:locale" content="en-us">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:description" content=""/>
+<meta property="og:article:published_time" content="2015-11-01T16:11:21Z" />
+<meta property="og:article:modified_time" content="2015-11-01T16:11:21Z" />
+
+  
+
+  
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@frostwong" />
+<meta name="twitter:creator" content="@frostwong" />
+<meta name="twitter:title" content="Symfony一对多关系的YAML配置" />
+<meta name="twitter:description" content="" />
+<meta name="twitter:url" content="http://unixera.com/2015/11/01/symfony%E4%B8%80%E5%AF%B9%E5%A4%9A%E5%85%B3%E7%B3%BB%E7%9A%84yaml%E9%85%8D%E7%BD%AE/" />
+<meta name="twitter:domain" content="http://unixera.com">
+  
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "Symfony一对多关系的YAML配置",
+    "author": {
+      "@type": "Person",
+      "name": "http://profiles.google.com/+?rel=author"
+    },
+    "datePublished": "2015-11-01",
+    "description": "",
+    "wordCount":  131 
+  }
+</script>
+
+
+
+<link rel="canonical" href="http://unixera.com/2015/11/01/symfony%E4%B8%80%E5%AF%B9%E5%A4%9A%E5%85%B3%E7%B3%BB%E7%9A%84yaml%E9%85%8D%E7%BD%AE/" />
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://unixera.com/touch-icon-144-precomposed.png">
+<link href="http://unixera.com/favicon.png" rel="icon">
+
+<meta name="generator" content="Hugo 0.15" />
+
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href='https://fonts.googleapis.com/css?family=Merriweather:300%7CRaleway%7COpen+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://unixera.com/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://unixera.com/css/style.css">
+<link rel="stylesheet" href="http://unixera.com/css/highlight/default.css">
+
+  
+</head>
+<body>
+  <main id="main-wrapper" class="container main_wrapper has-sidebar">
+    <header id="main-header" class="container main_header">
+  <div class="container brand">
+  <div class="container title h1-like">
+  <a class="baselink" href="http://unixera.com">
+  Frost Wong
+
+</a>
+
+</div>
+
+  
+<div class="container topline">
+  
+  Be a better WEB developer
+
+
+</div>
+
+
+</div>
+
+  <nav class="container nav primary no-print">
+  
+
+
+  
+<a href="http://unixera.com/about">About</a>
+
+<a href="http://unixera.com/post" title="Show list of posts">Posts</a>
+
+<a href="http://unixera.com/tags" title="Show list of tags">Tags</a>
+
+
+</nav>
+
+<div class="container nav secondary no-print">
+  
+<a id="contact-link-email" class="contact_link" href="mailto:frostwong@gmail.com">
+  <span class="fa fa-envelope-square"></span><span>email</span></a>
+
+
+
+<a id="contact-link-github" class="contact_link" href="https://github.com/lovelock">
+  <span class="fa fa-github-square"></span><span>github</span></a>
+
+
+
+
+
+
+
+
+
+
+
+<a id="contact-link-twitter" class="contact_link" href="https://twitter.com/frostwong">
+  <span class="fa fa-twitter-square"></span><span>twitter</span></a>
+
+
+
+
+
+
+
+</div>
+
+
+  
+
+</header>
+
+
+<article id="main-content" class="container main_content single">
+  <header class="container hat">
+  <h1>Symfony一对多关系的YAML配置
+</h1>
+
+  <div class="metas">
+<time datetime="2015-11-01">1 Nov, 2015</time>
+
+
+  
+  &middot; Read in about 1 min
+  &middot; (131 Words)
+  <br>
+  
+
+
+</div>
+
+</header>
+
+  <div class="container content">
+  
+
+<h1 id="用yaml方式配置对象关系:95124f6a163f0297f3e6978446cdcbd0">用YAML方式配置对象关系</h1>
+
+<p>这段时间在学习Symfony，看了Symfony Book和Symfony Cookbook，现在准备自己实现一个简单的博客系统，做一些简单的设计。</p>
+
+<h2 id="分析对象关系:95124f6a163f0297f3e6978446cdcbd0">分析对象关系</h2>
+
+<p>首先考虑会操作哪些对象。</p>
+
+<ol>
+<li>文章 Article</li>
+<li>用户 User</li>
+<li>评论 Comment</li>
+<li>分类 Category</li>
+</ol>
+
+<h3 id="文章:95124f6a163f0297f3e6978446cdcbd0">文章</h3>
+
+<p>对文章来说，它包含的属性有</p>
+
+<pre><code>- 标题
+- 概要
+- 正文
+- 作者
+- 创建时间
+- 更新时间
+</code></pre>
+
+<p>而作者是属于用户的，其属性不应该在Article对象中，分析文章和作者的关系，应该是一篇文章只能有一个作者，而一个作者可以写很多篇文章，这就是doctrine中的OneToMany和ManyToOne了。总感觉用Annotation的方式写这个关系不是那么明确，所以今天特意用yml配置文件的方式来实现这个概念。后面再详细说，这里要清楚的是对文章来说</p>
+
+<pre><code>1. 文章对评论 OneToMany
+2. 文章对作者 ManyToOne
+3. 文章对分类 ManyToOne
+</code></pre>
+
+<h3 id="用户:95124f6a163f0297f3e6978446cdcbd0">用户</h3>
+
+<p>对用户来说，包含的属性有</p>
+
+<pre><code>- 用户名
+- 密码
+- 昵称
+- 角色
+</code></pre>
+
+<p>前面已经说过，用户可以创建多篇文章，因此</p>
+
+<pre><code>1. 用户对文章 OneToMany
+2. 用户对评论 OneToMany
+</code></pre>
+
+<h3 id="评论:95124f6a163f0297f3e6978446cdcbd0">评论</h3>
+
+<p>对评论来说，包含的属性有</p>
+
+<pre><code>- 标题
+- 内容
+- 作者
+- 创建时间
+</code></pre>
+
+<p>和文章一样，它和作者是多对一的关系</p>
+
+<ol>
+<li>评论对作者 ManyToOne</li>
+<li>评论对文章 ManyToOne</li>
+</ol>
+
+<h3 id="分类:95124f6a163f0297f3e6978446cdcbd0">分类</h3>
+
+<p>对分类来说，只有一个属性（最简单的情况）</p>
+
+<pre><code>- 分类名称
+</code></pre>
+
+<p>它和文章是一对多的关系</p>
+
+<pre><code>1. 分类对文章 OneToMany
+</code></pre>
+
+<h2 id="实现:95124f6a163f0297f3e6978446cdcbd0">实现</h2>
+
+<p>这样，四个对象的关系就很明确了。具体到用yml来实现这些关系要注意的有两点。
+以用户和文章的关系为例。</p>
+
+<h3 id="onetomany:95124f6a163f0297f3e6978446cdcbd0">OneToMany</h3>
+
+<p>在YourBundle/Resources/config/doctrine/User.orm.yml中，除了user表自身的属性配置之外，还要加上以下配置</p>
+
+<pre><code>    oneToMany:
+        articles:
+            targetEntity: Artcile
+            mappedBy: user
+</code></pre>
+
+<p>为了便于理解这段的意思，我们可以给<code>oneToMany</code>加上一个主语——user，就可以这样理解了：</p>
+
+<blockquote>
+<p>一个user对应多个articles，articles对应的Entity是Article，articles是被user映射的（这个map是doctrine定义的叫法，相应的是inversedBy，没法解释了。。。。）</p>
+</blockquote>
+
+<p>这时对应的数据表是没有任何变化的，这只是声明了实体之间有这种关系，但并没有表现在数据库中。
+那么，既然有了用户对文章是一对多，那么必然存在文章对用户是多对一，即，数据表的变化需要两方面的配置才能生效。</p>
+
+<h3 id="manytoone:95124f6a163f0297f3e6978446cdcbd0">ManyToOne</h3>
+
+<p>在YourBundle/Resources/config/doctrine/Article.orm.yml中，除了article表自身的属性外，还要加上如下配置</p>
+
+<pre><code>    manyToOne:
+        user:
+            targetEntity: User
+            inversedBy: articles
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+</code></pre>
+
+<p>同样，我们还给这段配置加上主语articles来理解</p>
+
+<blockquote>
+<p>articles对应一个userser对应的实体是User，对应User.orm.yml中的mappedBy: user的就是inversedBy: articles。注意另外一个对应，manyToOne下第一级的user是对应OneToMany中的mappedBy: user，而这里的inversedBy: articles对应User.orm.yml中的oneToMany下第一级的articles。下面就是最重要的改变数据表的配置了，在article表中插入一个名为user_id的列，而这一列对应
+user表中的id</p>
+</blockquote>
+
+<p>写完这些，再执行<code>app/console doctrine:generate:entities YourBundle</code>就会看到</p>
+
+<pre><code class="language-bash">Updating database schema...
+Database schema updated successfully! &quot;10&quot; queries were executed
+</code></pre>
+
+<p>这样的输出了，再连上数据库看下，就会发现相应的表结构都已经变了。</p>
+
+<h2 id="总结和练习:95124f6a163f0297f3e6978446cdcbd0">总结和练习</h2>
+
+<p>如前面所说的，这四个对象之前的关系可不止上面写的这些，作为练习，请读者把其他的关系也用yml的方式配置出来吧。</p>
+
+<p>本文所用的代码位于[symfony练习题]</p>
+
+</div>
+
+
+  <footer class="container">
+  <div class="container navigation no-print">
+  <h2>Navigation</h2>
+  
+  
+
+    
+    <a class="prev" href="http://unixera.com/2015/10/19/%E7%BB%99linux%E6%96%B0%E6%89%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E5%BB%BA%E8%AE%AE/" title="给Linux新手的一些建议">
+      Previous
+    </a>
+    
+
+    
+    <a class="next" href="http://unixera.com/2015/11/03/vagrant%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" title="Vagrant使用说明">
+      Next
+    </a>
+    
+
+  
+
+
+</div>
+
+  <div class="container comments">
+  <h2>Comments</h2>
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+</footer>
+
+</article>
+      <footer id="main-footer" class="container main_footer">
+  
+
+  <div class="container nav foot no-print">
+  
+<a href="http://unixera.com/license">license</a>
+
+
+  <a class="toplink" href="#">back to top</a>
+
+</div>
+
+  <div class="container credits">
+  
+<div class="container footline">
+  
+  Learn what you eager
+
+
+</div>
+
+
+  
+<div class="container copyright">
+  
+  &copy; 2013-2015 Frost Wong. All rights reserved.
+
+
+</div>
+
+
+</div>
+
+</footer>
+
+    </main>
+    
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="http://unixera.com/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+    
+  </body>
+</html>
+

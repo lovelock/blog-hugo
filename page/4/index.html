@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Me and the Web </title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="">
+
+
+<meta property="og:title" content="Me and the Web ">
+<meta property="og:site_name" content="Me and the Web"/>
+<meta property="og:url" content="http://unixera.com/" />
+<meta property="og:locale" content="en-us">
+
+
+<meta property="og:type" content="website" />
+
+
+
+<link href="http://unixera.com/index.xml" rel="alternate" type="application/rss+xml" title="Me and the Web" />
+
+<link rel="canonical" href="http://unixera.com/" />
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://unixera.com/touch-icon-144-precomposed.png">
+<link href="http://unixera.com/favicon.png" rel="icon">
+
+<meta name="generator" content="Hugo 0.15" />
+
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href='https://fonts.googleapis.com/css?family=Merriweather:300%7CRaleway%7COpen+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://unixera.com/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://unixera.com/css/style.css">
+<link rel="stylesheet" href="http://unixera.com/css/highlight/default.css">
+
+  
+</head>
+<body>
+  <main id="main-wrapper" class="container main_wrapper has-sidebar">
+    <header id="main-header" class="container main_header">
+  <div class="container brand">
+  <div class="container title h1-like">
+  <a class="baselink" href="http://unixera.com">
+  Frost Wong
+
+</a>
+
+</div>
+
+  
+<div class="container topline">
+  
+  Be a better WEB developer
+
+
+</div>
+
+
+</div>
+
+  <nav class="container nav primary no-print">
+  
+
+
+  
+<a href="http://unixera.com/about">About</a>
+
+<a href="http://unixera.com/post" title="Show list of posts">Posts</a>
+
+<a href="http://unixera.com/tags" title="Show list of tags">Tags</a>
+
+
+</nav>
+
+<div class="container nav secondary no-print">
+  
+<a id="contact-link-email" class="contact_link" href="mailto:frostwong@gmail.com">
+  <span class="fa fa-envelope-square"></span><span>email</span></a>
+
+
+
+<a id="contact-link-github" class="contact_link" href="https://github.com/lovelock">
+  <span class="fa fa-github-square"></span><span>github</span></a>
+
+
+
+
+
+
+
+
+
+
+
+<a id="contact-link-twitter" class="contact_link" href="https://twitter.com/frostwong">
+  <span class="fa fa-twitter-square"></span><span>twitter</span></a>
+
+
+
+
+
+
+
+</div>
+
+
+  
+
+</header>
+
+
+<section id="main-content" class="container main_content homepage">
+  <header class="container header">
+    <h1>Me and the Web
+</h1>
+
+    <span>last update: <time datetime="2015-12-04T23:12:52Z">4 December at 11:12pm</time>
+</span>
+
+  </header>
+  
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/09/26/php%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-02/">PHP单元测试-02
+</a>
+</h2>
+
+  <time datetime="2015-09-26">26 Sep, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    上一篇中讲了PHP单元测试的一些简单概念，这里详细说一下会用到的各种assert*函数。官方文档按照字母顺序逐一讲述了这些方法，但我觉得那很不合适，至少应该大概按照类别来分类。 数组相关 assertArrayHasKey($expected_key, $actual_array) 如果$expected_key是$actual_array中元素的一个键值，则通过，否则不通过。也即 foreach ($actual_array as $k =&gt; $v) { if ($k === $expected_key) { // 测试通过 return true; } // 测试不通过 return false; } assertArraySubset($subset_array, $actual_array) 如果$subset_array是$actual_array的一个子数组，则通过，否则不通过。也即前者是后者的子集，这点很重要，其实由于在PHP中数组是作为HashTable存储的，所以是一般并不存在顺序的问题。因此这里只要求前者是后者的子集，而至于顺序则不要求。 assertCount($count, $array) 如果count($array) === $count)则通过。注意这里$count的类型必须是整数。 类属性相关 assertClassHasAttribute($attributeName, $className) 如果类名为$className的类拥有一个名为$attributeName的属性，则通过，否则不通过。值得注意的是，这个测试通过与否与属性的值是否设置没有关系，即使是只声明了名为$attributeName的属性，这个测试也是通过的，但实例化该类之后var_dump(new ClassAttr()-&gt;attr)的结果却是false。 assetClassHasStaticAttribute($staticAttributeName, $className) 这个自不必多说，和上面类似。只是用来判断静态属性。 对象关系 assertObjectHasAttribute($attributeName, $object) 如果对象$object拥有属性$attributeName，则通过。 包含关系 assertContains($needle, $haystack) 如果$haystack中包含$needle，则通过，否则不通过。这个包含可以是数组的包含，也可以是字符串的包含，注意，默认是区分大小写的，即assertContains('foo', 'FooBar')是不能通过测试的。但assertContains('foo', 'FooBar', '', true)则可以通过测试，也就是说第四个参数表示不区分大小写。至于第三个参数，其实是$message，也就是在测试不通过时报告 详细信息的，我个人理解和try/cache里面的Exception $e里面的getMessage()可能有点类似，没有深究。 assertContainsOnly($type, $array) 如果$array中只包含由$type指定的一种类型的变量，则通过，否则不通过。 assertContainsOnlyInstanceOf($className, $instance_array) 如果$instance_array中的所有元素都是名为$className的类的实例，则通过，否则不通过。 assertInstanceOf($className, $instance) 如果$instance是$className的实例，则通过。 相等相关 是非问题 assertTrue($actual) assertFalse($actual)
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/09/26/php%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-02/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/09/22/php%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-01/">PHP单元测试-01
+</a>
+</h2>
+
+  <time datetime="2015-09-22">22 Sep, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    我自认对这种比较系统的知识总是比较欠缺，所以还是花点时间补充上比较好。 这里说一下PHP的单元测试。 首先是搭建可以进行单元测试的环境，这里我首选的还是Debian Sid。 sudo apt-get install phpunit 一条命令就可以安装单元测试所需要的各种依赖了，之所以选择这种可能不是最新的包的安装方式是因为pear(pecl)在国内的访问速度毕竟不怎么理想，既然我们有一个优秀的apt了，何必还要费那劲呢？ 初识单元测试 首先，一个类对应一个测试类。 . ├── FrostWong.php └── FrostWongTest.php 0 directories, 2 files // FrostWong.php &lt;?php class FrostWong { public function sayHi() { return &quot;Hi, UnitTest.\n&quot;; } public function altb($a, $b) { return $a &gt; $b; } } // FrostWongTest.php &lt;?php require 'PHPUnit/Autoload.php'; require 'FrostWong.php'; class FrostWongTest extends PHPUnit_Framework_TestCase { public function testSayHi() { $fw = new FrostWong(); $this-&gt;assertEquals(&quot;Hi, UnitTest.\n&quot;, $fw-&gt;sayHi()); } public
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/09/22/php%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-01/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/09/20/laravel%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-01/">Laravel学习笔记-01
+</a>
+</h2>
+
+  <time datetime="2015-09-20">20 Sep, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    总是看到网上讨论一些应用开发框架，什么国内用的最多的ThinkPHP了，还有国外的Symphony/CodeIgnite/Yii等等，我就想着我也应该接触一下其中的一个，别到下一次找工作的时候面试官一问我就说我只用过Yaf这种高性能的PHP框架，小公司估计也不会用。然后就是选择了，看了一些评价，最终认为Laravel应该是最全面，功能最强大的，于是开始了框架学习之旅。 本篇记录一下安装过程。 我在安装的过程中也遇到了不少困难，其实主要是因为GFW的干扰，本来如果正常的网络环境这些问题都是不应该出现的。 安装操作系统 操作系统当然需要Linux，不过如果非要在Windows也不是不可以，只是麻烦一点，我没有尝试。至于发行版，我的观点是个人的开发或者测试环境Debian是最合适的，我的习惯是用Debian的Sid也就是unstable版，软件足够新也足够多，能够很方便的满足各种需求。不建议在实体机上安装，最好用VirtualBox等虚拟机软件安装，如果是用VirtualBox则需要选择桥接的网络模式，如果用VMware Workdstation的话就不必了，Nat就可以了。安装过程这里不再详述，最小化安装即可。 安装PHP 我们的目的是学习Laravel，所以不必为了它再手动安装扩展，使用apt-get安装二进制包即可。 sudo apt-get install php5 安装PHP扩展 按照官方文档，是需要安装openssl/tokenizer/mbstring扩展的，但Debian貌似已经在默认的PHP5的包里打包了这几个扩展，至于PDO，只需要安装php5-mysqlnd即可。 sudo apt-get install php5-mysqlnd 安装composer 又到了问候GFW的时候了，不要考虑用官方的安装脚本了，最简单粗暴的方式就是直接下载下来composer.phar这个包。然后 cd ~/Downloads sudo chmod +x composer.phar sudo ln -s /home/frost/Downloads/composer.phar /usr/local/bin/composer 最关键的，要配置上Packagist/Composer中国全量镜像提供的镜像地址，建议直接 composer config -g repositories.packagist composer http://packagist.phpcomposer.com 即可。 安装Laravel 5.1 composer config -g repositories.packagist composer http://packagist.phpcomposer.com 上面这条命令会在你当前用户的家目录创建.composer/vendor/bin这个目录，laravel的可执行文件就被安装在这里了。在你的.bashrc或者.zshrc最后面添加下面一行 export PATH=$PATH:$HOME/.composer/vendor/bin 然后，source ~/.bashrc或者source ~/.zshrc，执行laravel就可以看到一堆的帮助信息了。 然并卵。如果不能翻墙，是用不了laravel的安装命令的，只能用composer create-project命令。 下一节开始谈谈Laravel5的使用。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/09/20/laravel%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-01/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/09/20/%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4iterm2%E7%9A%84%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE/">批量删除iTerm2的主题配置
+</a>
+</h2>
+
+  <time datetime="2015-09-20">20 Sep, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    今天手欠把一堆大概有50个的colorscheme导入了iTerm2，最后发现也没有几个好看的，还是我的最爱Solarized最好，于是就想把那些新导入的都删掉，但死活找不到这些文件的路径。上网找了一番之后发现原来它并没有把这些主题文件放在自己的目录里，而是用plist的方式做了配置。那么就要找到这个配置文件了。它在~/Library/Preferences/com.googlecode.iterm2.plist。 这时我激动万分，用我最爱的Vim打开它一看——竟然是二进制的。这时我们就有两种方法对它做修改了。 用支持plist修改的编辑器。 很显然这种方式更方便，但要知道这文件位于~/Library中，正常在Finder中是找不到这个路径的，而在命令行中是无法调起Xcode的编辑器的，这时就用到了Finder的Go to Folder功能，在里面输入上面提到的路径，回车就可以在Finder中打开这个路径了，然后用Xcode的编辑器打开，你会发现里面又一个Color相关的属性，点开一看，哇，好多配置，直接点击减号就删除了，保存，重启iTerm2，看看你导入的那些配置还在不在了。 把它转换成纯文本格式，然后用普通的文本编辑器编辑，保存后重新转换格式。 有了上面的方法，这个方法就显得有点多余了，但如果你不是一个开发者，没有安装Xcode——貌似不是开发者也不会装iTerm2——那这种方法就奏效了。 首先为了保险起见，还是把这个文件备份一下。 然后，用plutil -convert xml1 com.googlecode.iterm2.plist命令把plist转换成xml格式的纯文本。这时就可以用Vim打开了，同样找到上面说的Color相关的属性，批量删除之。 在然后用plutil -convert binary1 com.googlecode.iterm2.plist命令把plist转换成二进制文件。 最后把修改后的文件放回原来的位置。重启iTerm2，搞定收工。 补充一下，plutil -convert接受三种格式的转换，xml1/binary1/json,所以其实第二步转换成json理论上也是可以的，但修改就没有那么方便了。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/09/20/%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4iterm2%E7%9A%84%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://unixera.com/2015/09/20/%E6%89%93%E7%A0%B4%E7%9F%9B%E7%9B%BE/">打破矛盾
+</a>
+</h2>
+
+  <time datetime="2015-09-20">20 Sep, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    感觉这段时间自己处在一个很郁闷的时期，能意识到却又跳不出来。就像夜里做梦，有时会知道自己是在做梦，在梦里大喊大叫却听不到任何声音——那种无助感，终于在现实中出现了。 这种压力主要来自两个方面，一个是工作，一个是生活。 工作中的压力其实并没有那么大，不像之前的工作一个人承担项目中的所有工作，加上进度的压力，导致非常焦虑。而现在更多的是急于提升自己，却找不到有效的途径，或者说找不到自己的方向，对自己的角色和职责认识的不够清楚。 我的专职工作是Web开发，更准确的说是Web后端开发者，虽然也会写一些JavaScript，但毕竟不是专职的，写那些东西只是用来应急而已。但自己总是暗示要做一个全栈工程师，虽然现在很多人都开始对全站工程师这个名头嗤之以鼻，但我知道这确实是真实的存在，只不过自己的水平尚未达到而已。在我的认识中，我认为一个优秀的开发者做的工作应该是设计系统的架构、完成底层的基础设施建设，而不是在上层不疼不痒的调用现成的接口，这并不是我想要的做的工作，然而事实是我所在的部门就是一个业务部门，而公司又是这样的一个大公司，多年以前那些底层架构就已经完成了，不会再需要大的变动，更多的人就是在像我一样不停的根据业务的需求添加对底层接口的不同调用组合。 这导致我对自己的工作并没有那么满意，总觉得不能做出一个开创性的工作来，以至于见到新潮的技术就想了解一下，但迫于工作的压力(借口)又总是不能把相关的知识完整的掌握，久而久之就成为了什么都知道，但什么又都不知道的状态。这才是最危险的。 比如，我从内心里觉得Python作为平时处理日志等等工作最合适的脚本，当然我也在做这方面的尝试，如果能用Python完成的任务就不用PHP写，这其中一个最主要的原因是Python的标准库比较好用，最基础的一个发送HTTP请求，PHP竟然需要用libcurl搞那么复杂才能实现，而Python只需要用urllib2这个标准库就可以了，当然这方面的例子数不胜数——但是，我就是一个PHP程序员，这在现阶段也是改变不了的事实，而且就目前使用Python的概率，我也几乎没有可能把Python作为第一语言在工作中使用。 举这个例子不是要引起语言之争，说PHP比Python快如何如何，但Python写起来确实会比PHP更优雅一些。同样的还有，我总是对移动App开发跃跃欲试，在买了rMBP之后更是对自己终于可以进行iOS开发兴奋不已，然后确实坚持了一段时间，学了各种View，知道了如何拖控件画界面，如何敲代码画界面，也用原生的网络库做了个简单的Demo，仅此而已，领导让我学习移动开发，但事实上工作中时不时的要插进来新的任务，完全要靠工作之余的时间来进行，但业余时间又不能全部用来做这个开发，毕竟和我目前的工作几乎没有任何交集，如果把精力都放在这上面，那PHP相关的知识就没有时间更深入了，比如流行的框架，Laravel/Yii等。 这样矛盾的心理把我折磨的着实不轻，把自己搞成了熊瞎子掰玉米。 至于生活的压力那肯定就是经济压力了，今年25岁了，虽说年龄不大，但也不小了，即使说小也说不过去了，因为孩子已经出生了，我也早已经没有了年轻的资本。家里人劝说在北京买房遥遥无期，每月挣的钱最后也剩不下什么，在北京拿这些钱不如到二线城市拿一半的钱过得好。不知道为什么他们说这些话时我竟然从未动心。因为我知道我的兴趣就在这个行业，无论工作多么辛苦我都能接受，但如果让我去做清闲的工作，但我不感兴趣，那倒还不如不做。 说到底还是我以前太听父母的话了，上大学选专业的时候完全没有自己的主见，那个时候隐隐的感觉自己喜欢做和电脑相关的工作，但迫于家里的压力就选了他们希望的专业，当然最终并没有按他们的意愿进入相应的专业而是被调剂到了生物工程专业，这个专业真的对我的人生产生了很大的影响，我甚至认为我就这样在学校浪费了四年的时光，因为这些年里学到的东西我在工作中几乎完全用不上，而且如果没有这些我完全不感兴趣的课可能我现在的专业技能还要更高一些。具体的就不再详细说了。可能最重大的影响是它让我做自己没有兴趣的事情的时候找到了 真正的兴趣，并能坚持下来。周围很多人都不理解为什么我一个学生物工程的竟然跳到了完全不相干的软件行业，那我的答案只有两个字——兴趣。我不想把自己标榜的有多高尚。有些人说非相关专业的人进入这个行业无非是看到了这个行业的高薪和迅猛的发展势头。如果非要把这个作为我选择的理由，那么它也一定不是第一位的。 我从内心里对那些成功的企业家没有太大的崇敬感，倒是对这个领域的优秀的前辈们充满了无限的憧憬。远到C语言的作者丹尼斯·里奇，Unix作者肯·汤普森，自由精神传道士RMS，Linux作者李纳斯·托尔德这些神一样的存在，近到和我们的软件开发密切相关的软件工程实践领域的拓荒者，马丁·福勒，设计模式四人帮等等。他们的工作让我心向往之然又不能及。 写到这里，我又忽然想到好像他们也都是有自己专攻的领域，这些奇人大多是专长在某一个特定的领域，而对其他的领域只是略知一二，尤其他们在自己的著作中也会提到这一点，在自己不熟悉的内容的章节会邀请该领域的专家来执笔，避免自己片面的认识误导了读者。 那这么看来，确实做任何事情都是有舍才有得。 我记得之前看李纳斯・托尔德的父亲的一次访谈中，他谈到儿子的成功跟当时的大环境不无关系，因为那个时代知识很少，所以一个普通人如果毅力坚定，那么成功的机会很大。但现在这个知识爆炸的年代，如果一个人想把所有的知识都学到，那么肯定要累死了。所以还是要坚定自己的方向，才能真正提升自己的价值，成为该领域真正的专家。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://unixera.com/2015/09/20/%E6%89%93%E7%A0%B4%E7%9F%9B%E7%9B%BE/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+  
+<div class="container pagination">
+  
+
+
+<a aria-label="First" href="http://unixera.com/">
+  <span aria-hidden="true">««</span>
+</a>
+
+<a aria-label="Previous" href="http://unixera.com/page/3/">
+  <span aria-hidden="true">«</span>
+</a>
+
+
+<a href="http://unixera.com/">
+  1
+</a>
+
+<a href="http://unixera.com/page/2/">
+  2
+</a>
+
+<a href="http://unixera.com/page/3/">
+  3
+</a>
+
+<a class="active" href="http://unixera.com/page/4/">
+  4
+</a>
+
+<a href="http://unixera.com/page/5/">
+  5
+</a>
+
+<a href="http://unixera.com/page/6/">
+  6
+</a>
+
+<a href="http://unixera.com/page/7/">
+  7
+</a>
+
+<a href="http://unixera.com/page/8/">
+  8
+</a>
+
+<a href="http://unixera.com/page/9/">
+  9
+</a>
+
+<a href="http://unixera.com/page/10/">
+  10
+</a>
+
+
+<a aria-label="Next" href="http://unixera.com/page/5/">
+  <span aria-hidden="true">»</span>
+</a>
+
+<a aria-label="Last" href="http://unixera.com/page/10/">
+  <span aria-hidden="true">»»</span>
+</a>
+
+
+</div>
+
+
+</section>
+
+      <footer id="main-footer" class="container main_footer">
+  
+
+  <div class="container nav foot no-print">
+  
+<a href="http://unixera.com/license">license</a>
+
+
+  <a class="toplink" href="#">back to top</a>
+
+</div>
+
+  <div class="container credits">
+  
+<div class="container footline">
+  
+  Learn what you eager
+
+
+</div>
+
+
+  
+<div class="container copyright">
+  
+  &copy; 2013-2015 Frost Wong. All rights reserved.
+
+
+</div>
+
+
+</div>
+
+</footer>
+
+    </main>
+    
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="http://unixera.com/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+    
+  </body>
+</html>
+

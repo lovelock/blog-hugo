@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>PHP扩展开发第一步 —— 创建一个可工作的方法  &middot; Me and the Web</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="">
+
+
+<meta property="og:title" content="PHP扩展开发第一步 —— 创建一个可工作的方法  &middot; Me and the Web ">
+<meta property="og:site_name" content="Me and the Web"/>
+<meta property="og:url" content="http://unixera.com/2015/07/18/php%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E7%AC%AC%E4%B8%80%E6%AD%A5--%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%8F%AF%E5%B7%A5%E4%BD%9C%E7%9A%84%E6%96%B9%E6%B3%95/" />
+<meta property="og:locale" content="en-us">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:description" content=""/>
+<meta property="og:article:published_time" content="2015-07-18T21:23:29Z" />
+<meta property="og:article:modified_time" content="2015-07-18T21:23:29Z" />
+
+  
+
+  
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@frostwong" />
+<meta name="twitter:creator" content="@frostwong" />
+<meta name="twitter:title" content="PHP扩展开发第一步 —— 创建一个可工作的方法" />
+<meta name="twitter:description" content="" />
+<meta name="twitter:url" content="http://unixera.com/2015/07/18/php%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E7%AC%AC%E4%B8%80%E6%AD%A5--%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%8F%AF%E5%B7%A5%E4%BD%9C%E7%9A%84%E6%96%B9%E6%B3%95/" />
+<meta name="twitter:domain" content="http://unixera.com">
+  
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "PHP扩展开发第一步 —— 创建一个可工作的方法",
+    "author": {
+      "@type": "Person",
+      "name": "http://profiles.google.com/+?rel=author"
+    },
+    "datePublished": "2015-07-18",
+    "description": "",
+    "wordCount":  239 
+  }
+</script>
+
+
+
+<link rel="canonical" href="http://unixera.com/2015/07/18/php%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E7%AC%AC%E4%B8%80%E6%AD%A5--%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%8F%AF%E5%B7%A5%E4%BD%9C%E7%9A%84%E6%96%B9%E6%B3%95/" />
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://unixera.com/touch-icon-144-precomposed.png">
+<link href="http://unixera.com/favicon.png" rel="icon">
+
+<meta name="generator" content="Hugo 0.15" />
+
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href='https://fonts.googleapis.com/css?family=Merriweather:300%7CRaleway%7COpen+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://unixera.com/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://unixera.com/css/style.css">
+<link rel="stylesheet" href="http://unixera.com/css/highlight/default.css">
+
+  
+</head>
+<body>
+  <main id="main-wrapper" class="container main_wrapper has-sidebar">
+    <header id="main-header" class="container main_header">
+  <div class="container brand">
+  <div class="container title h1-like">
+  <a class="baselink" href="http://unixera.com">
+  Frost Wong
+
+</a>
+
+</div>
+
+  
+<div class="container topline">
+  
+  Be a better WEB developer
+
+
+</div>
+
+
+</div>
+
+  <nav class="container nav primary no-print">
+  
+
+
+  
+<a href="http://unixera.com/about">About</a>
+
+<a href="http://unixera.com/post" title="Show list of posts">Posts</a>
+
+<a href="http://unixera.com/tags" title="Show list of tags">Tags</a>
+
+
+</nav>
+
+<div class="container nav secondary no-print">
+  
+<a id="contact-link-email" class="contact_link" href="mailto:frostwong@gmail.com">
+  <span class="fa fa-envelope-square"></span><span>email</span></a>
+
+
+
+<a id="contact-link-github" class="contact_link" href="https://github.com/lovelock">
+  <span class="fa fa-github-square"></span><span>github</span></a>
+
+
+
+
+
+
+
+
+
+
+
+<a id="contact-link-twitter" class="contact_link" href="https://twitter.com/frostwong">
+  <span class="fa fa-twitter-square"></span><span>twitter</span></a>
+
+
+
+
+
+
+
+</div>
+
+
+  
+
+</header>
+
+
+<article id="main-content" class="container main_content single">
+  <header class="container hat">
+  <h1>PHP扩展开发第一步 —— 创建一个可工作的方法
+</h1>
+
+  <div class="metas">
+<time datetime="2015-07-18">18 Jul, 2015</time>
+
+
+  
+  &middot; Read in about 2 min
+  &middot; (239 Words)
+  <br>
+  
+
+
+</div>
+
+</header>
+
+  <div class="container content">
+  <p>这个问题困扰我已经很久了，但总是没有心情坐下来好好的研究一下，今天终于厘清了一点头绪，记录下来，留给像我一样对网络上的教程的理解能力没有那么好的同学。</p>
+
+<p>我不想像那些正常的教程一样，先讲一番PHP的声明周期，来先看一下正反馈吧。请跟我一步一步来，让你先看到你的扩展可以工作。相关代码请查看<a href="https://github.com/lovelock/php_ext_example.git" target="_blank">https://github.com/lovelock/php_ext_example.git</a>。</p>
+
+<p>以鸟哥的<a href="http://www.laruence.com/2009/04/28/719.html" target="_blank">用C/C++扩展你的PHP</a>这篇文章中的例子作为我们的目标吧，简单的打印一个Hello World也没什么意思。</p>
+
+<p>首先看PHP版本的代码：</p>
+
+<pre><code class="language-php">// PHP版本的self_concat函数
+function self_concat($str, $n)
+{
+	$result = &quot;&quot;;
+	for ($i = 0; $i &lt; $n; $i++) {
+		$result .= $str;
+	}
+
+	return $result;
+}
+</code></pre>
+
+<p>那么再来想如果我们写了一个PHP扩展，来实现这个功能，它替代了什么？</p>
+
+<p>对，我们本来用PHP写的逻辑现在放在了扩展里面用C实现了。这样的结果就是我们可以省掉上面PHP版本的self_concat函数的定义，在需要这个函数的地方直接调用就好了。</p>
+
+<p>具体的步骤如下：</p>
+
+<ol>
+<li>先给扩展取个名字吧，以<code>php_ext_example</code>为例</li>
+
+<li><p>声明函数原型，就像C/C++中头文件中函数的声明一样，写在一个单独的文件中，声明了<strong>返回值</strong>、<strong>函数名</strong>、<strong>函数签名</strong>，注意<strong>没有分号</strong>。至于文件的后缀，貌似没有特别的要求，鸟哥用了<code>def</code>，看到有其他博客作者用了<code>proto</code>，本质是一样的。</p>
+
+<pre><code class="language-c">string self_concat(string str, int n)
+</code></pre></li>
+
+<li><p>执行<code>ext</code>目录内的<code>ext_skel</code>命令，顾名思义，这个命令的作用就是为扩展开发者搭建起一套骨架，让我们在上面方便的进行自己的创作。这里我们需要加入两个参数，<code>—extname</code>和<code>—proto</code>。</p>
+
+<p><code>./ext_skel —extname=php_ext_example —proto=php_ext_example.proto</code></p>
+
+<p>执行完这个命令就能在<code>ext</code>目录下看到<code>php_ext_example</code>目录了。打开里面发现一堆文件。</p></li>
+
+<li><p>首先需要修改<code>config.m4</code>文件，找到</p>
+
+<pre><code>dnl PHP_ARG_WITH(php_ext_example, for php_ext_example support,
+dnl Make sure that the comment is aligned:
+dnl [  --with-php_ext_example   Include php_ext_example support])
+</code></pre>
+
+<p>要知道<code>dnl</code>是注释的意思，先把这几行的注释去掉，也就是让它生效。得到</p>
+
+<pre><code>PHP_ARG_WITH(php_ext_example, for php_ext_example support,
+Make sure that the comment is aligned:
+[  --with-php_ext_example             Include php_ext_example support])
+</code></pre>
+
+<p>它的意思是把<code>--with-php_ext_example</code>这个选项加入到<code>configure</code>的选项中去。</p></li>
+
+<li><p>修改<code>php_ext_example.c</code>，重头戏来了，前面做的都是为这个做准备。找到<code>PHP_FUNCTION(self_concat)</code>这一行，这是函数的实现。先甭管为什么把这段代码敲进去。</p>
+
+<pre><code class="language-c">PHP_FUNCTION(self_concat)
+{
+    char *str = NULL;
+    int argc = ZEND_NUM_ARGS();
+    int str_len;
+    long n;
+    char *result;
+    char *ptr;
+    int result_length;
+
+
+    if (zend_parse_parameters(argc TSRMLS_CC, &quot;sl&quot;, &amp;str, &amp;str_len, &amp;n) == FAILURE)
+        return;
+
+
+    result_length = (str_len * n);
+    result = (char *) emalloc(result_length + 1);
+    ptr = result;
+
+
+    while (n--) {
+        memcpy(ptr, str, str_len);
+        ptr += str_len;
+    }
+
+
+    ptr = '\0';
+    RETURN_STRINGL(result, result_length, 0);
+}
+</code></pre></li>
+</ol>
+
+<p>OK，这个时候一个具有“重复打印字符串”功能的扩展就写好了。怎么证明它是能工作的呢？别着急，先把它编译进PHP吧。
+还记得执行完<code>ext_skel</code>之后弹出的一段说明吗？</p>
+
+<blockquote>
+<pre><code>    1.  $ cd ..
+    2.  $ vi ext/php_ext_example/config.m4
+    3.  $ ./buildconf
+    4.  $ ./configure --[with|enable]-php_ext_example
+    5.  $ make
+    6.  $ ./sapi/cli/php -f ext/php_ext_example/php_ext_example.php
+    7.  $ vi ext/php_ext_example/php_ext_example.c
+    8.  $ make
+    ```
+
+现在我们需要执行从3-6,观察一下输出吧。第3步你会看到这个提示
+&gt; You should not run buildconf in a release package.
+use buildconf --force to override this check.
+
+按它说的，加上`--force`即可。
+第6步如果你能看到
+&gt; ➜  php-5.6.11  sapi/cli/php ext/php_ext_example/php_ext_example.php
+Functions available in the test extension:
+confirm\_php\_ext\_example\_compiled
+&gt; Congratulations! You have successfully modified ext/php\_ext\_example/config.m4. Module php\_ext\_example is now compiled into PHP.
+
+那么恭喜你，你的第一个PHP扩展已经编译进PHP了。等等，这有什么用呢？我怎么知道它能不能工作呢？
+那就写一个脚本试试吧。
+
+```php
+echo self_concat(&quot;HappyHacker&quot;, 3);
+echo &quot;\n&quot;;
+echo self_concat(&quot;Lovelock&quot;, 1);
+</code></pre>
+</blockquote>
+
+<p>执行脚本，有没有很神奇？</p>
+
+<p>好了，繁华落尽，毕竟还是要回归到技术的本质上来。
+请看[PHP扩展开发第二步]()。</p>
+
+</div>
+
+
+  <footer class="container">
+  <div class="container navigation no-print">
+  <h2>Navigation</h2>
+  
+  
+
+    
+    <a class="prev" href="http://unixera.com/2015/07/13/ios8%E5%8F%8A%E4%BB%A5%E4%B8%8B%E4%BD%BF%E7%94%A8nsurlconnectiondelegate%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" title="iOS8及以下使用NSURLConnectionDelegate实现网络请求">
+      Previous
+    </a>
+    
+
+    
+    <a class="next" href="http://unixera.com/2015/07/19/php%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E7%AC%AC%E4%BA%8C%E6%AD%A5--%E5%AE%9A%E4%B9%89%E6%96%B9%E6%B3%95/" title="PHP扩展开发第二步 —— 定义方法">
+      Next
+    </a>
+    
+
+  
+
+
+</div>
+
+  <div class="container comments">
+  <h2>Comments</h2>
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+</footer>
+
+</article>
+      <footer id="main-footer" class="container main_footer">
+  
+
+  <div class="container nav foot no-print">
+  
+<a href="http://unixera.com/license">license</a>
+
+
+  <a class="toplink" href="#">back to top</a>
+
+</div>
+
+  <div class="container credits">
+  
+<div class="container footline">
+  
+  Learn what you eager
+
+
+</div>
+
+
+  
+<div class="container copyright">
+  
+  &copy; 2013-2015 Frost Wong. All rights reserved.
+
+
+</div>
+
+
+</div>
+
+</footer>
+
+    </main>
+    
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="http://unixera.com/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+    
+  </body>
+</html>
+
