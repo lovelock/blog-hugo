@@ -1,3 +1,39 @@
-baseurl = "http://unixera.com/"
+baseurl = "http://unixera.com"
 languageCode = "en-us"
-title = "My New Hugo Site"
+title = "Me and the Web"
+copyright = "(c) 2013-2015 Frost Wong. All rights reserved."
+theme = "hyde-y"
+# Pagination
+paginate = 5
+paginatePath = "page"
+
+# disqus
+disqusShortname = "unixagain"
+
+[permalinks]
+    post = "/:year/:month/:day/:slug/"
+    code = "/:slug/"
+
+[taxonomies]
+    tag = "tags"
+    topic = "topics"
+
+[author]
+    name = "Frost Wong"
+    email = "frostwong@gmail.com"
+
+[params]
+    brand = "Frost Wong"
+    topline = "Be a better WEB developer"
+    footline = "Learn what you eager"
+    sidebar = "left"
+    highlight = "default"
+
+    github = "lovelock"
+    twitter = "frostwong"
+
+[blackfriday]
+    angleQuotes = true
+    fractions = false
+    hrefTargetBlank = true
+
