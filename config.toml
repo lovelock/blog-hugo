@@ -1,4 +1,4 @@
-#baseurl = "http://unixera.com"
+baseurl = "http://lovelock.github.io"
 languageCode = "en-us"
 title = "Me and the Web"
 copyright = "(c) 2013-2015 Frost Wong. All rights reserved."
