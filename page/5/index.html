@@ -76,6 +76,10 @@
 
 
   
+<a href="http://lovelock.github.io/php" title="Show list of posts">PHP</a>
+
+<a href="http://lovelock.github.io/python" title="Python stuff">Python</a>
+
 <a href="http://lovelock.github.io/about">About</a>
 
 <a href="http://lovelock.github.io/post" title="Show list of posts">Posts</a>
@@ -127,98 +131,11 @@
     <h1>Me and the Web
 </h1>
 
-    <span>last update: <time datetime="2015-12-04T23:12:52Z">4 December at 11:12pm</time>
+    <span>last update: <time datetime="2016-01-06T21:35:12&#43;08:00">6 January at 9:35pm</time>
 </span>
 
   </header>
   
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/08/31/mac%E4%BD%BF%E7%94%A8vmware-fusion%E5%AE%89%E8%A3%85ubuntu/">Mac使用VMware Fusion安装Ubuntu
-</a>
-</h2>
-
-  <time datetime="2015-08-31">31 Aug, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    越来越觉得我用Mac和Windows也没有什么区别。 用Windows的时候是因为没有类Unix环境，所以需要在虚拟机里面搭建一些Web环境，然后用SecureCRT或者XShell登录进行操作。当然主要是用VirtualBox比较多，因为它比较轻量，功能也没有什么缺陷。非要说缺陷，我觉得VMware的NAT功能比VirtualBox要好。前者是建立了一个192.168开头的虚拟网段，虚拟机使用这个网段的IP，虚拟机可以和宿主机相互通信，并且在类似学校的需要认证才能上网的环境下是可以直接上网的。但VirtualBox就不行了，它 的NAT模式默认用的是10.网段的地址，如果要用宿主机访问虚拟机，就需要端口转发，说起来容易，但谁也不想去操作，否则只能用桥接模式了，但在需要认证的时候就不行了，尤其是某些帐号只能允许一个客户端在线时。 抛却Windows的诸多不便，用上了Mac却不想让一堆随时可能修改的开发环境把Mac环境搞乱，编程语言的那些东西还好，但各种服务就不想在Mac上搭建了，所以虚拟机还是唯一的出路了。PD总刷存在感，在Launchpad里面加上一堆难看的图标，受不了。有时需要带图像界面的Ubuntu，这时VirtualBox的性能就成了问题，最终找到了Vmware Fusion了，这才是一款踏踏实实的产品，VMware的产品一直都那么让人信赖。 闲言少叙，其实我要说的是在高分屏下如何解决Ubuntu糊掉的问题。 之前用PD的时候也看到这个方法，但没有用，这下在VMware Fusion上面可以。 很简单，在&rdquo;All Settings/Display&rdquo;中找到&rdquo;Scale for menu and title bars&rdquo;，把这个bar拉到2就可以了。当然如果你觉得2太大了，也可以选择1.5或者其他。我觉得2是最合适的，也正是正常大小，因为Mac屏幕的分辨率宽和高分别是普通分辨率的2倍，调成2倍就和在普通屏幕上一样大小了，但不会糊掉。 废话好多。
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/08/31/mac%E4%BD%BF%E7%94%A8vmware-fusion%E5%AE%89%E8%A3%85ubuntu/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/08/12/rime%E8%BE%93%E5%85%A5%E6%B3%95%E5%9C%A8mac%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/">Rime输入法在Mac上的应用
-</a>
-</h2>
-
-  <time datetime="2015-08-12">12 Aug, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    天啊，过几天要回家陪老婆生孩子，现在在赶项目，我竟然还在这里瞎写，真是罪过。 在我用Linux的那几年，输入法一直用的是Fcitx，而引擎用的是Rime，输入方案是double_pinyin_mspy。用Mac也有一段时间了，想着Rime虽然跨平台，但现在项目好像没有那么活跃了，于是就用了最流行的搜狗输入法，但用起来总感觉还是不那么舒服，可能是我有开源的洁癖？管他呢，还是想尝试一下这个鼠须管。 首先说一下它的优点： 高度可定制 开源，没有安全隐患 轻量，快速，完全无卡顿 对使用场景优化，可定制默认英文的应用 缺点也很明显——没有词库，需要从新培养。 但我觉得它自带的词库其实也已经够用了，我本身也不是那么赶潮流的人，而且输入的大多是计算机相关的词汇，所以这个对我的影响并不大。 好了，现在就来说一下安装和配置环节吧。 brew cask install squirrel 然后它就会提示你输入密码了，然后给一堆提示，然后就安装好了。这时你会看到状态栏已经多了一个输入法图标，没错就是它。 现在就可以体验一下它的极速输入体验了。 那么来配置一下它吧。 先说一下配置的原理。Rime自带了很多很多的默认配置，写在squirrel.yaml，default.yaml等配置文件中，当然如果要追究YAML的格式规范，那就超出本文的范畴了。而我们可以自定义名为squirrel.custom.yaml和default.custom.yaml来修改配置。而这个配置会在我们点击Deploy时作为补丁打到默认配置中，相应的，默认的配置文件的内容也会发生变化。 我主观上认为微软的双拼方案是最流行的方案（或者它的变种搜狗双拼）因为我用的就是它！但事实上OS X自带的双拼方案却只有自然码，很蛋疼。我的修改主要在两个方面，输入方案和外观样式。 打开Library/Input Methods/Squirrel.app/Contents/SharedSupport会看到一系列的bin和yaml文件，其中bin是用来支持各种输入方案的，而yaml是相应的配置这些方案的。如果要使用微软双拼方案，就把double_pinyin_mspy.schema.yaml拷贝到Library/Rime目录里，或者做个软链，然后在Library/Rime中新建一个default.custome.yaml文件，输入下面的内容： patch: schema_list: - schema: double_pinyin_mspy - schema: luna_pinyin_simp 然后重新部署一下，就可以看到效果了，输入方案剩下朙月拼音和微软双拼了。 这时发现默认的皮肤虽然好看，但是字体太大了，所以就调小一些吧，而且竖行的选字界面也不太习惯，调成横向的吧。 # squirrel.custom.yaml patch: &quot;style/horizontal&quot;: true &quot;style/font_point&quot;: 16 再重新部署一下，看起来很舒服，用起来也舒服了吧。 解释一下优点中的第四点，这对程序员来说是极好的，因为写代码主要是英文，输入中文的概率很低，而Rime自带了一些默认为英文输入的配置，例如Alfred/Terminal/iTerm2等，这一点简直是不能再贴心了，当然如果你想，是可以自定义这些设置的。如果想深度定制，可以看下官方的而文档。 好了，兴奋完了，回去好好赶项目了。
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/08/12/rime%E8%BE%93%E5%85%A5%E6%B3%95%E5%9C%A8mac%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/08/11/jsonp%E5%8E%9F%E7%90%86%E5%85%A8%E8%A7%A3%E6%9E%90/">jsonp原理全解析
-</a>
-</h2>
-
-  <time datetime="2015-08-11">11 Aug, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    昨天写了一篇关于iframe间跨域通讯问题的总结，想着既然提到了jsonp这个长久以来曽令我困惑的技术，就再总结一篇吧。 主要参考了这篇文章。 起因 jsonp是为了解决跨域请求而产生的技术，这里的跨域并不是iframe之间通讯的那种，后者是禁止了一个域的js操作位于另一个域的资源，往往是为了在iframe之间传递变量，而jsonp则是为了解决跨域请求接口。但说到底，还是同源策略引起的。 原理 jsonp的出现是优秀的工程师智慧的结晶。可能是受到“所有带src属性的标签都可以跨域访问资源”这个事实的启发。设想一下，诸如&lt;script&gt;/&lt;img&gt;/&lt;iframe这些标签，它们请求后返回的是脚本或者图片或者页面，那么能不能返回一个函数调用呢？当然能。 如，在本地的页面上定义一个函数function_example &lt;script&gt; function function_example() { alert(&quot;我是本地定义的函数&quot;); } &lt;/script&gt; &lt;script src=&quot;http://remotehost.com/remote.js&quot;/&gt;&lt;/script&gt; 《JavaScript高级程序设计》第一章提到了脚本加载是按照顺序执行的，也就是说在加载remote.js时，前面定义function_example的脚本已经加载了，即该函数已经定义了。那么如果在remote.js中调用该函数，会出现什么情况呢？当然函数就被执行了。 function_example(); 上面就是jsonp实现的基础原理。 实践 那么具体到使用应该怎么操作呢？ 不要看到在第一个例子中引入了remote.js文件就误以为我们真的是要引入js文件了，要记得我们的目的是请求服务接口，所以，服务端应该返回类似function_example()这样的形式才可以，也即需要返回一个由函数名包含的结果，括号中才是真正的结果，那么结果当然要用JavaScript原生支持的json格式才完美了。所以我们看到的jsonp的返回值多数形如callback({&quot;aa&quot;: &quot;bb&quot;, &quot;cc&quot;: &quot;dd&quot;})。 前端 &lt;script&gt; function handler(result) { alert(result.login); } var url = &quot;http://remotehost.com/index.php?name=frost&amp;pass=123&amp;callback=handler&quot;; var script = document.createElement(&quot;script&quot;); script.setAttribute(&quot;src&quot;, url); document.getElementsByTagName(&quot;head&quot;)[0].appendChild(script); &lt;/script&gt; 那服务端应该怎么处理呢？ &lt;?php $name = $_GET['name']; $pass = $_GET['pass']; $callback = $_GET['callback']; // do something $result = [ &quot;login&quot;: &quot;true&quot;, &quot;other&quot;: &quot;foobar&quot; ]; echo json_encode($result); 上面的代码能完成要求吗？显然不能，因为它返回的是一个json对象，而不是能够执行的js指令。 因此，最后一句应该写成 echo $callback .
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/08/11/jsonp%E5%8E%9F%E7%90%86%E5%85%A8%E8%A7%A3%E6%9E%90/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
   
     <article class="container content summary">
   <div class="container hat">
@@ -251,18 +168,18 @@
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/07/31/python%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/">Python日志处理总结
+  <h2><a href="http://lovelock.github.io/2015/07/13/ios8%E5%8F%8A%E4%BB%A5%E4%B8%8B%E4%BD%BF%E7%94%A8nsurlconnectiondelegate%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/">iOS8及以下使用NSURLConnectionDelegate实现网络请求
 </a>
 </h2>
 
-  <time datetime="2015-07-31">31 Jul, 2015</time>
+  <time datetime="2015-07-13">13 Jul, 2015</time>
 
 </div>
 
   <p class="container content">
   
   
-    前段时间写了一篇比较简单的Python处理日志的笔记，现在又遇到了类似的问题，干脆我就把这中间会遇到的各种问题总结一下，大致可以得到一个简单的日志处理框架。 文件读取 批量文件读取 标准库: Lib/glob glob库可以用来读取符合指定&rdquo;Unix风格&rdquo;路径下的文件列表。 用法: frost@Hack-Station [12:08:15] [~/Playground/tmp] -&gt; % ls 1.gif 2.gif card.gif frost@Hack-Station [12:08:28] [~/Playground/tmp] -&gt; % ipython2 Python 2.7.10 (default, Jul 13 2015, 12:05:58) Type &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information. IPython 3.2.1 -- An enhanced Interactive Python. ? -&gt; Introduction and overview of IPython's features. %quickref -&gt; Quick reference. help -&gt; Python's own help system. object? -&gt; Details about 'object', use 'object??' for extra details.
+    花了点时间把iOS的网络请求算是有了一点肤浅的认识，在这个夜深人静的晚上记录以下。 首先，用到的类有NSURLRequest和NSURLConnection，遵循的协议NSURLConnectionDelegate。 NSURLConnectionDelegate在iOS9中已经废弃了，取而代之的是NSURLSessionDelegate，由于我这次适配的是iOS8.3，所以抽时间再写关于后者的用法。 简明的说一下流程： 发送请求这步其实经常会用到，但作为一款App，它需要的通常不是让服务器做什么改变，而是从服务端获取信息。因此，发送网络请求其实最重要的是怎样处理请求返回的结果。 在图中用等宽字体显示的函数就是NSURLConnectionDelegate定义的方法。 connection:didReceiveResponse: 这个方法也就是对服务器的响应做一个判断，通知该类（这里不知道应该怎么描述，是通知谁？）发送的请求服务器端已经给出响应。这时需要做初始化的工作了。我发发送请求就是为了得到数据，那么数据存在哪里呢？从connection:didReceiveData:的函数定义可以看到返回的数据是在这个函数的参数中，就需要一个可以全局访问的变量来保存数据，以在其余的流程里继续使用。而初始化又有问题，如何保证你这个全局变量不是已经被赋值呢？ 判断是否为NULL，如果为NULL，则初始化一个新的变量，否则，将变量的程度设置为0，其实也就是清空变量中存储的值。 connection:didReceiveData: 这个方法是对服务器返回的数据做处理。其实就是一个简单的赋值操作，将返回值赋给上面提到的变量。 connectionDidFinishLoading 这个方法才是最重要的，顾名思义，它用来处理最终你获取到的数据要干什么。比如把它赋给某个Label显示出来了，比如再次发送一个请求了。这里我只是要把整个流程走通，所以只是简单的把它的返回值赋给了当前视图中的一个Label。 提一下一个小的技巧 如何在日志中看到请求返回的结果？ 要知道，返回的结果是一个NSData数据类型，无法在NSLog函数里打印（其实是可以打印的，不过打出的结果是16进制的字符，人眼也看不懂），但如果你只是想比较一下两次的请求返回值不同，那么可以直接用 NSLog(@&quot;%@&quot;, data); 而如果要具体的看到返回值的内容，则要做进一步的处理 NSString *strData = [NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]; NSLog(@&quot;%@&quot;, strData); OK，简单的就是这样。
   
 
 
@@ -270,7 +187,94 @@
 
 
   <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/07/31/python%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/">Read more &rarr;</a>
+  <a href="http://lovelock.github.io/2015/07/13/ios8%E5%8F%8A%E4%BB%A5%E4%B8%8B%E4%BD%BF%E7%94%A8nsurlconnectiondelegate%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/07/12/centos7%E9%98%B2%E7%81%AB%E5%A2%99%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE/">CentOS7防火墙简单配置
+</a>
+</h2>
+
+  <time datetime="2015-07-12">12 Jul, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    防火墙这么个复杂的东西没有一个标准的配置方式真是太烦了，iptables的命令太繁琐，时间长了不用就忘记了，忘记可以记下来，可到了RHEL7竟然又加了个wrapper，叫什么firewall-cmd，我的天，你看看你取了个什么名字吧，不得不说红帽的人真是没有品位。 言归正传，通常我们的工作环境其实也打不到这个7，也不会接触这个东西。 打开一个端口 sudo firewall-cmd --zone=public --add-port=80/tcp --permanent 这就添加了一个80/tcp的端口 然后需要reload一下 sudo firewall-cmd --reload 说它是个wrapper是因为不管是这个firewall-cmd还是Ubuntu的ufw其实都是对iptables系列命令的一个封装，无非就是三步 添加一条记录 把这条记录写入内存 如果下次开机后还要它生效，那就把它写入文件 相应的，ufw的操作如下
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/07/12/centos7%E9%98%B2%E7%81%AB%E5%A2%99%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/07/12/uiimagepickercontrollerusage/">UIImagePickerControllerUsage
+</a>
+</h2>
+
+  <time datetime="2015-07-12">12 Jul, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    周末两天完全没闲着，研究iOS研究的头都要裂了。 这次先说说UIImagePickerController这个类。 首先，它的作用是拍摄，既可以拍照片也可以录像。 基本流程： 让你的类实现两个协议(protocol) UINavigationControllerDelegate UIImagePickerControllerDelegate 在storyboard中添加一个按钮，并给这个按钮绑上一个IBAction，就叫做takePictures吧。 实现这个takePictures // 判断当前的设备是否支持UIImagePickerControllerSourceTypeCamera，也就是是不是有摄像头，目前在网上能看到的代码里这一点都会做个判断，我觉得较早之前为iPod写程序并且要兼容iPhone时有需要，现在可能就已经不需要了，还有谁的iPhone没有摄像头啊 if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) { // 指定委托代理 videoPicker.delegate = self; // 指定使用摄像头，因为sourceType还可能有UIImagePickerControllerSourceTypePhotoLibrary和UIImagePickerControllerSourceTypeSavedPhotosAlbum两种，而这两种是从手机上保存的照片中选择照片 videoPicker.sourceType = UIImagePickerControllerSourceTypeCamera; // 这个是指定媒体的类型，也就是静态图片、视频、甚至无声视频这些 // 在XCode的提示里有两个类型可能会引起混淆，kUTTypeMovie和kUTTypeVideo，你不看文档一定想不到两个的区别——前者是有声视频，后者则只有图像，没有声音 videoPicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeMovie, nil]; // 这一步很关键，执行了这个拍照的界面才会在手机上呈现出来 [self presentViewController:videoPicker animated:YES completion:nil]; } 保存拍摄的照片或视频 这个依赖于前面实现的协议UIImagePickerControllerDelegate，该协议有一个imagePickerController:didFinishPickingMediaWithInfo方法，我们要做的保存动作就在这个方法里实现。 - (void)imagePickerController:(nonnull UIImagePickerController *)picker didFinishPickingMediaWithInfo:(nonnull NSDictionary&lt;NSString *,id&gt; *)info { // 获取拍摄的媒体的类型 NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType]; // 判断拍摄的媒体的类型 if ([mediaType isEqualToString:(NSString *) kUTTypeMovie]) { // 获取要保存的文件的路径
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/07/12/uiimagepickercontrollerusage/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/07/10/%E4%B9%9F%E8%B0%88%E5%88%9B%E4%B8%9A/">也谈创业
+</a>
+</h2>
+
+  <time datetime="2015-07-10">10 Jul, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    我竟然在标签里写了“情怀”两个字。 自从罗永浩做了锤子手机，“情怀”就变成了一个被用烂了的词，但不可否认的是，它是确实存在的东西。 今天中午和同事聊天，谈到了中国和国外的创业者的不同之处，其中有一条，那就是创业者的初心。 我们中国的创业者们其实多数并不是想真正要做一款成功的产品，而是看到了现在这个互联网的大潮，既然大家都有份，那么我也要去忽悠点投资人的钱来。于是就绞尽脑汁的为用户“臆想”出很多在我这样一个普通上班族看来根本没有任何意义的需求来。初期可以拿着这个根本不存在的需求去忽悠投资人，我想现在的投资者可能也是处于一个不理智的阶段，看到任何O2O的项目都想插一棒子进来——万一成功了呢？ 然而，这些CEO们拿了钱之后干什么呢？当然是提高自己的生活水平。他们把融来的投资的一大部分撞进来自己的腰包，然后若无其事的继续经营着公司——然后九成九的机会公司死掉了，但他已经用这样一个特殊的方式把钱赚到了。 我们再看国外那些成功的创业者们，最初创办公司的目的都是实现自己的价值——有的是自己有一个想法，想把想法卖给大公司但遭到拒绝，于是奋发图强，自己做；有的是眼看着自己所在的公司无法把自己寄予厚望的产品做的符合自己的理想——这些人做出来的产品能不成功吗？ 我们还谈到了中国公司对于开源社区的贡献问题，中国的互联网行业存在大量对互联网技术毫不关心的从业者，他们工作仅仅就是为了挣口饭吃，他们不关心技术的发展潮流，不关心怎样提高自己的技术水平，需要什么东西到网上搜一搜，基本都能找到现成的解决方案，为什么会这样呢？因为这些人做的是人家早就做过的东西。尤其对于开源社区，大部分人对它的理解就是——免费。对，但也不全对。我这里不去说RMS的理论，什么开源了，自由了之类的观点，我们的水平还达不到那一步。 连起码的感恩之心都没有。 放眼望去，中国有多少互联网公司用的是LAMP或者LNMP的技术架构？几乎全都是。那又有多少的公司在实现盈利之后意识到我们的成功来源于开源社区的无私奉献，我们应该给他们一些捐赠？我想这个数量又是屈指可数的。想一下对于盗版的意识就知道了，不说资金不那么充足的小公司，就连很多大公司内部都明目张胆的使用盗版软件，设想一下，一个本来收费的东西你首先想到的不是正常的付费，而是要破解它，那一个不强制让你缴费的东西你会想到要主动给他钱？ 白日做梦。 而我们看到Whatsapp的创始人向FreeBSD基金会的捐款，看到FaceBook对PHP的大量贡献，甚至一直为很多人不齿的微软每年为各个开源软件基金会的捐赠也不在少数，这方面，我们的意识还差得远。 而我自己也在筹划一个项目，在项目成型之前我把它暂时放在bitbucket上面作为个人项目进行开发，等能够正常运行了再开放出来。但是目前还处在技术选型阶段，感谢开源社区给了我那么多选择。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/07/10/%E4%B9%9F%E8%B0%88%E5%88%9B%E4%B8%9A/">Read more &rarr;</a>
 
 </div>
 
@@ -328,24 +332,12 @@
   9
 </a>
 
-<a href="http://lovelock.github.io/page/10/">
-  10
-</a>
-
-<a href="http://lovelock.github.io/page/11/">
-  11
-</a>
-
-<a href="http://lovelock.github.io/page/12/">
-  12
-</a>
-
 
 <a aria-label="Next" href="http://lovelock.github.io/page/6/">
   <span aria-hidden="true">»</span>
 </a>
 
-<a aria-label="Last" href="http://lovelock.github.io/page/12/">
+<a aria-label="Last" href="http://lovelock.github.io/page/9/">
   <span aria-hidden="true">»»</span>
 </a>
 

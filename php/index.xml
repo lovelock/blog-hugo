@@ -1,0 +1,1182 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Phps on Me and the Web</title>
+    <link>http://lovelock.github.io/php/</link>
+    <description>Recent content in Phps on Me and the Web</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>frostwong@gmail.com (Frost Wong)</managingEditor>
+    <webMaster>frostwong@gmail.com (Frost Wong)</webMaster>
+    <copyright>(c) 2013-2015 Frost Wong. All rights reserved.</copyright>
+    <lastBuildDate>Sat, 26 Sep 2015 10:41:42 +0000</lastBuildDate>
+    <atom:link href="http://lovelock.github.io/php/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>PHP单元测试-02</title>
+      <link>http://lovelock.github.io/php/2015-09-26-PHP%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-02/</link>
+      <pubDate>Sat, 26 Sep 2015 10:41:42 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://lovelock.github.io/php/2015-09-26-PHP%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-02/</guid>
+      <description>
+
+&lt;p&gt;上一篇中讲了PHP单元测试的一些简单概念，这里详细说一下会用到的各种&lt;code&gt;assert*&lt;/code&gt;函数。官方文档按照字母顺序逐一讲述了这些方法，但我觉得那很不合适，至少应该大概按照类别来分类。&lt;/p&gt;
+
+&lt;h2 id=&#34;数组相关:92a31ed3a62da4c4693982a6f032fbda&#34;&gt;数组相关&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertArrayHasKey($expected_key, $actual_array)&lt;/code&gt;
+如果&lt;code&gt;$expected_key&lt;/code&gt;是&lt;code&gt;$actual_array&lt;/code&gt;中元素的一个键值，则通过，否则不通过。也即&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;foreach ($actual_array as $k =&amp;gt; $v) {
+    if ($k === $expected_key) {
+        // 测试通过
+        return true;
+    }
+    // 测试不通过
+    return false;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertArraySubset($subset_array, $actual_array)&lt;/code&gt;
+如果&lt;code&gt;$subset_array&lt;/code&gt;是&lt;code&gt;$actual_array&lt;/code&gt;的一个子数组，则通过，否则不通过。也即前者是后者的&lt;strong&gt;子集&lt;/strong&gt;，这点很重要，其实由于在PHP中数组是作为HashTable存储的，所以是一般并不存在顺序的问题。因此这里只要求前者是后者的子集，而至于顺序则不要求。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertCount($count, $array)&lt;/code&gt;
+如果&lt;code&gt;count($array) === $count)&lt;/code&gt;则通过。注意这里&lt;code&gt;$count&lt;/code&gt;的类型必须是整数。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;类属性相关:92a31ed3a62da4c4693982a6f032fbda&#34;&gt;类属性相关&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertClassHasAttribute($attributeName, $className)&lt;/code&gt;
+如果类名为&lt;code&gt;$className&lt;/code&gt;的类拥有一个名为&lt;code&gt;$attributeName&lt;/code&gt;的属性，则通过，否则不通过。值得注意的是，这个测试通过与否与属性的值是否设置没有关系，即使是只声明了名为&lt;code&gt;$attributeName&lt;/code&gt;的属性，这个测试也是通过的，但实例化该类之后&lt;code&gt;var_dump(new ClassAttr()-&amp;gt;attr)&lt;/code&gt;的结果却是&lt;code&gt;false&lt;/code&gt;。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assetClassHasStaticAttribute($staticAttributeName, $className)&lt;/code&gt;
+这个自不必多说，和上面类似。只是用来判断静态属性。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;对象关系:92a31ed3a62da4c4693982a6f032fbda&#34;&gt;对象关系&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;assertObjectHasAttribute($attributeName, $object)&lt;/code&gt;
+如果对象&lt;code&gt;$object&lt;/code&gt;拥有属性&lt;code&gt;$attributeName&lt;/code&gt;，则通过。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;包含关系:92a31ed3a62da4c4693982a6f032fbda&#34;&gt;包含关系&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertContains($needle, $haystack)&lt;/code&gt;
+如果&lt;code&gt;$haystack&lt;/code&gt;中包含&lt;code&gt;$needle&lt;/code&gt;，则通过，否则不通过。这个包含可以是数组的包含，也可以是字符串的包含，注意，默认是区分大小写的，即&lt;code&gt;assertContains(&#39;foo&#39;, &#39;FooBar&#39;)&lt;/code&gt;是不能通过测试的。但&lt;code&gt;assertContains(&#39;foo&#39;, &#39;FooBar&#39;, &#39;&#39;, true)&lt;/code&gt;则可以通过测试，也就是说第四个参数表示不区分大小写。至于第三个参数，其实是&lt;code&gt;$message&lt;/code&gt;，也就是在测试不通过时报告
+详细信息的，我个人理解和&lt;code&gt;try/cache&lt;/code&gt;里面的&lt;code&gt;Exception $e&lt;/code&gt;里面的&lt;code&gt;getMessage()&lt;/code&gt;可能有点类似，没有深究。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertContainsOnly($type, $array)&lt;/code&gt;
+如果&lt;code&gt;$array&lt;/code&gt;中只包含由&lt;code&gt;$type&lt;/code&gt;指定的一种类型的变量，则通过，否则不通过。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertContainsOnlyInstanceOf($className, $instance_array)&lt;/code&gt;
+如果&lt;code&gt;$instance_array&lt;/code&gt;中的&lt;strong&gt;所有&lt;/strong&gt;元素都是名为&lt;code&gt;$className&lt;/code&gt;的类的实例，则通过，否则不通过。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertInstanceOf($className, $instance)&lt;/code&gt;
+如果&lt;code&gt;$instance&lt;/code&gt;是&lt;code&gt;$className&lt;/code&gt;的实例，则通过。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;相等相关:92a31ed3a62da4c4693982a6f032fbda&#34;&gt;相等相关&lt;/h2&gt;
+
+&lt;h3 id=&#34;是非问题:92a31ed3a62da4c4693982a6f032fbda&#34;&gt;是非问题&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;assertTrue($actual)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;assertFalse($actual)&lt;/code&gt;
+上面两个判断的就是&lt;code&gt;true&lt;/code&gt;和&lt;code&gt;false&lt;/code&gt;，是&lt;code&gt;boolean&lt;/code&gt;类型的，而不是我们平时理解的存在或者值不为空等等。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;assertNull($actual)&lt;/code&gt;
+和上面两个一样，这个判断也是精确的，只有当&lt;code&gt;$actual === null&lt;/code&gt;时才通过。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;简单类型:92a31ed3a62da4c4693982a6f032fbda&#34;&gt;简单类型&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertEquals($expected, $actual)&lt;/code&gt;
+如果&lt;code&gt;$expectec == $actual&lt;/code&gt;，则通过。注意这里的相等是和类型无关的，例如&lt;code&gt;assertEquals(1, &#39;1&#39;)&lt;/code&gt;是通过的。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertSame($expected, $actual)&lt;/code&gt;
+如果&lt;code&gt;$expected === $actual&lt;/code&gt;，则通过。注意这里的相等是需要类型也相同的，例如&lt;code&gt;assertSame(1, &#39;1&#39;)&lt;/code&gt;是不通过的。
+当然以上两个都是可以判断数组的。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertGreaterThan($expected, $actual)&lt;/code&gt; 和 &lt;code&gt;assertGreaterThanOrEqual($expected, $actual)&lt;/code&gt;
+如果&lt;code&gt;$expected &amp;gt; $actual&lt;/code&gt;则通过。后者比前者多包含了一个相等的情况。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertLessThan($expected, $actual)&lt;/code&gt; 和 &lt;code&gt;assertLessThanOrEqual($expected, $actual)&lt;/code&gt;
+如果&lt;code&gt;$expected &amp;lt; $actual&lt;/code&gt;则通过。后者比前者多包含了一个相等的情况。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertInternalType($type, $actual)&lt;/code&gt;
+如果&lt;code&gt;gettype($actual) === $type&lt;/code&gt;，则通过。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;xml类型:92a31ed3a62da4c4693982a6f032fbda&#34;&gt;XML类型&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;assertEqualXmlStructure&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;assertXmlFileEqualsXmlFile&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;assertXmlStringEqualsXmlFile&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;assertXmlStringEqualsXmlString&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;就我个人工作的经验来看，貌似XML在接口设计中已经很少见了，所以这里直接忽略吧，不喜欢XML。&lt;/p&gt;
+
+&lt;h3 id=&#34;json类型:92a31ed3a62da4c4693982a6f032fbda&#34;&gt;JSON类型&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertJsonFileEqualsJsonFile($json_file1, $json_file2)&lt;/code&gt;
+如果两个json内容相同，或者说包含的json格式可能不同(指空格、缩进等)，但值是相同的，则测试通过。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertJsonStringEqualsJsonFile($json_file, $json_encoded_string)&lt;/code&gt;
+如果&lt;code&gt;$json_file&lt;/code&gt;中包含的JSON的内容和&lt;code&gt;$json_encoded_string&lt;/code&gt;一样，则通过。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertJsonStringEquaslJsonString($json_string1, $json_string2)&lt;/code&gt;
+同上。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;文件相关:92a31ed3a62da4c4693982a6f032fbda&#34;&gt;文件相关&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertFileExists($file)&lt;/code&gt;
+如果&lt;code&gt;$file&lt;/code&gt;存在，则通过。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertStringMatchesFormat($format, $string)&lt;/code&gt;
+如果&lt;code&gt;$string&lt;/code&gt;的内容符合&lt;code&gt;$format&lt;/code&gt;的格式，如&lt;code&gt;%s&lt;/code&gt;、&lt;code&gt;%i&lt;/code&gt;等，则通过。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertStringMatchesFormatFile(&#39;path/to/file&#39;, $string)&lt;/code&gt;
+如果&lt;code&gt;$string&lt;/code&gt;的内容符合&lt;code&gt;path/to/file&lt;/code&gt;的文件中定义的格式，则通过。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;正则表达式:92a31ed3a62da4c4693982a6f032fbda&#34;&gt;正则表达式&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;assertRegExp($pattern, $string)&lt;/code&gt;
+如果&lt;code&gt;$string&lt;/code&gt;符合&lt;code&gt;$pattern&lt;/code&gt;的模式，则通过。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;字符串相关:92a31ed3a62da4c4693982a6f032fbda&#34;&gt;字符串相关&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertStringStartsWith($start, $string)&lt;/code&gt;
+如果&lt;code&gt;$string&lt;/code&gt;以&lt;code&gt;$start&lt;/code&gt;开头，则通过。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertStringEndsWith($end, $string)&lt;/code&gt;
+如果&lt;code&gt;$string&lt;/code&gt;以&lt;code&gt;$start&lt;/code&gt;结尾，则通过。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;本文就介绍这么多，主要参考了&lt;a href=&#34;https://phpunit.de/manual/current/en/appendixes.assertions.html&#34; target=&#34;_blank&#34;&gt;phpunit.de&lt;/a&gt;，加上自己的理解，当然这远远不够全，最起码的是几乎每个方法都有相反的实现，例如&lt;code&gt;assertStringStartWidth&lt;/code&gt;，同时也有&lt;code&gt;assertStringNotStartWith&lt;/code&gt;， 但知道了一面的判断原则，另一面一定也可以触类旁通了。写了那么多，其实还是建议读者每条都自己写出来尝试下，多试试不同的
+条件，自然就理解了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>PHP单元测试-01</title>
+      <link>http://lovelock.github.io/php/2015-09-22-PHP%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-01/</link>
+      <pubDate>Tue, 22 Sep 2015 15:49:52 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://lovelock.github.io/php/2015-09-22-PHP%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-01/</guid>
+      <description>
+
+&lt;p&gt;我自认对这种比较系统的知识总是比较欠缺，所以还是花点时间补充上比较好。&lt;/p&gt;
+
+&lt;p&gt;这里说一下PHP的单元测试。&lt;/p&gt;
+
+&lt;p&gt;首先是搭建可以进行单元测试的环境，这里我首选的还是Debian Sid。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo apt-get install phpunit
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;一条命令就可以安装单元测试所需要的各种依赖了，之所以选择这种可能不是最新的包的安装方式是因为pear(pecl)在国内的访问速度毕竟不怎么理想，既然我们有一个优秀的&lt;code&gt;apt&lt;/code&gt;了，何必还要费那劲呢？&lt;/p&gt;
+
+&lt;h2 id=&#34;初识单元测试:92d0cab0f2d8691d5e1a25817ad8b49e&#34;&gt;初识单元测试&lt;/h2&gt;
+
+&lt;p&gt;首先，一个类对应一个测试类。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;.
+├── FrostWong.php
+└── FrostWongTest.php
+
+0 directories, 2 files
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;// FrostWong.php
+
+&amp;lt;?php
+
+class FrostWong
+{
+    public function sayHi()
+    {
+        return &amp;quot;Hi, UnitTest.\n&amp;quot;;
+    }
+
+    public function altb($a, $b)
+    {
+        return $a &amp;gt; $b;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;// FrostWongTest.php
+
+&amp;lt;?php
+
+require &#39;PHPUnit/Autoload.php&#39;;
+require &#39;FrostWong.php&#39;;
+
+class FrostWongTest extends PHPUnit_Framework_TestCase
+{
+    public function testSayHi()
+    {
+        $fw = new FrostWong();
+        $this-&amp;gt;assertEquals(&amp;quot;Hi, UnitTest.\n&amp;quot;, $fw-&amp;gt;sayHi());
+    }
+
+    public function testAltb()
+    {
+        $fw = new FrostWong();
+        $this-&amp;gt;assertTrue($fw-&amp;gt;altb(4, 3));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后，就可以执行单元测试了。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;phpunit FrostWongTest&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;这个命令有几个需要注意的问题：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;命令行参数是&lt;code&gt;FrostWongTest&lt;/code&gt;而不是&lt;code&gt;FrostWongTest.php&lt;/code&gt;，这一点和命令行用&lt;code&gt;java&lt;/code&gt;执行&lt;code&gt;class&lt;/code&gt;文件时有异曲同工之妙：）。&lt;/li&gt;
+&lt;li&gt;PHP执行包含路径的问题，检查你的&lt;code&gt;php.ini&lt;/code&gt;文件，看其中&lt;code&gt;include_path&lt;/code&gt;一行，看其中有没有包含&lt;code&gt;.&lt;/code&gt;，也就是当前路径。如果不包含，那么执行上面的语句时就会出现&lt;code&gt;Cannot open file FrostWongTest.php&lt;/code&gt;的错误，然后什么都不会发生。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;setup:92d0cab0f2d8691d5e1a25817ad8b49e&#34;&gt;setUp&lt;/h2&gt;
+
+&lt;p&gt;你一定也注意到了，因为被测试的类中有两个方法，所以就初始化了两次&lt;code&gt;FrostWong&lt;/code&gt;类，PHPUnit当然给我们提供了更好的方式，那就是&lt;code&gt;setUp&lt;/code&gt;，我理解的&lt;code&gt;setUp&lt;/code&gt;就是一个用来初始化需要的变量的模板方法。同样的还有&lt;code&gt;tearDown&lt;/code&gt;方法。&lt;/p&gt;
+
+&lt;p&gt;所以上面测试用例的第二版就是&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;&amp;lt;?php
+
+require &#39;PHPUnit/Autoload.php&#39;;
+require &#39;FrostWong.php&#39;;
+
+class FrostWongTest extends PHPUnit_Framework_TestCase
+{
+    function setUp()
+    {
+        $this-&amp;gt;fw = new FrostWong();
+    }
+
+    public function testSayHi()
+    {
+        $this-&amp;gt;assertEquals(&amp;quot;Hi, UnitTest.\n&amp;quot;, $this-&amp;gt;fw-&amp;gt;sayHi());
+    }
+
+    public function testAltb()
+    {
+        $this-&amp;gt;assertTrue($this-&amp;gt;fw-&amp;gt;altb(4, 3));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;好了，现在你一定已经对PHP端单元测试有了大致的印象了，下一篇会讲一些常用的&lt;code&gt;assert&lt;/code&gt;方法，来进行实际的操练。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>PHP扩展开发第三步 —— 使用类</title>
+      <link>http://lovelock.github.io/php/2015-07-19-PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91-%E2%80%94%E2%80%94-%E4%BD%BF%E7%94%A8%E7%B1%BB/</link>
+      <pubDate>Sun, 19 Jul 2015 12:48:46 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://lovelock.github.io/php/2015-07-19-PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91-%E2%80%94%E2%80%94-%E4%BD%BF%E7%94%A8%E7%B1%BB/</guid>
+      <description>
+
+&lt;p&gt;既然用PHP编程，少不了需要用到类，前面我们说了如何定义一个全局可以用的方法，那么现在就来看看怎么创建一个类吧。&lt;/p&gt;
+
+&lt;h2 id=&#34;注册:648f1a04bda19cf22b67474880a1844d&#34;&gt;注册&lt;/h2&gt;
+
+&lt;p&gt;前面提到在&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;const zend_function_entry php_ext_example_functions[] = {
+    PHP_FE(confirm_php_ext_example_compiled, NULL)
+    PHP_FE(self_concat, NULL);
+    PHP_FE_END
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;中注册了&lt;code&gt;PHP_FE&lt;/code&gt;入口，从外部可以访问&lt;code&gt;self_concat&lt;/code&gt;方法，新定义的类当然也要在这里注册来才能被访问了。比如新建的类叫做&lt;code&gt;SampleClass&lt;/code&gt;。就需要把这段代码改成&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;const zend_function_entry php_ext_example_functions[] = {
+    PHP_ME(SampleClass, sayHello, NULL, ZEND_ACC_PUBLIC)
+    PHP_FE(confirm_php_ext_example_compiled, NULL)
+    PHP_FE(self_concat, NULL);
+    PHP_FE_END
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但在这之前需要先定义一个全局&lt;code&gt;zend_class_entry&lt;/code&gt;，用于&lt;code&gt;zend_register_internal_class&lt;/code&gt;。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;zend_class_entry *php_ext_example_class_entry;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在PHP扩展的生命周期中，扩展是在&lt;code&gt;Module Initialization&lt;/code&gt;阶段初始化的，所以需要在&lt;code&gt;PHP_MINIT_FUNCTION&lt;/code&gt;中注册类入口。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;PHP_MINIT_FUNCTION(php_ext_example)
+{
+    zend_class_entry tmp_ce;
+    INIT_CLASS_ENTRY(tmp_ce, &amp;quot;SampleClass&amp;quot;, php_ext_example_functions);
+    php_ext_example_class_entry = zend_register_internal_class(&amp;amp;tmp_ce, TSRMLS_CC);
+    return SUCCESS;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以看到，在&lt;code&gt;PHP_MINIT_FUNCTION&lt;/code&gt;中用到了&lt;code&gt;php_ext_sample_class_entry&lt;/code&gt;和&lt;code&gt;php_ext_example_functions&lt;/code&gt;，所以后两者应该放在前者的前面。&lt;/p&gt;
+
+&lt;p&gt;这样就很明了了，下一步就是实现&lt;code&gt;sayHello&lt;/code&gt;方法了。
+在上一节已经讲过了关于闯入参数的问题，这里不再赘述。值得注意的是，定义类的方法用的是&lt;code&gt;PHP_METHOD&lt;/code&gt;宏，而不是定义全局方法的&lt;code&gt;PHP_FUNCTION&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;执行完&lt;code&gt;make&lt;/code&gt;就可以通过
+&lt;code&gt;sapi/cli/php --rc SampleClass&lt;/code&gt;就可以看到这个类的结构了。&lt;/p&gt;
+
+&lt;p&gt;但这里我有一个疑问，那就是&lt;code&gt;self_concat&lt;/code&gt;和&lt;code&gt;confirm_php_ext_example_compiled&lt;/code&gt;方法其实并不是&lt;code&gt;SampleClass&lt;/code&gt;类的方法，但不知道为什么成了类的成员方法。&lt;/p&gt;
+
+&lt;h2 id=&#34;属性和常量:648f1a04bda19cf22b67474880a1844d&#34;&gt;属性和常量&lt;/h2&gt;
+
+&lt;p&gt;例如类&lt;code&gt;SampleClass&lt;/code&gt;拥有一个属性&lt;code&gt;foo&lt;/code&gt;，那么相应的我们要给它定义&lt;code&gt;setter&lt;/code&gt;和&lt;code&gt;getter&lt;/code&gt;。
+有了刚才的经验，添加两个方法一定是不在话下了。&lt;/p&gt;
+
+&lt;p&gt;但是虽然有了这两个方法，但变量&lt;code&gt;foo&lt;/code&gt;现在还不是&lt;code&gt;SampleClass&lt;/code&gt;的属性，所以在执行&lt;code&gt;getFoo()&lt;/code&gt;方法的时候也不能确定这个变量是否存在，所以出于安全的考虑还是应该给类添加这个属性。同样是在MINIT阶段，使用&lt;code&gt;zend_declare_property_null&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;zend_declare_property_null(php_ext_example_class_entry, &amp;quot;foo&amp;quot;, sizeof(&amp;quot;foo&amp;quot;) - 1, ZEND_ACC_PUBLIC TSRMLS_CC);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;相应的，如果设置要给&lt;code&gt;foo&lt;/code&gt;设置一个初始值，就要使用&lt;code&gt;zend_declare_property&lt;/code&gt;的各种变种了，
+见本系列博客的代码库。&lt;/p&gt;
+
+&lt;p&gt;同样，还有&lt;code&gt;zend_declare_class_constant_*&lt;/code&gt;系列，用法和&lt;code&gt;zend_declare_property_*&lt;/code&gt;类似。&lt;/p&gt;
+
+&lt;h2 id=&#34;继承和接口:648f1a04bda19cf22b67474880a1844d&#34;&gt;继承和接口&lt;/h2&gt;
+
+&lt;p&gt;和用户用PHP写的类一样，内部类也可以继承其他类或者实现接口。
+举个最简单的例子，我们自定义一个异常类&lt;code&gt;CustomException&lt;/code&gt;，继承自&lt;code&gt;Exception&lt;/code&gt;。
+同样，也可以定义一个接口。不过定义接口用的是&lt;code&gt;zend_register_internal_interface&lt;/code&gt;。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;#include &amp;quot;zend_interfaces.h&amp;quot;
+
+zend_class_entry *reversible_iterator_ce;
+
+const zend_function_entry reversible_iterator_functions[] = {
+    PHP_ABSTRACT_ME(ReversibleIterator, prev, arginfo_void)
+    PHP_FE_END
+};
+
+PHP_MINIT_FUNCTION(test)
+{
+    zend_class_entry tmp_ce;
+    INIT_CLASS_ENTRY(tmp_ce, &amp;quot;ReversibleIterator&amp;quot;, reversible_iterator_functions);
+    reversible_iterator_ce = zend_register_internal_interface(&amp;amp;tmp_ce TSRMLS_CC);
+
+    /* ReversibleIterator extends Iterator. For interface inheritance the zend_class_implements()
+     * function is used. */
+    zend_class_implements(reversible_iterator_ce TSRMLS_CC, 1, zend_ce_iterator);
+
+    return SUCCESS;
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>PHP扩展开发第二步 —— 定义方法</title>
+      <link>http://lovelock.github.io/php/2015-07-19-PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E7%AC%AC%E4%BA%8C%E6%AD%A5-%E2%80%94%E2%80%94-%E5%AE%9A%E4%B9%89%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Sun, 19 Jul 2015 11:39:39 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://lovelock.github.io/php/2015-07-19-PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E7%AC%AC%E4%BA%8C%E6%AD%A5-%E2%80%94%E2%80%94-%E5%AE%9A%E4%B9%89%E6%96%B9%E6%B3%95/</guid>
+      <description>
+
+&lt;p&gt;上一节展示了如何一步一步的创建一个包含一个全局方法的扩展。现在来了解一下这个扩展是怎么生效的。&lt;/p&gt;
+
+&lt;p&gt;首先要知道&lt;code&gt;ext_skel&lt;/code&gt;到底为我们做了什么，就我们的这个例子中&lt;code&gt;string self_concat(string str, int n)&lt;/code&gt;而言&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1. 创建一个函数原型，包括边界条件的检查等
+2. 添加函数入口
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;具体到代码中也就是增加了这两部分。
+对应第一条：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;/* {{{ proto string self_concat(string str, int n) */
+PHP_FUNCTION(self_concat)
+{
+    char *str = NULL;
+    int argc = ZEND_NUM_ARGS();
+    int str_len;
+    long n;
+     
+    if (zend_parse_parameters(argc TSRMLS_CC, &amp;quot;sl&amp;quot;, &amp;amp;str, &amp;amp;str_len, &amp;amp;n) == FAILURE)
+        return;
+     
+    php_error(E_WARNING, &amp;quot;self_concat: not yet implemented&amp;quot;); 
+}
+ 
+/* }}} */
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;对应第二条&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;/* {{{ myfunctions_functions[]
+ *
+ * Every user visible function must have an entry in myfunctions_functions[].
+ */
+ const zend_function_entry myfunctions_functions[] = {
+	 PHP_FE(confirm_myfunctions_compiled,    NULL)       /* For testing, remove later. */
+     PHP_FE(self_concat, NULL)
+     PHP_FE_END  /* Must be the last line in myfunctions_functions[] */
+};
+/* }}} */
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;里面的&lt;code&gt;PHP_FE&lt;/code&gt;就是&lt;code&gt;Function Entry&lt;/code&gt;的意思，在后面会见到&lt;code&gt;PHP_ME&lt;/code&gt;也就是&lt;code&gt;Method Entry&lt;/code&gt;的意思，后者指的是类中方法的入口。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;我们的这个方法是接受参数的，所以也要有内部的方法来进行相关的处理，比如参数的个数判断了，参数的类型转换之类的，这些处理都是由函数
+&lt;code&gt;zend_parse_parameters(int num_args TSRMLS_DC, char *type_spec, …);&lt;/code&gt;
+代劳的。&lt;/p&gt;
+
+&lt;p&gt;{% blockquote Laruence &lt;a href=&#34;http://www.laruence.com/2009/04/28/719.html&#34; target=&#34;_blank&#34;&gt;http://www.laruence.com/2009/04/28/719.html&lt;/a&gt; 用C/C++扩展你的PHP %}
+第一个参数是传递给函数的参数个数。通常的做法是传给它ZEND_NUM_ARGS()。这是一个表示传递给函数参数总个数的宏。第二个参数是为了线程安全，总是传递TSRMLS_CC宏，后面会讲到。第三个参数是一个字符串，指定了函数期望的参数类型，后面紧跟着需要随参数值更新的变量列表。因为PHP采用松散的变量定义和动态的类型判断，这样做就使得把不同类型的参数转化为期望的类型成为可能。例如，如果用户传递一个整数变量，可函数需要一个浮点数，那么zend_parse_parameters()就会自动地把整数转换为相应的浮点数。如果实际值无法转换成期望类型（比如整形到数组形），会触发一个警告。&lt;/p&gt;
+
+&lt;p&gt;下表列出了可能指定的类型。我们从完整性考虑也列出了一些没有讨论到的类型。&lt;/p&gt;
+
+&lt;p&gt;+++&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;类型指定符&lt;/th&gt;
+&lt;th&gt;对应的C类型&lt;/th&gt;
+&lt;th&gt;描述&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;l&lt;/td&gt;
+&lt;td&gt;long&lt;/td&gt;
+&lt;td&gt;符号整数&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;d&lt;/td&gt;
+&lt;td&gt;double&lt;/td&gt;
+&lt;td&gt;浮点数&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;s&lt;/td&gt;
+&lt;td&gt;char *,&lt;/td&gt;
+&lt;td&gt;int 二进制字符串，长度&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;b&lt;/td&gt;
+&lt;td&gt;zend_bool&lt;/td&gt;
+&lt;td&gt;逻辑型（1或0）&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;r&lt;/td&gt;
+&lt;td&gt;zval *&lt;/td&gt;
+&lt;td&gt;资源（文件指针，数据库连接等）&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;a&lt;/td&gt;
+&lt;td&gt;zval *&lt;/td&gt;
+&lt;td&gt;联合数组&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;o&lt;/td&gt;
+&lt;td&gt;zval *&lt;/td&gt;
+&lt;td&gt;任何类型的对象&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;O&lt;/td&gt;
+&lt;td&gt;zval *&lt;/td&gt;
+&lt;td&gt;指定类型的对象。需要提供目标对象的类类型&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;z&lt;/td&gt;
+&lt;td&gt;zval *&lt;/td&gt;
+&lt;td&gt;无任何操作的zval&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;+++&lt;/p&gt;
+
+&lt;p&gt;为了容易地理解最后几个选项的含义，你需要知道zval是Zend引擎的值容器[1]。无论这个变量是布尔型，字符串型或者其他任何类型，其信息总会包含在一个zval联合体中。本章中我们不直接存取zval，而是通过一些附加的宏来操作。下面的是或多或少在C中的zval, 以便我们能更好地理解接下来的代码。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;typedef union _zval{
+     long lval;
+     double dval;
+     struct {
+          char *val;
+          int len;
+     }str;
+ 
+     HashTable *ht;
+     zend_object_value obj;
+ 
+}zval;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在我们的例子中，我们用基本类型调用&lt;code&gt;zend_parse_parameters()&lt;/code&gt;，以本地C类型的方式取得函数参数的值，而不是用&lt;code&gt;zval&lt;/code&gt;容器。&lt;/p&gt;
+
+&lt;p&gt;为了让&lt;code&gt;zend_parse_parameters()&lt;/code&gt;能够改变传递给它的参数的值，并返回这个改变值，需要传递一个引用。仔细查看一下&lt;code&gt;self_concat()&lt;/code&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;if (zend_parse_parameters(argc TSRMLS_CC, &amp;quot;sl&amp;quot;, &amp;amp;str, &amp;amp;str_len, &amp;amp;n) == FAILURE)
+    return;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意到自动生成的代码会检测函数的返回值&lt;code&gt;FAILUER&lt;/code&gt;(成功即&lt;code&gt;SUCCESS&lt;/code&gt;)来判断是否成功。如果没有成功则立即返回，并且由&lt;code&gt;zend_parse_parameters()&lt;/code&gt;负责触发警告信息。因为函数打算接收一个字符串&lt;code&gt;l&lt;/code&gt;和一个整数&lt;code&gt;n&lt;/code&gt;，所以指定 &lt;code&gt;”sl”&lt;/code&gt; 作为其类型指示符。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- `s`需要两个参数，所以我们传递参考`char * 和 int (str 和 str_len)`给`zend_parse_parameters()`函数。无论什么时候，记得总是在代码中使用字符串长度`str_len`来确保函数工作在二进制安全的环境中。不要使用`strlen()`和`strcpy()`，除非你不介意函数在二进制字符串下不能工作。二进制字符串是包含有`nulls`的字符串。二进制格式包括图象文件，压缩文件，可执行文件和更多的其他文件。
+- `l`只需要一个参数，所以我们传递给它`n`的引用。尽管为了清晰起见，骨架脚本生成的C变量名与在函数原型定义文件中的参数名一样；这样做不是必须的，尽管在实践中鼓励这样做。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;回到转换规则中来。下面三个对&lt;code&gt;self_concat()&lt;/code&gt;函数的调用使&lt;code&gt;str, str_len和n&lt;/code&gt;得到同样的值：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;self_concat(&amp;quot;321&amp;quot;, 5);
+self_concat(321, &amp;quot;5&amp;quot;);
+self_concat(&amp;quot;321&amp;quot;, &amp;quot;5&amp;quot;);
+str points to the string &amp;quot;321&amp;quot;, str_len equals 3, and n equals 5.
+str 指向字符串&amp;quot;321&amp;quot;，str_len等于3，n等于5。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;{% endblockquote %}&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;上面这段内容有关Zend引擎，我一窍不通，不敢瞎说，只好把原文引用过来了。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;内存管理:155d52825534188f9645481348eede5a&#34;&gt;内存管理&lt;/h2&gt;
+
+&lt;p&gt;用于从堆中分配内存的PHP API几乎和标准C API一样，在编写扩展的时候，应该使用PHP API而不是C API函数。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;emalloc(size_t size);
+efree(void *ptr);
+ecalloc(size_t nmemb, size_t size);
+erealloc(void *ptr, size_t size);
+estrdup(const char *s);
+estrndup(const char *s, unsigned int length);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这些函数的优点：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1. 自动在页面请求的最后释放内存，避免内存泄露
+2. 多线程环境下的性能提升
+3. 调试模式下检测内存错误
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;从php函数中的返回值:155d52825534188f9645481348eede5a&#34;&gt;从PHP函数中的返回值&lt;/h2&gt;
+
+&lt;p&gt;扩展API包含丰富的用于从函数中返回值的宏。这些宏主要有两种风格：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1. RETVAL_type()
+2. RETURN_type()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中第一种用于在把控制交给脚本引擎前还需要做一些清理工作，然后再使用C的返回声明&lt;code&gt;return&lt;/code&gt;返回到PHP；第二种使用更加普遍，它设置了返回类型，同事返回控制到PHP。&lt;/p&gt;
+
+&lt;h2 id=&#34;小结:155d52825534188f9645481348eede5a&#34;&gt;小结&lt;/h2&gt;
+
+&lt;p&gt;这一篇涉及底层的东西较多，基本上是摘录了鸟哥翻译的&lt;code&gt;PHP5 Power Programming&lt;/code&gt;的内容。有些深入的东西现在也不必理解，后面会慢慢的接触到。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>PHP扩展开发第一步 —— 创建一个可工作的方法</title>
+      <link>http://lovelock.github.io/php/2015-07-18-PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91/</link>
+      <pubDate>Sat, 18 Jul 2015 21:23:29 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://lovelock.github.io/php/2015-07-18-PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91/</guid>
+      <description>&lt;p&gt;这个问题困扰我已经很久了，但总是没有心情坐下来好好的研究一下，今天终于厘清了一点头绪，记录下来，留给像我一样对网络上的教程的理解能力没有那么好的同学。&lt;/p&gt;
+
+&lt;p&gt;我不想像那些正常的教程一样，先讲一番PHP的声明周期，来先看一下正反馈吧。请跟我一步一步来，让你先看到你的扩展可以工作。相关代码请查看&lt;a href=&#34;https://github.com/lovelock/php_ext_example.git&#34; target=&#34;_blank&#34;&gt;https://github.com/lovelock/php_ext_example.git&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;以鸟哥的&lt;a href=&#34;http://www.laruence.com/2009/04/28/719.html&#34; target=&#34;_blank&#34;&gt;用C/C++扩展你的PHP&lt;/a&gt;这篇文章中的例子作为我们的目标吧，简单的打印一个Hello World也没什么意思。&lt;/p&gt;
+
+&lt;p&gt;首先看PHP版本的代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;// PHP版本的self_concat函数
+function self_concat($str, $n)
+{
+	$result = &amp;quot;&amp;quot;;
+	for ($i = 0; $i &amp;lt; $n; $i++) {
+		$result .= $str;
+	}
+
+	return $result;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;那么再来想如果我们写了一个PHP扩展，来实现这个功能，它替代了什么？&lt;/p&gt;
+
+&lt;p&gt;对，我们本来用PHP写的逻辑现在放在了扩展里面用C实现了。这样的结果就是我们可以省掉上面PHP版本的self_concat函数的定义，在需要这个函数的地方直接调用就好了。&lt;/p&gt;
+
+&lt;p&gt;具体的步骤如下：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;先给扩展取个名字吧，以&lt;code&gt;php_ext_example&lt;/code&gt;为例&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;声明函数原型，就像C/C++中头文件中函数的声明一样，写在一个单独的文件中，声明了&lt;strong&gt;返回值&lt;/strong&gt;、&lt;strong&gt;函数名&lt;/strong&gt;、&lt;strong&gt;函数签名&lt;/strong&gt;，注意&lt;strong&gt;没有分号&lt;/strong&gt;。至于文件的后缀，貌似没有特别的要求，鸟哥用了&lt;code&gt;def&lt;/code&gt;，看到有其他博客作者用了&lt;code&gt;proto&lt;/code&gt;，本质是一样的。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;string self_concat(string str, int n)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;执行&lt;code&gt;ext&lt;/code&gt;目录内的&lt;code&gt;ext_skel&lt;/code&gt;命令，顾名思义，这个命令的作用就是为扩展开发者搭建起一套骨架，让我们在上面方便的进行自己的创作。这里我们需要加入两个参数，&lt;code&gt;—extname&lt;/code&gt;和&lt;code&gt;—proto&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;./ext_skel —extname=php_ext_example —proto=php_ext_example.proto&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;执行完这个命令就能在&lt;code&gt;ext&lt;/code&gt;目录下看到&lt;code&gt;php_ext_example&lt;/code&gt;目录了。打开里面发现一堆文件。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;首先需要修改&lt;code&gt;config.m4&lt;/code&gt;文件，找到&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;dnl PHP_ARG_WITH(php_ext_example, for php_ext_example support,
+dnl Make sure that the comment is aligned:
+dnl [  --with-php_ext_example   Include php_ext_example support])
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;要知道&lt;code&gt;dnl&lt;/code&gt;是注释的意思，先把这几行的注释去掉，也就是让它生效。得到&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;PHP_ARG_WITH(php_ext_example, for php_ext_example support,
+Make sure that the comment is aligned:
+[  --with-php_ext_example             Include php_ext_example support])
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;它的意思是把&lt;code&gt;--with-php_ext_example&lt;/code&gt;这个选项加入到&lt;code&gt;configure&lt;/code&gt;的选项中去。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;修改&lt;code&gt;php_ext_example.c&lt;/code&gt;，重头戏来了，前面做的都是为这个做准备。找到&lt;code&gt;PHP_FUNCTION(self_concat)&lt;/code&gt;这一行，这是函数的实现。先甭管为什么把这段代码敲进去。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;PHP_FUNCTION(self_concat)
+{
+    char *str = NULL;
+    int argc = ZEND_NUM_ARGS();
+    int str_len;
+    long n;
+    char *result;
+    char *ptr;
+    int result_length;
+
+
+    if (zend_parse_parameters(argc TSRMLS_CC, &amp;quot;sl&amp;quot;, &amp;amp;str, &amp;amp;str_len, &amp;amp;n) == FAILURE)
+        return;
+
+
+    result_length = (str_len * n);
+    result = (char *) emalloc(result_length + 1);
+    ptr = result;
+
+
+    while (n--) {
+        memcpy(ptr, str, str_len);
+        ptr += str_len;
+    }
+
+
+    ptr = &#39;\0&#39;;
+    RETURN_STRINGL(result, result_length, 0);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;OK，这个时候一个具有“重复打印字符串”功能的扩展就写好了。怎么证明它是能工作的呢？别着急，先把它编译进PHP吧。
+还记得执行完&lt;code&gt;ext_skel&lt;/code&gt;之后弹出的一段说明吗？&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;    1.  $ cd ..
+    2.  $ vi ext/php_ext_example/config.m4
+    3.  $ ./buildconf
+    4.  $ ./configure --[with|enable]-php_ext_example
+    5.  $ make
+    6.  $ ./sapi/cli/php -f ext/php_ext_example/php_ext_example.php
+    7.  $ vi ext/php_ext_example/php_ext_example.c
+    8.  $ make
+    ```
+
+现在我们需要执行从3-6,观察一下输出吧。第3步你会看到这个提示
+&amp;gt; You should not run buildconf in a release package.
+use buildconf --force to override this check.
+
+按它说的，加上`--force`即可。
+第6步如果你能看到
+&amp;gt; ➜  php-5.6.11  sapi/cli/php ext/php_ext_example/php_ext_example.php
+Functions available in the test extension:
+confirm\_php\_ext\_example\_compiled
+&amp;gt; Congratulations! You have successfully modified ext/php\_ext\_example/config.m4. Module php\_ext\_example is now compiled into PHP.
+
+那么恭喜你，你的第一个PHP扩展已经编译进PHP了。等等，这有什么用呢？我怎么知道它能不能工作呢？
+那就写一个脚本试试吧。
+
+```php
+echo self_concat(&amp;quot;HappyHacker&amp;quot;, 3);
+echo &amp;quot;\n&amp;quot;;
+echo self_concat(&amp;quot;Lovelock&amp;quot;, 1);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;执行脚本，有没有很神奇？&lt;/p&gt;
+
+&lt;p&gt;好了，繁华落尽，毕竟还是要回归到技术的本质上来。
+请看[PHP扩展开发第二步]()。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>PHP设置cookie</title>
+      <link>http://lovelock.github.io/php/2015-06-19-phpshe-zhi-cookie/</link>
+      <pubDate>Fri, 19 Jun 2015 12:30:13 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://lovelock.github.io/php/2015-06-19-phpshe-zhi-cookie/</guid>
+      <description>&lt;p&gt;之前一直没有处理过cookie，刚才小小的看了一下，貌似很简单，大概记一下。&lt;/p&gt;
+
+&lt;p&gt;首先，客户端要向服务端发送一个请求，服务端接收到请求之后做一下身份校验什么的，然后就可以给客户端种cookie了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;setcookie(&amp;quot;key&amp;quot;, &amp;quot;value&amp;quot;, time()+expire);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;expire&lt;/code&gt;是cookie的过期时间，上面的例子用了两部分来说明它，time()获取当前的时间戳，那么&lt;code&gt;expire&lt;/code&gt;就是你希望这个cookie在当前时刻之后再存活的时间长短。&lt;/p&gt;
+
+&lt;p&gt;那么如何手动删除cookie呢？答案是无法直接删除cookie。但可以设置其过期，这样就间接的把它删除了。那怎样设置过期呢？&lt;code&gt;setcookie&lt;/code&gt;的第三个参数设置的小于当前时间就可以了。&lt;/p&gt;
+
+&lt;p&gt;那怎么用cookie呢？&lt;/p&gt;
+
+&lt;p&gt;当你把cookie种到了客户端的机器上，它会保存在默认的域下，当客户端访问这个域下的资源时，发送的请求中会带着所有的cookie，然后在服务端用超全局变量&lt;code&gt;$_COOKIE[&#39;key&#39;]&lt;/code&gt;就可以直接访问它了。&lt;/p&gt;
+
+&lt;p&gt;demo代码如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;&amp;lt;?php
+$username = $_GET[&#39;username&#39;];
+$passwd = $_GET[&#39;passwd&#39;];
+
+if (/* 身份校验成功 */) {
+    setcookie(&amp;quot;username&amp;quot;, $username, time() + 3600);
+    echo &amp;quot;cookie set&amp;quot;;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;&amp;lt;?php
+$username = $_COOKIE[&amp;quot;username&amp;quot;];
+echo &amp;quot;username: &amp;quot; . $username;
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>PHP延迟绑定</title>
+      <link>http://lovelock.github.io/php/2015-06-17-phpyan-chi-bang-ding/</link>
+      <pubDate>Wed, 17 Jun 2015 23:37:38 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://lovelock.github.io/php/2015-06-17-phpyan-chi-bang-ding/</guid>
+      <description>&lt;p&gt;在公司的代码里看到很多重复代码，每张表对应的类都有一个一样的静态方法，作用是获得数据库的连接。但显然这并不是一个好的解决方案，而应该充分利用面向对象的思想，利用继承的方式来更优雅的解决。&lt;/p&gt;
+
+&lt;p&gt;我想，当初作者在写这部分代码的时候可能也已经考虑到了这个问题，但很可能是对PHP的延后绑定（LSB）不了解，因此没有实施。&lt;/p&gt;
+
+&lt;p&gt;得到数据库连接的实例有多种方式，这里我们假设有一个方法&lt;code&gt;DB::mysqlConn($tableName);&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;举个例子来说，假设我们设计一个基类&lt;code&gt;BaseConn&lt;/code&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;class BaseConn
+{
+    protected static $conn;
+    protected static $tableName;
+    
+    public function getInstance()
+    {
+        self::$conn = DB::mysqlConn($tableName);
+        return self::$conn;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;按照计划，我们就可以写子类了：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;class ATableConn extends BaseConn
+{
+    protected static $tableName = &#39;atable&#39;;
+    
+    public static findById($id)
+    {
+        $query = &amp;quot;select * from &amp;quot; . self::$tableName . &amp;quot; where id = {$id}&amp;quot;;
+        return $this-&amp;gt;getInstance()-&amp;gt;exec($sql);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这时一般都会认为没有什么问题了，因为我们已经在子类里设定了&lt;code&gt;$tableName&lt;/code&gt;的值，这样在创建数据库连接的时候一定就是&lt;code&gt;atable&lt;/code&gt;的连接了。&lt;/p&gt;
+
+&lt;p&gt;错！&lt;/p&gt;
+
+&lt;p&gt;因为用&lt;code&gt;self&lt;/code&gt;关键字绑定到了编译时引用的属性或方法。&lt;code&gt;self&lt;/code&gt;关键字指向的是父类，而且不会意识到子类，基本上，编译器会用所绑定的名称替换&lt;code&gt;self&lt;/code&gt;关键字。&lt;/p&gt;
+
+&lt;p&gt;那么怎么解决呢？PHP5.3为一个本来就存在的关键字赋予了新的含义——&lt;code&gt;static&lt;/code&gt;，它会在可能的最近时刻强迫PHP绑定到实现代码。&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:4d1ff029c38e536d9dae4add43318e30:static&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:4d1ff029c38e536d9dae4add43318e30:static&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;因此，把上面代码中&lt;code&gt;getInstance&lt;/code&gt;方法中的&lt;code&gt;self&lt;/code&gt;替换成&lt;code&gt;static&lt;/code&gt;就可以了。&lt;/p&gt;
+
+&lt;p&gt;这个特性也就可以实现ActiveRecord了，不过这就是另外一个话题了。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:4d1ff029c38e536d9dae4add43318e30:static&#34;&gt;&lt;a href=&#34;http://www.ibm.com/developerworks/cn/opensource/os-php-53static/&#34; target=&#34;_blank&#34;&gt;PHP V5.3 用延后静态绑定搞活面向对象编程&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:4d1ff029c38e536d9dae4add43318e30:static&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>PHP系统调用</title>
+      <link>http://lovelock.github.io/php/2015-04-28-phpxi-tong-diao-yong/</link>
+      <pubDate>Tue, 28 Apr 2015 23:30:54 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://lovelock.github.io/php/2015-04-28-phpxi-tong-diao-yong/</guid>
+      <description>&lt;p&gt;通常认为PHP的系统调用有以下几种方式：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;system()&lt;/code&gt;输出并返回最后一行Shell结果。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;exec()&lt;/code&gt;不输出结果，返回最后一行Shell结果，所有结果可以保存到一个返回的数组。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;passthru()&lt;/code&gt;只调用命令，把命令的运行结果原样的标准输出到标准输出设备上。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;上面三种我目前还没有用到过，下面简单介绍一下另外一种方式&lt;code&gt;shell_exec&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;应用背景：有大量数据需要处理，对一个大数组中的所有元素进行复杂的操作，这个任务其实是不适合交给PHP来做的。这也是我第一次意识到带垃圾回收机制的语言和C语言的差别。
+由于对这种特性的不了解，刚开始尝试在进行完一次任务之后将生成的变量&lt;code&gt;unset&lt;/code&gt;掉，但发现其实不起作用，仍然会引起内存不足从而退出的错误信息。查看了&lt;a href=&#34;http://www.laruence.com&#34; target=&#34;_blank&#34;&gt;风雪之隅&lt;/a&gt;的
+文章&lt;a href=&#34;http://www.laruence.com/2011/03/04/1894.html&#34; target=&#34;_blank&#34;&gt;深入理解PHP内存管理之谁动了我的内存&lt;/a&gt;之后知道了原来&lt;code&gt;unset&lt;/code&gt;确实会释放内存，但释放的内存并没有像C语言那样交回给操作系统，而是用PHP
+自己的内存管理API进行的。PHP并不是简单的向操作系统要内存，而是会要一个大块的内存，然后把其中一块分配给申请者，这样当再有逻辑来申请内存的时候就不需要再向操作系统申请了，避免了频繁
+的系统调用。当然带来的问题就是占用的内存总量只会增加不会减少，因此&lt;code&gt;unset&lt;/code&gt;在此没有实际的意义。
+理想的情况是这样的，对数组的一个元素执行完所有操作，将与该元素相关的内存释放，再进行下一个操作，由于所有的元素的操作是几乎一样的，所以占有的内存应该不会有大的增加，问题是前面已经
+说了，PHP不会真正意义上释放内存，那么就没有解决办法了吗？
+当然有。
+大致的思路是这样的，先处理第一个元素，然后用&lt;code&gt;shell_exec&lt;/code&gt;执行这个文件本身。结果就是&lt;code&gt;shell_exec&lt;/code&gt;这个命令已经发出，已经成功的fork了一个进程，脚本执行退出之后将会反复进行这步操作，直
+至数组中的最后一个元素。这样的好处就是将处理过程串联起来，只有上一个任务结束之后才会触发下一个任务执行，不会造成CPU和内存占用过高的情况，完美的解决了我的问题。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;中间遇到了一个另外一个问题，那就是怎样将参数传进去。比如要处理的数组是&lt;code&gt;$array = array($elem1, $elem2, $elem3)&lt;/code&gt;，第一次执行时难道要将数组的元素作为命令行参数传进去？这样做显得也
+太没有水平了，经过深入思考，解决方案应该是这样的（如果有更好的方法，也期待您能提出）&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-PHP&#34;&gt;&amp;lt;?php
+$file = __FILE__;
+$array = array($elem1, $elem2, $elem3);
+
+if (!isset($argv[1])) {
+    $id = $array[1];
+} else {
+    $id = /* 数组中$argv[1]元素之后的第一个元素 */
+}
+
+/* 对$id进行操作的代码 */
+
+shell_exec(&amp;quot;/usr/bin/env php &amp;quot; . $file . &amp;quot; &amp;quot; . $id . &amp;quot;&amp;gt;&amp;gt; /dev/null &amp;amp;&amp;quot;);
+?&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;最后一步很关键，一定要把执行操作的代码放在执行文件的语句前面，这样只有在上一次操作完成之后才会继续执行该文件，进入下一个周期。&lt;/p&gt;
+
+&lt;p&gt;看来语言功底真是不行啊，组织的不够清晰。而且在实际项目的代码里由于用到的是数据库中查出的值，根据当前的输入查找比当前值大的下一个值是很方便的，所以用数组不是很容易表达。这也引出的另外
+一个问题，就我实际项目而言，如果采用这种方法会增加很多查询数据库的次数，但由此增加的每次执行任务的开销相比完全无法完成而言，还是很值得的。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>PHP单入口模式</title>
+      <link>http://lovelock.github.io/php/2015-04-25-phpdan-ru-kou-mo-shi/</link>
+      <pubDate>Sat, 25 Apr 2015 17:07:18 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://lovelock.github.io/php/2015-04-25-phpdan-ru-kou-mo-shi/</guid>
+      <description>
+
+&lt;p&gt;单入口模式是现在很多项目遵循的模式，如WordPress等。
+下面描述一下我对单入口模式的理解和一些简单的代码，一步一步构建一个完整的单入口模式的简单框架。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;文中的代码只需要用PHP内建Web Server测试即可，没必要先搭建Nginx环境。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;初见:8c5805a17e8d6d40b6f434a677a40cb4&#34;&gt;初见&lt;/h2&gt;
+
+&lt;p&gt;首先，所谓单入口，即是所有的访问都要经过同一个入口，当然不可能所有的功能(方法)都写在这个文件中，那么这个文件最可能的作用其实是转发请求。根据传过来的参数的不同，去调用不同的类中不同的方法。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;
+/* filename index.php */
+&amp;lt;?php
+require_once __DIR__ . &#39;/TestClass.php&#39;;
+$op = $_GET[&#39;op&#39;];
+if ($op == &#39;echoparam&#39;) {
+    TestClass::echoParam();
+} else if ($op == &#39;addparams&#39;) {
+    TestClass::addParams();
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;
+/* filename TestClass.php */
+&amp;lt;?php
+class TestClass
+{
+    public static function echoParam()
+    {
+        $param = $_GET[&#39;param&#39;];
+        echo $param;
+    }
+
+    public static function addParams()
+    {
+        $param1 = $_GET[&#39;param1&#39;];
+        $param2 = $_GET[&#39;param2&#39;];
+        echo $param1 + $param2;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;请自行忽略上面代码中没有作参数验证，线上代码肯定是需要的。后面出现代码的地方请参考这句话。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这样已经可以简单的对外提供服务了，当然如果你想提供Restful风格的API的话，也可以利用Nginx的rewrite来实现。这个后面会做详细的解释。&lt;/p&gt;
+
+&lt;p&gt;这样简单的服务肯定是没有用的，近从这段代码出发，我们可以发现很多需要做的工作。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;如果提供的API增加，会导致&lt;code&gt;if else&lt;/code&gt; 判断的数量极速增加，不要说用&lt;code&gt;switch case&lt;/code&gt; 做代替，那治标不治本，问题没有出在这里。根本的解决方案有两种，要么a) 用配置文件， b) 自适应（会有很多字符串的处理）。多数人可能会选择第一种方案，因为配置文件嘛，多简单，写个xml再解析一下就好了嘛，干嘛要做那么高端的自适应呢？再留个坑后面填。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;这里获取参数的方法写成了&lt;code&gt;GET&lt;/code&gt; ，那么如果是&lt;code&gt;POST&lt;/code&gt; 了怎么办？很简单，挂掉了，也就是说这个API接口只支持&lt;code&gt;GET&lt;/code&gt;请求，要让它支持&lt;code&gt;POST&lt;/code&gt; 等其他方法就要让获取参数的方法透明，不管客户端用什么方法传过来参数我服务端都能正确的解析并给出正确的响应。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;可能很多人首先想到的就是这个了，对，&lt;code&gt;spl_autoloader&lt;/code&gt; ，作为一个现代化的应用程序，PSR-4当然是要支持的。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;可能有人看到了，我在写&lt;code&gt;require_once&lt;/code&gt; 语句时用的是&lt;code&gt;__DIR__&lt;/code&gt; 而不是通常会见到的&lt;code&gt;dirname(__FILE__)&lt;/code&gt; ，这是考虑到PHP 5.3也发布了多年了，是时候在利用它之后添加的新特性了。具体有哪些可以参考&lt;a href=&#34;http://koda.iteye.com/blog/490515&#34; target=&#34;_blank&#34;&gt;PHP 5.3的新特性&lt;/a&gt;。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;项目复杂时，当然要用Unit Test了。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;关系到数据库时可能又会关系到ORM了。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;下面将对上面的提出的问题逐步解决。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;if-else&lt;/code&gt; 过度复杂的问题，就像前面说的，写个xml就解决了，看代码&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;
+/* filename config.xml */
+&amp;lt;?xml version=&#39;1.0&#39;?&amp;gt;
+&amp;lt;classmap&amp;gt;
+    &amp;lt;action name=&amp;quot;echoparam&amp;quot; class=&amp;quot;TestClass&amp;quot; method=&amp;quot;echoParam&amp;quot;&amp;gt;&amp;lt;/action&amp;gt;
+    &amp;lt;action name=&amp;quot;addparams&amp;quot; class=&amp;quot;TestClass&amp;quot; method=&amp;quot;addParams&amp;quot;&amp;gt;&amp;lt;/action&amp;gt;
+&amp;lt;/classmap&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;name 是对外暴露的接口名称，class 是该接口所属的类，而method是实际调用的方法，也就是说name是method的别名。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;有了xml就需要解析它，要解析就要先获取它，那当然是&lt;code&gt;simplexml_load_file&lt;/code&gt; 方法了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;
+/* filename ActionMapLoader.php */
+&amp;lt;?php
+
+class ActionMapLoader
+{
+    protected $map;
+
+    public function __construct($mapFile)
+    {
+        $this-&amp;gt;map = simplexml_load_file($mapFile);
+    }
+
+    public function getMap()
+    {
+        return $this-&amp;gt;map;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;只需要把xml文件作为&lt;code&gt;ActionMapLoader.php&lt;/code&gt; 构造函数的参数传进去，实例化后调用&lt;code&gt;getMap()&lt;/code&gt; 方法获得的就是xml表示的关系的对象了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+SimpleXMLElement Object
+(
+    [action] =&amp;gt; Array
+        (
+            [0] =&amp;gt; SimpleXMLElement Object
+                (
+                    [@attributes] =&amp;gt; Array
+                        (
+                            [name] =&amp;gt; echoparam
+                            [class] =&amp;gt; TestClass
+                            [method] =&amp;gt; echoParam
+                        )
+
+                )
+
+            [1] =&amp;gt; SimpleXMLElement Object
+                (
+                    [@attributes] =&amp;gt; Array
+                        (
+                            [name] =&amp;gt; addparams
+                            [class] =&amp;gt; TestClass
+                            [method] =&amp;gt; addParams
+                        )
+
+                )
+
+        )
+
+)
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以看到，最外层的标签&lt;code&gt;&amp;lt;classmap&amp;gt;&amp;lt;/classmap&amp;gt;&lt;/code&gt; 是作为一个容器存在的，它的每一个子标签都是这个容器的子元素。取得了传入的&lt;code&gt;op&lt;/code&gt; 参数之后就可以根据这个关系取得类名和方法名了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;
+/* filename Controller.php */
+&amp;lt;?php
+
+class Controller
+{
+    protected $mapFile;
+
+    public function __construct($mapFile)
+    {
+        $this-&amp;gt;mapFile = $mapFile;
+    }
+
+    public function getActionInfo ($actionName)
+    {
+        $map = new ActionMapLoader($this-&amp;gt;mapFile);
+        foreach ($map-&amp;gt;getMap()-&amp;gt;action as $action) {
+            if (strcasecmp($actionName, $action[&#39;name&#39;]) == 0) {
+                return new ActionInfo($actionName, $action);
+            }
+        }
+    }
+
+    public function process()
+    {
+        $actionName = $_GET[&#39;op&#39;];
+        $actionInfo = $this-&amp;gt;getActionInfo($actionName);
+
+        $class = $actionInfo-&amp;gt;class;
+        $method = $actionInfo-&amp;gt;method;
+
+        (new $class())-&amp;gt;$method();
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;Controller&lt;/code&gt; 类是整个转发过程的核心，它根据传入的&lt;code&gt;op&lt;/code&gt; 调用相应的类中的方法，然后调用该方法。那么它是如何获取到这个类的属性和方法的呢？&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;
+/* filename ActionInfo.php */
+&amp;lt;?php
+
+class ActionInfo
+{
+    public $name;
+    public $class;
+    public $method;
+
+    public function __construct($actionName, $action)
+    {
+        $attrs = reset($action);
+
+        $this-&amp;gt;name = $actionName;
+        $this-&amp;gt;class = $attrs[&#39;class&#39;];
+        $this-&amp;gt;method = $attrs[&#39;method&#39;];
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个类用于从&lt;code&gt;ActionMapLoader&lt;/code&gt; 类中获取某个类的所有属性和方法。
+这样整个流程就走通了。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;index.php&lt;/code&gt; 就只需要将xml文件传给&lt;code&gt;Controller&lt;/code&gt; 类，剩下的事情就交给&lt;code&gt;Controller&lt;/code&gt; 类去处理了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;
+&amp;lt;?php
+require_once __DIR__ . &#39;/TestClass.php&#39;;
+require_once __DIR__ . &#39;/ActionMapLoader.php&#39;;
+require_once __DIR__ . &#39;/ActionInfo.php&#39;;
+require_once __DIR__ . &#39;/Controller.php&#39;;
+require_once __DIR__ . &#39;/config.xml&#39;;
+
+$mapFile = &#39;config.xml&#39;;
+
+(new Controller($mapFile))-&amp;gt;process();
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面的代码中值得注意的一点是&lt;code&gt;if (strcasecmp($actionName, (string)$action[&#39;name&#39;]) == 0)&lt;/code&gt; ，这里没有用&lt;code&gt;if ($actionName == $action[&#39;name&#39;])&lt;/code&gt; 这样的写法，是为了忽略调用方法的大小写。&lt;/p&gt;
+
+&lt;p&gt;这下对这个过程可是很清晰了。下面就到了第二点，请求方法写死了。那么有什么方法可以既支持&lt;code&gt;POST&lt;/code&gt; 方法又支持&lt;code&gt;GET&lt;/code&gt; 方法呢？当然是让程序自己去判断而不要我们我们人为的判断了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;
+/* filename Request.php */
+&amp;lt;?php
+class Request
+{
+    public function getValue($key)
+    {
+        switch ($_SERVER[&#39;REQUEST_METHOD&#39;]) {
+        case &#39;GET&#39;:
+            $request = $_GET;
+            break;
+        case &#39;POST&#39;:
+            $request = $_POST;
+            break;
+        }
+
+        return $request[$key];
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个方法自动适应请求方式，返回正确的结果。&lt;/p&gt;
+
+&lt;p&gt;你一定也看到了，每添加一个类，都需要在入口文件中添加一条&lt;code&gt;require_once&lt;/code&gt; 语句，这样的操作现在看来当然是不可接受的。
+这就需要命名空间和&lt;code&gt;autoloader&lt;/code&gt; 了。现在的这个复杂度还没有到要分目录的时候，所以只需要用根命名空间去引用类就可以了。&lt;/p&gt;
+
+&lt;p&gt;单元测试和ORM的话题太大了就不放在这里说了。代码可以到&lt;a href=&#34;https://github.com/lovelock/PHPSingleEntryDemo&#34; target=&#34;_blank&#34;&gt;PHPSingleEntryDemo&lt;/a&gt;去查看。&lt;/p&gt;
+
+&lt;p&gt;另外说一点，文中提到了用Nginx的rewrite方法，其实很简单，但我还是希望再开一个专题来说这个，所以本文中代码的测试只需要用PHP内建的Web Server就可以测试了。
+简单的使用方法是&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;
+cd PHPSingleEntryMode
+php -S localhost:8080 -t .
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后就可以用&lt;code&gt;curl &#39;localhost:8080/index.php?op=echoparam&amp;amp;param=teststring&lt;/code&gt; 进行测试了，当然如果你愿意用浏览器也是没有问题的。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

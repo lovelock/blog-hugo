@@ -9,8 +9,30 @@
     <managingEditor>frostwong@gmail.com (Frost Wong)</managingEditor>
     <webMaster>frostwong@gmail.com (Frost Wong)</webMaster>
     <copyright>(c) 2013-2015 Frost Wong. All rights reserved.</copyright>
-    <lastBuildDate>Fri, 04 Dec 2015 23:12:52 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 06 Jan 2016 21:35:12 +0800</lastBuildDate>
     <atom:link href="http://lovelock.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>关于博主</title>
+      <link>http://lovelock.github.io/about/</link>
+      <pubDate>Wed, 06 Jan 2016 21:35:12 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://lovelock.github.io/about/</guid>
+      <description>&lt;p&gt;我是一只快乐的程序员。&lt;/p&gt;
+
+&lt;p&gt;主营Web后端开发(PHP)
+喜欢用Python做平时的脚本语言
+略懂一些JavaScript，曾被&lt;code&gt;this&lt;/code&gt;虐的不要不要的
+iOS开发懂一些皮毛，打算不久的将来转到移动开发
+会在平时的开发中应用设计模式&lt;/p&gt;
+
+&lt;p&gt;喜欢标准格式的代码，比如个人项目会PHP会严格遵守PSR规范，JavaScript代码会用jslint/jshint做静态检查，消除所有提示，然后用JsBeautify格式化。&lt;/p&gt;
+
+&lt;p&gt;人家说不要重复造轮子，但其实如果是个人练手的项目，轮子还是必须要造的。
+我想着做一个企业内部使用的聊天工具，服务器部署在企业内部，这样企业对聊天内容就有绝对的控制权，也不存在内容被外部公司窃取的风险。
+项目已经在BitBucket上发起了，但是时间不够，疏于开发，希望能通过这个项目让自己学会移动App开发，更加熟练Web开发，还有可能会接触到Go语言。嗯，充满期待。&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>HTML中的input[type=radio]的一个小发现</title>
@@ -406,22 +428,6 @@ foo();
  &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:1b67d25b866c1e409bcdd7713c6840f7:refer1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>my-thoughts-about-programming</title>
-      <link>http://lovelock.github.io/2015/11/28/my-thoughts-about-programming/</link>
-      <pubDate>Sat, 28 Nov 2015 20:32:28 +0000</pubDate>
-      <author>frostwong@gmail.com (Frost Wong)</author>
-      <guid>http://lovelock.github.io/2015/11/28/my-thoughts-about-programming/</guid>
-      <description>
-
-&lt;h2 id=&#34;可见性-visibility:10ad5a88fcc6e1d2ef89dfbea5429035&#34;&gt;可见性 Visibility&lt;/h2&gt;
-
-&lt;h2 id=&#34;mvc:10ad5a88fcc6e1d2ef89dfbea5429035&#34;&gt;MVC&lt;/h2&gt;
-
-&lt;h2 id=&#34;隔离变化:10ad5a88fcc6e1d2ef89dfbea5429035&#34;&gt;隔离变化&lt;/h2&gt;
 </description>
     </item>
     

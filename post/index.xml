@@ -410,22 +410,6 @@ foo();
     </item>
     
     <item>
-      <title>my-thoughts-about-programming</title>
-      <link>http://lovelock.github.io/2015/11/28/my-thoughts-about-programming/</link>
-      <pubDate>Sat, 28 Nov 2015 20:32:28 +0000</pubDate>
-      <author>frostwong@gmail.com (Frost Wong)</author>
-      <guid>http://lovelock.github.io/2015/11/28/my-thoughts-about-programming/</guid>
-      <description>
-
-&lt;h2 id=&#34;可见性-visibility:10ad5a88fcc6e1d2ef89dfbea5429035&#34;&gt;可见性 Visibility&lt;/h2&gt;
-
-&lt;h2 id=&#34;mvc:10ad5a88fcc6e1d2ef89dfbea5429035&#34;&gt;MVC&lt;/h2&gt;
-
-&lt;h2 id=&#34;隔离变化:10ad5a88fcc6e1d2ef89dfbea5429035&#34;&gt;隔离变化&lt;/h2&gt;
-</description>
-    </item>
-    
-    <item>
       <title>xhprof方便的插入要检测的代码</title>
       <link>http://lovelock.github.io/2015/11/25/xhprof%E6%96%B9%E4%BE%BF%E7%9A%84%E6%8F%92%E5%85%A5%E8%A6%81%E6%A3%80%E6%B5%8B%E7%9A%84%E4%BB%A3%E7%A0%81/</link>
       <pubDate>Wed, 25 Nov 2015 22:10:51 +0000</pubDate>
@@ -1104,6 +1088,71 @@ CDN吗？真是不理解。诶，算了，不纠结这个了，我现在终于�
 看到&lt;a href=&#34;https://gitcafe.com&#34; target=&#34;_blank&#34;&gt;GitCafe&lt;/a&gt;的网站感觉很不错，几乎提供了GitHub提供的所有功能，最重要的是国内的访问速度快，于是干脆就迁移到国内了，同时把disqus迁移到多说——说是迁移，其实完全没有负担——因为并没有历史评论，哈哈。&lt;/p&gt;
 
 &lt;p&gt;接下来还会写很多东西，希望我写的东西能给需要的人一些帮助吧。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Laravel学习笔记-01</title>
+      <link>http://lovelock.github.io/2015/09/20/laravel%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-01/</link>
+      <pubDate>Sun, 20 Sep 2015 23:31:11 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://lovelock.github.io/2015/09/20/laravel%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-01/</guid>
+      <description>
+
+&lt;p&gt;总是看到网上讨论一些应用开发框架，什么国内用的最多的ThinkPHP了，还有国外的Symphony/CodeIgnite/Yii等等，我就想着我也应该接触一下其中的一个，别到下一次找工作的时候面试官一问我就说我只用过Yaf这种高性能的PHP框架，小公司估计也不会用。然后就是选择了，看了一些评价，最终认为Laravel应该是最全面，功能最强大的，于是开始了框架学习之旅。&lt;/p&gt;
+
+&lt;p&gt;本篇记录一下安装过程。&lt;/p&gt;
+
+&lt;p&gt;我在安装的过程中也遇到了不少困难，其实主要是因为GFW的干扰，本来如果正常的网络环境这些问题都是不应该出现的。&lt;/p&gt;
+
+&lt;h2 id=&#34;安装操作系统:e01b7d6ff55aa16ea83d3d4eeed86967&#34;&gt;安装操作系统&lt;/h2&gt;
+
+&lt;p&gt;操作系统当然需要Linux，不过如果非要在Windows也不是不可以，只是麻烦一点，我没有尝试。至于发行版，我的观点是个人的开发或者测试环境Debian是最合适的，我的习惯是用Debian的Sid也就是unstable版，软件足够新也足够多，能够很方便的满足各种需求。不建议在实体机上安装，最好用VirtualBox等虚拟机软件安装，如果是用VirtualBox则需要选择桥接的网络模式，如果用VMware Workdstation的话就不必了，Nat就可以了。安装过程这里不再详述，最小化安装即可。&lt;/p&gt;
+
+&lt;h2 id=&#34;安装php:e01b7d6ff55aa16ea83d3d4eeed86967&#34;&gt;安装PHP&lt;/h2&gt;
+
+&lt;p&gt;我们的目的是学习Laravel，所以不必为了它再手动安装扩展，使用&lt;code&gt;apt-get&lt;/code&gt;安装二进制包即可。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo apt-get install php5
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;安装php扩展:e01b7d6ff55aa16ea83d3d4eeed86967&#34;&gt;安装PHP扩展&lt;/h2&gt;
+
+&lt;p&gt;按照官方文档，是需要安装openssl/tokenizer/mbstring扩展的，但Debian貌似已经在默认的PHP5的包里打包了这几个扩展，至于PDO，只需要安装&lt;code&gt;php5-mysqlnd&lt;/code&gt;即可。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo apt-get install php5-mysqlnd
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;安装composer:e01b7d6ff55aa16ea83d3d4eeed86967&#34;&gt;安装composer&lt;/h2&gt;
+
+&lt;p&gt;又到了问候GFW的时候了，不要考虑用官方的安装脚本了，最简单粗暴的方式就是直接&lt;a href=&#34;https://getcomposer.org/composer.phar&#34; target=&#34;_blank&#34;&gt;下载&lt;/a&gt;下来&lt;code&gt;composer.phar&lt;/code&gt;这个包。然后&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd ~/Downloads
+sudo chmod +x composer.phar
+sudo ln -s /home/frost/Downloads/composer.phar /usr/local/bin/composer
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;最关键的，要配置上&lt;a href=&#34;http://pkg.phpcomposer.com&#34; target=&#34;_blank&#34;&gt;Packagist/Composer中国全量镜像&lt;/a&gt;提供的镜像地址，建议直接&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;composer config -g repositories.packagist composer http://packagist.phpcomposer.com
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;即可。&lt;/p&gt;
+
+&lt;h2 id=&#34;安装laravel-5-1:e01b7d6ff55aa16ea83d3d4eeed86967&#34;&gt;安装Laravel 5.1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;composer config -g repositories.packagist composer http://packagist.phpcomposer.com
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面这条命令会在你当前用户的家目录创建&lt;code&gt;.composer/vendor/bin&lt;/code&gt;这个目录，&lt;code&gt;laravel&lt;/code&gt;的可执行文件就被安装在这里了。在你的&lt;code&gt;.bashrc&lt;/code&gt;或者&lt;code&gt;.zshrc&lt;/code&gt;最后面添加下面一行&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;export PATH=$PATH:$HOME/.composer/vendor/bin
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后，&lt;code&gt;source ~/.bashrc&lt;/code&gt;或者&lt;code&gt;source ~/.zshrc&lt;/code&gt;，执行&lt;code&gt;laravel&lt;/code&gt;就可以看到一堆的帮助信息了。&lt;/p&gt;
+
+&lt;p&gt;然并卵。如果不能翻墙，是用不了&lt;code&gt;laravel&lt;/code&gt;的安装命令的，只能用&lt;code&gt;composer create-project&lt;/code&gt;命令。
+下一节开始谈谈Laravel5的使用。&lt;/p&gt;
 </description>
     </item>
     

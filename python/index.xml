@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pythons on Me and the Web</title>
+    <link>http://lovelock.github.io/python/</link>
+    <description>Recent content in Pythons on Me and the Web</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>frostwong@gmail.com (Frost Wong)</managingEditor>
+    <webMaster>frostwong@gmail.com (Frost Wong)</webMaster>
+    <copyright>(c) 2013-2015 Frost Wong. All rights reserved.</copyright>
+    <lastBuildDate>Fri, 31 Jul 2015 11:26:37 +0000</lastBuildDate>
+    <atom:link href="http://lovelock.github.io/python/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Python日志处理总结</title>
+      <link>http://lovelock.github.io/python/2015-07-31-Python%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Fri, 31 Jul 2015 11:26:37 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://lovelock.github.io/python/2015-07-31-Python%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/</guid>
+      <description>
+
+&lt;p&gt;前段时间写了一篇比较简单的Python处理日志的笔记，现在又遇到了类似的问题，干脆我就把这中间会遇到的各种问题总结一下，大致可以得到一个简单的日志处理框架。&lt;/p&gt;
+
+&lt;h2 id=&#34;文件读取:3568c59c9f42d573a1e1361088f012ae&#34;&gt;文件读取&lt;/h2&gt;
+
+&lt;h3 id=&#34;批量文件读取:3568c59c9f42d573a1e1361088f012ae&#34;&gt;批量文件读取&lt;/h3&gt;
+
+&lt;p&gt;标准库: &lt;code&gt;Lib/glob&lt;/code&gt;
+glob库可以用来读取符合指定&amp;rdquo;Unix风格&amp;rdquo;路径下的文件列表。&lt;/p&gt;
+
+&lt;p&gt;用法:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;frost@Hack-Station [12:08:15] [~/Playground/tmp]
+-&amp;gt; % ls
+1.gif    2.gif    card.gif
+frost@Hack-Station [12:08:28] [~/Playground/tmp]
+-&amp;gt; % ipython2
+Python 2.7.10 (default, Jul 13 2015, 12:05:58)
+Type &amp;quot;copyright&amp;quot;, &amp;quot;credits&amp;quot; or &amp;quot;license&amp;quot; for more information.
+
+IPython 3.2.1 -- An enhanced Interactive Python.
+?         -&amp;gt; Introduction and overview of IPython&#39;s features.
+%quickref -&amp;gt; Quick reference.
+help      -&amp;gt; Python&#39;s own help system.
+object?   -&amp;gt; Details about &#39;object&#39;, use &#39;object??&#39; for extra details.
+
+In [1]: import glob
+
+In [2]: glob.glob(&#39;./[0-9].gif&#39;)
+Out[2]: [&#39;./1.gif&#39;, &#39;./2.gif&#39;]
+
+In [3]: glob.glob(&#39;./?.gif&#39;)
+Out[3]: [&#39;./1.gif&#39;, &#39;./2.gif&#39;]
+
+In [4]: glob.glob(&#39;./*.gif&#39;)
+Out[4]: [&#39;./1.gif&#39;, &#39;./2.gif&#39;, &#39;./card.gif&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意几点：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;*&lt;/code&gt;用来表示通配，适配任意多的连续字符，但当出现显式指定的字符时则以指定的为准。例如:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;In [4]: glob.glob(&#39;./*d.gif&#39;)
+Out[4]: [&#39;./card.gif&#39;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;?&lt;/code&gt;用来表示单个字符&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;[0-9]&lt;/code&gt;用来表示单个数字&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;glob兼容Python2和Python3，用法相同&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;单个文件读取:3568c59c9f42d573a1e1361088f012ae&#34;&gt;单个文件读取&lt;/h3&gt;
+
+&lt;p&gt;内建函数&lt;a href=&#34;https://docs.python.org/2/library/functions.html#open&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;open&lt;/code&gt;&lt;/a&gt;
+&lt;code&gt;open&lt;/code&gt;返回一个文件对象，原型是&lt;code&gt;open(filename, [mode, [buffer]])&lt;/code&gt;。filename是要打开的文件名，是一个字符串，mode可选的有&lt;code&gt;r(ead), w(rite), a(ppend), b(inary)&lt;/code&gt;，这些模式本身已经很清楚了，值得一提的是&lt;code&gt;b&lt;/code&gt;，如果一个系统区别对待文本和二进制，那么用&lt;code&gt;b&lt;/code&gt;模式可以以二进制模式打开文件，否则，&lt;code&gt;b&lt;/code&gt;是无效的。&lt;/p&gt;
+
+&lt;h2 id=&#34;字段处理:3568c59c9f42d573a1e1361088f012ae&#34;&gt;字段处理&lt;/h2&gt;
+
+&lt;p&gt;读取了文件之后需要做的当然就是处理每一行的日志了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;for eachline in fp:
+    do_something()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;通常我们的日志格式会是前面有一些固定的字段，例如执行的流程、执行结果等等信息，如果有一些不确定有无的无法标准化的信息会放在最后一个扩展字段中，以类似&lt;code&gt;{&amp;quot;a&amp;quot;: &amp;quot;b&amp;quot;, &amp;quot;c&amp;quot;: &amp;quot;d&amp;quot;}&lt;/code&gt;的格式存在。
+首先要做的是用相应的分隔符把每一列分开，以&lt;code&gt;&amp;quot;\t&amp;quot;&lt;/code&gt;为例，&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;for eachline in fp:
+    splited = eachline.split(&amp;quot;\t&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;符号分隔:3568c59c9f42d573a1e1361088f012ae&#34;&gt;符号分隔&lt;/h3&gt;
+
+&lt;p&gt;如果每列记录以tab分隔，则应该用&lt;code&gt;split&lt;/code&gt;方法把它们分隔成数组。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;for eachline in fp:
+    splited = eachline.split(&amp;quot;\t&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;删除换行:3568c59c9f42d573a1e1361088f012ae&#34;&gt;删除换行&lt;/h3&gt;
+
+&lt;p&gt;日志每一行的结尾会有一个回车符，虽然我们注意不到这个&lt;code&gt;&amp;quot;\n&amp;quot;&lt;/code&gt;，但Python不会忽略它，需要显式的删除它，才不至于想打印这个字段的时候后面莫名其妙的出现一个换行。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;for eachline in fp:
+    splited = eachline.split(&amp;quot;\t&amp;quot;)
+    # 如果end是最后一个元素
+    end = splited[-1].rstrip(&amp;quot;\n&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;分片数量:3568c59c9f42d573a1e1361088f012ae&#34;&gt;分片数量&lt;/h3&gt;
+
+&lt;p&gt;日志记录可能会出现异常的情况，所以最好还是确认一下日志的列数，以免你获取的最后一个元素并不是你要的。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;for eachline in fp:
+    splited = eachline.split(&amp;quot;\t&amp;quot;)
+    if len(splited) == 9:
+        # 如果end是最后一个元素
+        end = splited[-1].rstrip(&amp;quot;\n&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;异常处理:3568c59c9f42d573a1e1361088f012ae&#34;&gt;异常处理&lt;/h3&gt;
+
+&lt;p&gt;文件操作是最容易出现异常的，所以最好在读取文件的时候加上异常捕获。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;try fp = open(&#39;filename&#39;, &#39;r&#39;):
+    for eachline in fp:
+        do_something()
+except IOError as e:
+    print &amp;quot;I/O error({0}): {1}&amp;quot;.format(e.errno, e.strerror)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;结果输出:3568c59c9f42d573a1e1361088f012ae&#34;&gt;结果输出&lt;/h2&gt;
+
+&lt;p&gt;费了那么大劲当然是为了导出结果。&lt;/p&gt;
+
+&lt;h3 id=&#34;标准输出:3568c59c9f42d573a1e1361088f012ae&#34;&gt;标准输出&lt;/h3&gt;
+
+&lt;p&gt;如果结果不多，可以直接输出到标准输出，观察结果即可。用&lt;code&gt;print arg&lt;/code&gt;(Python2)或&lt;code&gt;print(arg)&lt;/code&gt;(Python3)打印。&lt;/p&gt;
+
+&lt;h3 id=&#34;输出到文件:3568c59c9f42d573a1e1361088f012ae&#34;&gt;输出到文件&lt;/h3&gt;
+
+&lt;p&gt;大多数情况下拿到的结果是要交给运营或市场部门去分析的，对方当然是希望要一个能看到的文件。
+首先需要用&lt;code&gt;w&lt;/code&gt;模式打开一个文件&lt;code&gt;fp = open(&#39;file&#39;, &#39;w&#39;)&lt;/code&gt;，然后对这个文件对象调用&lt;code&gt;write&lt;/code&gt;方法，注意，如果后面不显式的增加&lt;code&gt;&amp;quot;\n&amp;quot;&lt;/code&gt;，写操作是不会换行的。至于哪里需要换行就要看自己的需求了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;fp = open(&#39;file&#39;, &#39;rw&#39;)
+fp.write(&#39;first line\n&#39;)
+fp.write(&#39;second line\n&#39;)
+fp.close()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;格式化:3568c59c9f42d573a1e1361088f012ae&#34;&gt;格式化&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.python-course.eu/python3_formatted_output.php&#34; target=&#34;_blank&#34;&gt;格式化输出&lt;/a&gt;的详细信息。但都是用&lt;code&gt;print&lt;/code&gt;函数实现的，而&lt;code&gt;write&lt;/code&gt;则只能用字符串了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Python日志处理记</title>
+      <link>http://lovelock.github.io/python/2015-06-06-pythonri-zhi-chu-li/</link>
+      <pubDate>Sat, 06 Jun 2015 10:31:09 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://lovelock.github.io/python/2015-06-06-pythonri-zhi-chu-li/</guid>
+      <description>&lt;p&gt;事情是这样的，今天领导给了一个需求，处理日志。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;给了我一个文件，是一个文件列表ids.txt&lt;/li&gt;
+&lt;li&gt;让我在当天所有的日志里找到这些文件所在的行，从而查找失败原因&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;首先我就想到了用Python 作匹配，当然由于刚来到公司，自己的工作环境配置的不顺手，期间又装了个tar, Python，下面说说我的思路，很朴素，但很管用。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;读取ids.txt中的所有行&lt;/li&gt;
+&lt;li&gt;读取所有日志然后作匹配&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;于是写了下面的代码&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-Python&#34;&gt;#!/usr/bin/env python2
+
+import glob
+import re
+
+
+lines = open(&#39;ids.txt&#39;, &#39;r&#39;)
+logfiles = glob.glob(&#39;logs/*.log&#39;)
+
+result = open(&#39;result.log&#39;, &#39;r+&#39;)
+
+for line in lines:
+    # 去除换行符
+    pattern = re.compile(line)
+    for logfile in logfiles:
+        logfilehd = open(logfile, &#39;r&#39;)
+        for logline in logfilehd.readlines():
+            if pattern.search(logline):
+                # 防止覆盖
+                result.read()
+                result.write(logline)
+    # 为每个不同的id加一个分隔线，方便查看
+    result.read()
+    result.write(100 * &#39;-&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;看起来没有什么问题，但执行的时候无论如何都得不到我想要的结果。我注意到如果把在第一个&lt;code&gt;for in&lt;/code&gt;里面的&lt;code&gt;line&lt;/code&gt;打印出来，每行后面都有一个空行，所以想到是这个空行引起的，匹配的时候把空行也算在内了，而日志里面很明显是匹配不到这个空行的。&lt;/p&gt;
+
+&lt;p&gt;于是在第一个&lt;code&gt;for in&lt;/code&gt;下面加上了一行&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;line = line.strip(&#39;\n&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;去掉了换行符，于是一切OK。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

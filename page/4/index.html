@@ -76,6 +76,10 @@
 
 
   
+<a href="http://lovelock.github.io/php" title="Show list of posts">PHP</a>
+
+<a href="http://lovelock.github.io/python" title="Python stuff">Python</a>
+
 <a href="http://lovelock.github.io/about">About</a>
 
 <a href="http://lovelock.github.io/post" title="Show list of posts">Posts</a>
@@ -127,98 +131,11 @@
     <h1>Me and the Web
 </h1>
 
-    <span>last update: <time datetime="2015-12-04T23:12:52Z">4 December at 11:12pm</time>
+    <span>last update: <time datetime="2016-01-06T21:35:12&#43;08:00">6 January at 9:35pm</time>
 </span>
 
   </header>
   
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/09/26/php%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-02/">PHP单元测试-02
-</a>
-</h2>
-
-  <time datetime="2015-09-26">26 Sep, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    上一篇中讲了PHP单元测试的一些简单概念，这里详细说一下会用到的各种assert*函数。官方文档按照字母顺序逐一讲述了这些方法，但我觉得那很不合适，至少应该大概按照类别来分类。 数组相关 assertArrayHasKey($expected_key, $actual_array) 如果$expected_key是$actual_array中元素的一个键值，则通过，否则不通过。也即 foreach ($actual_array as $k =&gt; $v) { if ($k === $expected_key) { // 测试通过 return true; } // 测试不通过 return false; } assertArraySubset($subset_array, $actual_array) 如果$subset_array是$actual_array的一个子数组，则通过，否则不通过。也即前者是后者的子集，这点很重要，其实由于在PHP中数组是作为HashTable存储的，所以是一般并不存在顺序的问题。因此这里只要求前者是后者的子集，而至于顺序则不要求。 assertCount($count, $array) 如果count($array) === $count)则通过。注意这里$count的类型必须是整数。 类属性相关 assertClassHasAttribute($attributeName, $className) 如果类名为$className的类拥有一个名为$attributeName的属性，则通过，否则不通过。值得注意的是，这个测试通过与否与属性的值是否设置没有关系，即使是只声明了名为$attributeName的属性，这个测试也是通过的，但实例化该类之后var_dump(new ClassAttr()-&gt;attr)的结果却是false。 assetClassHasStaticAttribute($staticAttributeName, $className) 这个自不必多说，和上面类似。只是用来判断静态属性。 对象关系 assertObjectHasAttribute($attributeName, $object) 如果对象$object拥有属性$attributeName，则通过。 包含关系 assertContains($needle, $haystack) 如果$haystack中包含$needle，则通过，否则不通过。这个包含可以是数组的包含，也可以是字符串的包含，注意，默认是区分大小写的，即assertContains('foo', 'FooBar')是不能通过测试的。但assertContains('foo', 'FooBar', '', true)则可以通过测试，也就是说第四个参数表示不区分大小写。至于第三个参数，其实是$message，也就是在测试不通过时报告 详细信息的，我个人理解和try/cache里面的Exception $e里面的getMessage()可能有点类似，没有深究。 assertContainsOnly($type, $array) 如果$array中只包含由$type指定的一种类型的变量，则通过，否则不通过。 assertContainsOnlyInstanceOf($className, $instance_array) 如果$instance_array中的所有元素都是名为$className的类的实例，则通过，否则不通过。 assertInstanceOf($className, $instance) 如果$instance是$className的实例，则通过。 相等相关 是非问题 assertTrue($actual) assertFalse($actual)
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/09/26/php%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-02/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/09/22/php%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-01/">PHP单元测试-01
-</a>
-</h2>
-
-  <time datetime="2015-09-22">22 Sep, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    我自认对这种比较系统的知识总是比较欠缺，所以还是花点时间补充上比较好。 这里说一下PHP的单元测试。 首先是搭建可以进行单元测试的环境，这里我首选的还是Debian Sid。 sudo apt-get install phpunit 一条命令就可以安装单元测试所需要的各种依赖了，之所以选择这种可能不是最新的包的安装方式是因为pear(pecl)在国内的访问速度毕竟不怎么理想，既然我们有一个优秀的apt了，何必还要费那劲呢？ 初识单元测试 首先，一个类对应一个测试类。 . ├── FrostWong.php └── FrostWongTest.php 0 directories, 2 files // FrostWong.php &lt;?php class FrostWong { public function sayHi() { return &quot;Hi, UnitTest.\n&quot;; } public function altb($a, $b) { return $a &gt; $b; } } // FrostWongTest.php &lt;?php require 'PHPUnit/Autoload.php'; require 'FrostWong.php'; class FrostWongTest extends PHPUnit_Framework_TestCase { public function testSayHi() { $fw = new FrostWong(); $this-&gt;assertEquals(&quot;Hi, UnitTest.\n&quot;, $fw-&gt;sayHi()); } public
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/09/22/php%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-01/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/09/20/laravel%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-01/">Laravel学习笔记-01
-</a>
-</h2>
-
-  <time datetime="2015-09-20">20 Sep, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    总是看到网上讨论一些应用开发框架，什么国内用的最多的ThinkPHP了，还有国外的Symphony/CodeIgnite/Yii等等，我就想着我也应该接触一下其中的一个，别到下一次找工作的时候面试官一问我就说我只用过Yaf这种高性能的PHP框架，小公司估计也不会用。然后就是选择了，看了一些评价，最终认为Laravel应该是最全面，功能最强大的，于是开始了框架学习之旅。 本篇记录一下安装过程。 我在安装的过程中也遇到了不少困难，其实主要是因为GFW的干扰，本来如果正常的网络环境这些问题都是不应该出现的。 安装操作系统 操作系统当然需要Linux，不过如果非要在Windows也不是不可以，只是麻烦一点，我没有尝试。至于发行版，我的观点是个人的开发或者测试环境Debian是最合适的，我的习惯是用Debian的Sid也就是unstable版，软件足够新也足够多，能够很方便的满足各种需求。不建议在实体机上安装，最好用VirtualBox等虚拟机软件安装，如果是用VirtualBox则需要选择桥接的网络模式，如果用VMware Workdstation的话就不必了，Nat就可以了。安装过程这里不再详述，最小化安装即可。 安装PHP 我们的目的是学习Laravel，所以不必为了它再手动安装扩展，使用apt-get安装二进制包即可。 sudo apt-get install php5 安装PHP扩展 按照官方文档，是需要安装openssl/tokenizer/mbstring扩展的，但Debian貌似已经在默认的PHP5的包里打包了这几个扩展，至于PDO，只需要安装php5-mysqlnd即可。 sudo apt-get install php5-mysqlnd 安装composer 又到了问候GFW的时候了，不要考虑用官方的安装脚本了，最简单粗暴的方式就是直接下载下来composer.phar这个包。然后 cd ~/Downloads sudo chmod +x composer.phar sudo ln -s /home/frost/Downloads/composer.phar /usr/local/bin/composer 最关键的，要配置上Packagist/Composer中国全量镜像提供的镜像地址，建议直接 composer config -g repositories.packagist composer http://packagist.phpcomposer.com 即可。 安装Laravel 5.1 composer config -g repositories.packagist composer http://packagist.phpcomposer.com 上面这条命令会在你当前用户的家目录创建.composer/vendor/bin这个目录，laravel的可执行文件就被安装在这里了。在你的.bashrc或者.zshrc最后面添加下面一行 export PATH=$PATH:$HOME/.composer/vendor/bin 然后，source ~/.bashrc或者source ~/.zshrc，执行laravel就可以看到一堆的帮助信息了。 然并卵。如果不能翻墙，是用不了laravel的安装命令的，只能用composer create-project命令。 下一节开始谈谈Laravel5的使用。
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/09/20/laravel%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-01/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
   
     <article class="container content summary">
   <div class="container hat">
@@ -278,6 +195,93 @@
 </article>
 
   
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/08/31/mac%E4%BD%BF%E7%94%A8vmware-fusion%E5%AE%89%E8%A3%85ubuntu/">Mac使用VMware Fusion安装Ubuntu
+</a>
+</h2>
+
+  <time datetime="2015-08-31">31 Aug, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    越来越觉得我用Mac和Windows也没有什么区别。 用Windows的时候是因为没有类Unix环境，所以需要在虚拟机里面搭建一些Web环境，然后用SecureCRT或者XShell登录进行操作。当然主要是用VirtualBox比较多，因为它比较轻量，功能也没有什么缺陷。非要说缺陷，我觉得VMware的NAT功能比VirtualBox要好。前者是建立了一个192.168开头的虚拟网段，虚拟机使用这个网段的IP，虚拟机可以和宿主机相互通信，并且在类似学校的需要认证才能上网的环境下是可以直接上网的。但VirtualBox就不行了，它 的NAT模式默认用的是10.网段的地址，如果要用宿主机访问虚拟机，就需要端口转发，说起来容易，但谁也不想去操作，否则只能用桥接模式了，但在需要认证的时候就不行了，尤其是某些帐号只能允许一个客户端在线时。 抛却Windows的诸多不便，用上了Mac却不想让一堆随时可能修改的开发环境把Mac环境搞乱，编程语言的那些东西还好，但各种服务就不想在Mac上搭建了，所以虚拟机还是唯一的出路了。PD总刷存在感，在Launchpad里面加上一堆难看的图标，受不了。有时需要带图像界面的Ubuntu，这时VirtualBox的性能就成了问题，最终找到了Vmware Fusion了，这才是一款踏踏实实的产品，VMware的产品一直都那么让人信赖。 闲言少叙，其实我要说的是在高分屏下如何解决Ubuntu糊掉的问题。 之前用PD的时候也看到这个方法，但没有用，这下在VMware Fusion上面可以。 很简单，在&rdquo;All Settings/Display&rdquo;中找到&rdquo;Scale for menu and title bars&rdquo;，把这个bar拉到2就可以了。当然如果你觉得2太大了，也可以选择1.5或者其他。我觉得2是最合适的，也正是正常大小，因为Mac屏幕的分辨率宽和高分别是普通分辨率的2倍，调成2倍就和在普通屏幕上一样大小了，但不会糊掉。 废话好多。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/08/31/mac%E4%BD%BF%E7%94%A8vmware-fusion%E5%AE%89%E8%A3%85ubuntu/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/08/12/rime%E8%BE%93%E5%85%A5%E6%B3%95%E5%9C%A8mac%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/">Rime输入法在Mac上的应用
+</a>
+</h2>
+
+  <time datetime="2015-08-12">12 Aug, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    天啊，过几天要回家陪老婆生孩子，现在在赶项目，我竟然还在这里瞎写，真是罪过。 在我用Linux的那几年，输入法一直用的是Fcitx，而引擎用的是Rime，输入方案是double_pinyin_mspy。用Mac也有一段时间了，想着Rime虽然跨平台，但现在项目好像没有那么活跃了，于是就用了最流行的搜狗输入法，但用起来总感觉还是不那么舒服，可能是我有开源的洁癖？管他呢，还是想尝试一下这个鼠须管。 首先说一下它的优点： 高度可定制 开源，没有安全隐患 轻量，快速，完全无卡顿 对使用场景优化，可定制默认英文的应用 缺点也很明显——没有词库，需要从新培养。 但我觉得它自带的词库其实也已经够用了，我本身也不是那么赶潮流的人，而且输入的大多是计算机相关的词汇，所以这个对我的影响并不大。 好了，现在就来说一下安装和配置环节吧。 brew cask install squirrel 然后它就会提示你输入密码了，然后给一堆提示，然后就安装好了。这时你会看到状态栏已经多了一个输入法图标，没错就是它。 现在就可以体验一下它的极速输入体验了。 那么来配置一下它吧。 先说一下配置的原理。Rime自带了很多很多的默认配置，写在squirrel.yaml，default.yaml等配置文件中，当然如果要追究YAML的格式规范，那就超出本文的范畴了。而我们可以自定义名为squirrel.custom.yaml和default.custom.yaml来修改配置。而这个配置会在我们点击Deploy时作为补丁打到默认配置中，相应的，默认的配置文件的内容也会发生变化。 我主观上认为微软的双拼方案是最流行的方案（或者它的变种搜狗双拼）因为我用的就是它！但事实上OS X自带的双拼方案却只有自然码，很蛋疼。我的修改主要在两个方面，输入方案和外观样式。 打开Library/Input Methods/Squirrel.app/Contents/SharedSupport会看到一系列的bin和yaml文件，其中bin是用来支持各种输入方案的，而yaml是相应的配置这些方案的。如果要使用微软双拼方案，就把double_pinyin_mspy.schema.yaml拷贝到Library/Rime目录里，或者做个软链，然后在Library/Rime中新建一个default.custome.yaml文件，输入下面的内容： patch: schema_list: - schema: double_pinyin_mspy - schema: luna_pinyin_simp 然后重新部署一下，就可以看到效果了，输入方案剩下朙月拼音和微软双拼了。 这时发现默认的皮肤虽然好看，但是字体太大了，所以就调小一些吧，而且竖行的选字界面也不太习惯，调成横向的吧。 # squirrel.custom.yaml patch: &quot;style/horizontal&quot;: true &quot;style/font_point&quot;: 16 再重新部署一下，看起来很舒服，用起来也舒服了吧。 解释一下优点中的第四点，这对程序员来说是极好的，因为写代码主要是英文，输入中文的概率很低，而Rime自带了一些默认为英文输入的配置，例如Alfred/Terminal/iTerm2等，这一点简直是不能再贴心了，当然如果你想，是可以自定义这些设置的。如果想深度定制，可以看下官方的而文档。 好了，兴奋完了，回去好好赶项目了。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/08/12/rime%E8%BE%93%E5%85%A5%E6%B3%95%E5%9C%A8mac%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/08/11/jsonp%E5%8E%9F%E7%90%86%E5%85%A8%E8%A7%A3%E6%9E%90/">jsonp原理全解析
+</a>
+</h2>
+
+  <time datetime="2015-08-11">11 Aug, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    昨天写了一篇关于iframe间跨域通讯问题的总结，想着既然提到了jsonp这个长久以来曽令我困惑的技术，就再总结一篇吧。 主要参考了这篇文章。 起因 jsonp是为了解决跨域请求而产生的技术，这里的跨域并不是iframe之间通讯的那种，后者是禁止了一个域的js操作位于另一个域的资源，往往是为了在iframe之间传递变量，而jsonp则是为了解决跨域请求接口。但说到底，还是同源策略引起的。 原理 jsonp的出现是优秀的工程师智慧的结晶。可能是受到“所有带src属性的标签都可以跨域访问资源”这个事实的启发。设想一下，诸如&lt;script&gt;/&lt;img&gt;/&lt;iframe这些标签，它们请求后返回的是脚本或者图片或者页面，那么能不能返回一个函数调用呢？当然能。 如，在本地的页面上定义一个函数function_example &lt;script&gt; function function_example() { alert(&quot;我是本地定义的函数&quot;); } &lt;/script&gt; &lt;script src=&quot;http://remotehost.com/remote.js&quot;/&gt;&lt;/script&gt; 《JavaScript高级程序设计》第一章提到了脚本加载是按照顺序执行的，也就是说在加载remote.js时，前面定义function_example的脚本已经加载了，即该函数已经定义了。那么如果在remote.js中调用该函数，会出现什么情况呢？当然函数就被执行了。 function_example(); 上面就是jsonp实现的基础原理。 实践 那么具体到使用应该怎么操作呢？ 不要看到在第一个例子中引入了remote.js文件就误以为我们真的是要引入js文件了，要记得我们的目的是请求服务接口，所以，服务端应该返回类似function_example()这样的形式才可以，也即需要返回一个由函数名包含的结果，括号中才是真正的结果，那么结果当然要用JavaScript原生支持的json格式才完美了。所以我们看到的jsonp的返回值多数形如callback({&quot;aa&quot;: &quot;bb&quot;, &quot;cc&quot;: &quot;dd&quot;})。 前端 &lt;script&gt; function handler(result) { alert(result.login); } var url = &quot;http://remotehost.com/index.php?name=frost&amp;pass=123&amp;callback=handler&quot;; var script = document.createElement(&quot;script&quot;); script.setAttribute(&quot;src&quot;, url); document.getElementsByTagName(&quot;head&quot;)[0].appendChild(script); &lt;/script&gt; 那服务端应该怎么处理呢？ &lt;?php $name = $_GET['name']; $pass = $_GET['pass']; $callback = $_GET['callback']; // do something $result = [ &quot;login&quot;: &quot;true&quot;, &quot;other&quot;: &quot;foobar&quot; ]; echo json_encode($result); 上面的代码能完成要求吗？显然不能，因为它返回的是一个json对象，而不是能够执行的js指令。 因此，最后一句应该写成 echo $callback .
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/08/11/jsonp%E5%8E%9F%E7%90%86%E5%85%A8%E8%A7%A3%E6%9E%90/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
   
 <div class="container pagination">
   
@@ -328,24 +332,12 @@
   9
 </a>
 
-<a href="http://lovelock.github.io/page/10/">
-  10
-</a>
-
-<a href="http://lovelock.github.io/page/11/">
-  11
-</a>
-
-<a href="http://lovelock.github.io/page/12/">
-  12
-</a>
-
 
 <a aria-label="Next" href="http://lovelock.github.io/page/5/">
   <span aria-hidden="true">»</span>
 </a>
 
-<a aria-label="Last" href="http://lovelock.github.io/page/12/">
+<a aria-label="Last" href="http://lovelock.github.io/page/9/">
   <span aria-hidden="true">»»</span>
 </a>
 
