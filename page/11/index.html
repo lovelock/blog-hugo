@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Me and the Web </title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="">
+
+
+<meta property="og:title" content="Me and the Web ">
+<meta property="og:site_name" content="Me and the Web"/>
+<meta property="og:url" content="http://lovelock.github.io/" />
+<meta property="og:locale" content="en-us">
+
+
+<meta property="og:type" content="website" />
+
+
+
+<link href="http://lovelock.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Me and the Web" />
+
+<link rel="canonical" href="http://lovelock.github.io/" />
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://lovelock.github.io/touch-icon-144-precomposed.png">
+<link href="http://lovelock.github.io/favicon.png" rel="icon">
+
+<meta name="generator" content="Hugo 0.15" />
+
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href='https://fonts.googleapis.com/css?family=Merriweather:300%7CRaleway%7COpen+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://lovelock.github.io/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://lovelock.github.io/css/style.css">
+<link rel="stylesheet" href="http://lovelock.github.io/css/highlight/default.css">
+
+  
+</head>
+<body>
+  <main id="main-wrapper" class="container main_wrapper has-sidebar">
+    <header id="main-header" class="container main_header">
+  <div class="container brand">
+  <div class="container title h1-like">
+  <a class="baselink" href="http://lovelock.github.io">
+  Frost Wong
+
+</a>
+
+</div>
+
+  
+<div class="container topline">
+  
+  Be a better WEB developer
+
+
+</div>
+
+
+</div>
+
+  <nav class="container nav primary no-print">
+  
+
+
+  
+<a href="http://lovelock.github.io/about">About</a>
+
+<a href="http://lovelock.github.io/post" title="Show list of posts">Posts</a>
+
+<a href="http://lovelock.github.io/tags" title="Show list of tags">Tags</a>
+
+
+</nav>
+
+<div class="container nav secondary no-print">
+  
+<a id="contact-link-email" class="contact_link" href="mailto:frostwong@gmail.com">
+  <span class="fa fa-envelope-square"></span><span>email</span></a>
+
+
+
+<a id="contact-link-github" class="contact_link" href="https://github.com/lovelock">
+  <span class="fa fa-github-square"></span><span>github</span></a>
+
+
+
+
+
+
+
+
+
+
+
+<a id="contact-link-twitter" class="contact_link" href="https://twitter.com/frostwong">
+  <span class="fa fa-twitter-square"></span><span>twitter</span></a>
+
+
+
+
+
+
+
+</div>
+
+
+  
+
+</header>
+
+
+<section id="main-content" class="container main_content homepage">
+  <header class="container header">
+    <h1>Me and the Web
+</h1>
+
+    <span>last update: <time datetime="2015-12-04T23:12:52Z">4 December at 11:12pm</time>
+</span>
+
+  </header>
+  
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/04/28/javascript%E6%89%A7%E8%A1%8C%E6%80%BB%E7%BB%93/">JavaScript执行总结
+</a>
+</h2>
+
+  <time datetime="2015-04-28">28 Apr, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    在所有的场景下，都有一个将来某个时刻会执行的回调函数，这将来某个时刻就是我们所说的异步流。 异步执行会被推出同步流。也就是说，当同步代码正在执行时异步代码就不会执行。这就是JavaScript单线程的意义。 更具体地说，当JS引擎空闲时——没有在执行同步或者异步代码——它会轮询那些被触发的异步回调事件（例如到期时间(setTimeout)，接收到的网络响应(ajax)）并且一一的执行它们。这就是事件循环。 也就是说，回调代码有可能会在所有同步代码在它们各自的代码块中执行完毕之后才会执行。 简而言之，回调函数是被同步创建但异步执行的。除非你知道这个异步函数确实已经执行了，否则你不可以依赖一个异步函数的执行，如何做到呢？ 这很简单，真的。依赖异步函数执行的逻辑应该在异步函数内部开始或调用。 helloAsyncCat(function (result) { alert(result); } function helloAsyncCat(callback) { setTimeout(function () { callback('Nya'); }, Math.random() * 2000); } 上面的代码是一段简单的例子。 首先，需要为helloAsyncCat函数添加一个回调函数，它是在异步执行的内部执行的。 然后，在调用该函数的时候就可以用回调函数中取到的结果进行操作了。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/04/28/javascript%E6%89%A7%E8%A1%8C%E6%80%BB%E7%BB%93/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/04/26/vim%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6%E6%94%B6%E8%97%8F%E5%8F%8A%E7%AE%80%E5%8D%95%E8%AF%B4%E6%98%8E/">vim常用插件收藏及简单说明
+</a>
+</h2>
+
+  <time datetime="2015-04-26">26 Apr, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    使用VIM也有四五年的时间了，期间自己搞过配置也用过不少别人的配置，但总是觉得哪里不对，很多配置我永远都用不到，但它的存在导致了VIM启动缓慢，也有速度很快，声称awesome的配置文件，实际使用起来 离自己的需求还差的很远，因此我想先在此把自己需要的功能整理规划一下，然后自己搞一套既能适应现在的习惯又能不浪费性能的配置。 下面是有需要的插件列表： 插件管理工具 gmarik/Vundle.vim 查找工具 scrooloose/nerdtree + vim-nerdtree-tabs 像Project一样展示目录树 ag 快速搜索目录中的文件 ctrlp + ctrlp-funky 搜索文件 + 搜索当前文件中的函数 open_file_under_cursor 打开位于光标下方的文件 Tagbar 显示tag列表 taglist 函数跳转（可以跨文件） vim-multiple-cursors 多光标编辑 EasyMotion 快速查找 语言相关 Python klen/php-mode 可认为是个Python IDE，功能强大，以一当十 PHP StanAngeloff/php.vim 语法高亮 JavaScript jslint/jshint JS语法检查 pangloss/vim-javascript jelera/vim-javascript-syntax vim-coffe-script html Emmet.vim 神器，不怎么用，但还是留着吧，尝试着用一下 css Better CSS Syntax for Vim Markdown vim-markdown 这个不能没有 Markdown syntax JSON JSON.vim 补全工具 YouCompleteMe 补全神器，就是编译起来挺麻烦的 SuperTab 不用Tab的补全就不是真正的补全 ultisnips 代码片段，需要学习 语法检查 syntastic 代码整洁 vim-surround 方便的为选中的部分添加成对的符号
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/04/26/vim%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6%E6%94%B6%E8%97%8F%E5%8F%8A%E7%AE%80%E5%8D%95%E8%AF%B4%E6%98%8E/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/04/25/octopress%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/">octopress原理浅析
+</a>
+</h2>
+
+  <time datetime="2015-04-25">25 Apr, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    在学习的过程中，总想把一些心得记录下来，也就想到写博客，首先想到的就是WordPress了， 虽然也尝试了多个不同的云主机，但总是觉得用起来不够爽，程序员嘛，总归要像写代码一样 写文章才够感觉，然后就找到了github pages。也就是这个github pages让我是又爱又恨，就 是整不明白这个原理。 而且，github pages目的是为项目写文档，而不是持续的写博客，octopress是在这个基础 功能上添加了一系列工具链，这就让我更迷糊了，octopress的文档看了很多次，总是觉得 糊里糊涂的，不知道怎么操作，终于让我找到了生命之氢 octopress教程目录， 感觉就像醍醐灌顶，像昨天明白了PHP单入口模式 一样，忍不住把这个理解过程记下来。废话有点多，言归正传。 首先要搞明白的有两点 不需要按照github 官网的gh-pages教程进行那些操作。 不需要把新建的仓库clone到本地，所有的操作都是在octpress的目录中进行的。 几乎每篇关于octopress这种类似的工具的教程里面总会提到github 官网的github pages 教程，我觉得这就是把人搞晕的罪魁祸首。 因为你根本不需要像按那篇教程一样进行到创建目录之后的步骤，相反，如果你做了，出现的错误 反倒会让人不知所措，提示你代码库中的代码比当前要提交的新，需要先pull下来，问题是你根本 没有本地代码，又何谓的更新呢？ 下面是整个过程的梳理。 {% img /images/octopress.png %} 把octopress 的代码clone到本地，然后执行下面两条命令 gem install bundler 安装bundler, 也就是用来安装gem的工具 bundle install 安装需要的依赖 rake install 这个很有意思，rake = ruby make，所以这个命令的意义就像make install 一样把 所需而文件拷贝到对应的目录，而在现在这个场景下，就是安装默认的主题。 经过第一步的操作，现在写博客所需要的工具已经备齐了，就差一个远端存储它的仓库和文章的内容了。 这一步才需要在github新建一个代码仓库，这个仓库的名字必须是固定的格式，git@github.com:username/username.github.io， 或者https://github.com/username/username.github.io，这两种格式分别是使用ssh协议和https协议， 具体区别可以参考github上的介绍文章。个人喜好是使用ssh协议，虽然github不建议使用这种方式，因为 每次提交代码时不需要输入密码，但这样更方便不是吗。需要注意的一点是这时也不要在新建的仓库种 添加README.md文件，否则又要出现前面所说的代码新旧的问题了。 这时才要到octopress 的目录中去执行各种命令了。 这时你可能还是像我一样有疑问，octopress的作用到底是什么呢？ 答案是：把你写的md文件（可以理解成源文件，位于source目录）编译成html文件（可以理解成目标文件，位于_deploy目录）， 然后把你的编译得到的文件commit+push到你的username.github.io仓库的master分支，也就是说你的 源文件没有被提交，所以这时需要 - git add . 将octopress 目录中位于source 目录下的文件添加到你的username.github.io的仓库的版本库中 - git commit
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/04/25/octopress%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/04/25/php%E5%8D%95%E5%85%A5%E5%8F%A3%E6%A8%A1%E5%BC%8F/">PHP单入口模式
+</a>
+</h2>
+
+  <time datetime="2015-04-25">25 Apr, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    单入口模式是现在很多项目遵循的模式，如WordPress等。 下面描述一下我对单入口模式的理解和一些简单的代码，一步一步构建一个完整的单入口模式的简单框架。 文中的代码只需要用PHP内建Web Server测试即可，没必要先搭建Nginx环境。 初见 首先，所谓单入口，即是所有的访问都要经过同一个入口，当然不可能所有的功能(方法)都写在这个文件中，那么这个文件最可能的作用其实是转发请求。根据传过来的参数的不同，去调用不同的类中不同的方法。 /* filename index.php */ &lt;?php require_once __DIR__ . '/TestClass.php'; $op = $_GET['op']; if ($op == 'echoparam') { TestClass::echoParam(); } else if ($op == 'addparams') { TestClass::addParams(); } /* filename TestClass.php */ &lt;?php class TestClass { public static function echoParam() { $param = $_GET['param']; echo $param; } public static function addParams() { $param1 = $_GET['param1']; $param2 = $_GET['param2']; echo $param1 + $param2; } } 请自行忽略上面代码中没有作参数验证，线上代码肯定是需要的。后面出现代码的地方请参考这句话。 这样已经可以简单的对外提供服务了，当然如果你想提供Restful风格的API的话，也可以利用Nginx的rewrite来实现。这个后面会做详细的解释。 这样简单的服务肯定是没有用的，近从这段代码出发，我们可以发现很多需要做的工作。 如果提供的API增加，会导致if else 判断的数量极速增加，不要说用switch case 做代替，那治标不治本，问题没有出在这里。根本的解决方案有两种，要么a) 用配置文件， b) 自适应（会有很多字符串的处理）。多数人可能会选择第一种方案，因为配置文件嘛，多简单，写个xml再解析一下就好了嘛，干嘛要做那么高端的自适应呢？再留个坑后面填。 这里获取参数的方法写成了GET ，那么如果是POST 了怎么办？很简单，挂掉了，也就是说这个API接口只支持GET请求，要让它支持POST 等其他方法就要让获取参数的方法透明，不管客户端用什么方法传过来参数我服务端都能正确的解析并给出正确的响应。 可能很多人首先想到的就是这个了，对，spl_autoloader ，作为一个现代化的应用程序，PSR-4当然是要支持的。 可能有人看到了，我在写require_once 语句时用的是__DIR__ 而不是通常会见到的dirname(__FILE__) ，这是考虑到PHP 5.3也发布了多年了，是时候在利用它之后添加的新特性了。具体有哪些可以参考PHP 5.3的新特性。 项目复杂时，当然要用Unit Test了。 关系到数据库时可能又会关系到ORM了。 下面将对上面的提出的问题逐步解决。 if-else 过度复杂的问题，就像前面说的，写个xml就解决了，看代码 /* filename config.xml */ &lt;?xml version='1.0'?&gt; &lt;classmap&gt; &lt;action name=&quot;echoparam&quot; class=&quot;TestClass&quot; method=&quot;echoParam&quot;&gt;&lt;/action&gt; &lt;action name=&quot;addparams&quot; class=&quot;TestClass&quot; method=&quot;addParams&quot;&gt;&lt;/action&gt; &lt;/classmap&gt; name 是对外暴露的接口名称，class 是该接口所属的类，而method是实际调用的方法，也就是说name是method的别名。 有了xml就需要解析它，要解析就要先获取它，那当然是simplexml_load_file 方法了。 /* filename ActionMapLoader.php */ &lt;?php class ActionMapLoader { protected $map; public function __construct($mapFile) { $this-&gt;map = simplexml_load_file($mapFile); } public function getMap() { return $this-&gt;map; } } 只需要把xml文件作为ActionMapLoader.php 构造函数的参数传进去，实例化后调用getMap() 方法获得的就是xml表示的关系的对象了。 SimpleXMLElement Object ( [action] =&gt; Array ( [0] =&gt; SimpleXMLElement Object ( [@attributes] =&gt; Array ( [name] =&gt; echoparam [class] =&gt; TestClass [method] =&gt; echoParam ) ) [1] =&gt; SimpleXMLElement Object ( [@attributes] =&gt; Array ( [name] =&gt; addparams [class] =&gt; TestClass [method] =&gt; addParams ) ) ) ) 可以看到，最外层的标签&lt;classmap&gt;&lt;/classmap&gt; 是作为一个容器存在的，它的每一个子标签都是这个容器的子元素。取得了传入的op 参数之后就可以根据这个关系取得类名和方法名了。 /* filename Controller.php */ &lt;?php class Controller { protected $mapFile; public function __construct($mapFile) { $this-&gt;mapFile = $mapFile; } public function getActionInfo ($actionName) { $map = new ActionMapLoader($this-&gt;mapFile); foreach ($map-&gt;getMap()-&gt;action as $action) { if (strcasecmp($actionName, $action['name']) == 0) { return new ActionInfo($actionName, $action); } } } public function process() { $actionName = $_GET['op']; $actionInfo = $this-&gt;getActionInfo($actionName); $class = $actionInfo-&gt;class; $method = $actionInfo-&gt;method; (new $class())-&gt;$method(); } } Controller 类是整个转发过程的核心，它根据传入的op 调用相应的类中的方法，然后调用该方法。那么它是如何获取到这个类的属性和方法的呢？ /* filename ActionInfo.php */ &lt;?php class ActionInfo { public $name; public $class; public $method; public function __construct($actionName, $action) { $attrs = reset($action); $this-&gt;name = $actionName; $this-&gt;class = $attrs['class']; $this-&gt;method = $attrs['method']; } } 这个类用于从ActionMapLoader 类中获取某个类的所有属性和方法。 这样整个流程就走通了。 index.php 就只需要将xml文件传给Controller 类，剩下的事情就交给Controller 类去处理了。 &lt;?php require_once __DIR__ .
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/04/25/php%E5%8D%95%E5%85%A5%E5%8F%A3%E6%A8%A1%E5%BC%8F/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/1/01/01/">
+</a>
+</h2>
+
+  <time datetime="0001-01-01">1 Jan, 0001</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    title = &ldquo;关于smcFanControl的一点感想&rdquo; date = &ldquo;2015-06-06T15:39:24+08:00&rdquo; +++ 前天晚上看了池建强先生的《MacTalk：人生元编程》，其中提到了很多关于Mac和OS X的东西，其中一点引起了我的注意，那就是关于夏天电脑发热严重，怎样避免呢？那么作者就提到了smcFanControl。 由于我是首次用Mac OS X，不太懂什么是smc等等，抱着好奇的心情就找来安装了，装上后很惊喜的发现它会让你手动调节风扇的转速——然而这个好奇没有坚持一分钟我就意识到这个软件不能用——因为它会让操作系统无法按需调节风扇的转速。也就是说，它通过修改底层的系统参数把风扇的控制由自动模式切换到了手动模式。 这个问题就很难搞了。 当然我看到这个问题的时候第一反应肯定是上网去寻找答案，然而发现的大多数言论都是在批评这个软件的，说它永久性的修改了底层的参数，只能通过用BootCamp安装一个Windows，然后在Windows里安装一个Everest云云的东西修改了这个参数才能好等等的说法。 在我看来，这些想法根本就是阴谋论，它们不知道，软件的作者写这个免费软件的初衷肯定是解决自己的问题，如果它把一个问题解决成这个样子，那么这个软件肯定不会有那么高的知名度，相信池建强先生也不会在书中推荐。 smc的原理我不太懂，但大概可以理解成是和Linux的内核参数类似的东西吧，就我的知识来看，例如要修改系统打开的最大文件数，那么可以给它传一个参数过去，立即生效，但重启系统之后就失效了，解决方案就是把这个配置写死在一个配置文件中。回到smcFanControl上来，作者已经在网站上声明了这个实现方式，也就是传参数给内核，直接决定风扇的转速。 我想那些说这个软件修改了参数等等言论的人，可能是把这个软件设置成了开机启动，然后每次开机时风扇都会变成手动模式，而这时他们很气愤，于是就把软件卸载了，然后就找各种办法消除这个影响，于是人云亦云，把这个作者说成了阴谋家。 由这件事我想到了单纯的程序员们，我们写某个软件最初肯定是为了解决问题，不管最终你拿到的版本针对你的情况解决问题的程度如何，千万不要马上就怀疑作者的动机，因为没有人会费那么大的力气去故意做一个让人生气的软件，遇到问题的时候如果找不到现成的解决方案，那最好的方式就是联系作者，让他帮你解决，当然你也不用指望这个，因为谁也没有义务免费帮你解决问题。但如果你经常混开源社区就会知道，这些程序员书呆子们其实是恨单纯的，他们把自己的作品看做孩子一样，如果你能有针对性的提出问题，他们通常都会很热情的帮你解决的。看看Github的火爆情况就知道了。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/1/01/01/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+  
+<div class="container pagination">
+  
+
+
+<a aria-label="First" href="http://lovelock.github.io/">
+  <span aria-hidden="true">««</span>
+</a>
+
+<a aria-label="Previous" href="http://lovelock.github.io/page/10/">
+  <span aria-hidden="true">«</span>
+</a>
+
+
+<a href="http://lovelock.github.io/">
+  1
+</a>
+
+<a href="http://lovelock.github.io/page/2/">
+  2
+</a>
+
+<a href="http://lovelock.github.io/page/3/">
+  3
+</a>
+
+<a href="http://lovelock.github.io/page/4/">
+  4
+</a>
+
+<a href="http://lovelock.github.io/page/5/">
+  5
+</a>
+
+<a href="http://lovelock.github.io/page/6/">
+  6
+</a>
+
+<a href="http://lovelock.github.io/page/7/">
+  7
+</a>
+
+<a href="http://lovelock.github.io/page/8/">
+  8
+</a>
+
+<a href="http://lovelock.github.io/page/9/">
+  9
+</a>
+
+<a href="http://lovelock.github.io/page/10/">
+  10
+</a>
+
+<a class="active" href="http://lovelock.github.io/page/11/">
+  11
+</a>
+
+<a href="http://lovelock.github.io/page/12/">
+  12
+</a>
+
+
+<a aria-label="Next" href="http://lovelock.github.io/page/12/">
+  <span aria-hidden="true">»</span>
+</a>
+
+<a aria-label="Last" href="http://lovelock.github.io/page/12/">
+  <span aria-hidden="true">»»</span>
+</a>
+
+
+</div>
+
+
+</section>
+
+      <footer id="main-footer" class="container main_footer">
+  
+
+  <div class="container nav foot no-print">
+  
+<a href="http://lovelock.github.io/license">license</a>
+
+
+  <a class="toplink" href="#">back to top</a>
+
+</div>
+
+  <div class="container credits">
+  
+<div class="container footline">
+  
+  Learn what you eager
+
+
+</div>
+
+
+  
+<div class="container copyright">
+  
+  &copy; 2013-2015 Frost Wong. All rights reserved.
+
+
+</div>
+
+
+</div>
+
+</footer>
+
+    </main>
+    
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//unixagain.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="http://lovelock.github.io/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+    
+  </body>
+</html>
+

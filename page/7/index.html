@@ -222,18 +222,18 @@
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/06/06/python%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86%E8%AE%B0/">Python日志处理记
+  <h2><a href="http://lovelock.github.io/2015/06/26/unix%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E5%B0%8F%E5%85%A8/">Unix文件属性小全
 </a>
 </h2>
 
-  <time datetime="2015-06-06">6 Jun, 2015</time>
+  <time datetime="2015-06-26">26 Jun, 2015</time>
 
 </div>
 
   <p class="container content">
   
   
-    事情是这样的，今天领导给了一个需求，处理日志。 给了我一个文件，是一个文件列表ids.txt 让我在当天所有的日志里找到这些文件所在的行，从而查找失败原因 首先我就想到了用Python 作匹配，当然由于刚来到公司，自己的工作环境配置的不顺手，期间又装了个tar, Python，下面说说我的思路，很朴素，但很管用。 读取ids.txt中的所有行 读取所有日志然后作匹配 于是写了下面的代码 #!/usr/bin/env python2 import glob import re lines = open('ids.txt', 'r') logfiles = glob.glob('logs/*.log') result = open('result.log', 'r+') for line in lines: # 去除换行符 pattern = re.compile(line) for logfile in logfiles: logfilehd = open(logfile, 'r') for logline in logfilehd.readlines(): if pattern.search(logline): # 防止覆盖 result.read() result.write(logline) # 为每个不同的id加一个分隔线，方便查看 result.read() result.write(100 * '-') 看起来没有什么问题，但执行的时候无论如何都得不到我想要的结果。我注意到如果把在第一个for in里面的line打印出来，每行后面都有一个空行，所以想到是这个空行引起的，匹配的时候把空行也算在内了，而日志里面很明显是匹配不到这个空行的。 于是在第一个for in下面加上了一行 line = line.strip('\n') 去掉了换行符，于是一切OK。
+    玩Linux的最经常碰到的问题中，文件属性（权限）的问题应当属相当多见的。而今天又碰到了一个新鲜事儿，属性中又出现了一个特殊字符@。 由于在搜索引擎中搜索特殊符号挺困难，我花了十几分钟才搜到相关的内容。原来是OS X上的文件独有的一个属性值，它代表该文件还有extended字段，而具体这个字段的内容是什么就要用xattr -l来查看了。 既然碰到了这个问题，我就索性总结一下这个问题。以下的测试基于CentOS 7，与OS X相关部分基于OS X 10.10.3。 在Linux文件系统中，文件的属性分为X种。 文件类型 分为三种： - 普通文件 d 目录 l 链接文件 rwx权限 rwx权限分为三组，分别为所属用户，所属组其他用户，其他用户。 这里要注意的是对一个目录而言，wx权限对普通文件来说很容易理解，即该用户是否有执行该文件的权限，但对目录而言就不好理解了。 如果一个用户对一个目录有w权限，则表示他可以在该目录中新建或删除或修改文件。 如果一个用户对一个目录有x权限，则表示他可以进入该目录。 [frost@localhost test]$ mkdir w_directory [frost@localhost test]$ sudo chmod -w w_directory/ chmod: w_directory/: new permissions are r-xrwxr-x, not r-xr-xr-x [frost@localhost test]$ cd w_directory/ [frost@localhost w_directory]$ touch testfile touch: cannot touch ‘testfile’: Permission denied 给用户去掉w权限之后就无法对目录中的文件做任何修改了。 [frost@localhost test]$ sudo chmod -x x_directory [sudo] password for frost: [frost@localhost test]$ ls -l total 0 dr-xrwxr-x.
   
 
 
@@ -241,7 +241,7 @@
 
 
   <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/06/06/python%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86%E8%AE%B0/">Read more &rarr;</a>
+  <a href="http://lovelock.github.io/2015/06/26/unix%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E5%B0%8F%E5%85%A8/">Read more &rarr;</a>
 
 </div>
 
@@ -251,18 +251,18 @@
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/05/08/activex%E6%8E%A7%E4%BB%B6%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">ActiveX控件在浏览器中使用的注意事项
+  <h2><a href="http://lovelock.github.io/2015/06/26/homebrew%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">homebrew使用心得
 </a>
 </h2>
 
-  <time datetime="2015-05-08">8 May, 2015</time>
+  <time datetime="2015-06-26">26 Jun, 2015</time>
 
 </div>
 
   <p class="container content">
   
   
-    好吧，我承认这段事件做的工作是和前端的关系比较大，但其实最主要的功能是我们的合作方提供的一个ActiveX控件完成的，而我需要让我的用户在浏览器中调用这个控件。 ActiveX控件真的是很过时的技术，但不得不承认目前的用途还是比较多，因为要和硬件打交道，这方面我的知识比较欠缺，连搜索的关键词都想不到。 这样一来，自然而言的就产生了一些限制。 用户操作系统—— Windows 用户客户端—— Internet Explorer 操作系统注册ActiveX控件 浏览器进行相应的安全设置 对，我主要说的就是这第四条，这里满满的槽点。 先说解决方案 1. 将网址加入到“受信任的站点列表”中。这一步可以ActiveX控件在浏览器中加载并执行，但它会在每次打开的时候询问。 2. 选择安全等级的自定义，选中“对未标记为可安全执行脚本的ActiveX控件初始化并执行脚本”的“启用”项。这一下就不需要询问了。 首先，当没有把网站加到“受信任的站点列表”时，我能看到的结果就是功能无法执行——问题是如果代码在我本地的硬盘里，直接右键用IE打开是可以执行的，而只要一放在服务器上就不行了。网上搜索一下，关于ActiveX的帖子很少，而在这很少的帖子里面有很多遇到这种问题，但通常是自己写的控件出现的，我对Windows的这项技术完全没有兴趣，也就没有去研究如何编写一个控件了。重点是帖子虽然并不少，但都是问道最后也没有个结果。终于找到一个说到解决方案的，说是要实现一个接口，我心想我这也不是.NET平台，难不成还用JS给你实现接口？肯定不 可能，最终终于让我在一个犄角旮旯发现了这个问题的答案——“受信任站点”，而且这个作者也强调，如果不加入受信任站点，即使在安全自定义里面开启了上面解决方案的第二步也是不起作用的。 对，现在有了解决方案，但我不理解的是微软为什么不弹出一个提示告诉我这是这个问题引起的呢？ 本地的代码能执行，放在远端的服务器上就不行，而我的服务器又是运行Nginx的Linux服务器，我很难不把这个问题联想到平台的不兼容上去，甚至想到了在Linux上安装ActiveX控件——当然这个不是我提出来的，很明显不可能。或者服务器用Windows平台的IIS，我甚至用这个方案在我本地也搭了一个IIS服务器，结果还是一样的，只要是通过网络协议访问就是不行。 最后我都已经怀疑这个方案是不是有问题，根本不可能实现时，看到了这个帖子。当时激动的我差点喊出来。 我只想说一声Microsoft SUCKS!!!
+    今天同事问我在Mac OS X上安装软件的问题，我看到是下载的过程出了问题，并且出在证书上，想起来之前看到说curl在某个版本之后就把证书和二进制文件打包在一起了，就想着让她更新一下curl试试看。我之前在自己的机器上也用brew安装过curl，但并没有注意到其实安装的版本默认并没有生效。 这里要引出的一种安装方式就是keg-only。 看到这我就想插一句，国外的程序员们可真会玩儿，能给软件起很有意思的名字，连其中的组件都很有意思。比如这里，homehrew默认是把软件安装在/usr/local/Cellar目录中的，而Cellar的意思是酒窖。如果你了解过FreeBSD的目录树结构，就知道它这么做的意义了，是要把同一个来源的文件组织在一起，不扰乱整个目录树。相应的，keg-only中的keg的意思是酒桶。就让我试着用平实的语言来解释一下： Homebrew安装软件分为两种情况。 1. 系统没有自带的 这个没什么好说的，因为如果系统没有带，我们安装完相应的软件之后就自动的将编译好的二进制文件软链接到PATH中，这样才会生效。 2. 系统自带的 如果系统自带的有这个软件，那么问题就不好办了，是直接覆盖呢，还是应该给用户一些选择？本着上面说过的原则，尽量少的影响原来的目录树，那么它在安装完二进制文件之后并没有做建软链的那一步操作，这就是所谓的keg-only的意思了。 那么，如果我要更新curl，而OS X发行时本就是带着curl的，应该怎么办呢？当然作者已经替我们想到了这一点， brew link curl --force 这样，它就会把需要的二进制链接到PATH中，要注意这时这些路径中是存在相应的二进制文件的，正是homebrew不敢确定是不是要直接帮我们做这些操作，才给我们提供了这个命令。 那么如果你之前已经安装了不少软件了，发现有好几个没有建软链，难道要手工的一个一个执行？当然不用，可以参考下面的脚本 ls -1 /usr/local/Library/LinkedKegs | while read line; do echo $LINE brew unlink $LINE brew link $LINE --force done 上面的脚本是利用了homebrew将LinkedKegs目录设置成了存放所有二进制文件的路径的特点，将其全部取出，删除全部软链，而后重新建立软链。 其实也可以将ls -1 /usr/local/Library/LinkedKegs替换成brew list -1也可。 另外别的诸如brew install，brew uninstall的方法就不说了。
   
 
 
@@ -270,7 +270,7 @@
 
 
   <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/05/08/activex%E6%8E%A7%E4%BB%B6%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">Read more &rarr;</a>
+  <a href="http://lovelock.github.io/2015/06/26/homebrew%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">Read more &rarr;</a>
 
 </div>
 
@@ -332,12 +332,20 @@
   10
 </a>
 
+<a href="http://lovelock.github.io/page/11/">
+  11
+</a>
+
+<a href="http://lovelock.github.io/page/12/">
+  12
+</a>
+
 
 <a aria-label="Next" href="http://lovelock.github.io/page/8/">
   <span aria-hidden="true">»</span>
 </a>
 
-<a aria-label="Last" href="http://lovelock.github.io/page/10/">
+<a aria-label="Last" href="http://lovelock.github.io/page/12/">
   <span aria-hidden="true">»»</span>
 </a>
 

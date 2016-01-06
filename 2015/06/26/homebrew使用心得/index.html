@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>Python日志处理记  &middot; Me and the Web</title>
+  <title>homebrew使用心得  &middot; Me and the Web</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
@@ -17,16 +17,16 @@
 <meta name="keywords" content="">
 
 
-<meta property="og:title" content="Python日志处理记  &middot; Me and the Web ">
+<meta property="og:title" content="homebrew使用心得  &middot; Me and the Web ">
 <meta property="og:site_name" content="Me and the Web"/>
-<meta property="og:url" content="http://lovelock.github.io/2015/06/06/python%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86%E8%AE%B0/" />
+<meta property="og:url" content="http://lovelock.github.io/2015/06/26/homebrew%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/" />
 <meta property="og:locale" content="en-us">
 
 
 <meta property="og:type" content="article" />
 <meta property="og:description" content=""/>
-<meta property="og:article:published_time" content="2015-06-06T10:31:09&#43;08:00" />
-<meta property="og:article:modified_time" content="2015-06-06T10:31:09&#43;08:00" />
+<meta property="og:article:published_time" content="2015-06-26T10:25:07&#43;08:00" />
+<meta property="og:article:modified_time" content="2015-06-26T10:25:07&#43;08:00" />
 
   
 
@@ -34,9 +34,9 @@
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@frostwong" />
 <meta name="twitter:creator" content="@frostwong" />
-<meta name="twitter:title" content="Python日志处理记" />
+<meta name="twitter:title" content="homebrew使用心得" />
 <meta name="twitter:description" content="" />
-<meta name="twitter:url" content="http://lovelock.github.io/2015/06/06/python%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86%E8%AE%B0/" />
+<meta name="twitter:url" content="http://lovelock.github.io/2015/06/26/homebrew%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/" />
 <meta name="twitter:domain" content="http://lovelock.github.io">
   
 
@@ -44,20 +44,20 @@
   {
     "@context": "http://schema.org",
     "@type": "Article",
-    "headline": "Python日志处理记",
+    "headline": "homebrew使用心得",
     "author": {
       "@type": "Person",
       "name": "http://profiles.google.com/+?rel=author"
     },
-    "datePublished": "2015-06-06",
+    "datePublished": "2015-06-26",
     "description": "",
-    "wordCount":  67 
+    "wordCount":  47 
   }
 </script>
 
 
 
-<link rel="canonical" href="http://lovelock.github.io/2015/06/06/python%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86%E8%AE%B0/" />
+<link rel="canonical" href="http://lovelock.github.io/2015/06/26/homebrew%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/" />
 
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://lovelock.github.io/touch-icon-144-precomposed.png">
 <link href="http://lovelock.github.io/favicon.png" rel="icon">
@@ -152,16 +152,16 @@
 
 <article id="main-content" class="container main_content single">
   <header class="container hat">
-  <h1>Python日志处理记
+  <h1>homebrew使用心得
 </h1>
 
   <div class="metas">
-<time datetime="2015-06-06">6 Jun, 2015</time>
+<time datetime="2015-06-26">26 Jun, 2015</time>
 
 
   
   &middot; Read in about 1 min
-  &middot; (67 Words)
+  &middot; (47 Words)
   <br>
   
 
@@ -171,56 +171,38 @@
 </header>
 
   <div class="container content">
-  <p>事情是这样的，今天领导给了一个需求，处理日志。</p>
+  <p>今天同事问我在Mac OS X上安装软件的问题，我看到是下载的过程出了问题，并且出在证书上，想起来之前看到说curl在某个版本之后就把证书和二进制文件打包在一起了，就想着让她更新一下curl试试看。我之前在自己的机器上也用brew安装过curl，但并没有注意到其实安装的版本默认并没有生效。</p>
 
-<ol>
-<li>给了我一个文件，是一个文件列表ids.txt</li>
-<li>让我在当天所有的日志里找到这些文件所在的行，从而查找失败原因</li>
-</ol>
+<p>这里要引出的一种安装方式就是<code>keg-only</code>。</p>
 
-<p>首先我就想到了用Python 作匹配，当然由于刚来到公司，自己的工作环境配置的不顺手，期间又装了个tar, Python，下面说说我的思路，很朴素，但很管用。</p>
+<p>看到这我就想插一句，国外的程序员们可真会玩儿，能给软件起很有意思的名字，连其中的组件都很有意思。比如这里，homehrew默认是把软件安装在<code>/usr/local/Cellar</code>目录中的，而<code>Cellar</code>的意思是<strong>酒窖</strong>。如果你了解过<code>FreeBSD</code>的目录树结构，就知道它这么做的意义了，是要把同一个来源的文件组织在一起，不扰乱整个目录树。相应的，<code>keg-only</code>中的<code>keg</code>的意思是<strong>酒桶</strong>。就让我试着用平实的语言来解释一下：
+Homebrew安装软件分为<a href="http://stackoverflow.com/questions/4691403/keg-only-homebrew-formulas" target="_blank">两种情况</a>。
+ 1. 系统没有自带的
+   这个没什么好说的，因为如果系统没有带，我们安装完相应的软件之后就自动的将编译好的二进制文件软链接到<code>PATH</code>中，这样才会生效。
+ 2. 系统自带的
+   如果系统自带的有这个软件，那么问题就不好办了，是直接覆盖呢，还是应该给用户一些选择？本着上面说过的原则，尽量少的影响原来的目录树，那么它在安装完二进制文件之后并没有做建软链的那一步操作，这就是所谓的<code>keg-only</code>的意思了。</p>
 
-<ol>
-<li>读取ids.txt中的所有行</li>
-<li>读取所有日志然后作匹配</li>
-</ol>
+<p>那么，如果我要更新curl，而OS X发行时本就是带着curl的，应该怎么办呢？当然作者已经替我们想到了这一点，</p>
 
-<p>于是写了下面的代码</p>
-
-<pre><code class="language-Python">#!/usr/bin/env python2
-
-import glob
-import re
-
-
-lines = open('ids.txt', 'r')
-logfiles = glob.glob('logs/*.log')
-
-result = open('result.log', 'r+')
-
-for line in lines:
-    # 去除换行符
-    pattern = re.compile(line)
-    for logfile in logfiles:
-        logfilehd = open(logfile, 'r')
-        for logline in logfilehd.readlines():
-            if pattern.search(logline):
-                # 防止覆盖
-                result.read()
-                result.write(logline)
-    # 为每个不同的id加一个分隔线，方便查看
-    result.read()
-    result.write(100 * '-')
+<pre><code>brew link curl --force
 </code></pre>
 
-<p>看起来没有什么问题，但执行的时候无论如何都得不到我想要的结果。我注意到如果把在第一个<code>for in</code>里面的<code>line</code>打印出来，每行后面都有一个空行，所以想到是这个空行引起的，匹配的时候把空行也算在内了，而日志里面很明显是匹配不到这个空行的。</p>
+<p>这样，它就会把需要的二进制链接到<code>PATH</code>中，要注意这时这些路径中是存在相应的二进制文件的，正是homebrew不敢确定是不是要直接帮我们做这些操作，才给我们提供了这个命令。</p>
 
-<p>于是在第一个<code>for in</code>下面加上了一行</p>
+<p>那么如果你之前已经安装了不少软件了，发现有好几个没有建软链，难道要手工的一个一个执行？当然不用，可以参考下面的<a href="http://apple.stackexchange.com/questions/123900/is-there-a-quick-way-to-relink-my-homebrew-kegs" target="_blank">脚本</a></p>
 
-<pre><code>line = line.strip('\n')
+<pre><code class="language-bash">ls -1 /usr/local/Library/LinkedKegs | while read line; do
+    echo $LINE
+    brew unlink $LINE
+    brew link $LINE --force
+done
 </code></pre>
 
-<p>去掉了换行符，于是一切OK。</p>
+<p>上面的脚本是利用了homebrew将<code>LinkedKegs</code>目录设置成了存放所有二进制文件的路径的特点，将其全部取出，删除全部软链，而后重新建立软链。</p>
+
+<p>其实也可以将<code>ls -1 /usr/local/Library/LinkedKegs</code>替换成<code>brew list -1</code>也可。</p>
+
+<p>另外别的诸如<code>brew install</code>，<code>brew uninstall</code>的方法就不说了。</p>
 
 </div>
 
@@ -232,13 +214,13 @@ for line in lines:
   
 
     
-    <a class="prev" href="http://lovelock.github.io/2015/05/08/activex%E6%8E%A7%E4%BB%B6%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" title="ActiveX控件在浏览器中使用的注意事项">
+    <a class="prev" href="http://lovelock.github.io/2015/06/26/%E7%BC%93%E5%AD%98%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/" title="缓存使用小记">
       Previous
     </a>
     
 
     
-    <a class="next" href="http://lovelock.github.io/2015/06/08/git%E5%8F%96%E6%B6%88%E8%AF%81%E4%B9%A6%E6%A0%A1%E9%AA%8C/" title="git取消证书校验">
+    <a class="next" href="http://lovelock.github.io/2015/06/26/unix%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E5%B0%8F%E5%85%A8/" title="Unix文件属性小全">
       Next
     </a>
     

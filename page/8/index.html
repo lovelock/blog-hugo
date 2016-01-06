@@ -135,18 +135,18 @@
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/05/06/bootstrap-modal%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/">Bootstrap Modal用法总结
+  <h2><a href="http://lovelock.github.io/2015/06/26/%E7%BC%93%E5%AD%98%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/">缓存使用小记
 </a>
 </h2>
 
-  <time datetime="2015-05-06">6 May, 2015</time>
+  <time datetime="2015-06-26">26 Jun, 2015</time>
 
 </div>
 
   <p class="container content">
   
   
-    这段时间前端后端同时写，对jQuery和Bootstrap用的比较多，说实话我对Modal很感兴趣，单纯的就是因为它好看，并且看起来友好，不像alert那么暴力，FF的实现还好，而Chrome的alert直接忽视所有其他操作，只能选择不再弹出，但只要选择了这个不再弹出，在重启这个页面之前（刷新没用）就不会再弹出了，真不明白这是什么逻辑。当然最重要的一点是Modal可以交互。 下面简单说说Modal的用法，当然基本上来自官方文档。 依赖 jQuery Bootstrap 没有对它们进行安全版本测试，就现在而言，使用最新的版本总是没有问题的。 基本组成 .modal Modal的主体div 通常我们会给它指定一个id，因为你总是会希望能更细粒度的控制一个modal的行为吧，况且文档中也说不可以使用叠加的modal，也就是说，同一时间一个页面上只能出现一个modal，如果直接使用.modal 来控制它的显示和隐藏，早晚会出现问题的 还有一个属性是role ，这个属性很有意思，其实没有什么特别的用途，只是在阅读代码时让你知道它的作用是一个对话框，为什么需要这个呢？因为&lt;div&gt; 这个标签本身不能表达这个意思，比如&lt;select&gt; 标签，你一看就知道它一定是一个下拉选择器，但&lt;div&gt; 呢？所以，这个role 就是用来说明标签本身无法说明的一些内容，比较常见的还有在一个.nav .nav-tabs 中的&lt;li&gt; 标签中，会添加role=&quot;option&quot; 这样的说明，就是告诉开发者这是一个功能的多个选项之一 通常我们会喜欢加上一些动画，最常用的是.fade ，当然如果你更喜欢直接，也可以忽视它 tabIndex=&quot;-1&quot; 关于这个属性的解释 .modal-dialog 关于这个没有找到更多的解释，我想大概是因为弹出的是一个对话框吧，没有见到更多的类型 同样这个class也可以有叠加选项，.modal-lg/.modal-md/.modal-sm 分别表示大中小三种型号 .modal-content 当然就是modal的内容了 .modal-header 内容的第一层，头部 可以在其中放置一个关闭按钮，比如右上角的一个x 等，为了诸如屏幕阅读器之类的用户辅助工具更好的工作，可以在这个关闭按钮上加上aria-labelledby 属性，值是.modal-title 的id ，当然也可以手动用aria-label=&quot;myModalTitle&quot; 来指定，但动态的写法更方便，不是吗？ .modal-title 放置在.modal-header 中，modal的标题 .modal-body modal的正文部分，需要显示的主要内容就在这个部分了 .modal-footer 通常用来放置确认/关闭等按钮 当然我们需要一个关闭modal的按钮，这个按钮需要添加一个data-dismiss=&quot;modal&quot; 的属性才能正确的完成功能，和上面那个x 按钮的功能是一样的 经过上面这几步，一个完整的modal对话框就完成了，但问题来了，怎么触发它呢？ 下面来说一下modal的触发方式。 按钮 这个应该是最常用的方式。需要注意的有几点 data-toggle=&quot;modal&quot; 指明这个按钮要触发的widget类型是modal，常见的还有 html data-toggle=&quot;modal&quot; data-toggle=&quot;collapse&quot; data-toggle=&quot;dropdown&quot; data-toggle=&quot;tab&quot; data-target=&quot;#myModal&quot; 指明这个按钮要触发的modal的id是myModal 有了这两个属性点击这个按钮时就可以触发这个modal了。 JavaScript方法 $('#myModal').modal(options) 关于options，有以下几个选项 backdrop，值可选布尔值(true/false)或'static' ，默认值是true，当设置为false 或'static' 时点击modal外的区域modal不消失，反之会消失
+    在请求次数多的业务系统中，通常会加入缓存系统。这里用的较多的就是Memcached和Redis。我写这篇笔记不是要说这两个缓存的使用细节，而是缓存使用的注意事项。 首先要清楚，这两个缓存数据库不是安装上就万事大吉了，它是不会主动地帮你解决任何问题的。那么何时把数据存入(更新)缓存，何时取出缓存中的数据？ 存入数据 假设原来的系统中有一条插入或者更新数据库的操作，缓存的操作就应该放在数据库操作完成之后，并且要确定数据库的更新成功了，然后再写入缓存。这里是为了保证数据的一致性，即防止虽然发送了写入数据库的请求，但请求没有成功，结果缓存却成功的写入了，那么这时缓存和数据库的数据就不一致了。 读取缓存 同样的原理，假设原来的系统中有一条查询数据库的操作，缓存的操作就应该放在数据库操作之前，并且如果缓存的数据存在，就直接返回不再操作数据库了。如果缓存的数据不存在，就去查询数据库，然后将结果存入缓存。所谓缓存能提升性能的根本就在这里，我们知道数据库之所以经常是性能瓶颈就是因为它的IO操作占用大量时间，如果频繁地请求是发给了缓存，那么就能大量的减少数据库请求，有效提升系统性能。 总结一下，有两处进行了更新缓存的操作 1. 更新数据库后 2. 查询缓存如果不存在，将从数据库中取出的结果存入缓存 那么为什么在查询数据库后要更新缓存呢？这就要想一下缓存为什么会不存在，通常我们会为缓存设置一个有效期，超过有效期缓存就会失效，也就是被删除了，所以如果缓存不存在，多半是过期的，这时如果不再设置一个缓存，那以后的每次请求又都会到数据库了。因此可以说，整个缓存系统有序的运行的初始化就是数据库的更新操作，而之后的每次更新其实是对数据库的查询请求发起的。
   
 
 
@@ -154,7 +154,7 @@
 
 
   <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/05/06/bootstrap-modal%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/">Read more &rarr;</a>
+  <a href="http://lovelock.github.io/2015/06/26/%E7%BC%93%E5%AD%98%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/">Read more &rarr;</a>
 
 </div>
 
@@ -164,18 +164,18 @@
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/05/05/jquery%E5%8A%A8%E6%80%81%E7%94%9F%E6%88%90%E5%85%83%E7%B4%A0/">jQuery动态生成元素
+  <h2><a href="http://lovelock.github.io/2015/06/26/%E5%92%8C%E6%8E%A5%E5%8F%A3%E8%B0%83%E7%94%A8%E6%96%B9%E8%81%94%E8%B0%83%E7%9A%84%E7%BB%8F%E9%AA%8C%E6%95%99%E8%AE%AD/">和接口调用方联调的经验教训
 </a>
 </h2>
 
-  <time datetime="2015-05-05">5 May, 2015</time>
+  <time datetime="2015-06-26">26 Jun, 2015</time>
 
 </div>
 
   <p class="container content">
   
   
-    这些天做的项目中频繁遇到类似的问题，比如根据ajax返回的结果动态生成一个table或者select的options。这里做一个简单的总结。 生成元素 1. 生成table 2. 生成select 获取元素 1. 获取select的值 这个问题当时花了我不少时间，我们知道，在一个select中，带有selected标签的那个是不用点开就可以看到的那个，解决这个问题就要从这里入手。如果在option列表里没有手工指定哪个是选中的，那么默认是第一个。 2. 遍历一个table中tbody的所有元素
+    一个同事做的接口，今天他请假没有来，就临时由我协助接口调用方联调。 这是一个很简单的接口。但浪费了近一天的时间。 我是第一次看这部分代码，得出的结论是该接口接受两个参数，然后进行后面的处理。但是对方调用时总是出错，我不明白这原因，于是让对方把调用的参数发给我，结果发现他传入了三个参数，而且有一个必须的参数意思一样但变量名不同，并且可选值也不同。 当时我就懵逼了。 我说这调用的不对啊！！！结果对方上来给我一个文档截图，说他是按照这个文档调用的。 这时我又懵逼了，为什么不事先给我这个文档? 我手指在键盘上飞舞，然后我这边再用相同的参数调用接口，OK，没有任何问题。但是对方不停的告诉我不行、不行还是不行。 究竟哪里出了问题？ 而且由于同事的懒于配置，这个开发环境连日志都没法记录。然后我就往里面一步一步的跟，终于跟到了调用平台接口的地方也看不到什么问题。终于我把那个调用的方法外套了一层try catch，并把Exception的内容打印出来，真相终于大白。 原来是我用的开发机上没有调用这个平台接口的权限，而我用的我自己的账户测试，不需要再调用这个接口，但对方的却不是这样，因此这个地方通不过。 这时已经中午了，吃了饭下午再搞。 下午我想着配到仿真环境应该没有问题了，就给对方发过去了一个IP，让他配上这个IP再来测试。于是我胸有成竹的让他调用接口，但他仍然不通过。 这时我又懵逼了！！！ 怎么可能！？？我自己取消了那个权限之后仍让可以正常调用，问题出在哪里呢？中间我跟他发了好几次IP，生怕他没有配好hosts。结果我查了一下accesslog发现他的请求并没有进入我部署代码的这台机器，我就问他，你到底有没有按我给你的IP配置hosts啊？他这时也自信满满的给我发来了一张上午让他配置的环境的ping的截图。 我简直不知道说什么好了。 难道他以为我发给他一个IP是发着玩的吗？尼玛不知道干啥的你问啊，何况我都已经告诉你了让你配上这个。。。。 于是他重新配置了hosts，所有问题都解决了。 真是一个曲折的事件，一个本来五分钟就能搞定的东西，从上午十点搞到了下午三点多。 从这件事上可以总结出几点联调接口的经验： 一定要先确认双方用的环境是不是同一个(hosts配置)。 即使业务日志无法获取，但起码要能看到accesslog，看一下对方的请求有没有发送到目标机器上。 如果确认完之后仍然有问题，那么就一步一步的往里面跟，如果调用平台接口有问题，首先想到的就是权限问题。因为有些敏感操作并不是每台开发机都有权限的。如果因为这个浪费大量的时间，就不值得了。 谨防破窗效应。这里是说原来的代码或者开发环境已经是千疮百孔了，调试等非常不方便，如果任由它这样发展下去，那它只能进一步的变坏。虽然没有大块的时间去整理它，但要慢慢地优化它，最终整个团队一定会发现这种变化，如果大家能一起践行，那代码的质量一定会越来越好。
   
 
 
@@ -183,7 +183,7 @@
 
 
   <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/05/05/jquery%E5%8A%A8%E6%80%81%E7%94%9F%E6%88%90%E5%85%83%E7%B4%A0/">Read more &rarr;</a>
+  <a href="http://lovelock.github.io/2015/06/26/%E5%92%8C%E6%8E%A5%E5%8F%A3%E8%B0%83%E7%94%A8%E6%96%B9%E8%81%94%E8%B0%83%E7%9A%84%E7%BB%8F%E9%AA%8C%E6%95%99%E8%AE%AD/">Read more &rarr;</a>
 
 </div>
 
@@ -193,18 +193,18 @@
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/05/02/javascript%E4%BB%A3%E7%A0%81%E7%BA%A6%E5%AE%9A/">JavaScript代码约定
+  <h2><a href="http://lovelock.github.io/2015/06/19/php%E8%AE%BE%E7%BD%AEcookie/">PHP设置cookie
 </a>
 </h2>
 
-  <time datetime="2015-05-02">2 May, 2015</time>
+  <time datetime="2015-06-19">19 Jun, 2015</time>
 
 </div>
 
   <p class="container content">
   
   
-    原文标题：Code Conventions for the JavaScript Programming Language 作者：Douglas Crockford 这是JavaScript编程中的一系列代码约定和规则。灵感来自于Sun的Code Conventions for the Java Programming Language。当然，因为JavaScript不是Java，所以这篇文章也完全不同于前者。 对于一个组织而言，代码库的质量和软件的长期价值成正比。在它的生命周期内，一个程序会经手很多人。如果一个程序可以清晰的传达它的结构和和特点，在不远的将来修改时就不太可能会崩溃。 编码约定有助于减少代码的脆性。 所有JavaScript代码都是公开发送的。它也应该总是出版物的质量。 整齐很重要。 JavaScript文件 JavaScript程序应该以.js文件保存和传输。 JavaScript不应该嵌入在HTML文件中，除非代码是针对一个特定的session。将JS代码嵌入在HTML中，会导致由于不能通过缓存和压缩来减小页面体积而使其显著增加。 &lt;script src=filename.js标签在&lt;body&gt;&lt;/body&gt;标签中出现的越晚越好。这减小了其他页面组件的的脚本加载而带来的影响。没有必要用language或type属性。决定MIME类型是服务器而不是脚本标签的职责。 缩进 缩进的单位是4个空格。应该避免使用制表符，因为（在21世纪的今天）仍然没有取代制表符的标准。使用空格会产生更大的文件体积，但在内网这个增长不会很明显，而且这个差异会被minification缩小。 行长度 避免长于80个字符的行。当一个语句在一行不合适时，可能需要断行。把断行放在操作符之后，理想情况下放在逗号后面。操作符后面的换行会减少因为插入分号而掩盖的复制粘贴错误的可能性。下一行应该缩进8个空格。 注释 写注释时慷慨一些吧。留一些信息给将来可能会读到的人（可能是你自己），他可能会需要理解你做的事情。注释需要写好并写清晰，就像它们要标注的代码一样。偶尔一个幽默的金块儿可能会得到感恩，但挫折和怨恨可不能。 保持注释的更新很重要。有错误的注释会让代码更难阅读和理解。 只做有意义的注释。专注于那些不能被立即看到的。不要浪费阅读者的时间去看这些东西： i = 0; // Set i to zero 通常用行注释。留着块注释做正式的文档。 变量声明 所有的变量都应该在使用前声明。JavaScript不要求如此，但这样做可以让代码更易读并且容易检测到那些没有声明的隐式的全局变量。隐式的全局变量永远都不要用。全局变量的使用要尽量减少。 在函数题中，var语句应该是第一条语句。 最好给每个变量单独的行和注释。如果可能的话，尽量用字母顺序给它们排序。 var currentEntry, // currently selected table entry level, // indentation level size; // size of table JavaScript没有块作用域，所以在代码块中定义变量可能会让经验丰富的C系程序员很困惑。在函数开头定义所有的变量。 函数声明 所有的函数都应该显定义再使用。内部函数应该位于var语句之后。这样可以更容易的看出在这个作用域内包含的变量。 函数名和参数列表左括号之间不应该有空格。右括号和大括号之间应该有一个空格。函数体应该缩进4个空格。
+    之前一直没有处理过cookie，刚才小小的看了一下，貌似很简单，大概记一下。 首先，客户端要向服务端发送一个请求，服务端接收到请求之后做一下身份校验什么的，然后就可以给客户端种cookie了。 setcookie(&quot;key&quot;, &quot;value&quot;, time()+expire); expire是cookie的过期时间，上面的例子用了两部分来说明它，time()获取当前的时间戳，那么expire就是你希望这个cookie在当前时刻之后再存活的时间长短。 那么如何手动删除cookie呢？答案是无法直接删除cookie。但可以设置其过期，这样就间接的把它删除了。那怎样设置过期呢？setcookie的第三个参数设置的小于当前时间就可以了。 那怎么用cookie呢？ 当你把cookie种到了客户端的机器上，它会保存在默认的域下，当客户端访问这个域下的资源时，发送的请求中会带着所有的cookie，然后在服务端用超全局变量$_COOKIE['key']就可以直接访问它了。 demo代码如下： &lt;?php $username = $_GET['username']; $passwd = $_GET['passwd']; if (/* 身份校验成功 */) { setcookie(&quot;username&quot;, $username, time() + 3600); echo &quot;cookie set&quot;; } &lt;?php $username = $_COOKIE[&quot;username&quot;]; echo &quot;username: &quot; . $username;
   
 
 
@@ -212,7 +212,7 @@
 
 
   <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/05/02/javascript%E4%BB%A3%E7%A0%81%E7%BA%A6%E5%AE%9A/">Read more &rarr;</a>
+  <a href="http://lovelock.github.io/2015/06/19/php%E8%AE%BE%E7%BD%AEcookie/">Read more &rarr;</a>
 
 </div>
 
@@ -222,18 +222,18 @@
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/05/02/%E5%87%BD%E6%95%B0%E9%BB%98%E8%AE%A4%E5%8F%82%E6%95%B0%E6%AF%94%E8%BE%83/">函数默认参数比较
+  <h2><a href="http://lovelock.github.io/2015/06/17/php%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A/">PHP延迟绑定
 </a>
 </h2>
 
-  <time datetime="2015-05-02">2 May, 2015</time>
+  <time datetime="2015-06-17">17 Jun, 2015</time>
 
 </div>
 
   <p class="container content">
   
   
-    当一个函数的参数很多，而有很多需要传输的数据都具有相同的属性值，那么我们可能希望可以不传入某些默认的参数，这就导致了函数默认参数这个需求的诞生。 第一次注意到这个需求是在JavaScript中。它的实现是这样的： function defaultParamTest(p1, p2, p3, p4) { p3 = p3 ? p3 : default_value_3; p4 = p4 ? p4 : default_value_4; // function body } 我不喜欢这样的实现，尝试着用我自己喜欢的方式，如下 /* 错误的代码 */ functon defaultParamTest (p1, p2, p3=default_value_3, p4=default_value_4) { // function body } 显然上面的是PHP的写法，JavaScript通不过。 既然说到了PHP的写法，那么就再写一段来展示一下。 function defaultParamTest ($p1, $p2, $p3=&quot;default_value_3&quot;, $p4=&quot;default_value_4&quot;) { // function body } 这种方式用起来简单直观，符合常理。 但今天又注意到Python的写法和PHP又有不同，这一点让我很惊喜。先上示例代码： def default_param_test(p1, p2, p3 = 'default_value_3', p4 = 'default_value_4'): # function body 这样的写法你可能会认为和PHP的没有什么区别，其实区别是很大的，因为Python的这个默认参数可以省略第三个只要传入第四个，而PHP不可以。举例如下 defaultParamTest($p1v,
+    在公司的代码里看到很多重复代码，每张表对应的类都有一个一样的静态方法，作用是获得数据库的连接。但显然这并不是一个好的解决方案，而应该充分利用面向对象的思想，利用继承的方式来更优雅的解决。 我想，当初作者在写这部分代码的时候可能也已经考虑到了这个问题，但很可能是对PHP的延后绑定（LSB）不了解，因此没有实施。 得到数据库连接的实例有多种方式，这里我们假设有一个方法DB::mysqlConn($tableName); 举个例子来说，假设我们设计一个基类BaseConn： class BaseConn { protected static $conn; protected static $tableName; public function getInstance() { self::$conn = DB::mysqlConn($tableName); return self::$conn; } } 按照计划，我们就可以写子类了： class ATableConn extends BaseConn { protected static $tableName = 'atable'; public static findById($id) { $query = &quot;select * from &quot; . self::$tableName . &quot; where id = {$id}&quot;; return $this-&gt;getInstance()-&gt;exec($sql); } } 这时一般都会认为没有什么问题了，因为我们已经在子类里设定了$tableName的值，这样在创建数据库连接的时候一定就是atable的连接了。 错！ 因为用self关键字绑定到了编译时引用的属性或方法。self关键字指向的是父类，而且不会意识到子类，基本上，编译器会用所绑定的名称替换self关键字。 那么怎么解决呢？PHP5.3为一个本来就存在的关键字赋予了新的含义——static，它会在可能的最近时刻强迫PHP绑定到实现代码。1 因此，把上面代码中getInstance方法中的self替换成static就可以了。 这个特性也就可以实现ActiveRecord了，不过这就是另外一个话题了。 PHP V5.3 用延后静态绑定搞活面向对象编程 [return]
   
 
 
@@ -241,7 +241,7 @@
 
 
   <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/05/02/%E5%87%BD%E6%95%B0%E9%BB%98%E8%AE%A4%E5%8F%82%E6%95%B0%E6%AF%94%E8%BE%83/">Read more &rarr;</a>
+  <a href="http://lovelock.github.io/2015/06/17/php%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A/">Read more &rarr;</a>
 
 </div>
 
@@ -251,18 +251,18 @@
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/05/02/%E6%88%91%E7%9A%84linux%E4%B9%8B%E8%B7%AF/">我的Linux之路
+  <h2><a href="http://lovelock.github.io/2015/06/08/git%E5%8F%96%E6%B6%88%E8%AF%81%E4%B9%A6%E6%A0%A1%E9%AA%8C/">git取消证书校验
 </a>
 </h2>
 
-  <time datetime="2015-05-02">2 May, 2015</time>
+  <time datetime="2015-06-08">8 Jun, 2015</time>
 
 </div>
 
   <p class="container content">
   
   
-    说出来可能会让人笑话，但现在从事做软件开发的我，在大学之前我几乎没有接触过电脑。大一的时候同学陪我去买电脑，那是第一次“拥有”一台电脑，那是一台没有预装Windows的华硕A42，于是我们去沙河镇上买D版系统盘，买的是XP，但谁知道怎么装都没法用，后来我自己研究的过程中就知道了Windows 7, 然后就发现原来这个机器的双显卡配置是无法用XP的，这个过程中就不停的上网搜索操作系统相关的内容，我已经忘记了是哪天发现了Linux这个单词，然后了解了相关的Wiki之后，我知道了这是一个叫做Linus的牛人开发的，后来呢，原来还有一个叫做Debian的GNU Linux发行版，然后就Ubuntu，发现这个怎么看怎么别扭，哦，原来还有个RHEL，哇塞，这个好高端，企业采用的啊，可惜当时大二，沙河校区的图书馆馆藏有限，能看到的书基本上全部是关于Red Hat Linux 9.0的，这个让我很不明白，为什么现在没有这个9.0了呢？当我傻傻分不清楚的时候在自己的笔记本上装了当时刚刚发布的RHEL6.0，咔咔的把硬盘上的所有资料全部搞没了。：( 后来就学乖了，在Windows 7里面装虚拟机尝试各种发行版，甚至FreeBSD/OpenBSD以致Darwin/Open Solaris都尝试过，这也算哥们儿最疯狂的时候吧。 当觉得自己的水平可以了就把硬盘格了，装了个Fedora17，老老实实的用了半年，这期间确实发现了Linux的优点，可能现在总结不出来具体的条款了，但就一条——舒服的命令行已经可以让我毫不犹豫的放弃Windows了。当然，我不是计算机专业的，我们的专业需要写Word和各种乱七八糟的东西，反正就是越来越觉得Linux实际上并不适合没有毕业的我的日常使用，中间又回归了一段时间Windows。 当快毕业的时候买了一台新电脑，买的时候就确定了即将毕业的我不会再怎么用Windows，也不会玩游戏，于是就搞了一台Clevo的准系统，w650sz，i7 4700M，8G内存，最重要的是它没有独显——也就没有必要再去搞什么bumblebee的双显卡切换了。 毕业后，我理所应当的做了程序员，我的电脑就再也没有被Windows占领过。现在用着的ArchLinux + i3-wm还是毕业那天晚上装的，用的旧了很多配置都搞的很舒服就不会再想从头再来了，而且Linux上的很多效率工具是Windows上无论怎么配置都得不到的，这个只有真正用过的人才能体会到。 所以，如果题主是想从别人这里问来使用Linux的体验，倒不如真的dive into it，自己亲身体验，你会发现它的好。
+    在一些较老版本的Linux服务器上如果用Git的话可能会出现证书错误的问题，这是因为Curl自带的证书版本较老。但好像要更新证书bundle挺麻烦，刚刚看到一个很简单的解决方案，直接取消git的证书校验。 git config --global http.sslVerify false 一切变得美好起来了。
   
 
 
@@ -270,7 +270,7 @@
 
 
   <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/05/02/%E6%88%91%E7%9A%84linux%E4%B9%8B%E8%B7%AF/">Read more &rarr;</a>
+  <a href="http://lovelock.github.io/2015/06/08/git%E5%8F%96%E6%B6%88%E8%AF%81%E4%B9%A6%E6%A0%A1%E9%AA%8C/">Read more &rarr;</a>
 
 </div>
 
@@ -332,12 +332,20 @@
   10
 </a>
 
+<a href="http://lovelock.github.io/page/11/">
+  11
+</a>
+
+<a href="http://lovelock.github.io/page/12/">
+  12
+</a>
+
 
 <a aria-label="Next" href="http://lovelock.github.io/page/9/">
   <span aria-hidden="true">»</span>
 </a>
 
-<a aria-label="Last" href="http://lovelock.github.io/page/10/">
+<a aria-label="Last" href="http://lovelock.github.io/page/12/">
   <span aria-hidden="true">»»</span>
 </a>
 

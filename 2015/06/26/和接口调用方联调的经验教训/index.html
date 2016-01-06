@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>Python日志处理记  &middot; Me and the Web</title>
+  <title>和接口调用方联调的经验教训  &middot; Me and the Web</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
@@ -17,16 +17,16 @@
 <meta name="keywords" content="">
 
 
-<meta property="og:title" content="Python日志处理记  &middot; Me and the Web ">
+<meta property="og:title" content="和接口调用方联调的经验教训  &middot; Me and the Web ">
 <meta property="og:site_name" content="Me and the Web"/>
-<meta property="og:url" content="http://lovelock.github.io/2015/06/06/python%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86%E8%AE%B0/" />
+<meta property="og:url" content="http://lovelock.github.io/2015/06/26/%E5%92%8C%E6%8E%A5%E5%8F%A3%E8%B0%83%E7%94%A8%E6%96%B9%E8%81%94%E8%B0%83%E7%9A%84%E7%BB%8F%E9%AA%8C%E6%95%99%E8%AE%AD/" />
 <meta property="og:locale" content="en-us">
 
 
 <meta property="og:type" content="article" />
 <meta property="og:description" content=""/>
-<meta property="og:article:published_time" content="2015-06-06T10:31:09&#43;08:00" />
-<meta property="og:article:modified_time" content="2015-06-06T10:31:09&#43;08:00" />
+<meta property="og:article:published_time" content="2015-06-26T10:22:18&#43;08:00" />
+<meta property="og:article:modified_time" content="2015-06-26T10:22:18&#43;08:00" />
 
   
 
@@ -34,9 +34,9 @@
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@frostwong" />
 <meta name="twitter:creator" content="@frostwong" />
-<meta name="twitter:title" content="Python日志处理记" />
+<meta name="twitter:title" content="和接口调用方联调的经验教训" />
 <meta name="twitter:description" content="" />
-<meta name="twitter:url" content="http://lovelock.github.io/2015/06/06/python%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86%E8%AE%B0/" />
+<meta name="twitter:url" content="http://lovelock.github.io/2015/06/26/%E5%92%8C%E6%8E%A5%E5%8F%A3%E8%B0%83%E7%94%A8%E6%96%B9%E8%81%94%E8%B0%83%E7%9A%84%E7%BB%8F%E9%AA%8C%E6%95%99%E8%AE%AD/" />
 <meta name="twitter:domain" content="http://lovelock.github.io">
   
 
@@ -44,20 +44,20 @@
   {
     "@context": "http://schema.org",
     "@type": "Article",
-    "headline": "Python日志处理记",
+    "headline": "和接口调用方联调的经验教训",
     "author": {
       "@type": "Person",
       "name": "http://profiles.google.com/+?rel=author"
     },
-    "datePublished": "2015-06-06",
+    "datePublished": "2015-06-26",
     "description": "",
-    "wordCount":  67 
+    "wordCount":  24 
   }
 </script>
 
 
 
-<link rel="canonical" href="http://lovelock.github.io/2015/06/06/python%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86%E8%AE%B0/" />
+<link rel="canonical" href="http://lovelock.github.io/2015/06/26/%E5%92%8C%E6%8E%A5%E5%8F%A3%E8%B0%83%E7%94%A8%E6%96%B9%E8%81%94%E8%B0%83%E7%9A%84%E7%BB%8F%E9%AA%8C%E6%95%99%E8%AE%AD/" />
 
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://lovelock.github.io/touch-icon-144-precomposed.png">
 <link href="http://lovelock.github.io/favicon.png" rel="icon">
@@ -152,16 +152,16 @@
 
 <article id="main-content" class="container main_content single">
   <header class="container hat">
-  <h1>Python日志处理记
+  <h1>和接口调用方联调的经验教训
 </h1>
 
   <div class="metas">
-<time datetime="2015-06-06">6 Jun, 2015</time>
+<time datetime="2015-06-26">26 Jun, 2015</time>
 
 
   
   &middot; Read in about 1 min
-  &middot; (67 Words)
+  &middot; (24 Words)
   <br>
   
 
@@ -171,56 +171,50 @@
 </header>
 
   <div class="container content">
-  <p>事情是这样的，今天领导给了一个需求，处理日志。</p>
+  <p>一个同事做的接口，今天他请假没有来，就临时由我协助接口调用方联调。</p>
+
+<p>这是一个很简单的接口。但浪费了近一天的时间。</p>
+
+<p>我是第一次看这部分代码，得出的结论是该接口接受两个参数，然后进行后面的处理。但是对方调用时总是出错，我不明白这原因，于是让对方把调用的参数发给我，结果发现他传入了三个参数，而且有一个必须的参数意思一样但变量名不同，并且可选值也不同。</p>
+
+<p>当时我就懵逼了。</p>
+
+<p>我说这调用的不对啊！！！结果对方上来给我一个文档截图，说他是按照这个文档调用的。</p>
+
+<p>这时我又懵逼了，为什么不事先给我这个文档?</p>
+
+<p>我手指在键盘上飞舞，然后我这边再用相同的参数调用接口，OK，没有任何问题。但是对方不停的告诉我不行、不行还是不行。</p>
+
+<p>究竟哪里出了问题？</p>
+
+<p>而且由于同事的懒于配置，这个开发环境连日志都没法记录。然后我就往里面一步一步的跟，终于跟到了调用平台接口的地方也看不到什么问题。终于我把那个调用的方法外套了一层<code>try catch</code>，并把<code>Exception</code>的内容打印出来，真相终于大白。</p>
+
+<p>原来是我用的开发机上没有调用这个平台接口的权限，而我用的我自己的账户测试，不需要再调用这个接口，但对方的却不是这样，因此这个地方通不过。</p>
+
+<p>这时已经中午了，吃了饭下午再搞。</p>
+
+<p>下午我想着配到仿真环境应该没有问题了，就给对方发过去了一个IP，让他配上这个IP再来测试。于是我胸有成竹的让他调用接口，但他仍然不通过。</p>
+
+<p>这时我又懵逼了！！！</p>
+
+<p>怎么可能！？？我自己取消了那个权限之后仍让可以正常调用，问题出在哪里呢？中间我跟他发了好几次IP，生怕他没有配好hosts。结果我查了一下accesslog发现他的请求并没有进入我部署代码的这台机器，我就问他，你到底有没有按我给你的IP配置hosts啊？他这时也自信满满的给我发来了一张<strong>上午让他配置的环境</strong>的ping的截图。</p>
+
+<p>我简直不知道说什么好了。</p>
+
+<p>难道他以为我发给他一个IP是发着玩的吗？尼玛不知道干啥的你问啊，何况我都已经告诉你了让你配上这个。。。。</p>
+
+<p>于是他重新配置了hosts，所有问题都解决了。</p>
+
+<p>真是一个曲折的事件，一个本来五分钟就能搞定的东西，从上午十点搞到了下午三点多。</p>
+
+<p>从这件事上可以总结出几点联调接口的经验：</p>
 
 <ol>
-<li>给了我一个文件，是一个文件列表ids.txt</li>
-<li>让我在当天所有的日志里找到这些文件所在的行，从而查找失败原因</li>
+<li>一定要先确认双方用的环境是不是同一个(hosts配置)。
+即使业务日志无法获取，但起码要能看到accesslog，看一下对方的请求有没有发送到目标机器上。</li>
+<li>如果确认完之后仍然有问题，那么就一步一步的往里面跟，如果调用平台接口有问题，首先想到的就是权限问题。因为有些敏感操作并不是每台开发机都有权限的。如果因为这个浪费大量的时间，就不值得了。</li>
+<li>谨防破窗效应。这里是说原来的代码或者开发环境已经是千疮百孔了，调试等非常不方便，如果任由它这样发展下去，那它只能进一步的变坏。虽然没有大块的时间去整理它，但要慢慢地优化它，最终整个团队一定会发现这种变化，如果大家能一起践行，那代码的质量一定会越来越好。</li>
 </ol>
-
-<p>首先我就想到了用Python 作匹配，当然由于刚来到公司，自己的工作环境配置的不顺手，期间又装了个tar, Python，下面说说我的思路，很朴素，但很管用。</p>
-
-<ol>
-<li>读取ids.txt中的所有行</li>
-<li>读取所有日志然后作匹配</li>
-</ol>
-
-<p>于是写了下面的代码</p>
-
-<pre><code class="language-Python">#!/usr/bin/env python2
-
-import glob
-import re
-
-
-lines = open('ids.txt', 'r')
-logfiles = glob.glob('logs/*.log')
-
-result = open('result.log', 'r+')
-
-for line in lines:
-    # 去除换行符
-    pattern = re.compile(line)
-    for logfile in logfiles:
-        logfilehd = open(logfile, 'r')
-        for logline in logfilehd.readlines():
-            if pattern.search(logline):
-                # 防止覆盖
-                result.read()
-                result.write(logline)
-    # 为每个不同的id加一个分隔线，方便查看
-    result.read()
-    result.write(100 * '-')
-</code></pre>
-
-<p>看起来没有什么问题，但执行的时候无论如何都得不到我想要的结果。我注意到如果把在第一个<code>for in</code>里面的<code>line</code>打印出来，每行后面都有一个空行，所以想到是这个空行引起的，匹配的时候把空行也算在内了，而日志里面很明显是匹配不到这个空行的。</p>
-
-<p>于是在第一个<code>for in</code>下面加上了一行</p>
-
-<pre><code>line = line.strip('\n')
-</code></pre>
-
-<p>去掉了换行符，于是一切OK。</p>
 
 </div>
 
@@ -232,13 +226,13 @@ for line in lines:
   
 
     
-    <a class="prev" href="http://lovelock.github.io/2015/05/08/activex%E6%8E%A7%E4%BB%B6%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" title="ActiveX控件在浏览器中使用的注意事项">
+    <a class="prev" href="http://lovelock.github.io/2015/06/19/php%E8%AE%BE%E7%BD%AEcookie/" title="PHP设置cookie">
       Previous
     </a>
     
 
     
-    <a class="next" href="http://lovelock.github.io/2015/06/08/git%E5%8F%96%E6%B6%88%E8%AF%81%E4%B9%A6%E6%A0%A1%E9%AA%8C/" title="git取消证书校验">
+    <a class="next" href="http://lovelock.github.io/2015/06/26/%E7%BC%93%E5%AD%98%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/" title="缓存使用小记">
       Next
     </a>
     

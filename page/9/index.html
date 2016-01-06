@@ -135,18 +135,18 @@
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/05/01/http%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">HTTP权威指南学习笔记[1]
+  <h2><a href="http://lovelock.github.io/2015/06/06/python%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86%E8%AE%B0/">Python日志处理记
 </a>
 </h2>
 
-  <time datetime="2015-05-01">1 May, 2015</time>
+  <time datetime="2015-06-06">6 Jun, 2015</time>
 
 </div>
 
   <p class="container content">
   
   
-    Web服务器是Web资源的宿主。Web资源是Web内容的源头，最简单的Web资源就是Web服务器文件系统中的静态资源，但也可以是根据需要生成内容的软件程序。 媒体类型，当Web浏览器从服务器中取回一个对象时，就会查看相关的MIME(Multipurpose Internet Mail Extension)类型，看自己是否直到如何处理这个对象。MIME类型是一种文本标记，表示一种主要的对象类型和一个特定的子类型，中间用一道斜杠来分隔。如&rsquo;text/html&rsquo;,&lsquo;text/plain&rsquo;, &lsquo;image/jpeg&rsquo;, &lsquo;image/gif&rsquo;, &lsquo;video/quicktime&rsquo;, &lsquo;application/vnd.ms-powerpoint&rsquo;等。 每个Web服务器上的资源都有一个名字，这样客户端就可以说明它们感兴趣的资源是什么了。服务器资源被称为&rdquo;统一资源标识符&rdquo;（Uniform Resource Identifier, URI)。如http://www.joes-hardware.com/specials/saw-blade.gif就是一个URI。而我们还会经常看到URL，或者说更经常见到URL，那它们两个是什么关系呢？首先，URL是URI的一个子集，因为URI还包括URN，而后者现在几乎没有用到，或者说它本身是一个很好的想法，但目前由于基础架构的原因还没有办法真正的实施，因此事实上我 们能够见到的有意义的URI实际上都是URL。看到这里我就很纳闷了，那些经常写文章里面总爱说URI让我这种只直到URL的人弄不明白的人是为什么呢？你自己到底清不清楚它的含义啊，如果说你要说明的一个资源定位符，那它肯定就是个普通的URL，何必让人觉得高大上非要说是URI呢？更何况说URI其实更不准确呢？ HTTP支持集中不同的请求命令。这些命令被称为HTTP方法，每个HTTP请求报文都会包含一个方法。最常见的5种方法是 | GET | 从服务器向客户端发送命名资源 | | PUT | 将来自客户端的数据存储到服务端一个命名的资源去 | | DELETE | 从服务器删除命名资源 | | POST | 将客户端数据发送到一个服务器网关应用程序 | | HEAD | 仅发送命名资源响应中的HTTP首部 | 状态码这个经常用，忘不了的就不在这里再写了。 报文，可以用TELNET客户端去模拟HTTP请求的过程。具体过程如下图: {% img /images/http.png %} HTTP是应用层协议，HTTP无需操心网络通信的具体细节，它把联网的细节都交给了通用、可靠的因特网传输协议TCP/IP。 TCP提供了无差错的数据传输、按序传输、未分段的数据流。 Web的结构组件 代理： 位于客户端和服务器之间的HTTP中间实体。 缓存： HTTP的仓库，使常用的页面的副本可以保存在离客户端更近的地方。 网关： 连接其他应用程序的特殊Web服务器。 隧道： 对HTTP通信报文进行盲转发的特殊代理。 Agent代理： 发起自动HTTP请求的半智能Web客户端。
+    事情是这样的，今天领导给了一个需求，处理日志。 给了我一个文件，是一个文件列表ids.txt 让我在当天所有的日志里找到这些文件所在的行，从而查找失败原因 首先我就想到了用Python 作匹配，当然由于刚来到公司，自己的工作环境配置的不顺手，期间又装了个tar, Python，下面说说我的思路，很朴素，但很管用。 读取ids.txt中的所有行 读取所有日志然后作匹配 于是写了下面的代码 #!/usr/bin/env python2 import glob import re lines = open('ids.txt', 'r') logfiles = glob.glob('logs/*.log') result = open('result.log', 'r+') for line in lines: # 去除换行符 pattern = re.compile(line) for logfile in logfiles: logfilehd = open(logfile, 'r') for logline in logfilehd.readlines(): if pattern.search(logline): # 防止覆盖 result.read() result.write(logline) # 为每个不同的id加一个分隔线，方便查看 result.read() result.write(100 * '-') 看起来没有什么问题，但执行的时候无论如何都得不到我想要的结果。我注意到如果把在第一个for in里面的line打印出来，每行后面都有一个空行，所以想到是这个空行引起的，匹配的时候把空行也算在内了，而日志里面很明显是匹配不到这个空行的。 于是在第一个for in下面加上了一行 line = line.strip('\n') 去掉了换行符，于是一切OK。
   
 
 
@@ -154,7 +154,7 @@
 
 
   <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/05/01/http%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">Read more &rarr;</a>
+  <a href="http://lovelock.github.io/2015/06/06/python%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86%E8%AE%B0/">Read more &rarr;</a>
 
 </div>
 
@@ -164,18 +164,18 @@
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/04/29/github%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">github学习记录
+  <h2><a href="http://lovelock.github.io/2015/05/08/activex%E6%8E%A7%E4%BB%B6%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">ActiveX控件在浏览器中使用的注意事项
 </a>
 </h2>
 
-  <time datetime="2015-04-29">29 Apr, 2015</time>
+  <time datetime="2015-05-08">8 May, 2015</time>
 
 </div>
 
   <p class="container content">
   
   
-    现在想说说github的使用。 remote到底是什么？ 首先要直到remote的意思是什么。remote显然是相对local而言的，那么你在local可以干什么呢？可以创建或删除分支，所以你在remote也可以进行同样的操作，那么其实remote的意思就是存在于服务器上的代码库喽。而对于github而言，它默认的名字是origin，所以最好也不要改了，因为一看到origin就知道是服务端的代码库了。 所以，当你想要在本地进行开发时就有了两种选择，在github的页面上建好一个repo之后： 把目录记好，clone开本地再继续 在本地执行命令，直接在 git remote add origin git@github.com:lovelock/hackvim.git tag 每次提交虽然都会写上提交message，但这仍然替代不了版本号。git的版本号不像svn那样是一个数字，而是一个hash，人眼当然不能看到它的高低的，所以手动指定一个版本号就变得必要了。这个功能可以使用git tag -a v0.1 -m 'version 0.1'这样的命令来操作，注意这里的-a选项，它不是必选项，但很重要。因为如果忽略了这个选项，新建的标记就仅仅是一个标记，标记就是这次提交的一个代称。而如果加了-a选项，创建的就是一个标签对象，并且需要一个标签消息， 当执行这个命令后，就在git对象库中添加了一个新的对象，并且标签引用指向了一个标签对象而不是指向一个提交。 分支 现在我遇到的问题是我创建了一个vim的配置文件，在我本地的ArchLinux上用的是风生水起，那叫一个爽，可是在公司用的服务器上就没有那么爽了，因为很多环境不是我可以决定换的，有些插件用不了，但主要的配置还是想和主版本保持一致，怎么办呢？ 新建一个分支。 git branch server git checkout server # 做一些适应server的修改 git add . git commit -m 'add server branch' git push origin server:server 这样就在push的同时在远端也新建了server分支。
+    好吧，我承认这段事件做的工作是和前端的关系比较大，但其实最主要的功能是我们的合作方提供的一个ActiveX控件完成的，而我需要让我的用户在浏览器中调用这个控件。 ActiveX控件真的是很过时的技术，但不得不承认目前的用途还是比较多，因为要和硬件打交道，这方面我的知识比较欠缺，连搜索的关键词都想不到。 这样一来，自然而言的就产生了一些限制。 用户操作系统—— Windows 用户客户端—— Internet Explorer 操作系统注册ActiveX控件 浏览器进行相应的安全设置 对，我主要说的就是这第四条，这里满满的槽点。 先说解决方案 1. 将网址加入到“受信任的站点列表”中。这一步可以ActiveX控件在浏览器中加载并执行，但它会在每次打开的时候询问。 2. 选择安全等级的自定义，选中“对未标记为可安全执行脚本的ActiveX控件初始化并执行脚本”的“启用”项。这一下就不需要询问了。 首先，当没有把网站加到“受信任的站点列表”时，我能看到的结果就是功能无法执行——问题是如果代码在我本地的硬盘里，直接右键用IE打开是可以执行的，而只要一放在服务器上就不行了。网上搜索一下，关于ActiveX的帖子很少，而在这很少的帖子里面有很多遇到这种问题，但通常是自己写的控件出现的，我对Windows的这项技术完全没有兴趣，也就没有去研究如何编写一个控件了。重点是帖子虽然并不少，但都是问道最后也没有个结果。终于找到一个说到解决方案的，说是要实现一个接口，我心想我这也不是.NET平台，难不成还用JS给你实现接口？肯定不 可能，最终终于让我在一个犄角旮旯发现了这个问题的答案——“受信任站点”，而且这个作者也强调，如果不加入受信任站点，即使在安全自定义里面开启了上面解决方案的第二步也是不起作用的。 对，现在有了解决方案，但我不理解的是微软为什么不弹出一个提示告诉我这是这个问题引起的呢？ 本地的代码能执行，放在远端的服务器上就不行，而我的服务器又是运行Nginx的Linux服务器，我很难不把这个问题联想到平台的不兼容上去，甚至想到了在Linux上安装ActiveX控件——当然这个不是我提出来的，很明显不可能。或者服务器用Windows平台的IIS，我甚至用这个方案在我本地也搭了一个IIS服务器，结果还是一样的，只要是通过网络协议访问就是不行。 最后我都已经怀疑这个方案是不是有问题，根本不可能实现时，看到了这个帖子。当时激动的我差点喊出来。 我只想说一声Microsoft SUCKS!!!
   
 
 
@@ -183,7 +183,7 @@
 
 
   <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/04/29/github%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">Read more &rarr;</a>
+  <a href="http://lovelock.github.io/2015/05/08/activex%E6%8E%A7%E4%BB%B6%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">Read more &rarr;</a>
 
 </div>
 
@@ -193,18 +193,18 @@
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/04/28/php%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8/">PHP系统调用
+  <h2><a href="http://lovelock.github.io/2015/05/06/bootstrap-modal%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/">Bootstrap Modal用法总结
 </a>
 </h2>
 
-  <time datetime="2015-04-28">28 Apr, 2015</time>
+  <time datetime="2015-05-06">6 May, 2015</time>
 
 </div>
 
   <p class="container content">
   
   
-    通常认为PHP的系统调用有以下几种方式： system()输出并返回最后一行Shell结果。 exec()不输出结果，返回最后一行Shell结果，所有结果可以保存到一个返回的数组。 passthru()只调用命令，把命令的运行结果原样的标准输出到标准输出设备上。 上面三种我目前还没有用到过，下面简单介绍一下另外一种方式shell_exec。 应用背景：有大量数据需要处理，对一个大数组中的所有元素进行复杂的操作，这个任务其实是不适合交给PHP来做的。这也是我第一次意识到带垃圾回收机制的语言和C语言的差别。 由于对这种特性的不了解，刚开始尝试在进行完一次任务之后将生成的变量unset掉，但发现其实不起作用，仍然会引起内存不足从而退出的错误信息。查看了风雪之隅的 文章深入理解PHP内存管理之谁动了我的内存之后知道了原来unset确实会释放内存，但释放的内存并没有像C语言那样交回给操作系统，而是用PHP 自己的内存管理API进行的。PHP并不是简单的向操作系统要内存，而是会要一个大块的内存，然后把其中一块分配给申请者，这样当再有逻辑来申请内存的时候就不需要再向操作系统申请了，避免了频繁 的系统调用。当然带来的问题就是占用的内存总量只会增加不会减少，因此unset在此没有实际的意义。 理想的情况是这样的，对数组的一个元素执行完所有操作，将与该元素相关的内存释放，再进行下一个操作，由于所有的元素的操作是几乎一样的，所以占有的内存应该不会有大的增加，问题是前面已经 说了，PHP不会真正意义上释放内存，那么就没有解决办法了吗？ 当然有。 大致的思路是这样的，先处理第一个元素，然后用shell_exec执行这个文件本身。结果就是shell_exec这个命令已经发出，已经成功的fork了一个进程，脚本执行退出之后将会反复进行这步操作，直 至数组中的最后一个元素。这样的好处就是将处理过程串联起来，只有上一个任务结束之后才会触发下一个任务执行，不会造成CPU和内存占用过高的情况，完美的解决了我的问题。 中间遇到了一个另外一个问题，那就是怎样将参数传进去。比如要处理的数组是$array = array($elem1, $elem2, $elem3)，第一次执行时难道要将数组的元素作为命令行参数传进去？这样做显得也 太没有水平了，经过深入思考，解决方案应该是这样的（如果有更好的方法，也期待您能提出） &lt;?php $file = __FILE__; $array = array($elem1, $elem2, $elem3); if (!isset($argv[1])) { $id = $array[1]; } else { $id = /* 数组中$argv[1]元素之后的第一个元素 */ } /* 对$id进行操作的代码 */ shell_exec(&quot;/usr/bin/env php &quot; . $file . &quot; &quot; . $id . &quot;&gt;&gt; /dev/null &amp;&quot;); ?&gt; 最后一步很关键，一定要把执行操作的代码放在执行文件的语句前面，这样只有在上一次操作完成之后才会继续执行该文件，进入下一个周期。 看来语言功底真是不行啊，组织的不够清晰。而且在实际项目的代码里由于用到的是数据库中查出的值，根据当前的输入查找比当前值大的下一个值是很方便的，所以用数组不是很容易表达。这也引出的另外 一个问题，就我实际项目而言，如果采用这种方法会增加很多查询数据库的次数，但由此增加的每次执行任务的开销相比完全无法完成而言，还是很值得的。
+    这段时间前端后端同时写，对jQuery和Bootstrap用的比较多，说实话我对Modal很感兴趣，单纯的就是因为它好看，并且看起来友好，不像alert那么暴力，FF的实现还好，而Chrome的alert直接忽视所有其他操作，只能选择不再弹出，但只要选择了这个不再弹出，在重启这个页面之前（刷新没用）就不会再弹出了，真不明白这是什么逻辑。当然最重要的一点是Modal可以交互。 下面简单说说Modal的用法，当然基本上来自官方文档。 依赖 jQuery Bootstrap 没有对它们进行安全版本测试，就现在而言，使用最新的版本总是没有问题的。 基本组成 .modal Modal的主体div 通常我们会给它指定一个id，因为你总是会希望能更细粒度的控制一个modal的行为吧，况且文档中也说不可以使用叠加的modal，也就是说，同一时间一个页面上只能出现一个modal，如果直接使用.modal 来控制它的显示和隐藏，早晚会出现问题的 还有一个属性是role ，这个属性很有意思，其实没有什么特别的用途，只是在阅读代码时让你知道它的作用是一个对话框，为什么需要这个呢？因为&lt;div&gt; 这个标签本身不能表达这个意思，比如&lt;select&gt; 标签，你一看就知道它一定是一个下拉选择器，但&lt;div&gt; 呢？所以，这个role 就是用来说明标签本身无法说明的一些内容，比较常见的还有在一个.nav .nav-tabs 中的&lt;li&gt; 标签中，会添加role=&quot;option&quot; 这样的说明，就是告诉开发者这是一个功能的多个选项之一 通常我们会喜欢加上一些动画，最常用的是.fade ，当然如果你更喜欢直接，也可以忽视它 tabIndex=&quot;-1&quot; 关于这个属性的解释 .modal-dialog 关于这个没有找到更多的解释，我想大概是因为弹出的是一个对话框吧，没有见到更多的类型 同样这个class也可以有叠加选项，.modal-lg/.modal-md/.modal-sm 分别表示大中小三种型号 .modal-content 当然就是modal的内容了 .modal-header 内容的第一层，头部 可以在其中放置一个关闭按钮，比如右上角的一个x 等，为了诸如屏幕阅读器之类的用户辅助工具更好的工作，可以在这个关闭按钮上加上aria-labelledby 属性，值是.modal-title 的id ，当然也可以手动用aria-label=&quot;myModalTitle&quot; 来指定，但动态的写法更方便，不是吗？ .modal-title 放置在.modal-header 中，modal的标题 .modal-body modal的正文部分，需要显示的主要内容就在这个部分了 .modal-footer 通常用来放置确认/关闭等按钮 当然我们需要一个关闭modal的按钮，这个按钮需要添加一个data-dismiss=&quot;modal&quot; 的属性才能正确的完成功能，和上面那个x 按钮的功能是一样的 经过上面这几步，一个完整的modal对话框就完成了，但问题来了，怎么触发它呢？ 下面来说一下modal的触发方式。 按钮 这个应该是最常用的方式。需要注意的有几点 data-toggle=&quot;modal&quot; 指明这个按钮要触发的widget类型是modal，常见的还有 html data-toggle=&quot;modal&quot; data-toggle=&quot;collapse&quot; data-toggle=&quot;dropdown&quot; data-toggle=&quot;tab&quot; data-target=&quot;#myModal&quot; 指明这个按钮要触发的modal的id是myModal 有了这两个属性点击这个按钮时就可以触发这个modal了。 JavaScript方法 $('#myModal').modal(options) 关于options，有以下几个选项 backdrop，值可选布尔值(true/false)或'static' ，默认值是true，当设置为false 或'static' 时点击modal外的区域modal不消失，反之会消失
   
 
 
@@ -212,7 +212,7 @@
 
 
   <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/04/28/php%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8/">Read more &rarr;</a>
+  <a href="http://lovelock.github.io/2015/05/06/bootstrap-modal%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/">Read more &rarr;</a>
 
 </div>
 
@@ -222,18 +222,18 @@
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/04/28/javascript%E6%89%A7%E8%A1%8C%E6%80%BB%E7%BB%93/">JavaScript执行总结
+  <h2><a href="http://lovelock.github.io/2015/05/05/jquery%E5%8A%A8%E6%80%81%E7%94%9F%E6%88%90%E5%85%83%E7%B4%A0/">jQuery动态生成元素
 </a>
 </h2>
 
-  <time datetime="2015-04-28">28 Apr, 2015</time>
+  <time datetime="2015-05-05">5 May, 2015</time>
 
 </div>
 
   <p class="container content">
   
   
-    在所有的场景下，都有一个将来某个时刻会执行的回调函数，这将来某个时刻就是我们所说的异步流。 异步执行会被推出同步流。也就是说，当同步代码正在执行时异步代码就不会执行。这就是JavaScript单线程的意义。 更具体地说，当JS引擎空闲时——没有在执行同步或者异步代码——它会轮询那些被触发的异步回调事件（例如到期时间(setTimeout)，接收到的网络响应(ajax)）并且一一的执行它们。这就是事件循环。 也就是说，回调代码有可能会在所有同步代码在它们各自的代码块中执行完毕之后才会执行。 简而言之，回调函数是被同步创建但异步执行的。除非你知道这个异步函数确实已经执行了，否则你不可以依赖一个异步函数的执行，如何做到呢？ 这很简单，真的。依赖异步函数执行的逻辑应该在异步函数内部开始或调用。 helloAsyncCat(function (result) { alert(result); } function helloAsyncCat(callback) { setTimeout(function () { callback('Nya'); }, Math.random() * 2000); } 上面的代码是一段简单的例子。 首先，需要为helloAsyncCat函数添加一个回调函数，它是在异步执行的内部执行的。 然后，在调用该函数的时候就可以用回调函数中取到的结果进行操作了。
+    这些天做的项目中频繁遇到类似的问题，比如根据ajax返回的结果动态生成一个table或者select的options。这里做一个简单的总结。 生成元素 1. 生成table 2. 生成select 获取元素 1. 获取select的值 这个问题当时花了我不少时间，我们知道，在一个select中，带有selected标签的那个是不用点开就可以看到的那个，解决这个问题就要从这里入手。如果在option列表里没有手工指定哪个是选中的，那么默认是第一个。 2. 遍历一个table中tbody的所有元素
   
 
 
@@ -241,7 +241,7 @@
 
 
   <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/04/28/javascript%E6%89%A7%E8%A1%8C%E6%80%BB%E7%BB%93/">Read more &rarr;</a>
+  <a href="http://lovelock.github.io/2015/05/05/jquery%E5%8A%A8%E6%80%81%E7%94%9F%E6%88%90%E5%85%83%E7%B4%A0/">Read more &rarr;</a>
 
 </div>
 
@@ -251,18 +251,18 @@
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/04/26/vim%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6%E6%94%B6%E8%97%8F%E5%8F%8A%E7%AE%80%E5%8D%95%E8%AF%B4%E6%98%8E/">vim常用插件收藏及简单说明
+  <h2><a href="http://lovelock.github.io/2015/05/02/javascript%E4%BB%A3%E7%A0%81%E7%BA%A6%E5%AE%9A/">JavaScript代码约定
 </a>
 </h2>
 
-  <time datetime="2015-04-26">26 Apr, 2015</time>
+  <time datetime="2015-05-02">2 May, 2015</time>
 
 </div>
 
   <p class="container content">
   
   
-    使用VIM也有四五年的时间了，期间自己搞过配置也用过不少别人的配置，但总是觉得哪里不对，很多配置我永远都用不到，但它的存在导致了VIM启动缓慢，也有速度很快，声称awesome的配置文件，实际使用起来 离自己的需求还差的很远，因此我想先在此把自己需要的功能整理规划一下，然后自己搞一套既能适应现在的习惯又能不浪费性能的配置。 下面是有需要的插件列表： 插件管理工具 gmarik/Vundle.vim 查找工具 scrooloose/nerdtree + vim-nerdtree-tabs 像Project一样展示目录树 ag 快速搜索目录中的文件 ctrlp + ctrlp-funky 搜索文件 + 搜索当前文件中的函数 open_file_under_cursor 打开位于光标下方的文件 Tagbar 显示tag列表 taglist 函数跳转（可以跨文件） vim-multiple-cursors 多光标编辑 EasyMotion 快速查找 语言相关 Python klen/php-mode 可认为是个Python IDE，功能强大，以一当十 PHP StanAngeloff/php.vim 语法高亮 JavaScript jslint/jshint JS语法检查 pangloss/vim-javascript jelera/vim-javascript-syntax vim-coffe-script html Emmet.vim 神器，不怎么用，但还是留着吧，尝试着用一下 css Better CSS Syntax for Vim Markdown vim-markdown 这个不能没有 Markdown syntax JSON JSON.vim 补全工具 YouCompleteMe 补全神器，就是编译起来挺麻烦的 SuperTab 不用Tab的补全就不是真正的补全 ultisnips 代码片段，需要学习 语法检查 syntastic 代码整洁 vim-surround 方便的为选中的部分添加成对的符号
+    原文标题：Code Conventions for the JavaScript Programming Language 作者：Douglas Crockford 这是JavaScript编程中的一系列代码约定和规则。灵感来自于Sun的Code Conventions for the Java Programming Language。当然，因为JavaScript不是Java，所以这篇文章也完全不同于前者。 对于一个组织而言，代码库的质量和软件的长期价值成正比。在它的生命周期内，一个程序会经手很多人。如果一个程序可以清晰的传达它的结构和和特点，在不远的将来修改时就不太可能会崩溃。 编码约定有助于减少代码的脆性。 所有JavaScript代码都是公开发送的。它也应该总是出版物的质量。 整齐很重要。 JavaScript文件 JavaScript程序应该以.js文件保存和传输。 JavaScript不应该嵌入在HTML文件中，除非代码是针对一个特定的session。将JS代码嵌入在HTML中，会导致由于不能通过缓存和压缩来减小页面体积而使其显著增加。 &lt;script src=filename.js标签在&lt;body&gt;&lt;/body&gt;标签中出现的越晚越好。这减小了其他页面组件的的脚本加载而带来的影响。没有必要用language或type属性。决定MIME类型是服务器而不是脚本标签的职责。 缩进 缩进的单位是4个空格。应该避免使用制表符，因为（在21世纪的今天）仍然没有取代制表符的标准。使用空格会产生更大的文件体积，但在内网这个增长不会很明显，而且这个差异会被minification缩小。 行长度 避免长于80个字符的行。当一个语句在一行不合适时，可能需要断行。把断行放在操作符之后，理想情况下放在逗号后面。操作符后面的换行会减少因为插入分号而掩盖的复制粘贴错误的可能性。下一行应该缩进8个空格。 注释 写注释时慷慨一些吧。留一些信息给将来可能会读到的人（可能是你自己），他可能会需要理解你做的事情。注释需要写好并写清晰，就像它们要标注的代码一样。偶尔一个幽默的金块儿可能会得到感恩，但挫折和怨恨可不能。 保持注释的更新很重要。有错误的注释会让代码更难阅读和理解。 只做有意义的注释。专注于那些不能被立即看到的。不要浪费阅读者的时间去看这些东西： i = 0; // Set i to zero 通常用行注释。留着块注释做正式的文档。 变量声明 所有的变量都应该在使用前声明。JavaScript不要求如此，但这样做可以让代码更易读并且容易检测到那些没有声明的隐式的全局变量。隐式的全局变量永远都不要用。全局变量的使用要尽量减少。 在函数题中，var语句应该是第一条语句。 最好给每个变量单独的行和注释。如果可能的话，尽量用字母顺序给它们排序。 var currentEntry, // currently selected table entry level, // indentation level size; // size of table JavaScript没有块作用域，所以在代码块中定义变量可能会让经验丰富的C系程序员很困惑。在函数开头定义所有的变量。 函数声明 所有的函数都应该显定义再使用。内部函数应该位于var语句之后。这样可以更容易的看出在这个作用域内包含的变量。 函数名和参数列表左括号之间不应该有空格。右括号和大括号之间应该有一个空格。函数体应该缩进4个空格。
   
 
 
@@ -270,7 +270,7 @@
 
 
   <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/04/26/vim%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6%E6%94%B6%E8%97%8F%E5%8F%8A%E7%AE%80%E5%8D%95%E8%AF%B4%E6%98%8E/">Read more &rarr;</a>
+  <a href="http://lovelock.github.io/2015/05/02/javascript%E4%BB%A3%E7%A0%81%E7%BA%A6%E5%AE%9A/">Read more &rarr;</a>
 
 </div>
 
@@ -332,12 +332,20 @@
   10
 </a>
 
+<a href="http://lovelock.github.io/page/11/">
+  11
+</a>
+
+<a href="http://lovelock.github.io/page/12/">
+  12
+</a>
+
 
 <a aria-label="Next" href="http://lovelock.github.io/page/10/">
   <span aria-hidden="true">»</span>
 </a>
 
-<a aria-label="Last" href="http://lovelock.github.io/page/10/">
+<a aria-label="Last" href="http://lovelock.github.io/page/12/">
   <span aria-hidden="true">»»</span>
 </a>
 
