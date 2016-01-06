@@ -1,6 +1,7 @@
 +++
 title  = "my-thoughts-about-programming"
 date = "2015-11-28T20:32:28"
+draft = true
 +++
 
 

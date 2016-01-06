@@ -2,6 +2,16 @@
     Name = "About"
     URL = "/about"
 
+[PHP]
+    Name = "PHP"
+    Title = "Show list of posts"
+    URL = "/php"
+
+[Python]
+    Name = "Python"
+    Title = "Python stuff"
+    URL = "/python"
+
 [posts]
     Name = "Posts"
     Title = "Show list of posts"
