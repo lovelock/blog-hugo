@@ -34,10 +34,13 @@ b = '2'
 print(a + b) # 没错，我选择Python3
 ```
 
-结果就是：
-Traceback (most recent call last):
+结果呢:
+
+```
+Trt recent call last):
   File "<stdin>", line 1, in <module>
 TypeError: unsupported operand type(s) for +: 'int' and 'str'
+```
 
 这就是强类型和弱类型的区别了。强类型不允许出现*forbidden behaviors`。
 
