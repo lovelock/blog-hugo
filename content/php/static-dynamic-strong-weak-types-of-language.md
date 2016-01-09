@@ -28,9 +28,13 @@ echo $a + $b;
 
 这样的代码完全没有问题。但到了Python这里
 
->>> a = 1
->>> b = '2'
->>> a + b
+```python
+a = 1
+b = '2'
+print(a + b) # 没错，我选择Python3
+```
+
+结果就是：
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 TypeError: unsupported operand type(s) for +: 'int' and 'str'
