@@ -131,11 +131,40 @@
     <h1>Me and the Web
 </h1>
 
-    <span>last update: <time datetime="2016-01-06T21:35:12&#43;08:00">6 January at 9:35pm</time>
+    <span>last update: <time datetime="2016-01-09T21:11:33&#43;08:00">9 January at 9:11pm</time>
 </span>
 
   </header>
   
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/08/11/jsonp%E5%8E%9F%E7%90%86%E5%85%A8%E8%A7%A3%E6%9E%90/">jsonp原理全解析
+</a>
+</h2>
+
+  <time datetime="2015-08-11">11 Aug, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    昨天写了一篇关于iframe间跨域通讯问题的总结，想着既然提到了jsonp这个长久以来曽令我困惑的技术，就再总结一篇吧。 主要参考了这篇文章。 起因 jsonp是为了解决跨域请求而产生的技术，这里的跨域并不是iframe之间通讯的那种，后者是禁止了一个域的js操作位于另一个域的资源，往往是为了在iframe之间传递变量，而jsonp则是为了解决跨域请求接口。但说到底，还是同源策略引起的。 原理 jsonp的出现是优秀的工程师智慧的结晶。可能是受到“所有带src属性的标签都可以跨域访问资源”这个事实的启发。设想一下，诸如&lt;script&gt;/&lt;img&gt;/&lt;iframe这些标签，它们请求后返回的是脚本或者图片或者页面，那么能不能返回一个函数调用呢？当然能。 如，在本地的页面上定义一个函数function_example &lt;script&gt; function function_example() { alert(&quot;我是本地定义的函数&quot;); } &lt;/script&gt; &lt;script src=&quot;http://remotehost.com/remote.js&quot;/&gt;&lt;/script&gt; 《JavaScript高级程序设计》第一章提到了脚本加载是按照顺序执行的，也就是说在加载remote.js时，前面定义function_example的脚本已经加载了，即该函数已经定义了。那么如果在remote.js中调用该函数，会出现什么情况呢？当然函数就被执行了。 function_example(); 上面就是jsonp实现的基础原理。 实践 那么具体到使用应该怎么操作呢？ 不要看到在第一个例子中引入了remote.js文件就误以为我们真的是要引入js文件了，要记得我们的目的是请求服务接口，所以，服务端应该返回类似function_example()这样的形式才可以，也即需要返回一个由函数名包含的结果，括号中才是真正的结果，那么结果当然要用JavaScript原生支持的json格式才完美了。所以我们看到的jsonp的返回值多数形如callback({&quot;aa&quot;: &quot;bb&quot;, &quot;cc&quot;: &quot;dd&quot;})。 前端 &lt;script&gt; function handler(result) { alert(result.login); } var url = &quot;http://remotehost.com/index.php?name=frost&amp;pass=123&amp;callback=handler&quot;; var script = document.createElement(&quot;script&quot;); script.setAttribute(&quot;src&quot;, url); document.getElementsByTagName(&quot;head&quot;)[0].appendChild(script); &lt;/script&gt; 那服务端应该怎么处理呢？ &lt;?php $name = $_GET['name']; $pass = $_GET['pass']; $callback = $_GET['callback']; // do something $result = [ &quot;login&quot;: &quot;true&quot;, &quot;other&quot;: &quot;foobar&quot; ]; echo json_encode($result); 上面的代码能完成要求吗？显然不能，因为它返回的是一个json对象，而不是能够执行的js指令。 因此，最后一句应该写成 echo $callback .
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/08/11/jsonp%E5%8E%9F%E7%90%86%E5%85%A8%E8%A7%A3%E6%9E%90/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
   
     <article class="container content summary">
   <div class="container hat">
@@ -253,35 +282,6 @@
 </article>
 
   
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/07/10/%E4%B9%9F%E8%B0%88%E5%88%9B%E4%B8%9A/">也谈创业
-</a>
-</h2>
-
-  <time datetime="2015-07-10">10 Jul, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    我竟然在标签里写了“情怀”两个字。 自从罗永浩做了锤子手机，“情怀”就变成了一个被用烂了的词，但不可否认的是，它是确实存在的东西。 今天中午和同事聊天，谈到了中国和国外的创业者的不同之处，其中有一条，那就是创业者的初心。 我们中国的创业者们其实多数并不是想真正要做一款成功的产品，而是看到了现在这个互联网的大潮，既然大家都有份，那么我也要去忽悠点投资人的钱来。于是就绞尽脑汁的为用户“臆想”出很多在我这样一个普通上班族看来根本没有任何意义的需求来。初期可以拿着这个根本不存在的需求去忽悠投资人，我想现在的投资者可能也是处于一个不理智的阶段，看到任何O2O的项目都想插一棒子进来——万一成功了呢？ 然而，这些CEO们拿了钱之后干什么呢？当然是提高自己的生活水平。他们把融来的投资的一大部分撞进来自己的腰包，然后若无其事的继续经营着公司——然后九成九的机会公司死掉了，但他已经用这样一个特殊的方式把钱赚到了。 我们再看国外那些成功的创业者们，最初创办公司的目的都是实现自己的价值——有的是自己有一个想法，想把想法卖给大公司但遭到拒绝，于是奋发图强，自己做；有的是眼看着自己所在的公司无法把自己寄予厚望的产品做的符合自己的理想——这些人做出来的产品能不成功吗？ 我们还谈到了中国公司对于开源社区的贡献问题，中国的互联网行业存在大量对互联网技术毫不关心的从业者，他们工作仅仅就是为了挣口饭吃，他们不关心技术的发展潮流，不关心怎样提高自己的技术水平，需要什么东西到网上搜一搜，基本都能找到现成的解决方案，为什么会这样呢？因为这些人做的是人家早就做过的东西。尤其对于开源社区，大部分人对它的理解就是——免费。对，但也不全对。我这里不去说RMS的理论，什么开源了，自由了之类的观点，我们的水平还达不到那一步。 连起码的感恩之心都没有。 放眼望去，中国有多少互联网公司用的是LAMP或者LNMP的技术架构？几乎全都是。那又有多少的公司在实现盈利之后意识到我们的成功来源于开源社区的无私奉献，我们应该给他们一些捐赠？我想这个数量又是屈指可数的。想一下对于盗版的意识就知道了，不说资金不那么充足的小公司，就连很多大公司内部都明目张胆的使用盗版软件，设想一下，一个本来收费的东西你首先想到的不是正常的付费，而是要破解它，那一个不强制让你缴费的东西你会想到要主动给他钱？ 白日做梦。 而我们看到Whatsapp的创始人向FreeBSD基金会的捐款，看到FaceBook对PHP的大量贡献，甚至一直为很多人不齿的微软每年为各个开源软件基金会的捐赠也不在少数，这方面，我们的意识还差得远。 而我自己也在筹划一个项目，在项目成型之前我把它暂时放在bitbucket上面作为个人项目进行开发，等能够正常运行了再开放出来。但是目前还处在技术选型阶段，感谢开源社区给了我那么多选择。
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/07/10/%E4%B9%9F%E8%B0%88%E5%88%9B%E4%B8%9A/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
   
 <div class="container pagination">
   
@@ -332,12 +332,16 @@
   9
 </a>
 
+<a href="http://lovelock.github.io/page/10/">
+  10
+</a>
+
 
 <a aria-label="Next" href="http://lovelock.github.io/page/6/">
   <span aria-hidden="true">»</span>
 </a>
 
-<a aria-label="Last" href="http://lovelock.github.io/page/9/">
+<a aria-label="Last" href="http://lovelock.github.io/page/10/">
   <span aria-hidden="true">»»</span>
 </a>
 

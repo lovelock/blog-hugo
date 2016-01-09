@@ -9,8 +9,57 @@
     <managingEditor>frostwong@gmail.com (Frost Wong)</managingEditor>
     <webMaster>frostwong@gmail.com (Frost Wong)</webMaster>
     <copyright>(c) 2013-2015 Frost Wong. All rights reserved.</copyright>
-    <lastBuildDate>Sat, 26 Sep 2015 10:41:42 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 09 Jan 2016 21:11:33 +0800</lastBuildDate>
     <atom:link href="http://lovelock.github.io/php/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>谈谈动/静态类型和强/弱类型</title>
+      <link>http://lovelock.github.io/php/static-dynamic-strong-weak-types-of-language/</link>
+      <pubDate>Sat, 09 Jan 2016 21:11:33 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://lovelock.github.io/php/static-dynamic-strong-weak-types-of-language/</guid>
+      <description>&lt;p&gt;作为一个PHP程序员，这个问题本来不应该是我考虑的。
+我需要知道仅仅是如果我的程序需要接受一个integer作为输入，拿到输入后最好能&lt;code&gt;intval($var)&lt;/code&gt;一下，保证输入的是integer。而让我感到不理解的是，为什么PHP的强制类型转换会做成&lt;code&gt;(int)$var&lt;/code&gt;这种方式，按照正常人的理解，不管&lt;code&gt;int/string&lt;/code&gt;是关键字还是函数，要么作为&lt;code&gt;int $var&lt;/code&gt;，这样具有迷惑性，因为在别的语言里这都是用来&lt;strong&gt;声明变量&lt;/strong&gt;的，要么&lt;code&gt;int($var)&lt;/code&gt;，这都很容易理解，然而。。。&lt;/p&gt;
+
+&lt;p&gt;好了，想到这个问题是因为这两天算是深入的用了Python的一些功能，当然主要还是用来处理日志，当我发现当我将两个从&lt;code&gt;dict&lt;/code&gt;中取出的值相加，然后和一个数字的值对比时，并没有出现我要的结果。于是就查了下Python的类型。原来Python是&lt;strong&gt;动态类型&lt;/strong&gt;，同时是&lt;strong&gt;强类型&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;我看到网上很多人对这个问题还挺迷惑。刚看了PHP对于类型的解释，其实很能说明问题。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;PHP 在变量定义中不需要（或不支持）明确的类型定义；变量类型是根据使用该变量的上下文所决定的。也就是说，如果把一个 &lt;code&gt;string&lt;/code&gt; 值赋给变量 &lt;code&gt;$var&lt;/code&gt;，&lt;code&gt;$var&lt;/code&gt; 就成了一个 &lt;code&gt;string&lt;/code&gt;。如果又把一个&lt;code&gt;integer&lt;/code&gt; 赋给 &lt;code&gt;$var&lt;/code&gt;，那它就成了一个&lt;code&gt;integer&lt;/code&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这，就是标准的动态类型了。相应的，&lt;code&gt;var a = 20 :Int&lt;/code&gt;，声明了变量&lt;code&gt;a=20&lt;/code&gt;，同时指定该变量的类型是&lt;code&gt;Int&lt;/code&gt;，如果&lt;code&gt;var a = &#39;20&#39;: Int&lt;/code&gt;在编译时就会报错，没错这就是静态类型（这是Swift的语法）。有人可能就会拿这个举例说C也是静态类型——的确，我也会认为它是静态类型，因为它也需要指定类型才可以定义——然而，判断是否是静态类型的根据并不在此，而是像&lt;a href=&#34;https://www.zhihu.com/question/19918532#answer-18824124&#34; target=&#34;_blank&#34;&gt;知乎@姚培森的答案&lt;/a&gt;中说的，是根据它是否所有程序都是*well behaved*。这个就太深了，我就不深究了，毕竟对C的研究也不深，说错了还不如不说。&lt;/p&gt;
+
+&lt;p&gt;那再来看看让我误解的Python，无疑，Python和PHP一样在定义变量时也是不需要指定的，但对PHP来说，&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;$a = 1;
+$b = &#39;2&#39;;
+echo $a + $b;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样的代码完全没有问题。但到了Python这里&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;a = 1
+b = &amp;lsquo;2&amp;rsquo;
+a + b
+Traceback (most recent call last):
+  File &amp;ldquo;&lt;stdin&gt;&amp;rdquo;, line 1, in &lt;module&gt;
+TypeError: unsupported operand type(s) for +: &amp;lsquo;int&amp;rsquo; and &amp;lsquo;str&amp;rsquo;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这就是强类型和弱类型的区别了。强类型不允许出现*forbidden behaviors`。&lt;/p&gt;
+
+&lt;p&gt;从这一点也就可以理解为什么Python的JIT很早前就做出来了，而前段时间鸟哥还在说之前尝试做过PHP的JIT，但发现难度太大，而现在的PHP7实际就是在为后面的JIT铺路呢。&lt;/p&gt;
+
+&lt;p&gt;但让我不解的是既然Python都在这方面占了优势了，为什么还是性能不行呢？&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>PHP单元测试-02</title>

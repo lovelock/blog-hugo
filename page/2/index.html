@@ -131,11 +131,40 @@
     <h1>Me and the Web
 </h1>
 
-    <span>last update: <time datetime="2016-01-06T21:35:12&#43;08:00">6 January at 9:35pm</time>
+    <span>last update: <time datetime="2016-01-09T21:11:33&#43;08:00">9 January at 9:11pm</time>
 </span>
 
   </header>
   
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/11/22/facebook%E7%9A%84%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C/">Facebook的用户体验
+</a>
+</h2>
+
+  <time datetime="2015-11-22">22 Nov, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    上个星期登录Gmail突然发现多了好多Facebook的动态，仔细一看，原来我的头像都已经被别人换了。好吧，这还是我人生第一次帐号被盗的经历。 马上改密码，结果重置完密码要登录了，却跳转到验证用户身份页，放出来几张“好友”的照片，让你认出来这都是谁。 天了噜！！！！ 我怎么知道那都是谁！！！！我的账号被盗了啊！！！！那里面都是盗我的账号的人的图片，我怎么会认识？ 然后好玩的地方来了。 我来到Facebook的帮助页，找不到我想要的内容，因为并没有发现关于用好友的照片来验证身份的相关信息。 于是我想着也发起一个问题，等着大家来帮助我或者官方有人来帮我一下吧。但是发问题是需要登陆滴，好吧，就这样陷入了一个死循环。 我不理解的是，在用照片验证好友身份时是存在『我在这一步遇到了麻烦』这样的链接的，但为什么就没有考虑到用户的账户已经被盗并且内容全部被黑客替换的情况呢？ 我甚至恶意的猜测这黑客是深谙Facebook的身份认证机制的，窃取了你的账户之后马上上传一堆你不认识的人的照片，让你即使改了密码也无法登陆。 而且我看到帮助区有很多人都期待能得到Facebook官方的帮助，甚至有人说，那看起来很诱人，说是有官方的帮助，但实际上你问了问题从来得不到回复。 好吧，就是这样一个世界级的大公司。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/11/22/facebook%E7%9A%84%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
   
     <article class="container content summary">
   <div class="container hat">
@@ -253,35 +282,6 @@
 </article>
 
   
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/10/17/mysql%E8%BF%81%E7%A7%BB%E5%88%B0%E7%9C%9Futf8%E5%85%A8%E8%BF%87%E7%A8%8B/">MySQL迁移到真·UTF8全过程
-</a>
-</h2>
-
-  <time datetime="2015-10-17">17 Oct, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    为什么要做？ 写这篇总结的起因是我觉得应该深入的学习一下PHP了，结果找到了PHP最佳实践中文版，其中关于PHP和UTF8一节引起了我的兴趣。我之前还一直以为我们的数据库用的是完整的UTF8，看完之后我惊呆了。 原来我们的以为的utf8并不是真正意义上的UTF-8，或者说不是完整的，因为它只包含了不大于3个8位字节组成的字符，而4个字节组成的字符则未能包含，如𝌆、💩等常用字符。 随着现在网络用语的发达，越来越多的表情符号层出不穷，真是为这种符号的存储发愁啊，所以保险起见，以后接触到的项目中，如果我的意见可以被接受，那么我将遵守这个规则——使用utf8mb4而不是utf8。 那如果已经使用了utf8了，怎么更新呢？下面是操作步骤。 备份 对数据库的修改操作毕竟是危险的，如果你的数据很重要，最好还是备份一下数据库。 升级MySQL服务器 utf8mb4是从MySQL5.5.3版本引入的（对应相同版本的MariaDB)，因此如果想使用utf8mb4，至少应升级到5.5.3版本。 修改数据库、数据表和列 # 每个数据库 ALTER DATABASE database_name CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci; # 每张数据表 ALTER TABLE table_name CONVERT TO CHARACTER SET utf8 COLLATE utf8mb4_unicode_ci; # 每列数据 ALTER TABLE table_name CHANGE column_name column_name VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 注意，不要直接复制粘贴上面的代码，根据实际的数据进行操作。 检查列和索引键的长度 这一步很不容易想到，当我们从utf8更新到utf8mb4时，字节的长度并没有发生变化，但字符长度却变化了。 TINYTEXT类型可以容纳255个字节，在utf8编码时，可以包含255/3=85个unicode字符，而在utf8mb4时，只可以包含255/4=63.75=63个字符。因此，当这个字段的长度有可能超过63个字符时，就需要把TINYTEXT修改成TEXT从而容纳更多的字符。 修改连接、客户端、服务端字符集 这一步就是修改my.conf（在不同的操作系统中有不同的命名）。 [client] default-character-set = utf8mb4 [mysql] default-character-set = utf8mb4 [mysqld] character-set-client-handshake = FALSE character-set-server = utf8mb4 collation-server
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/10/17/mysql%E8%BF%81%E7%A7%BB%E5%88%B0%E7%9C%9Futf8%E5%85%A8%E8%BF%87%E7%A8%8B/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
   
 <div class="container pagination">
   
@@ -332,12 +332,16 @@
   9
 </a>
 
+<a href="http://lovelock.github.io/page/10/">
+  10
+</a>
+
 
 <a aria-label="Next" href="http://lovelock.github.io/page/3/">
   <span aria-hidden="true">»</span>
 </a>
 
-<a aria-label="Last" href="http://lovelock.github.io/page/9/">
+<a aria-label="Last" href="http://lovelock.github.io/page/10/">
   <span aria-hidden="true">»»</span>
 </a>
 

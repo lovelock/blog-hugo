@@ -131,11 +131,40 @@
     <h1>Me and the Web
 </h1>
 
-    <span>last update: <time datetime="2016-01-06T21:35:12&#43;08:00">6 January at 9:35pm</time>
+    <span>last update: <time datetime="2016-01-09T21:11:33&#43;08:00">9 January at 9:11pm</time>
 </span>
 
   </header>
   
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/04/28/javascript%E6%89%A7%E8%A1%8C%E6%80%BB%E7%BB%93/">JavaScript执行总结
+</a>
+</h2>
+
+  <time datetime="2015-04-28">28 Apr, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    在所有的场景下，都有一个将来某个时刻会执行的回调函数，这将来某个时刻就是我们所说的异步流。 异步执行会被推出同步流。也就是说，当同步代码正在执行时异步代码就不会执行。这就是JavaScript单线程的意义。 更具体地说，当JS引擎空闲时——没有在执行同步或者异步代码——它会轮询那些被触发的异步回调事件（例如到期时间(setTimeout)，接收到的网络响应(ajax)）并且一一的执行它们。这就是事件循环。 也就是说，回调代码有可能会在所有同步代码在它们各自的代码块中执行完毕之后才会执行。 简而言之，回调函数是被同步创建但异步执行的。除非你知道这个异步函数确实已经执行了，否则你不可以依赖一个异步函数的执行，如何做到呢？ 这很简单，真的。依赖异步函数执行的逻辑应该在异步函数内部开始或调用。 helloAsyncCat(function (result) { alert(result); } function helloAsyncCat(callback) { setTimeout(function () { callback('Nya'); }, Math.random() * 2000); } 上面的代码是一段简单的例子。 首先，需要为helloAsyncCat函数添加一个回调函数，它是在异步执行的内部执行的。 然后，在调用该函数的时候就可以用回调函数中取到的结果进行操作了。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/04/28/javascript%E6%89%A7%E8%A1%8C%E6%80%BB%E7%BB%93/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
   
     <article class="container content summary">
   <div class="container hat">
@@ -253,35 +282,6 @@
 </article>
 
   
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://lovelock.github.io/1/01/01/">
-</a>
-</h2>
-
-  <time datetime="0001-01-01">1 Jan, 0001</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    title = &ldquo;一位老人在地铁上摔倒想到的&rdquo; date = &ldquo;2015-06-12T10:29:55+08:00&rdquo; +++ 今天地铁上还是像往常一样那么多人，我终于在站了近半小时之后有了一个座位。 不知道何时在我左边的左边出现了一位白发苍苍，大概60多岁的老太太。我注意到她还是因为我邻座的那个哥们儿要主动给她让座儿，但是她并没有接受，解释说她自己两站就下车了，没关系的，还不忘谢谢那个年轻人，说话的语气不卑不亢，很有电视上那些老一辈的文化人的风度。 过了一站，她开始往门口走去，这时车上人没有那么拥挤了，在她刚以为自己站稳的时候，车启动了，她就很自然的倒了下去，幸好前面有人拉了一把，她身后的人也拖了一下，她并没有重重的摔下去。站起身后她又站在那个位置，重新开始等待下一站。 我想，这才是真正的和谐社会。老人不会倚老卖老，而年轻人其实更希望能多见到这样的老人，他们是值得尊敬的人，不像有些上车就问年轻人索要座位的“老人”。 我甚至遇到过有一群年纪看起来在50左右的“老人”一进地铁就开始“互相”的说话，说现在的年轻人如何如何，不给他们这些老年人让座儿，这时旁边一位年纪差不多的中年人，他说“你们也不看看自己这么年轻，还好意思说自己是老年人！”这时，这几个“老年人”就不乐意了，怒斥道“那你说说你多大了，你要是比我们大，那我们就把作为让给你！”果然有年轻人听不下去了，就给那个“老年妇女”让了个座儿，我估计是她自己面子上也挂不住了，刚坐下一会儿就把座位又让给了一个带孩子的母亲。 没有任何人应该为一个陌生人做任何事，人家做了，是他的好心，但要记住，那不是人家的义务，你也不用拿自己的弱势做理由来道德绑架别人，这样做只会惹来别人的反感。
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://lovelock.github.io/1/01/01/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
   
 <div class="container pagination">
   
@@ -332,12 +332,16 @@
   9
 </a>
 
+<a href="http://lovelock.github.io/page/10/">
+  10
+</a>
 
-<a class="disabled" aria-label="Next" href="#">
+
+<a aria-label="Next" href="http://lovelock.github.io/page/10/">
   <span aria-hidden="true">»</span>
 </a>
 
-<a aria-label="Last" href="http://lovelock.github.io/page/9/">
+<a aria-label="Last" href="http://lovelock.github.io/page/10/">
   <span aria-hidden="true">»»</span>
 </a>
 

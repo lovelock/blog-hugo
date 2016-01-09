@@ -131,11 +131,40 @@
     <h1>Me and the Web
 </h1>
 
-    <span>last update: <time datetime="2016-01-06T21:35:12&#43;08:00">6 January at 9:35pm</time>
+    <span>last update: <time datetime="2016-01-09T21:11:33&#43;08:00">9 January at 9:11pm</time>
 </span>
 
   </header>
   
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/06/26/%E5%92%8C%E6%8E%A5%E5%8F%A3%E8%B0%83%E7%94%A8%E6%96%B9%E8%81%94%E8%B0%83%E7%9A%84%E7%BB%8F%E9%AA%8C%E6%95%99%E8%AE%AD/">和接口调用方联调的经验教训
+</a>
+</h2>
+
+  <time datetime="2015-06-26">26 Jun, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    一个同事做的接口，今天他请假没有来，就临时由我协助接口调用方联调。 这是一个很简单的接口。但浪费了近一天的时间。 我是第一次看这部分代码，得出的结论是该接口接受两个参数，然后进行后面的处理。但是对方调用时总是出错，我不明白这原因，于是让对方把调用的参数发给我，结果发现他传入了三个参数，而且有一个必须的参数意思一样但变量名不同，并且可选值也不同。 当时我就懵逼了。 我说这调用的不对啊！！！结果对方上来给我一个文档截图，说他是按照这个文档调用的。 这时我又懵逼了，为什么不事先给我这个文档? 我手指在键盘上飞舞，然后我这边再用相同的参数调用接口，OK，没有任何问题。但是对方不停的告诉我不行、不行还是不行。 究竟哪里出了问题？ 而且由于同事的懒于配置，这个开发环境连日志都没法记录。然后我就往里面一步一步的跟，终于跟到了调用平台接口的地方也看不到什么问题。终于我把那个调用的方法外套了一层try catch，并把Exception的内容打印出来，真相终于大白。 原来是我用的开发机上没有调用这个平台接口的权限，而我用的我自己的账户测试，不需要再调用这个接口，但对方的却不是这样，因此这个地方通不过。 这时已经中午了，吃了饭下午再搞。 下午我想着配到仿真环境应该没有问题了，就给对方发过去了一个IP，让他配上这个IP再来测试。于是我胸有成竹的让他调用接口，但他仍然不通过。 这时我又懵逼了！！！ 怎么可能！？？我自己取消了那个权限之后仍让可以正常调用，问题出在哪里呢？中间我跟他发了好几次IP，生怕他没有配好hosts。结果我查了一下accesslog发现他的请求并没有进入我部署代码的这台机器，我就问他，你到底有没有按我给你的IP配置hosts啊？他这时也自信满满的给我发来了一张上午让他配置的环境的ping的截图。 我简直不知道说什么好了。 难道他以为我发给他一个IP是发着玩的吗？尼玛不知道干啥的你问啊，何况我都已经告诉你了让你配上这个。。。。 于是他重新配置了hosts，所有问题都解决了。 真是一个曲折的事件，一个本来五分钟就能搞定的东西，从上午十点搞到了下午三点多。 从这件事上可以总结出几点联调接口的经验： 一定要先确认双方用的环境是不是同一个(hosts配置)。 即使业务日志无法获取，但起码要能看到accesslog，看一下对方的请求有没有发送到目标机器上。 如果确认完之后仍然有问题，那么就一步一步的往里面跟，如果调用平台接口有问题，首先想到的就是权限问题。因为有些敏感操作并不是每台开发机都有权限的。如果因为这个浪费大量的时间，就不值得了。 谨防破窗效应。这里是说原来的代码或者开发环境已经是千疮百孔了，调试等非常不方便，如果任由它这样发展下去，那它只能进一步的变坏。虽然没有大块的时间去整理它，但要慢慢地优化它，最终整个团队一定会发现这种变化，如果大家能一起践行，那代码的质量一定会越来越好。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/06/26/%E5%92%8C%E6%8E%A5%E5%8F%A3%E8%B0%83%E7%94%A8%E6%96%B9%E8%81%94%E8%B0%83%E7%9A%84%E7%BB%8F%E9%AA%8C%E6%95%99%E8%AE%AD/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
   
     <article class="container content summary">
   <div class="container hat">
@@ -253,35 +282,6 @@
 </article>
 
   
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/05/02/javascript%E4%BB%A3%E7%A0%81%E7%BA%A6%E5%AE%9A/">JavaScript代码约定
-</a>
-</h2>
-
-  <time datetime="2015-05-02">2 May, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    原文标题：Code Conventions for the JavaScript Programming Language 作者：Douglas Crockford 这是JavaScript编程中的一系列代码约定和规则。灵感来自于Sun的Code Conventions for the Java Programming Language。当然，因为JavaScript不是Java，所以这篇文章也完全不同于前者。 对于一个组织而言，代码库的质量和软件的长期价值成正比。在它的生命周期内，一个程序会经手很多人。如果一个程序可以清晰的传达它的结构和和特点，在不远的将来修改时就不太可能会崩溃。 编码约定有助于减少代码的脆性。 所有JavaScript代码都是公开发送的。它也应该总是出版物的质量。 整齐很重要。 JavaScript文件 JavaScript程序应该以.js文件保存和传输。 JavaScript不应该嵌入在HTML文件中，除非代码是针对一个特定的session。将JS代码嵌入在HTML中，会导致由于不能通过缓存和压缩来减小页面体积而使其显著增加。 &lt;script src=filename.js标签在&lt;body&gt;&lt;/body&gt;标签中出现的越晚越好。这减小了其他页面组件的的脚本加载而带来的影响。没有必要用language或type属性。决定MIME类型是服务器而不是脚本标签的职责。 缩进 缩进的单位是4个空格。应该避免使用制表符，因为（在21世纪的今天）仍然没有取代制表符的标准。使用空格会产生更大的文件体积，但在内网这个增长不会很明显，而且这个差异会被minification缩小。 行长度 避免长于80个字符的行。当一个语句在一行不合适时，可能需要断行。把断行放在操作符之后，理想情况下放在逗号后面。操作符后面的换行会减少因为插入分号而掩盖的复制粘贴错误的可能性。下一行应该缩进8个空格。 注释 写注释时慷慨一些吧。留一些信息给将来可能会读到的人（可能是你自己），他可能会需要理解你做的事情。注释需要写好并写清晰，就像它们要标注的代码一样。偶尔一个幽默的金块儿可能会得到感恩，但挫折和怨恨可不能。 保持注释的更新很重要。有错误的注释会让代码更难阅读和理解。 只做有意义的注释。专注于那些不能被立即看到的。不要浪费阅读者的时间去看这些东西： i = 0; // Set i to zero 通常用行注释。留着块注释做正式的文档。 变量声明 所有的变量都应该在使用前声明。JavaScript不要求如此，但这样做可以让代码更易读并且容易检测到那些没有声明的隐式的全局变量。隐式的全局变量永远都不要用。全局变量的使用要尽量减少。 在函数题中，var语句应该是第一条语句。 最好给每个变量单独的行和注释。如果可能的话，尽量用字母顺序给它们排序。 var currentEntry, // currently selected table entry level, // indentation level size; // size of table JavaScript没有块作用域，所以在代码块中定义变量可能会让经验丰富的C系程序员很困惑。在函数开头定义所有的变量。 函数声明 所有的函数都应该显定义再使用。内部函数应该位于var语句之后。这样可以更容易的看出在这个作用域内包含的变量。 函数名和参数列表左括号之间不应该有空格。右括号和大括号之间应该有一个空格。函数体应该缩进4个空格。
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/05/02/javascript%E4%BB%A3%E7%A0%81%E7%BA%A6%E5%AE%9A/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
   
 <div class="container pagination">
   
@@ -332,12 +332,16 @@
   9
 </a>
 
+<a href="http://lovelock.github.io/page/10/">
+  10
+</a>
+
 
 <a aria-label="Next" href="http://lovelock.github.io/page/8/">
   <span aria-hidden="true">»</span>
 </a>
 
-<a aria-label="Last" href="http://lovelock.github.io/page/9/">
+<a aria-label="Last" href="http://lovelock.github.io/page/10/">
   <span aria-hidden="true">»»</span>
 </a>
 
