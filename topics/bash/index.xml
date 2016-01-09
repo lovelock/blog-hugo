@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bash on Me and the Web</title>
+    <link>http://lovelock.github.io/topics/bash/</link>
+    <description>Recent content in Bash on Me and the Web</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>frostwong@gmail.com (Frost Wong)</managingEditor>
+    <webMaster>frostwong@gmail.com (Frost Wong)</webMaster>
+    <copyright>(c) 2013-2015 Frost Wong. All rights reserved.</copyright>
+    <lastBuildDate>Sat, 09 Jan 2016 21:38:27 +0800</lastBuildDate>
+    <atom:link href="http://lovelock.github.io/topics/bash/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Shell脚本获取文件名</title>
+      <link>http://lovelock.github.io/2016/01/09/shell%E8%84%9A%E6%9C%AC%E8%8E%B7%E5%8F%96%E6%96%87%E4%BB%B6%E5%90%8D/</link>
+      <pubDate>Sat, 09 Jan 2016 21:38:27 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://lovelock.github.io/2016/01/09/shell%E8%84%9A%E6%9C%AC%E8%8E%B7%E5%8F%96%E6%96%87%E4%BB%B6%E5%90%8D/</guid>
+      <description>&lt;p&gt;我的需求是把一些原来后缀是markdown的文本重命名为md，这个需求很low了，但其实也很有技巧，你可以一个一个的重命名，没有问题，但作为一个对Unix大道甚为叹服的人，还是应该寻求更好的方法。&lt;/p&gt;
+
+&lt;p&gt;简单搜索了一下，发现了&lt;a href=&#34;https://stackoverflow.com/questions/2664740/extract-file-basename-without-path-and-extension-in-bash/2664746#2664746&#34; target=&#34;_blank&#34;&gt;StackOverFlow&lt;/a&gt;上的答案。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ s=/the/path/foo.txt
+$ echo ${s##*/}
+foo.txt
+$ s=${s##*/}
+$ echo ${s%.txt}
+foo
+$ echo ${s%.*}
+foo
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;好吧，只看到这里就行了，问题已经解决。不是我不想继续研究&lt;a href=&#34;http://www.gnu.org/software/bash/manual/bashref.html#Shell-Parameter-Expansion&#34; target=&#34;_blank&#34;&gt;Bash参考文档&lt;/a&gt;，只是实在没有这个必要了，我还要研究Symfony3，研究建立起Symfony的Bundles，然后搞点Python满足平时的处理日志、甚至是Web编程的需要。。。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

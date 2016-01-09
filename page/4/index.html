@@ -131,11 +131,40 @@
     <h1>Me and the Web
 </h1>
 
-    <span>last update: <time datetime="2016-01-09T21:11:33&#43;08:00">9 January at 9:11pm</time>
+    <span>last update: <time datetime="2016-01-09T21:38:27&#43;08:00">9 January at 9:38pm</time>
 </span>
 
   </header>
   
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/09/26/%E7%BB%88%E4%BA%8E%E4%B8%8B%E5%86%B3%E5%BF%83%E6%8A%8A%E5%8D%9A%E5%AE%A2%E7%A9%BA%E9%97%B4%E8%BF%81%E7%A7%BB%E5%88%B0%E5%9B%BD%E5%86%85%E4%BA%86/">终于下决心把博客空间迁移到国内了
+</a>
+</h2>
+
+  <time datetime="2015-09-26">26 Sep, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    写博客也有一段时间了，但产出并不是很多，最重要的是没有读者。 因为百度是无法爬到GitHub的内容的，因此用GitHub Pages搭建的博客网站往往是不能在百度里面搜到的，但我写的又是中文的文章，所以。。。。 当然其实最主要的原因是文章的质量不高。 看到GitCafe的网站感觉很不错，几乎提供了GitHub提供的所有功能，最重要的是国内的访问速度快，于是干脆就迁移到国内了，同时把disqus迁移到多说——说是迁移，其实完全没有负担——因为并没有历史评论，哈哈。 接下来还会写很多东西，希望我写的东西能给需要的人一些帮助吧。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/09/26/%E7%BB%88%E4%BA%8E%E4%B8%8B%E5%86%B3%E5%BF%83%E6%8A%8A%E5%8D%9A%E5%AE%A2%E7%A9%BA%E9%97%B4%E8%BF%81%E7%A7%BB%E5%88%B0%E5%9B%BD%E5%86%85%E4%BA%86/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
   
     <article class="container content summary">
   <div class="container hat">
@@ -246,35 +275,6 @@
 
   <div class="container readlink">
   <a href="http://lovelock.github.io/2015/08/31/mac%E4%BD%BF%E7%94%A8vmware-fusion%E5%AE%89%E8%A3%85ubuntu/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/08/12/rime%E8%BE%93%E5%85%A5%E6%B3%95%E5%9C%A8mac%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/">Rime输入法在Mac上的应用
-</a>
-</h2>
-
-  <time datetime="2015-08-12">12 Aug, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    天啊，过几天要回家陪老婆生孩子，现在在赶项目，我竟然还在这里瞎写，真是罪过。 在我用Linux的那几年，输入法一直用的是Fcitx，而引擎用的是Rime，输入方案是double_pinyin_mspy。用Mac也有一段时间了，想着Rime虽然跨平台，但现在项目好像没有那么活跃了，于是就用了最流行的搜狗输入法，但用起来总感觉还是不那么舒服，可能是我有开源的洁癖？管他呢，还是想尝试一下这个鼠须管。 首先说一下它的优点： 高度可定制 开源，没有安全隐患 轻量，快速，完全无卡顿 对使用场景优化，可定制默认英文的应用 缺点也很明显——没有词库，需要从新培养。 但我觉得它自带的词库其实也已经够用了，我本身也不是那么赶潮流的人，而且输入的大多是计算机相关的词汇，所以这个对我的影响并不大。 好了，现在就来说一下安装和配置环节吧。 brew cask install squirrel 然后它就会提示你输入密码了，然后给一堆提示，然后就安装好了。这时你会看到状态栏已经多了一个输入法图标，没错就是它。 现在就可以体验一下它的极速输入体验了。 那么来配置一下它吧。 先说一下配置的原理。Rime自带了很多很多的默认配置，写在squirrel.yaml，default.yaml等配置文件中，当然如果要追究YAML的格式规范，那就超出本文的范畴了。而我们可以自定义名为squirrel.custom.yaml和default.custom.yaml来修改配置。而这个配置会在我们点击Deploy时作为补丁打到默认配置中，相应的，默认的配置文件的内容也会发生变化。 我主观上认为微软的双拼方案是最流行的方案（或者它的变种搜狗双拼）因为我用的就是它！但事实上OS X自带的双拼方案却只有自然码，很蛋疼。我的修改主要在两个方面，输入方案和外观样式。 打开Library/Input Methods/Squirrel.app/Contents/SharedSupport会看到一系列的bin和yaml文件，其中bin是用来支持各种输入方案的，而yaml是相应的配置这些方案的。如果要使用微软双拼方案，就把double_pinyin_mspy.schema.yaml拷贝到Library/Rime目录里，或者做个软链，然后在Library/Rime中新建一个default.custome.yaml文件，输入下面的内容： patch: schema_list: - schema: double_pinyin_mspy - schema: luna_pinyin_simp 然后重新部署一下，就可以看到效果了，输入方案剩下朙月拼音和微软双拼了。 这时发现默认的皮肤虽然好看，但是字体太大了，所以就调小一些吧，而且竖行的选字界面也不太习惯，调成横向的吧。 # squirrel.custom.yaml patch: &quot;style/horizontal&quot;: true &quot;style/font_point&quot;: 16 再重新部署一下，看起来很舒服，用起来也舒服了吧。 解释一下优点中的第四点，这对程序员来说是极好的，因为写代码主要是英文，输入中文的概率很低，而Rime自带了一些默认为英文输入的配置，例如Alfred/Terminal/iTerm2等，这一点简直是不能再贴心了，当然如果你想，是可以自定义这些设置的。如果想深度定制，可以看下官方的而文档。 好了，兴奋完了，回去好好赶项目了。
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/08/12/rime%E8%BE%93%E5%85%A5%E6%B3%95%E5%9C%A8mac%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/">Read more &rarr;</a>
 
 </div>
 

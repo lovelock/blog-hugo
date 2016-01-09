@@ -5,38 +5,42 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>HTML中的input[type=radio]的一个小发现  &middot; Me and the Web</title>
+  <title>Shell脚本获取文件名  &middot; Me and the Web</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="description" content="" />
+<meta name="description" content="用Shell脚本获取不包含后缀的文件名" />
 
-<meta name="keywords" content="">
+<meta name="keywords" content="shell, ">
 
 
-<meta property="og:title" content="HTML中的input[type=radio]的一个小发现  &middot; Me and the Web ">
+<meta property="og:title" content="Shell脚本获取文件名  &middot; Me and the Web ">
 <meta property="og:site_name" content="Me and the Web"/>
-<meta property="og:url" content="http://lovelock.github.io/2015/12/04/html%E4%B8%AD%E7%9A%84inputtyperadio%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E5%8F%91%E7%8E%B0/" />
+<meta property="og:url" content="http://lovelock.github.io/2016/01/09/shell%E8%84%9A%E6%9C%AC%E8%8E%B7%E5%8F%96%E6%96%87%E4%BB%B6%E5%90%8D/" />
 <meta property="og:locale" content="en-us">
 
 
 <meta property="og:type" content="article" />
-<meta property="og:description" content=""/>
-<meta property="og:article:published_time" content="2015-12-04T23:12:52Z" />
-<meta property="og:article:modified_time" content="2015-12-04T23:12:52Z" />
+<meta property="og:description" content="用Shell脚本获取不包含后缀的文件名"/>
+<meta property="og:article:published_time" content="2016-01-09T21:38:27&#43;08:00" />
+<meta property="og:article:modified_time" content="2016-01-09T21:38:27&#43;08:00" />
 
+  
+    
+<meta property="og:article:tag" content="shell">
+    
   
 
   
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@frostwong" />
 <meta name="twitter:creator" content="@frostwong" />
-<meta name="twitter:title" content="HTML中的input[type=radio]的一个小发现" />
-<meta name="twitter:description" content="" />
-<meta name="twitter:url" content="http://lovelock.github.io/2015/12/04/html%E4%B8%AD%E7%9A%84inputtyperadio%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E5%8F%91%E7%8E%B0/" />
+<meta name="twitter:title" content="Shell脚本获取文件名" />
+<meta name="twitter:description" content="用Shell脚本获取不包含后缀的文件名" />
+<meta name="twitter:url" content="http://lovelock.github.io/2016/01/09/shell%E8%84%9A%E6%9C%AC%E8%8E%B7%E5%8F%96%E6%96%87%E4%BB%B6%E5%90%8D/" />
 <meta name="twitter:domain" content="http://lovelock.github.io">
   
 
@@ -44,20 +48,20 @@
   {
     "@context": "http://schema.org",
     "@type": "Article",
-    "headline": "HTML中的input[type=radio]的一个小发现",
+    "headline": "Shell脚本获取文件名",
     "author": {
       "@type": "Person",
       "name": "http://profiles.google.com/+?rel=author"
     },
-    "datePublished": "2015-12-04",
-    "description": "",
-    "wordCount":  7 
+    "datePublished": "2016-01-09",
+    "description": "用Shell脚本获取不包含后缀的文件名",
+    "wordCount":  19 
   }
 </script>
 
 
 
-<link rel="canonical" href="http://lovelock.github.io/2015/12/04/html%E4%B8%AD%E7%9A%84inputtyperadio%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E5%8F%91%E7%8E%B0/" />
+<link rel="canonical" href="http://lovelock.github.io/2016/01/09/shell%E8%84%9A%E6%9C%AC%E8%8E%B7%E5%8F%96%E6%96%87%E4%BB%B6%E5%90%8D/" />
 
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://lovelock.github.io/touch-icon-144-precomposed.png">
 <link href="http://lovelock.github.io/favicon.png" rel="icon">
@@ -156,16 +160,18 @@
 
 <article id="main-content" class="container main_content single">
   <header class="container hat">
-  <h1>HTML中的input[type=radio]的一个小发现
+  <h1>Shell脚本获取文件名
 </h1>
 
   <div class="metas">
-<time datetime="2015-12-04">4 Dec, 2015</time>
+<time datetime="2016-01-09">9 Jan, 2016</time>
 
 
   
+    &middot; by author
+  
   &middot; Read in about 1 min
-  &middot; (7 Words)
+  &middot; (19 Words)
   <br>
   
 
@@ -175,15 +181,21 @@
 </header>
 
   <div class="container content">
-  <p>昨天在写一个表单时，一个无意的错误让我发现了HTML radio类型的input的一个特性。</p>
+  <p>我的需求是把一些原来后缀是markdown的文本重命名为md，这个需求很low了，但其实也很有技巧，你可以一个一个的重命名，没有问题，但作为一个对Unix大道甚为叹服的人，还是应该寻求更好的方法。</p>
 
-<p>在一个表单<code>&lt;form&gt;&lt;/form&gt;</code> 中，相同name的input[type=radio]只有最后一个才会正常的渲染checked。</p>
+<p>简单搜索了一下，发现了<a href="https://stackoverflow.com/questions/2664740/extract-file-basename-without-path-and-extension-in-bash/2664746#2664746" target="_blank">StackOverFlow</a>上的答案。</p>
 
-<p>也就是说，如果一个表格中有很多条目，这时每一列都会有相同的name，这时你会发现及时每个条目的input[type=radio]都有正确的checked属性，但并不能看到它被选中——只有最后一行正常。</p>
+<pre><code class="language-bash">$ s=/the/path/foo.txt
+$ echo ${s##*/}
+foo.txt
+$ s=${s##*/}
+$ echo ${s%.txt}
+foo
+$ echo ${s%.*}
+foo
+</code></pre>
 
-<p>起初我还以为这是个bug，仔细一想，其实这是更合理的方式。</p>
-
-<p>因为，在一个表单中，每个不同的name就是一个参数，如果同一个name的参数出现了多次，服务端也会以最后一个为准。如此看来，这样的实现反倒会让开发者在参数输入就发现问题。</p>
+<p>好吧，只看到这里就行了，问题已经解决。不是我不想继续研究<a href="http://www.gnu.org/software/bash/manual/bashref.html#Shell-Parameter-Expansion" target="_blank">Bash参考文档</a>，只是实在没有这个必要了，我还要研究Symfony3，研究建立起Symfony的Bundles，然后搞点Python满足平时的处理日志、甚至是Web编程的需要。。。</p>
 
 </div>
 
@@ -195,15 +207,11 @@
   
 
     
-    <a class="prev" href="http://lovelock.github.io/2015/12/04/os-x%E5%AE%8C%E5%85%A8%E5%8D%B8%E8%BD%BDjdk%E7%9A%84%E6%96%B9%E6%B3%95/" title="OS X完全卸载JDK的方法">
+    <a class="prev" href="http://lovelock.github.io/2015/12/04/html%E4%B8%AD%E7%9A%84inputtyperadio%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E5%8F%91%E7%8E%B0/" title="HTML中的input[type=radio]的一个小发现">
       Previous
     </a>
     
 
-    
-    <a class="next" href="http://lovelock.github.io/2016/01/09/shell%E8%84%9A%E6%9C%AC%E8%8E%B7%E5%8F%96%E6%96%87%E4%BB%B6%E5%90%8D/" title="Shell脚本获取文件名">
-      Next
-    </a>
     
 
   
