@@ -51,7 +51,7 @@
     },
     "datePublished": "2016-01-09",
     "description": "动态类型和强类型",
-    "wordCount":  68 
+    "wordCount":  71 
   }
 </script>
 
@@ -167,7 +167,7 @@
     &middot; by author
   
   &middot; Read in about 1 min
-  &middot; (68 Words)
+  &middot; (71 Words)
   <br>
   
 
@@ -199,18 +199,15 @@ echo $a + $b;
 
 <p>这样的代码完全没有问题。但到了Python这里</p>
 
-<blockquote>
-<blockquote>
-<blockquote>
-<p>a = 1
-b = &lsquo;2&rsquo;
-a + b
+<pre><code class="language-python">a = 1
+b = '2'
+print(a + b) # 没错，我选择Python3
+</code></pre>
+
+<p>结果就是：
 Traceback (most recent call last):
   File &ldquo;<stdin>&rdquo;, line 1, in <module>
 TypeError: unsupported operand type(s) for +: &lsquo;int&rsquo; and &lsquo;str&rsquo;</p>
-</blockquote>
-</blockquote>
-</blockquote>
 
 <p>这就是强类型和弱类型的区别了。强类型不允许出现*forbidden behaviors`。</p>
 

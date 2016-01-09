@@ -40,18 +40,15 @@ echo $a + $b;
 
 &lt;p&gt;这样的代码完全没有问题。但到了Python这里&lt;/p&gt;
 
-&lt;blockquote&gt;
-&lt;blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;a = 1
-b = &amp;lsquo;2&amp;rsquo;
-a + b
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;a = 1
+b = &#39;2&#39;
+print(a + b) # 没错，我选择Python3
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;结果就是：
 Traceback (most recent call last):
   File &amp;ldquo;&lt;stdin&gt;&amp;rdquo;, line 1, in &lt;module&gt;
 TypeError: unsupported operand type(s) for +: &amp;lsquo;int&amp;rsquo; and &amp;lsquo;str&amp;rsquo;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;/blockquote&gt;
-&lt;/blockquote&gt;
 
 &lt;p&gt;这就是强类型和弱类型的区别了。强类型不允许出现*forbidden behaviors`。&lt;/p&gt;
 
