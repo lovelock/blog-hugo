@@ -45,10 +45,12 @@ b = &#39;2&#39;
 print(a + b) # 没错，我选择Python3
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;结果就是：
-Traceback (most recent call last):
-  File &amp;ldquo;&lt;stdin&gt;&amp;rdquo;, line 1, in &lt;module&gt;
-TypeError: unsupported operand type(s) for +: &amp;lsquo;int&amp;rsquo; and &amp;lsquo;str&amp;rsquo;&lt;/p&gt;
+&lt;p&gt;结果呢:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Trt recent call last):
+  File &amp;quot;&amp;lt;stdin&amp;gt;&amp;quot;, line 1, in &amp;lt;module&amp;gt;
+TypeError: unsupported operand type(s) for +: &#39;int&#39; and &#39;str&#39;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;这就是强类型和弱类型的区别了。强类型不允许出现*forbidden behaviors`。&lt;/p&gt;
 
