@@ -1,8 +1,8 @@
 +++
 author = "author"
-date = "2016-01-09T12:30:51+08:00"
+date = "2016-01-09T21:11:33+08:00"
 description = "动态类型和强类型"
-draft = true
+draft = false
 title = "谈谈动/静态类型和强/弱类型"
 type = "post"
 +++
