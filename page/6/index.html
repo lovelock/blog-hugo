@@ -139,35 +139,6 @@
   
     <article class="container content summary">
   <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/07/12/uiimagepickercontrollerusage/">UIImagePickerControllerUsage
-</a>
-</h2>
-
-  <time datetime="2015-07-12">12 Jul, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    周末两天完全没闲着，研究iOS研究的头都要裂了。 这次先说说UIImagePickerController这个类。 首先，它的作用是拍摄，既可以拍照片也可以录像。 基本流程： 让你的类实现两个协议(protocol) UINavigationControllerDelegate UIImagePickerControllerDelegate 在storyboard中添加一个按钮，并给这个按钮绑上一个IBAction，就叫做takePictures吧。 实现这个takePictures // 判断当前的设备是否支持UIImagePickerControllerSourceTypeCamera，也就是是不是有摄像头，目前在网上能看到的代码里这一点都会做个判断，我觉得较早之前为iPod写程序并且要兼容iPhone时有需要，现在可能就已经不需要了，还有谁的iPhone没有摄像头啊 if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) { // 指定委托代理 videoPicker.delegate = self; // 指定使用摄像头，因为sourceType还可能有UIImagePickerControllerSourceTypePhotoLibrary和UIImagePickerControllerSourceTypeSavedPhotosAlbum两种，而这两种是从手机上保存的照片中选择照片 videoPicker.sourceType = UIImagePickerControllerSourceTypeCamera; // 这个是指定媒体的类型，也就是静态图片、视频、甚至无声视频这些 // 在XCode的提示里有两个类型可能会引起混淆，kUTTypeMovie和kUTTypeVideo，你不看文档一定想不到两个的区别——前者是有声视频，后者则只有图像，没有声音 videoPicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeMovie, nil]; // 这一步很关键，执行了这个拍照的界面才会在手机上呈现出来 [self presentViewController:videoPicker animated:YES completion:nil]; } 保存拍摄的照片或视频 这个依赖于前面实现的协议UIImagePickerControllerDelegate，该协议有一个imagePickerController:didFinishPickingMediaWithInfo方法，我们要做的保存动作就在这个方法里实现。 - (void)imagePickerController:(nonnull UIImagePickerController *)picker didFinishPickingMediaWithInfo:(nonnull NSDictionary&lt;NSString *,id&gt; *)info { // 获取拍摄的媒体的类型 NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType]; // 判断拍摄的媒体的类型 if ([mediaType isEqualToString:(NSString *) kUTTypeMovie]) { // 获取要保存的文件的路径
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/07/12/uiimagepickercontrollerusage/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
   <h2><a href="http://lovelock.github.io/2015/07/10/%E4%B9%9F%E8%B0%88%E5%88%9B%E4%B8%9A/">也谈创业
 </a>
 </h2>
@@ -275,6 +246,35 @@
 
   <div class="container readlink">
   <a href="http://lovelock.github.io/2015/06/26/homebrew%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/06/26/%E7%BC%93%E5%AD%98%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/">缓存使用小记
+</a>
+</h2>
+
+  <time datetime="2015-06-26">26 Jun, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    在请求次数多的业务系统中，通常会加入缓存系统。这里用的较多的就是Memcached和Redis。我写这篇笔记不是要说这两个缓存的使用细节，而是缓存使用的注意事项。 首先要清楚，这两个缓存数据库不是安装上就万事大吉了，它是不会主动地帮你解决任何问题的。那么何时把数据存入(更新)缓存，何时取出缓存中的数据？ 存入数据 假设原来的系统中有一条插入或者更新数据库的操作，缓存的操作就应该放在数据库操作完成之后，并且要确定数据库的更新成功了，然后再写入缓存。这里是为了保证数据的一致性，即防止虽然发送了写入数据库的请求，但请求没有成功，结果缓存却成功的写入了，那么这时缓存和数据库的数据就不一致了。 读取缓存 同样的原理，假设原来的系统中有一条查询数据库的操作，缓存的操作就应该放在数据库操作之前，并且如果缓存的数据存在，就直接返回不再操作数据库了。如果缓存的数据不存在，就去查询数据库，然后将结果存入缓存。所谓缓存能提升性能的根本就在这里，我们知道数据库之所以经常是性能瓶颈就是因为它的IO操作占用大量时间，如果频繁地请求是发给了缓存，那么就能大量的减少数据库请求，有效提升系统性能。 总结一下，有两处进行了更新缓存的操作 1. 更新数据库后 2. 查询缓存如果不存在，将从数据库中取出的结果存入缓存 那么为什么在查询数据库后要更新缓存呢？这就要想一下缓存为什么会不存在，通常我们会为缓存设置一个有效期，超过有效期缓存就会失效，也就是被删除了，所以如果缓存不存在，多半是过期的，这时如果不再设置一个缓存，那以后的每次请求又都会到数据库了。因此可以说，整个缓存系统有序的运行的初始化就是数据库的更新操作，而之后的每次更新其实是对数据库的查询请求发起的。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/06/26/%E7%BC%93%E5%AD%98%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/">Read more &rarr;</a>
 
 </div>
 
