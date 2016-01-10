@@ -1,10 +1,10 @@
 +++
 author = "frostwong"
 date = "2016-01-10T13:07:27+08:00"
-description = "description"
+description = "Symfony简介"
 draft = false
 keywords = ["PHP", "Symfony3"]
-tags = ["Symfony3", "简介"]
+tags = ["Symfony3", "PHP框架"]
 title = "Symfony3学习第一章-简介"
 topics = ["Symfony"]
 type = "post"
