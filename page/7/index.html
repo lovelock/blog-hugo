@@ -131,11 +131,40 @@
     <h1>Me and the Web
 </h1>
 
-    <span>last update: <time datetime="2016-01-09T21:38:27&#43;08:00">9 January at 9:38pm</time>
+    <span>last update: <time datetime="2016-01-10T13:07:27&#43;08:00">10 January at 1:07pm</time>
 </span>
 
   </header>
   
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/06/26/%E7%BC%93%E5%AD%98%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/">缓存使用小记
+</a>
+</h2>
+
+  <time datetime="2015-06-26">26 Jun, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    在请求次数多的业务系统中，通常会加入缓存系统。这里用的较多的就是Memcached和Redis。我写这篇笔记不是要说这两个缓存的使用细节，而是缓存使用的注意事项。 首先要清楚，这两个缓存数据库不是安装上就万事大吉了，它是不会主动地帮你解决任何问题的。那么何时把数据存入(更新)缓存，何时取出缓存中的数据？ 存入数据 假设原来的系统中有一条插入或者更新数据库的操作，缓存的操作就应该放在数据库操作完成之后，并且要确定数据库的更新成功了，然后再写入缓存。这里是为了保证数据的一致性，即防止虽然发送了写入数据库的请求，但请求没有成功，结果缓存却成功的写入了，那么这时缓存和数据库的数据就不一致了。 读取缓存 同样的原理，假设原来的系统中有一条查询数据库的操作，缓存的操作就应该放在数据库操作之前，并且如果缓存的数据存在，就直接返回不再操作数据库了。如果缓存的数据不存在，就去查询数据库，然后将结果存入缓存。所谓缓存能提升性能的根本就在这里，我们知道数据库之所以经常是性能瓶颈就是因为它的IO操作占用大量时间，如果频繁地请求是发给了缓存，那么就能大量的减少数据库请求，有效提升系统性能。 总结一下，有两处进行了更新缓存的操作 1. 更新数据库后 2. 查询缓存如果不存在，将从数据库中取出的结果存入缓存 那么为什么在查询数据库后要更新缓存呢？这就要想一下缓存为什么会不存在，通常我们会为缓存设置一个有效期，超过有效期缓存就会失效，也就是被删除了，所以如果缓存不存在，多半是过期的，这时如果不再设置一个缓存，那以后的每次请求又都会到数据库了。因此可以说，整个缓存系统有序的运行的初始化就是数据库的更新操作，而之后的每次更新其实是对数据库的查询请求发起的。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/06/26/%E7%BC%93%E5%AD%98%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
   
     <article class="container content summary">
   <div class="container hat">
@@ -246,35 +275,6 @@
 
   <div class="container readlink">
   <a href="http://lovelock.github.io/2015/05/06/bootstrap-modal%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/05/05/jquery%E5%8A%A8%E6%80%81%E7%94%9F%E6%88%90%E5%85%83%E7%B4%A0/">jQuery动态生成元素
-</a>
-</h2>
-
-  <time datetime="2015-05-05">5 May, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    这些天做的项目中频繁遇到类似的问题，比如根据ajax返回的结果动态生成一个table或者select的options。这里做一个简单的总结。 生成元素 1. 生成table 2. 生成select 获取元素 1. 获取select的值 这个问题当时花了我不少时间，我们知道，在一个select中，带有selected标签的那个是不用点开就可以看到的那个，解决这个问题就要从这里入手。如果在option列表里没有手工指定哪个是选中的，那么默认是第一个。 2. 遍历一个table中tbody的所有元素
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/05/05/jquery%E5%8A%A8%E6%80%81%E7%94%9F%E6%88%90%E5%85%83%E7%B4%A0/">Read more &rarr;</a>
 
 </div>
 

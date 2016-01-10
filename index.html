@@ -131,11 +131,40 @@
     <h1>Me and the Web
 </h1>
 
-    <span>last update: <time datetime="2016-01-09T21:38:27&#43;08:00">9 January at 9:38pm</time>
+    <span>last update: <time datetime="2016-01-10T13:07:27&#43;08:00">10 January at 1:07pm</time>
 </span>
 
   </header>
   
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/php/Symfony3-01-introduction/">Symfony3学习第一章-简介
+</a>
+</h2>
+
+  <time datetime="2016-01-10">10 Jan, 2016</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    description
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/php/Symfony3-01-introduction/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
   
     <article class="container content summary">
   <div class="container hat">
@@ -246,35 +275,6 @@
 
   <div class="container readlink">
   <a href="http://lovelock.github.io/2015/12/04/os-x%E5%AE%8C%E5%85%A8%E5%8D%B8%E8%BD%BDjdk%E7%9A%84%E6%96%B9%E6%B3%95/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/12/02/javascript%E9%97%AD%E5%8C%85%E6%B7%B1%E7%A9%B6/">JavaScript闭包深究
-</a>
-</h2>
-
-  <time datetime="2015-12-02">2 Dec, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    问题来源 刚刚看到微信公众号推送的一篇文章, 大部分人都会做错的经典JS闭包面试题,里面出现了一道很有意思的题目，让我有兴趣自己尝试一下。 题目是这样的 function fun(n, o) { console.log(o); return { fun: function (m) { return fun(m, n); } }; } 问题是下面这三行的输出分别是什么。 注意不是问a, b, c的值，是输出。 var a = fun(0); a.fun(1); a.fun(2); a.fun(3);//undefined,?,?,? var b = fun(0).fun(1).fun(2).fun(3);//undefined,?,?,? var c = fun(0).fun(1); c.fun(2); c.fun(3);//undefined,?,?,? 答案在最后，如果有兴趣可以先尝试自己分析一下。这道题的答案并没有争议，但我看了原作者的分析之后，感觉到可能有点问题，于是找到了经常翻阅的《JavaScript the Good Parts》再来参详一遍第四章吧，大概翻了一下发现这本书并没有太详细的介绍这部分，于是找了一篇博文1，详细的研究一下。 函数(function)在JavaScript中是一等公民，老道说它是几乎完美的——当然也存在瑕疵，当你用过它变态的this特性以后，肯定会对这句话的严谨表示赞同。 我们知道，在JavaScript中创建对象时，对象字面量会连接到Object.prototype。而函数对象会连接到Function.prototype。那么Function.prototype又连接到谁呢？答案还是Object.prototype。因为在JavaScript中，函数、数组、对象(指我们经常见到的JSON对象)都是对象(特指原型链的对象)。 探究 根据《JavaScript the Good Parts》的说法，函数的定义有4个要素。 // 创建一个名为add的变量，并把一个函数赋值给它 var add = function (a, b) { return a + b; }; 函数字面量包括4个部分： 保留字function 函数名
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/12/02/javascript%E9%97%AD%E5%8C%85%E6%B7%B1%E7%A9%B6/">Read more &rarr;</a>
 
 </div>
 
