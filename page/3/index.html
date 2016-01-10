@@ -131,11 +131,40 @@
     <h1>Me and the Web
 </h1>
 
-    <span>last update: <time datetime="2016-01-10T13:07:27&#43;08:00">10 January at 1:07pm</time>
+    <span>last update: <time datetime="2016-01-10T13:19:42&#43;08:00">10 January at 1:19pm</time>
 </span>
 
   </header>
   
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/11/01/symfony%E4%B8%80%E5%AF%B9%E5%A4%9A%E5%85%B3%E7%B3%BB%E7%9A%84yaml%E9%85%8D%E7%BD%AE/">Symfony一对多关系的YAML配置
+</a>
+</h2>
+
+  <time datetime="2015-11-01">1 Nov, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    用YAML方式配置对象关系 这段时间在学习Symfony，看了Symfony Book和Symfony Cookbook，现在准备自己实现一个简单的博客系统，做一些简单的设计。 分析对象关系 首先考虑会操作哪些对象。 文章 Article 用户 User 评论 Comment 分类 Category 文章 对文章来说，它包含的属性有 - 标题 - 概要 - 正文 - 作者 - 创建时间 - 更新时间 而作者是属于用户的，其属性不应该在Article对象中，分析文章和作者的关系，应该是一篇文章只能有一个作者，而一个作者可以写很多篇文章，这就是doctrine中的OneToMany和ManyToOne了。总感觉用Annotation的方式写这个关系不是那么明确，所以今天特意用yml配置文件的方式来实现这个概念。后面再详细说，这里要清楚的是对文章来说 1. 文章对评论 OneToMany 2. 文章对作者 ManyToOne 3. 文章对分类 ManyToOne 用户 对用户来说，包含的属性有 - 用户名 - 密码 - 昵称 - 角色 前面已经说过，用户可以创建多篇文章，因此 1. 用户对文章 OneToMany 2. 用户对评论 OneToMany 评论 对评论来说，包含的属性有 - 标题 - 内容 - 作者 - 创建时间 和文章一样，它和作者是多对一的关系 评论对作者 ManyToOne 评论对文章 ManyToOne 分类 对分类来说，只有一个属性（最简单的情况） - 分类名称 它和文章是一对多的关系 1.
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/11/01/symfony%E4%B8%80%E5%AF%B9%E5%A4%9A%E5%85%B3%E7%B3%BB%E7%9A%84yaml%E9%85%8D%E7%BD%AE/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
   
     <article class="container content summary">
   <div class="container hat">
@@ -246,35 +275,6 @@
 
   <div class="container readlink">
   <a href="http://lovelock.github.io/2015/10/09/%E4%B9%9F%E8%B0%88%E5%B0%81%E6%9D%80/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/10/08/bower%E4%BD%BF%E7%94%A8%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/">Bower使用简明教程
-</a>
-</h2>
-
-  <time datetime="2015-10-08">8 Oct, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    最近接触到Node.js，于是摇身一变前后端全部用JavaScript实现，这样其实导致界限不清晰了——其实很清晰，但当你看一个.js文件的时候总是要想一下这是前端逻辑还是后端逻辑，感觉怪怪的。后端需要的模块可以用npm这个大杀器安装，虽然前端的依赖也可以用它解决，但其实有更专业的解决方案——bower。官方简介里面其实并没有提到它是专门用来解决前端依赖的，看它的用例以及别的项目的使用情况也可以看到 ，通常的用法就是&lt;script src=&quot;bower_components/xxx_lib/xxxx.js&quot;&gt;&lt;/script&gt;，这就已经很明显了，不是吗？ 以我这次项目中用到的webrtc-adapter为例，写一个简单的使用流程。 首先要安装它 npm install [-g] bower 什么？没有装npm？那你可以先去搜索一下了。这里我提一点，因为Debian打包时把Node.js的二进制文件命名为nodejs，而很多第三方包在用的时候第一行其实是#!/usr/bin/env node，这样就会提示找不到Node.js的可执行文件，遇到这个情况有两种解决方案。 安装nodejs-legacy包 sudo apt-get install nodejs-legacy 自己创建一个node符号链接 sudo ln -s /usr/bin/nodejs /usr/bin/node 然后要知道需要用的模块的名字，比如我这是在adapter的文档里发现的这个名字。 bower install webrtc-adapter 安装完成之后会在当前目录创建一个名为bower_components的目录，其实就是把你要的repo下载到本地了。 需要注意的是，当我们选择了使用bower作为包管理工具时，就默认排除了我更喜欢的另外一种方式——CDN。对，为了减轻自己的服务器的压力，通常会把一些公用的库的js的引用放在那些免费提供的CDN上，比如又拍云等等。那既然选择了bower的方式，就继续吧。 假设我们是在一个git repo里面进行开发，你肯定不希望提交的时候把bower_components里的东西也提交，而是只保留一个清单文件，这个清单文件列出了已经下载的库的名称和版本信息。所以 bower init 那么问题来了，如果写完这个之后我又加了个依赖，难道还要手工修改bower.json文件吗？当然不需要！只需要在安装的时候加个参数bower就帮你完成了 bower install jquery --save 这时会出现一个很神奇的交互界面，放心的填写自己的项目信息吧，注意前面的一长串信息都引用的库(依赖)没有关系，而是你自己的项目信息。最后会提示是否把已经下载的库加入本项目的依赖中，而且默认是Y（是），所以直接回车就行。一路回车就会看到当前目录下生成了一个bower.json文件。但这还没完，这解决了不需要提交下载的依赖文件的问题，但没有解决不让git提交它们的问题，这时就需要.gitignore文件出场了。 在当前目录下新建.gitignore文件，添加以下内容 node_modules bower_components 经过上面的步骤，就可以放心的提交最小化的项目了。而部署项目的时候只需要再执行bower install和npm install就可以了。 更多详细信息可以参考bower help。 关于npm install需要的package.json这里没有提到，有兴趣的同学可以自行查找。
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/10/08/bower%E4%BD%BF%E7%94%A8%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/">Read more &rarr;</a>
 
 </div>
 

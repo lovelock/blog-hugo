@@ -3,12 +3,17 @@
   
   <url>
     <loc>http://lovelock.github.io/</loc>
-    <lastmod>2016-01-10T13:07:27+08:00</lastmod>
+    <lastmod>2016-01-10T13:19:42+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://lovelock.github.io/php/Symfony3-01-introduction/</loc>
+    <loc>http://lovelock.github.io/symfony/symfony3-02-installation/</loc>
+    <lastmod>2016-01-10T13:19:42+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lovelock.github.io/symfony/Symfony3-01-introduction/</loc>
     <lastmod>2016-01-10T13:07:27+08:00</lastmod>
   </url>
   

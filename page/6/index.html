@@ -131,11 +131,40 @@
     <h1>Me and the Web
 </h1>
 
-    <span>last update: <time datetime="2016-01-10T13:07:27&#43;08:00">10 January at 1:07pm</time>
+    <span>last update: <time datetime="2016-01-10T13:19:42&#43;08:00">10 January at 1:19pm</time>
 </span>
 
   </header>
   
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/07/12/centos7%E9%98%B2%E7%81%AB%E5%A2%99%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE/">CentOS7防火墙简单配置
+</a>
+</h2>
+
+  <time datetime="2015-07-12">12 Jul, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    防火墙这么个复杂的东西没有一个标准的配置方式真是太烦了，iptables的命令太繁琐，时间长了不用就忘记了，忘记可以记下来，可到了RHEL7竟然又加了个wrapper，叫什么firewall-cmd，我的天，你看看你取了个什么名字吧，不得不说红帽的人真是没有品位。 言归正传，通常我们的工作环境其实也打不到这个7，也不会接触这个东西。 打开一个端口 sudo firewall-cmd --zone=public --add-port=80/tcp --permanent 这就添加了一个80/tcp的端口 然后需要reload一下 sudo firewall-cmd --reload 说它是个wrapper是因为不管是这个firewall-cmd还是Ubuntu的ufw其实都是对iptables系列命令的一个封装，无非就是三步 添加一条记录 把这条记录写入内存 如果下次开机后还要它生效，那就把它写入文件 相应的，ufw的操作如下
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/07/12/centos7%E9%98%B2%E7%81%AB%E5%A2%99%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
   
     <article class="container content summary">
   <div class="container hat">
@@ -246,35 +275,6 @@
 
   <div class="container readlink">
   <a href="http://lovelock.github.io/2015/06/26/unix%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E5%B0%8F%E5%85%A8/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/06/26/homebrew%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">homebrew使用心得
-</a>
-</h2>
-
-  <time datetime="2015-06-26">26 Jun, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    今天同事问我在Mac OS X上安装软件的问题，我看到是下载的过程出了问题，并且出在证书上，想起来之前看到说curl在某个版本之后就把证书和二进制文件打包在一起了，就想着让她更新一下curl试试看。我之前在自己的机器上也用brew安装过curl，但并没有注意到其实安装的版本默认并没有生效。 这里要引出的一种安装方式就是keg-only。 看到这我就想插一句，国外的程序员们可真会玩儿，能给软件起很有意思的名字，连其中的组件都很有意思。比如这里，homehrew默认是把软件安装在/usr/local/Cellar目录中的，而Cellar的意思是酒窖。如果你了解过FreeBSD的目录树结构，就知道它这么做的意义了，是要把同一个来源的文件组织在一起，不扰乱整个目录树。相应的，keg-only中的keg的意思是酒桶。就让我试着用平实的语言来解释一下： Homebrew安装软件分为两种情况。 1. 系统没有自带的 这个没什么好说的，因为如果系统没有带，我们安装完相应的软件之后就自动的将编译好的二进制文件软链接到PATH中，这样才会生效。 2. 系统自带的 如果系统自带的有这个软件，那么问题就不好办了，是直接覆盖呢，还是应该给用户一些选择？本着上面说过的原则，尽量少的影响原来的目录树，那么它在安装完二进制文件之后并没有做建软链的那一步操作，这就是所谓的keg-only的意思了。 那么，如果我要更新curl，而OS X发行时本就是带着curl的，应该怎么办呢？当然作者已经替我们想到了这一点， brew link curl --force 这样，它就会把需要的二进制链接到PATH中，要注意这时这些路径中是存在相应的二进制文件的，正是homebrew不敢确定是不是要直接帮我们做这些操作，才给我们提供了这个命令。 那么如果你之前已经安装了不少软件了，发现有好几个没有建软链，难道要手工的一个一个执行？当然不用，可以参考下面的脚本 ls -1 /usr/local/Library/LinkedKegs | while read line; do echo $LINE brew unlink $LINE brew link $LINE --force done 上面的脚本是利用了homebrew将LinkedKegs目录设置成了存放所有二进制文件的路径的特点，将其全部取出，删除全部软链，而后重新建立软链。 其实也可以将ls -1 /usr/local/Library/LinkedKegs替换成brew list -1也可。 另外别的诸如brew install，brew uninstall的方法就不说了。
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/06/26/homebrew%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">Read more &rarr;</a>
 
 </div>
 

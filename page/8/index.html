@@ -131,11 +131,40 @@
     <h1>Me and the Web
 </h1>
 
-    <span>last update: <time datetime="2016-01-10T13:07:27&#43;08:00">10 January at 1:07pm</time>
+    <span>last update: <time datetime="2016-01-10T13:19:42&#43;08:00">10 January at 1:19pm</time>
 </span>
 
   </header>
   
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/05/06/bootstrap-modal%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/">Bootstrap Modal用法总结
+</a>
+</h2>
+
+  <time datetime="2015-05-06">6 May, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    这段时间前端后端同时写，对jQuery和Bootstrap用的比较多，说实话我对Modal很感兴趣，单纯的就是因为它好看，并且看起来友好，不像alert那么暴力，FF的实现还好，而Chrome的alert直接忽视所有其他操作，只能选择不再弹出，但只要选择了这个不再弹出，在重启这个页面之前（刷新没用）就不会再弹出了，真不明白这是什么逻辑。当然最重要的一点是Modal可以交互。 下面简单说说Modal的用法，当然基本上来自官方文档。 依赖 jQuery Bootstrap 没有对它们进行安全版本测试，就现在而言，使用最新的版本总是没有问题的。 基本组成 .modal Modal的主体div 通常我们会给它指定一个id，因为你总是会希望能更细粒度的控制一个modal的行为吧，况且文档中也说不可以使用叠加的modal，也就是说，同一时间一个页面上只能出现一个modal，如果直接使用.modal 来控制它的显示和隐藏，早晚会出现问题的 还有一个属性是role ，这个属性很有意思，其实没有什么特别的用途，只是在阅读代码时让你知道它的作用是一个对话框，为什么需要这个呢？因为&lt;div&gt; 这个标签本身不能表达这个意思，比如&lt;select&gt; 标签，你一看就知道它一定是一个下拉选择器，但&lt;div&gt; 呢？所以，这个role 就是用来说明标签本身无法说明的一些内容，比较常见的还有在一个.nav .nav-tabs 中的&lt;li&gt; 标签中，会添加role=&quot;option&quot; 这样的说明，就是告诉开发者这是一个功能的多个选项之一 通常我们会喜欢加上一些动画，最常用的是.fade ，当然如果你更喜欢直接，也可以忽视它 tabIndex=&quot;-1&quot; 关于这个属性的解释 .modal-dialog 关于这个没有找到更多的解释，我想大概是因为弹出的是一个对话框吧，没有见到更多的类型 同样这个class也可以有叠加选项，.modal-lg/.modal-md/.modal-sm 分别表示大中小三种型号 .modal-content 当然就是modal的内容了 .modal-header 内容的第一层，头部 可以在其中放置一个关闭按钮，比如右上角的一个x 等，为了诸如屏幕阅读器之类的用户辅助工具更好的工作，可以在这个关闭按钮上加上aria-labelledby 属性，值是.modal-title 的id ，当然也可以手动用aria-label=&quot;myModalTitle&quot; 来指定，但动态的写法更方便，不是吗？ .modal-title 放置在.modal-header 中，modal的标题 .modal-body modal的正文部分，需要显示的主要内容就在这个部分了 .modal-footer 通常用来放置确认/关闭等按钮 当然我们需要一个关闭modal的按钮，这个按钮需要添加一个data-dismiss=&quot;modal&quot; 的属性才能正确的完成功能，和上面那个x 按钮的功能是一样的 经过上面这几步，一个完整的modal对话框就完成了，但问题来了，怎么触发它呢？ 下面来说一下modal的触发方式。 按钮 这个应该是最常用的方式。需要注意的有几点 data-toggle=&quot;modal&quot; 指明这个按钮要触发的widget类型是modal，常见的还有 html data-toggle=&quot;modal&quot; data-toggle=&quot;collapse&quot; data-toggle=&quot;dropdown&quot; data-toggle=&quot;tab&quot; data-target=&quot;#myModal&quot; 指明这个按钮要触发的modal的id是myModal 有了这两个属性点击这个按钮时就可以触发这个modal了。 JavaScript方法 $('#myModal').modal(options) 关于options，有以下几个选项 backdrop，值可选布尔值(true/false)或'static' ，默认值是true，当设置为false 或'static' 时点击modal外的区域modal不消失，反之会消失
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/05/06/bootstrap-modal%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
   
     <article class="container content summary">
   <div class="container hat">
@@ -246,35 +275,6 @@
 
   <div class="container readlink">
   <a href="http://lovelock.github.io/2015/05/02/%E6%88%91%E7%9A%84linux%E4%B9%8B%E8%B7%AF/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/05/01/http%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">HTTP权威指南学习笔记[1]
-</a>
-</h2>
-
-  <time datetime="2015-05-01">1 May, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    Web服务器是Web资源的宿主。Web资源是Web内容的源头，最简单的Web资源就是Web服务器文件系统中的静态资源，但也可以是根据需要生成内容的软件程序。 媒体类型，当Web浏览器从服务器中取回一个对象时，就会查看相关的MIME(Multipurpose Internet Mail Extension)类型，看自己是否直到如何处理这个对象。MIME类型是一种文本标记，表示一种主要的对象类型和一个特定的子类型，中间用一道斜杠来分隔。如&rsquo;text/html&rsquo;,&lsquo;text/plain&rsquo;, &lsquo;image/jpeg&rsquo;, &lsquo;image/gif&rsquo;, &lsquo;video/quicktime&rsquo;, &lsquo;application/vnd.ms-powerpoint&rsquo;等。 每个Web服务器上的资源都有一个名字，这样客户端就可以说明它们感兴趣的资源是什么了。服务器资源被称为&rdquo;统一资源标识符&rdquo;（Uniform Resource Identifier, URI)。如http://www.joes-hardware.com/specials/saw-blade.gif就是一个URI。而我们还会经常看到URL，或者说更经常见到URL，那它们两个是什么关系呢？首先，URL是URI的一个子集，因为URI还包括URN，而后者现在几乎没有用到，或者说它本身是一个很好的想法，但目前由于基础架构的原因还没有办法真正的实施，因此事实上我 们能够见到的有意义的URI实际上都是URL。看到这里我就很纳闷了，那些经常写文章里面总爱说URI让我这种只直到URL的人弄不明白的人是为什么呢？你自己到底清不清楚它的含义啊，如果说你要说明的一个资源定位符，那它肯定就是个普通的URL，何必让人觉得高大上非要说是URI呢？更何况说URI其实更不准确呢？ HTTP支持集中不同的请求命令。这些命令被称为HTTP方法，每个HTTP请求报文都会包含一个方法。最常见的5种方法是 | GET | 从服务器向客户端发送命名资源 | | PUT | 将来自客户端的数据存储到服务端一个命名的资源去 | | DELETE | 从服务器删除命名资源 | | POST | 将客户端数据发送到一个服务器网关应用程序 | | HEAD | 仅发送命名资源响应中的HTTP首部 | 状态码这个经常用，忘不了的就不在这里再写了。 报文，可以用TELNET客户端去模拟HTTP请求的过程。具体过程如下图: {% img /images/http.png %} HTTP是应用层协议，HTTP无需操心网络通信的具体细节，它把联网的细节都交给了通用、可靠的因特网传输协议TCP/IP。 TCP提供了无差错的数据传输、按序传输、未分段的数据流。 Web的结构组件 代理： 位于客户端和服务器之间的HTTP中间实体。 缓存： HTTP的仓库，使常用的页面的副本可以保存在离客户端更近的地方。 网关： 连接其他应用程序的特殊Web服务器。 隧道： 对HTTP通信报文进行盲转发的特殊代理。 Agent代理： 发起自动HTTP请求的半智能Web客户端。
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/05/01/http%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">Read more &rarr;</a>
 
 </div>
 

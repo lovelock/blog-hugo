@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Symfony on Me and the Web</title>
-    <link>http://lovelock.github.io/topics/symfony/</link>
-    <description>Recent content in Symfony on Me and the Web</description>
+    <title>Symfonies on Me and the Web</title>
+    <link>http://lovelock.github.io/symfony/</link>
+    <description>Recent content in Symfonies on Me and the Web</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>frostwong@gmail.com (Frost Wong)</managingEditor>
     <webMaster>frostwong@gmail.com (Frost Wong)</webMaster>
     <copyright>(c) 2013-2015 Frost Wong. All rights reserved.</copyright>
     <lastBuildDate>Sun, 10 Jan 2016 13:19:42 +0800</lastBuildDate>
-    <atom:link href="http://lovelock.github.io/topics/symfony/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://lovelock.github.io/symfony/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>symfony3</title>

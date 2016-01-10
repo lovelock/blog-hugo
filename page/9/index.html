@@ -131,11 +131,40 @@
     <h1>Me and the Web
 </h1>
 
-    <span>last update: <time datetime="2016-01-10T13:07:27&#43;08:00">10 January at 1:07pm</time>
+    <span>last update: <time datetime="2016-01-10T13:19:42&#43;08:00">10 January at 1:19pm</time>
 </span>
 
   </header>
   
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/05/01/http%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">HTTP权威指南学习笔记[1]
+</a>
+</h2>
+
+  <time datetime="2015-05-01">1 May, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    Web服务器是Web资源的宿主。Web资源是Web内容的源头，最简单的Web资源就是Web服务器文件系统中的静态资源，但也可以是根据需要生成内容的软件程序。 媒体类型，当Web浏览器从服务器中取回一个对象时，就会查看相关的MIME(Multipurpose Internet Mail Extension)类型，看自己是否直到如何处理这个对象。MIME类型是一种文本标记，表示一种主要的对象类型和一个特定的子类型，中间用一道斜杠来分隔。如&rsquo;text/html&rsquo;,&lsquo;text/plain&rsquo;, &lsquo;image/jpeg&rsquo;, &lsquo;image/gif&rsquo;, &lsquo;video/quicktime&rsquo;, &lsquo;application/vnd.ms-powerpoint&rsquo;等。 每个Web服务器上的资源都有一个名字，这样客户端就可以说明它们感兴趣的资源是什么了。服务器资源被称为&rdquo;统一资源标识符&rdquo;（Uniform Resource Identifier, URI)。如http://www.joes-hardware.com/specials/saw-blade.gif就是一个URI。而我们还会经常看到URL，或者说更经常见到URL，那它们两个是什么关系呢？首先，URL是URI的一个子集，因为URI还包括URN，而后者现在几乎没有用到，或者说它本身是一个很好的想法，但目前由于基础架构的原因还没有办法真正的实施，因此事实上我 们能够见到的有意义的URI实际上都是URL。看到这里我就很纳闷了，那些经常写文章里面总爱说URI让我这种只直到URL的人弄不明白的人是为什么呢？你自己到底清不清楚它的含义啊，如果说你要说明的一个资源定位符，那它肯定就是个普通的URL，何必让人觉得高大上非要说是URI呢？更何况说URI其实更不准确呢？ HTTP支持集中不同的请求命令。这些命令被称为HTTP方法，每个HTTP请求报文都会包含一个方法。最常见的5种方法是 | GET | 从服务器向客户端发送命名资源 | | PUT | 将来自客户端的数据存储到服务端一个命名的资源去 | | DELETE | 从服务器删除命名资源 | | POST | 将客户端数据发送到一个服务器网关应用程序 | | HEAD | 仅发送命名资源响应中的HTTP首部 | 状态码这个经常用，忘不了的就不在这里再写了。 报文，可以用TELNET客户端去模拟HTTP请求的过程。具体过程如下图: {% img /images/http.png %} HTTP是应用层协议，HTTP无需操心网络通信的具体细节，它把联网的细节都交给了通用、可靠的因特网传输协议TCP/IP。 TCP提供了无差错的数据传输、按序传输、未分段的数据流。 Web的结构组件 代理： 位于客户端和服务器之间的HTTP中间实体。 缓存： HTTP的仓库，使常用的页面的副本可以保存在离客户端更近的地方。 网关： 连接其他应用程序的特殊Web服务器。 隧道： 对HTTP通信报文进行盲转发的特殊代理。 Agent代理： 发起自动HTTP请求的半智能Web客户端。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/05/01/http%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
   
     <article class="container content summary">
   <div class="container hat">
@@ -246,35 +275,6 @@
 
   <div class="container readlink">
   <a href="http://lovelock.github.io/2015/04/25/octopress%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://lovelock.github.io/1/01/01/">
-</a>
-</h2>
-
-  <time datetime="0001-01-01">1 Jan, 0001</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    title = &ldquo;关于smcFanControl的一点感想&rdquo; date = &ldquo;2015-06-06T15:39:24+08:00&rdquo; +++ 前天晚上看了池建强先生的《MacTalk：人生元编程》，其中提到了很多关于Mac和OS X的东西，其中一点引起了我的注意，那就是关于夏天电脑发热严重，怎样避免呢？那么作者就提到了smcFanControl。 由于我是首次用Mac OS X，不太懂什么是smc等等，抱着好奇的心情就找来安装了，装上后很惊喜的发现它会让你手动调节风扇的转速——然而这个好奇没有坚持一分钟我就意识到这个软件不能用——因为它会让操作系统无法按需调节风扇的转速。也就是说，它通过修改底层的系统参数把风扇的控制由自动模式切换到了手动模式。 这个问题就很难搞了。 当然我看到这个问题的时候第一反应肯定是上网去寻找答案，然而发现的大多数言论都是在批评这个软件的，说它永久性的修改了底层的参数，只能通过用BootCamp安装一个Windows，然后在Windows里安装一个Everest云云的东西修改了这个参数才能好等等的说法。 在我看来，这些想法根本就是阴谋论，它们不知道，软件的作者写这个免费软件的初衷肯定是解决自己的问题，如果它把一个问题解决成这个样子，那么这个软件肯定不会有那么高的知名度，相信池建强先生也不会在书中推荐。 smc的原理我不太懂，但大概可以理解成是和Linux的内核参数类似的东西吧，就我的知识来看，例如要修改系统打开的最大文件数，那么可以给它传一个参数过去，立即生效，但重启系统之后就失效了，解决方案就是把这个配置写死在一个配置文件中。回到smcFanControl上来，作者已经在网站上声明了这个实现方式，也就是传参数给内核，直接决定风扇的转速。 我想那些说这个软件修改了参数等等言论的人，可能是把这个软件设置成了开机启动，然后每次开机时风扇都会变成手动模式，而这时他们很气愤，于是就把软件卸载了，然后就找各种办法消除这个影响，于是人云亦云，把这个作者说成了阴谋家。 由这件事我想到了单纯的程序员们，我们写某个软件最初肯定是为了解决问题，不管最终你拿到的版本针对你的情况解决问题的程度如何，千万不要马上就怀疑作者的动机，因为没有人会费那么大的力气去故意做一个让人生气的软件，遇到问题的时候如果找不到现成的解决方案，那最好的方式就是联系作者，让他帮你解决，当然你也不用指望这个，因为谁也没有义务免费帮你解决问题。但如果你经常混开源社区就会知道，这些程序员书呆子们其实是恨单纯的，他们把自己的作品看做孩子一样，如果你能有针对性的提出问题，他们通常都会很热情的帮你解决的。看看Github的火爆情况就知道了。
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://lovelock.github.io/1/01/01/">Read more &rarr;</a>
 
 </div>
 

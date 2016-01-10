@@ -131,11 +131,40 @@
     <h1>Me and the Web
 </h1>
 
-    <span>last update: <time datetime="2016-01-10T13:07:27&#43;08:00">10 January at 1:07pm</time>
+    <span>last update: <time datetime="2016-01-10T13:19:42&#43;08:00">10 January at 1:19pm</time>
 </span>
 
   </header>
   
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/10/08/bower%E4%BD%BF%E7%94%A8%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/">Bower使用简明教程
+</a>
+</h2>
+
+  <time datetime="2015-10-08">8 Oct, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    最近接触到Node.js，于是摇身一变前后端全部用JavaScript实现，这样其实导致界限不清晰了——其实很清晰，但当你看一个.js文件的时候总是要想一下这是前端逻辑还是后端逻辑，感觉怪怪的。后端需要的模块可以用npm这个大杀器安装，虽然前端的依赖也可以用它解决，但其实有更专业的解决方案——bower。官方简介里面其实并没有提到它是专门用来解决前端依赖的，看它的用例以及别的项目的使用情况也可以看到 ，通常的用法就是&lt;script src=&quot;bower_components/xxx_lib/xxxx.js&quot;&gt;&lt;/script&gt;，这就已经很明显了，不是吗？ 以我这次项目中用到的webrtc-adapter为例，写一个简单的使用流程。 首先要安装它 npm install [-g] bower 什么？没有装npm？那你可以先去搜索一下了。这里我提一点，因为Debian打包时把Node.js的二进制文件命名为nodejs，而很多第三方包在用的时候第一行其实是#!/usr/bin/env node，这样就会提示找不到Node.js的可执行文件，遇到这个情况有两种解决方案。 安装nodejs-legacy包 sudo apt-get install nodejs-legacy 自己创建一个node符号链接 sudo ln -s /usr/bin/nodejs /usr/bin/node 然后要知道需要用的模块的名字，比如我这是在adapter的文档里发现的这个名字。 bower install webrtc-adapter 安装完成之后会在当前目录创建一个名为bower_components的目录，其实就是把你要的repo下载到本地了。 需要注意的是，当我们选择了使用bower作为包管理工具时，就默认排除了我更喜欢的另外一种方式——CDN。对，为了减轻自己的服务器的压力，通常会把一些公用的库的js的引用放在那些免费提供的CDN上，比如又拍云等等。那既然选择了bower的方式，就继续吧。 假设我们是在一个git repo里面进行开发，你肯定不希望提交的时候把bower_components里的东西也提交，而是只保留一个清单文件，这个清单文件列出了已经下载的库的名称和版本信息。所以 bower init 那么问题来了，如果写完这个之后我又加了个依赖，难道还要手工修改bower.json文件吗？当然不需要！只需要在安装的时候加个参数bower就帮你完成了 bower install jquery --save 这时会出现一个很神奇的交互界面，放心的填写自己的项目信息吧，注意前面的一长串信息都引用的库(依赖)没有关系，而是你自己的项目信息。最后会提示是否把已经下载的库加入本项目的依赖中，而且默认是Y（是），所以直接回车就行。一路回车就会看到当前目录下生成了一个bower.json文件。但这还没完，这解决了不需要提交下载的依赖文件的问题，但没有解决不让git提交它们的问题，这时就需要.gitignore文件出场了。 在当前目录下新建.gitignore文件，添加以下内容 node_modules bower_components 经过上面的步骤，就可以放心的提交最小化的项目了。而部署项目的时候只需要再执行bower install和npm install就可以了。 更多详细信息可以参考bower help。 关于npm install需要的package.json这里没有提到，有兴趣的同学可以自行查找。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/10/08/bower%E4%BD%BF%E7%94%A8%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
   
     <article class="container content summary">
   <div class="container hat">
@@ -246,35 +275,6 @@
 
   <div class="container readlink">
   <a href="http://lovelock.github.io/2015/09/20/%E6%89%93%E7%A0%B4%E7%9F%9B%E7%9B%BE/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/08/31/mac%E4%BD%BF%E7%94%A8vmware-fusion%E5%AE%89%E8%A3%85ubuntu/">Mac使用VMware Fusion安装Ubuntu
-</a>
-</h2>
-
-  <time datetime="2015-08-31">31 Aug, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    越来越觉得我用Mac和Windows也没有什么区别。 用Windows的时候是因为没有类Unix环境，所以需要在虚拟机里面搭建一些Web环境，然后用SecureCRT或者XShell登录进行操作。当然主要是用VirtualBox比较多，因为它比较轻量，功能也没有什么缺陷。非要说缺陷，我觉得VMware的NAT功能比VirtualBox要好。前者是建立了一个192.168开头的虚拟网段，虚拟机使用这个网段的IP，虚拟机可以和宿主机相互通信，并且在类似学校的需要认证才能上网的环境下是可以直接上网的。但VirtualBox就不行了，它 的NAT模式默认用的是10.网段的地址，如果要用宿主机访问虚拟机，就需要端口转发，说起来容易，但谁也不想去操作，否则只能用桥接模式了，但在需要认证的时候就不行了，尤其是某些帐号只能允许一个客户端在线时。 抛却Windows的诸多不便，用上了Mac却不想让一堆随时可能修改的开发环境把Mac环境搞乱，编程语言的那些东西还好，但各种服务就不想在Mac上搭建了，所以虚拟机还是唯一的出路了。PD总刷存在感，在Launchpad里面加上一堆难看的图标，受不了。有时需要带图像界面的Ubuntu，这时VirtualBox的性能就成了问题，最终找到了Vmware Fusion了，这才是一款踏踏实实的产品，VMware的产品一直都那么让人信赖。 闲言少叙，其实我要说的是在高分屏下如何解决Ubuntu糊掉的问题。 之前用PD的时候也看到这个方法，但没有用，这下在VMware Fusion上面可以。 很简单，在&rdquo;All Settings/Display&rdquo;中找到&rdquo;Scale for menu and title bars&rdquo;，把这个bar拉到2就可以了。当然如果你觉得2太大了，也可以选择1.5或者其他。我觉得2是最合适的，也正是正常大小，因为Mac屏幕的分辨率宽和高分别是普通分辨率的2倍，调成2倍就和在普通屏幕上一样大小了，但不会糊掉。 废话好多。
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/08/31/mac%E4%BD%BF%E7%94%A8vmware-fusion%E5%AE%89%E8%A3%85ubuntu/">Read more &rarr;</a>
 
 </div>
 

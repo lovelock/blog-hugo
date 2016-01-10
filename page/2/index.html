@@ -131,11 +131,40 @@
     <h1>Me and the Web
 </h1>
 
-    <span>last update: <time datetime="2016-01-10T13:07:27&#43;08:00">10 January at 1:07pm</time>
+    <span>last update: <time datetime="2016-01-10T13:19:42&#43;08:00">10 January at 1:19pm</time>
 </span>
 
   </header>
   
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/12/04/os-x%E5%AE%8C%E5%85%A8%E5%8D%B8%E8%BD%BDjdk%E7%9A%84%E6%96%B9%E6%B3%95/">OS X完全卸载JDK的方法
+</a>
+</h2>
+
+  <time datetime="2015-12-04">4 Dec, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    刚用OS X时想着可能会用到Java，毕竟Jetbrains的产品都要依赖Java。但新版本的这些IDE都自带java-bundle了，所以就没有必要留着了。 看了Java官网的指南，发现无法删干净，而在StackOverFlow上发现了这条，完美！ sudo rm -rf /Library/Java/JavaVirtualMachines/jdk&lt;version&gt;.jdk sudo rm -rf /Library/PreferencePanes/JavaControlPanel.prefPane sudo rm -rf /Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin sudo rm -rf /Library/LaunchAgents/com.oracle.java.Java-Updater.plist sudo rm -rf /Library/PrivilegedHelperTools/com.oracle.java.JavaUpdateHelper sudo rm -rf /Library/LaunchDaemons/com.oracle.java.JavaUpdateHelper.plist sudo rm -rf /Library/Preferences/com.oracle.java.Helper-Tool.plist 记录一下。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/12/04/os-x%E5%AE%8C%E5%85%A8%E5%8D%B8%E8%BD%BDjdk%E7%9A%84%E6%96%B9%E6%B3%95/">Read more &rarr;</a>
+
+</div>
+
+
+</article>
+
   
     <article class="container content summary">
   <div class="container hat">
@@ -246,35 +275,6 @@
 
   <div class="container readlink">
   <a href="http://lovelock.github.io/2015/11/03/vagrant%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/">Read more &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/11/01/symfony%E4%B8%80%E5%AF%B9%E5%A4%9A%E5%85%B3%E7%B3%BB%E7%9A%84yaml%E9%85%8D%E7%BD%AE/">Symfony一对多关系的YAML配置
-</a>
-</h2>
-
-  <time datetime="2015-11-01">1 Nov, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    用YAML方式配置对象关系 这段时间在学习Symfony，看了Symfony Book和Symfony Cookbook，现在准备自己实现一个简单的博客系统，做一些简单的设计。 分析对象关系 首先考虑会操作哪些对象。 文章 Article 用户 User 评论 Comment 分类 Category 文章 对文章来说，它包含的属性有 - 标题 - 概要 - 正文 - 作者 - 创建时间 - 更新时间 而作者是属于用户的，其属性不应该在Article对象中，分析文章和作者的关系，应该是一篇文章只能有一个作者，而一个作者可以写很多篇文章，这就是doctrine中的OneToMany和ManyToOne了。总感觉用Annotation的方式写这个关系不是那么明确，所以今天特意用yml配置文件的方式来实现这个概念。后面再详细说，这里要清楚的是对文章来说 1. 文章对评论 OneToMany 2. 文章对作者 ManyToOne 3. 文章对分类 ManyToOne 用户 对用户来说，包含的属性有 - 用户名 - 密码 - 昵称 - 角色 前面已经说过，用户可以创建多篇文章，因此 1. 用户对文章 OneToMany 2. 用户对评论 OneToMany 评论 对评论来说，包含的属性有 - 标题 - 内容 - 作者 - 创建时间 和文章一样，它和作者是多对一的关系 评论对作者 ManyToOne 评论对文章 ManyToOne 分类 对分类来说，只有一个属性（最简单的情况） - 分类名称 它和文章是一对多的关系 1.
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/11/01/symfony%E4%B8%80%E5%AF%B9%E5%A4%9A%E5%85%B3%E7%B3%BB%E7%9A%84yaml%E9%85%8D%E7%BD%AE/">Read more &rarr;</a>
 
 </div>
 
