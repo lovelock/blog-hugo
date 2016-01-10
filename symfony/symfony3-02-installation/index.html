@@ -57,7 +57,7 @@
     },
     "datePublished": "2016-01-10",
     "description": "Symfony3应用安装",
-    "wordCount":  162 
+    "wordCount":  163 
   }
 </script>
 
@@ -173,12 +173,12 @@
     &middot; by frostwong@gmail.com
   
   &middot; Read in about 1 min
-  &middot; (162 字)
+  &middot; (163 字)
   <br>
   
 <a class="label" href="http://lovelock.github.io/tags/symfony3">Symfony3</a>
 
-<a class="label" href="http://lovelock.github.io/tags/%E5%AE%89%E8%A3%85">安装</a>
+<a class="label" href="http://lovelock.github.io/tags/php%E6%A1%86%E6%9E%B6">PHP框架</a>
 
 
 
@@ -310,6 +310,8 @@ listen.mode = 0660
 </code></pre>
 
 <p>注意其中的<code>fastcgi_pass</code>一定要和你实际的设置一样。具体查看<code>/etc/php/7.0/fpm/pool.d/www.conf</code>。</p>
+
+<p>这时一切都已经准备就绪了，但最好还是再用<code>bin/symfony_requirements</code>这个工具检查一下是否所有需求都已经满足了，不然后面可能还会遇到各种各样的问题。值得一提的是刚刚从2.8升级到3.0的时候就已经看到了一个小bug，在执行完这个命令之后，如果全部满足，会提示『满足了Symfony2的运行条件』，明显是忘了改，但现在已经3.0.1了，这个bug还没有修复。。。</p>
 
 <p>上面的配置中可以看到我用的是symfony.dev这个域名，在宿主机上配一下hosts，就以访问<a href="http://symfony.dev" target="_blank">http://symfony.dev</a>了。这时候你会发现是不能正常执行的，因为在<code>web/app_dev.php</code>中制定了如果不是从<code>127.0.0.1</code>来的请求就拒绝。所以直接把那段删了就行。</p>
 

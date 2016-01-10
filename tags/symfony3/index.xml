@@ -142,6 +142,8 @@ listen.mode = 0660
 
 &lt;p&gt;注意其中的&lt;code&gt;fastcgi_pass&lt;/code&gt;一定要和你实际的设置一样。具体查看&lt;code&gt;/etc/php/7.0/fpm/pool.d/www.conf&lt;/code&gt;。&lt;/p&gt;
 
+&lt;p&gt;这时一切都已经准备就绪了，但最好还是再用&lt;code&gt;bin/symfony_requirements&lt;/code&gt;这个工具检查一下是否所有需求都已经满足了，不然后面可能还会遇到各种各样的问题。值得一提的是刚刚从2.8升级到3.0的时候就已经看到了一个小bug，在执行完这个命令之后，如果全部满足，会提示『满足了Symfony2的运行条件』，明显是忘了改，但现在已经3.0.1了，这个bug还没有修复。。。&lt;/p&gt;
+
 &lt;p&gt;上面的配置中可以看到我用的是symfony.dev这个域名，在宿主机上配一下hosts，就以访问&lt;a href=&#34;http://symfony.dev&#34; target=&#34;_blank&#34;&gt;http://symfony.dev&lt;/a&gt;了。这时候你会发现是不能正常执行的，因为在&lt;code&gt;web/app_dev.php&lt;/code&gt;中制定了如果不是从&lt;code&gt;127.0.0.1&lt;/code&gt;来的请求就拒绝。所以直接把那段删了就行。&lt;/p&gt;
 
 &lt;p&gt;好了可以进行下一步了。&lt;/p&gt;
