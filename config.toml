@@ -7,8 +7,6 @@ theme = "hyde-y"
 paginate = 5
 paginatePath = "page"
 
-# disqus
-disqusShortname = "unixagain"
 
 [permalinks]
     post = "/:year/:month/:day/:slug/"
@@ -31,6 +29,7 @@ disqusShortname = "unixagain"
 
     github = "lovelock"
     twitter = "frostwong"
+    duoshuoShortname = "UnixAgain"
 
 [blackfriday]
     angleQuotes = true
