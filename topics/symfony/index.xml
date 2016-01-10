@@ -13,7 +13,7 @@
     <atom:link href="http://lovelock.github.io/topics/symfony/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>symfony3</title>
+      <title>Symfony3学习第二章——应用安装</title>
       <link>http://lovelock.github.io/symfony/symfony3-02-installation/</link>
       <pubDate>Sun, 10 Jan 2016 13:19:42 +0800</pubDate>
       <author>frostwong@gmail.com (Frost Wong)</author>
