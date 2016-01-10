@@ -4,7 +4,7 @@ date = "2016-01-10T13:19:42+08:00"
 description = "Symfony3应用安装"
 draft = false
 keywords = ["PHP", "Symfony3"]
-tags = ["Symfony3", "安装"]
+tags = ["Symfony3", "PHP框架"]
 title = "Symfony3学习第二章——应用安装"
 topics = ["Symfony"]
 type = "post"
@@ -137,6 +137,8 @@ server {
 ```
 
 注意其中的`fastcgi_pass`一定要和你实际的设置一样。具体查看`/etc/php/7.0/fpm/pool.d/www.conf`。
+
+这时一切都已经准备就绪了，但最好还是再用`bin/symfony_requirements`这个工具检查一下是否所有需求都已经满足了，不然后面可能还会遇到各种各样的问题。值得一提的是刚刚从2.8升级到3.0的时候就已经看到了一个小bug，在执行完这个命令之后，如果全部满足，会提示『满足了Symfony2的运行条件』，明显是忘了改，但现在已经3.0.1了，这个bug还没有修复。。。
 
 上面的配置中可以看到我用的是symfony.dev这个域名，在宿主机上配一下hosts，就以访问[http://symfony.dev](http://symfony.dev)了。这时候你会发现是不能正常执行的，因为在`web/app_dev.php`中制定了如果不是从`127.0.0.1`来的请求就拒绝。所以直接把那段删了就行。
 
