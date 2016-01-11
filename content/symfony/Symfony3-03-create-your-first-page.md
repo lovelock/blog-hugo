@@ -1,8 +1,8 @@
 +++
-author = "frostwong@gmail.com"
+author = "frostwong"
 date = "2016-01-10T22:02:07+08:00"
 description = "Symfony3 框架"
-draft = true
+draft = false
 keywords = ["PHP", "Symfony3"]
 tags = ["Symfony3", "PHP框架"]
 title = "Symfony3学习第三章——创建第一个页面"
@@ -109,7 +109,7 @@ show:
 上面介绍了带占位符的路由规则，那考虑这样一个场景，我像让`/show`显示`$page=1`的文章，而不需要指定`/show/1`，如果加了`/show/{page}`则按照给定的显示。可以类比PHP函数的默认参数，也很简单
 
 ```yaml
-show:
+page_show:
     path:     /show/{page}
     defaults: { _controller: AppBundle:Article:page, page: 1 }
 ```
@@ -117,5 +117,96 @@ show:
 ### 参数要求
 上面两个例子会有冲突吗？当然会！比如`/show/2`表示要展示第二页，那会不会是标题是2的文章呢？要怎么判断？
 
+可以看到，`show`要求的参数是字符串，也就是文章的标题，而`page_show`要求的参数是数字，也就是页数。所以可以用简单的正则表达式来做一下匹配。
 
+```yaml
+page_show:
+    path:     /show/{page}
+    defaults: { _controller: AppBundle:Article:page, page: 1 }
+    requirements:
+        page: \d+   
+```
+
+这样，所有匹配到数字的参数都会作为page，反之是title，就不会有任何冲突了。
+
+## 指定HTTP Method
+
+```yaml
+contact_form:
+    path:     /contact
+    defaults: { _controller: AppBundle:Article:contact_form }
+    methods: [GET, POST]
+```
+
+这样就要求只有用GET/POST方法，并且匹配到path才能完全匹配这条路由。
+
+> 如果没有指定方法，那任何方法都能匹配。
+
+## 指定HOST域名
+假如你当前维护的一套代码运行在两个域名上，例如`m.example.com`和`example.com`，其中m开头的是只有移动端才会访问，这时要实现访问同一个path，但会route到不同的controller，就需要指定host域名了。
+
+```yaml
+mobile_update:
+    path:     /update
+    host:     "m.example.com"
+    defaults: { _controller: AppBundle:Article:mobile_update }
+
+update:
+    path:     /update
+    host:     "example.com"
+    defaults: { _controller: AppBundle:Article:update}
+```
+
+host字段和path字段一样，支持placeholder，同时支持默认值和正则匹配。
+
+## 用`condition`完全自定义路由规则
+使用The Expression Syntax component可以实现在YAML中用一种表达力很强的标记来实现高度自定义的路由规则。
+
+例如
+
+```yaml
+update:
+    path:     /update
+    defaults: { _controller: AppBundle:Article:update}
+    condition: "context.getMethod() in ['GET', 'HEAD'] and request.headers.get('User-Agent') matches '/firefox/i'"
+```
+
+这样配置的路由规则就只允许Firefox浏览器访问了。
+
+## 生成URL
+路由嘛，当然是双向的，一方面从URL到controller，一方面从controller到URL。前面讲的都是从URL到controller，那从controller回到URL应该怎么做呢？
+
+以`/show`路径为例，可以
+
+```php
+$this->get('router')->generate('/show');
+$this->container->get('router')->generate('/show');
+$this->generateUrl('/show');
+```
+
+前两种方式其实是用到了Service Container，现在我对它的理解就是一个可以全局访问的类，由于要统一管理，所以就搞了个Container。一个系统中可以定义多个Service Container，但它如果不被访问时是不会创建的，而一旦创建，默认情况下就再次用它时返回的就还是之前的那个了，这就是所谓的共享型Service Container。而最后一种只不过是一种快捷方式了，本质上还是上面那样的实现。
+
+多说一点，上面三种方式生成的URL都一样，`/app_dev.php/show`，但如果加上参数就不太一样了。
+
+```yaml
+show:
+    path:     /show/{id}
+    defaults: { _controller: AppBundle:Article:show, id:20 }
+```
+
+```php
+    $url = $this->generateUrl('show',
+            array(
+                'id' => 10,
+                'page' => 100,
+            ));
+```
+
+输出是`/app_dev.php/show/10?page=100`，也就是说，如果在`generateUrl`的第二个参数数组中出现了路由规则中没有定义的参数，该参数就会以query_string的形式存在了。
+
+要查看路由规则列表，可以用`bin/console debug:router`。可不能小看这个console工具，以后的很多地方都要用到它呢。
+
+好了，现在基本上和路由相关的东西都介绍完了，如果想继续研究的话，就得看Route Component的文档了。
+
+看到这，读者应该会写第一个页面了吧？
 

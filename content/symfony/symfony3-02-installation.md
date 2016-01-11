@@ -1,5 +1,5 @@
 +++
-author = "frostwong@gmail.com"
+author = "frostwong"
 date = "2016-01-10T13:19:42+08:00"
 description = "Symfony3应用安装"
 draft = false

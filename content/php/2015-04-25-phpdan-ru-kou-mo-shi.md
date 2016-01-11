@@ -1,6 +1,9 @@
 +++
 title  = "PHP单入口模式"
 date = "2015-04-25T17:07:18+08:00"
+author = "frostwong"
+type = "post"
+description = "PHP单入口模式简介"
 +++
 
 单入口模式是现在很多项目遵循的模式，如WordPress等。
@@ -277,3 +280,5 @@ php -S localhost:8080 -t .
 ```
 
 然后就可以用`curl 'localhost:8080/index.php?op=echoparam&param=teststring` 进行测试了，当然如果你愿意用浏览器也是没有问题的。
+
+
