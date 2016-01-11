@@ -164,7 +164,7 @@
 
 
   
-    &middot; by author
+    &middot; by frostwong
   
   &middot; Read in about 1 min
   &middot; (71 字)
@@ -188,7 +188,7 @@
 <p>PHP 在变量定义中不需要（或不支持）明确的类型定义；变量类型是根据使用该变量的上下文所决定的。也就是说，如果把一个 <code>string</code> 值赋给变量 <code>$var</code>，<code>$var</code> 就成了一个 <code>string</code>。如果又把一个<code>integer</code> 赋给 <code>$var</code>，那它就成了一个<code>integer</code>。</p>
 </blockquote>
 
-<p>这，就是标准的动态类型了。相应的，<code>var a = 20 :Int</code>，声明了变量<code>a=20</code>，同时指定该变量的类型是<code>Int</code>，如果<code>var a = '20': Int</code>在编译时就会报错，没错这就是静态类型（这是Swift的语法）。有人可能就会拿这个举例说C也是静态类型——的确，我也会认为它是静态类型，因为它也需要指定类型才可以定义——然而，判断是否是静态类型的根据并不在此，而是像<a href="https://www.zhihu.com/question/19918532#answer-18824124" target="_blank">知乎@姚培森的答案</a>中说的，是根据它是否所有程序都是*well behaved*。这个就太深了，我就不深究了，毕竟对C的研究也不深，说错了还不如不说。</p>
+<p>这，就是标准的动态类型了。相应的，<code>var a = 20 :Int</code>，声明了变量<code>a=20</code>，同时指定该变量的类型是<code>Int</code>，如果<code>var a = '20': Int</code>在编译时就会报错，没错这就是静态类型（这是Swift的语法）。有人可能就会拿这个举例说C也是静态类型——的确，我也会认为它是静态类型，因为它也需要指定类型才可以定义——然而，判断是否是静态类型的根据并不在此，而是像<a href="https://www.zhihu.com/question/19918532#answer-18824124" target="_blank">知乎@姚培森的答案</a>中说的，是根据它是否所有程序都是<strong>well behaved</strong>。这个就太深了，我就不深究了，毕竟对C的研究也不深，说错了还不如不说。</p>
 
 <p>那再来看看让我误解的Python，无疑，Python和PHP一样在定义变量时也是不需要指定的，但对PHP来说，</p>
 
@@ -211,7 +211,7 @@ print(a + b) # 没错，我选择Python3
 TypeError: unsupported operand type(s) for +: 'int' and 'str'
 </code></pre>
 
-<p>这就是强类型和弱类型的区别了。强类型不允许出现*forbidden behaviors`。</p>
+<p>这就是强类型和弱类型的区别了。强类型不允许出现<strong>forbidden behaviors</strong>。</p>
 
 <p>从这一点也就可以理解为什么Python的JIT很早前就做出来了，而前段时间鸟哥还在说之前尝试做过PHP的JIT，但发现难度太大，而现在的PHP7实际就是在为后面的JIT铺路呢。</p>
 

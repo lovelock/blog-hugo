@@ -131,11 +131,69 @@
     <h1>Me and the Web
 </h1>
 
-    <span>last update: <time datetime="2016-01-10T13:19:42&#43;08:00">10 January at 1:19pm</time>
+    <span>last update: <time datetime="2016-01-10T22:02:07&#43;08:00">10 January at 10:02pm</time>
 </span>
 
   </header>
   
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/04/25/octopress%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/">octopress原理浅析
+</a>
+</h2>
+
+  <time datetime="2015-04-25">25 Apr, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    在学习的过程中，总想把一些心得记录下来，也就想到写博客，首先想到的就是WordPress了， 虽然也尝试了多个不同的云主机，但总是觉得用起来不够爽，程序员嘛，总归要像写代码一样 写文章才够感觉，然后就找到了github pages。也就是这个github pages让我是又爱又恨，就 是整不明白这个原理。 而且，github pages目的是为项目写文档，而不是持续的写博客，octopress是在这个基础 功能上添加了一系列工具链，这就让我更迷糊了，octopress的文档看了很多次，总是觉得 糊里糊涂的，不知道怎么操作，终于让我找到了生命之氢 octopress教程目录， 感觉就像醍醐灌顶，像昨天明白了PHP单入口模式 一样，忍不住把这个理解过程记下来。废话有点多，言归正传。 首先要搞明白的有两点 不需要按照github 官网的gh-pages教程进行那些操作。 不需要把新建的仓库clone到本地，所有的操作都是在octpress的目录中进行的。 几乎每篇关于octopress这种类似的工具的教程里面总会提到github 官网的github pages 教程，我觉得这就是把人搞晕的罪魁祸首。 因为你根本不需要像按那篇教程一样进行到创建目录之后的步骤，相反，如果你做了，出现的错误 反倒会让人不知所措，提示你代码库中的代码比当前要提交的新，需要先pull下来，问题是你根本 没有本地代码，又何谓的更新呢？ 下面是整个过程的梳理。 {% img /images/octopress.png %} 把octopress 的代码clone到本地，然后执行下面两条命令 gem install bundler 安装bundler, 也就是用来安装gem的工具 bundle install 安装需要的依赖 rake install 这个很有意思，rake = ruby make，所以这个命令的意义就像make install 一样把 所需而文件拷贝到对应的目录，而在现在这个场景下，就是安装默认的主题。 经过第一步的操作，现在写博客所需要的工具已经备齐了，就差一个远端存储它的仓库和文章的内容了。 这一步才需要在github新建一个代码仓库，这个仓库的名字必须是固定的格式，git@github.com:username/username.github.io， 或者https://github.com/username/username.github.io，这两种格式分别是使用ssh协议和https协议， 具体区别可以参考github上的介绍文章。个人喜好是使用ssh协议，虽然github不建议使用这种方式，因为 每次提交代码时不需要输入密码，但这样更方便不是吗。需要注意的一点是这时也不要在新建的仓库种 添加README.md文件，否则又要出现前面所说的代码新旧的问题了。 这时才要到octopress 的目录中去执行各种命令了。 这时你可能还是像我一样有疑问，octopress的作用到底是什么呢？ 答案是：把你写的md文件（可以理解成源文件，位于source目录）编译成html文件（可以理解成目标文件，位于_deploy目录）， 然后把你的编译得到的文件commit+push到你的username.github.io仓库的master分支，也就是说你的 源文件没有被提交，所以这时需要 - git add . 将octopress 目录中位于source 目录下的文件添加到你的username.github.io的仓库的版本库中 - git commit
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/04/25/octopress%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/">阅读更多 &rarr;</a>
+
+</div>
+
+
+</article>
+
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/php/2015-04-25-phpdan-ru-kou-mo-shi/">PHP单入口模式
+</a>
+</h2>
+
+  <time datetime="2015-04-25">25 Apr, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    PHP单入口模式简介
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/php/2015-04-25-phpdan-ru-kou-mo-shi/">阅读更多 &rarr;</a>
+
+</div>
+
+
+</article>
+
   
     <article class="container content summary">
   <div class="container hat">

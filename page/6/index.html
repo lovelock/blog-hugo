@@ -131,11 +131,40 @@
     <h1>Me and the Web
 </h1>
 
-    <span>last update: <time datetime="2016-01-10T13:19:42&#43;08:00">10 January at 1:19pm</time>
+    <span>last update: <time datetime="2016-01-10T22:02:07&#43;08:00">10 January at 10:02pm</time>
 </span>
 
   </header>
   
+  
+    <article class="container content summary">
+  <div class="container hat">
+  <h2><a href="http://lovelock.github.io/2015/07/13/ios8%E5%8F%8A%E4%BB%A5%E4%B8%8B%E4%BD%BF%E7%94%A8nsurlconnectiondelegate%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/">iOS8及以下使用NSURLConnectionDelegate实现网络请求
+</a>
+</h2>
+
+  <time datetime="2015-07-13">13 Jul, 2015</time>
+
+</div>
+
+  <p class="container content">
+  
+  
+    花了点时间把iOS的网络请求算是有了一点肤浅的认识，在这个夜深人静的晚上记录以下。 首先，用到的类有NSURLRequest和NSURLConnection，遵循的协议NSURLConnectionDelegate。 NSURLConnectionDelegate在iOS9中已经废弃了，取而代之的是NSURLSessionDelegate，由于我这次适配的是iOS8.3，所以抽时间再写关于后者的用法。 简明的说一下流程： 发送请求这步其实经常会用到，但作为一款App，它需要的通常不是让服务器做什么改变，而是从服务端获取信息。因此，发送网络请求其实最重要的是怎样处理请求返回的结果。 在图中用等宽字体显示的函数就是NSURLConnectionDelegate定义的方法。 connection:didReceiveResponse: 这个方法也就是对服务器的响应做一个判断，通知该类（这里不知道应该怎么描述，是通知谁？）发送的请求服务器端已经给出响应。这时需要做初始化的工作了。我发发送请求就是为了得到数据，那么数据存在哪里呢？从connection:didReceiveData:的函数定义可以看到返回的数据是在这个函数的参数中，就需要一个可以全局访问的变量来保存数据，以在其余的流程里继续使用。而初始化又有问题，如何保证你这个全局变量不是已经被赋值呢？ 判断是否为NULL，如果为NULL，则初始化一个新的变量，否则，将变量的程度设置为0，其实也就是清空变量中存储的值。 connection:didReceiveData: 这个方法是对服务器返回的数据做处理。其实就是一个简单的赋值操作，将返回值赋给上面提到的变量。 connectionDidFinishLoading 这个方法才是最重要的，顾名思义，它用来处理最终你获取到的数据要干什么。比如把它赋给某个Label显示出来了，比如再次发送一个请求了。这里我只是要把整个流程走通，所以只是简单的把它的返回值赋给了当前视图中的一个Label。 提一下一个小的技巧 如何在日志中看到请求返回的结果？ 要知道，返回的结果是一个NSData数据类型，无法在NSLog函数里打印（其实是可以打印的，不过打出的结果是16进制的字符，人眼也看不懂），但如果你只是想比较一下两次的请求返回值不同，那么可以直接用 NSLog(@&quot;%@&quot;, data); 而如果要具体的看到返回值的内容，则要做进一步的处理 NSString *strData = [NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]; NSLog(@&quot;%@&quot;, strData); OK，简单的就是这样。
+  
+
+
+</p>
+
+
+  <div class="container readlink">
+  <a href="http://lovelock.github.io/2015/07/13/ios8%E5%8F%8A%E4%BB%A5%E4%B8%8B%E4%BD%BF%E7%94%A8nsurlconnectiondelegate%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/">阅读更多 &rarr;</a>
+
+</div>
+
+
+</article>
+
   
     <article class="container content summary">
   <div class="container hat">
@@ -246,35 +275,6 @@
 
   <div class="container readlink">
   <a href="http://lovelock.github.io/2015/07/03/%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E4%BD%93%E9%AA%8C/">阅读更多 &rarr;</a>
-
-</div>
-
-
-</article>
-
-  
-    <article class="container content summary">
-  <div class="container hat">
-  <h2><a href="http://lovelock.github.io/2015/06/26/unix%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E5%B0%8F%E5%85%A8/">Unix文件属性小全
-</a>
-</h2>
-
-  <time datetime="2015-06-26">26 Jun, 2015</time>
-
-</div>
-
-  <p class="container content">
-  
-  
-    玩Linux的最经常碰到的问题中，文件属性（权限）的问题应当属相当多见的。而今天又碰到了一个新鲜事儿，属性中又出现了一个特殊字符@。 由于在搜索引擎中搜索特殊符号挺困难，我花了十几分钟才搜到相关的内容。原来是OS X上的文件独有的一个属性值，它代表该文件还有extended字段，而具体这个字段的内容是什么就要用xattr -l来查看了。 既然碰到了这个问题，我就索性总结一下这个问题。以下的测试基于CentOS 7，与OS X相关部分基于OS X 10.10.3。 在Linux文件系统中，文件的属性分为X种。 文件类型 分为三种： - 普通文件 d 目录 l 链接文件 rwx权限 rwx权限分为三组，分别为所属用户，所属组其他用户，其他用户。 这里要注意的是对一个目录而言，wx权限对普通文件来说很容易理解，即该用户是否有执行该文件的权限，但对目录而言就不好理解了。 如果一个用户对一个目录有w权限，则表示他可以在该目录中新建或删除或修改文件。 如果一个用户对一个目录有x权限，则表示他可以进入该目录。 [frost@localhost test]$ mkdir w_directory [frost@localhost test]$ sudo chmod -w w_directory/ chmod: w_directory/: new permissions are r-xrwxr-x, not r-xr-xr-x [frost@localhost test]$ cd w_directory/ [frost@localhost w_directory]$ touch testfile touch: cannot touch ‘testfile’: Permission denied 给用户去掉w权限之后就无法对目录中的文件做任何修改了。 [frost@localhost test]$ sudo chmod -x x_directory [sudo] password for frost: [frost@localhost test]$ ls -l total 0 dr-xrwxr-x.
-  
-
-
-</p>
-
-
-  <div class="container readlink">
-  <a href="http://lovelock.github.io/2015/06/26/unix%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E5%B0%8F%E5%85%A8/">阅读更多 &rarr;</a>
 
 </div>
 
