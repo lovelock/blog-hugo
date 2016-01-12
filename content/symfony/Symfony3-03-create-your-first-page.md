@@ -31,11 +31,17 @@ Annotation看起来是把路由信息和代码写在一起，增强了代码的�
 
 ```yaml
 framework:
+
     #esi:             ~
+
     #translator:      { fallbacks: ["%locale%"] }
+
     secret:          "%secret%"
+
     router:
+
         resource: "%kernel.root_dir%/config/routing.yml"
+
         strict_requirements: ~
 ```
 
