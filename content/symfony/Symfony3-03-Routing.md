@@ -30,6 +30,7 @@ Annotation看起来是把路由信息和代码写在一起，增强了代码的�
 首先解释一下为什么会是`app/config/routing.yml`，当然是因为
 
 ```yaml
+
 framework:
     #esi:             ~
     #translator:      { fallbacks: ["%locale%"] }
