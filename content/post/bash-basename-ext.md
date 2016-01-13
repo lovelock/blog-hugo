@@ -1,5 +1,5 @@
 +++
-author = "author"
+author = "frostwong"
 date = "2016-01-09T21:38:27+08:00"
 description = "用Shell脚本获取不包含后缀的文件名"
 draft = false

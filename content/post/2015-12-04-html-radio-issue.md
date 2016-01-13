@@ -1,6 +1,8 @@
 +++
 title  = "HTML中的input[type=radio]的一个小发现"
 date = "2015-12-04T23:12:52"
+tags = ["HTML", "tags"]
+keywords = ["radio"]
 +++
 
 昨天在写一个表单时，一个无意的错误让我发现了HTML radio类型的input的一个特性。

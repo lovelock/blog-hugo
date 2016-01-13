@@ -1,6 +1,8 @@
 +++
 title  = "JavaScript代码约定"
 date = "2015-05-02T21:08:49+08:00"
+draft = true
+
 +++
 
 原文标题：Code Conventions for the JavaScript Programming Language
