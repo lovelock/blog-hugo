@@ -29,10 +29,17 @@ Annotation看起来是把路由信息和代码写在一起，增强了代码的�
 
 首先解释一下为什么会是`app/config/routing.yml`，当然是因为
 
-```yaml framework:     #esi:             ~     #translator:      { fallbacks: ["%locale%"] }     secret:          "%secret%"     router:         resource: "%kernel.root_dir%/config/routing.yml"         strict_requirements: ~
+```yaml
+framework:
+    #esi:             ~
+    #translator:      { fallbacks: ["%locale%"] }
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
 ```
 
-那你还会问，`%kernel.root_dir`是在哪里配置的呢？问得好，这个设置可不在配置文件里，是在`Symfony\Component\HttpKernel\Kernel.php`中设定的，代码如下:
+那你还会问，`%kernel.root_dir%`是在哪里配置的呢？问得好，这个设置可不在配置文件里，是在`Symfony\Component\HttpKernel\Kernel.php`中设定的，代码如下:
 
 ```php
 protected function getKernelParameters()
@@ -124,7 +131,7 @@ page_show:
     path:     /show/{page}
     defaults: { _controller: AppBundle:Article:page, page: 1 }
     requirements:
-        page: \d+   
+        page: \d+
 ```
 
 这样，所有匹配到数字的参数都会作为page，反之是title，就不会有任何冲突了。
