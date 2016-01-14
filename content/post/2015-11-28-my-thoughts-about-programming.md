@@ -1,6 +1,8 @@
 +++
-title  = "我的编程经验总结——01"
+author = "frostwong"
+title  = "我的编程心得——第一篇章"
 date = "2016-01-13T23:32:28"
+tags = ["方法论", "总结"]
 draft = false
 +++
 
