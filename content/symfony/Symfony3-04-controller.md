@@ -5,7 +5,7 @@ description = "Symfony3 框架"
 draft = true
 keywords = ["PHP", "Symfony3"]
 tags = ["one", "two"]
-title = "Symfony3 04 controller"
+title = "Symfony3学习第四章——Controller"
 topics = ["Symfony"]
 type = "post"
 
