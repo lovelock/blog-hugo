@@ -43,6 +43,7 @@ tags = ["Composer", "PSR-4"]
 ### 安装依赖
 要安装依赖，只需要执行`composer install`即可。
 这会找到符合版本限制的最新版本的`monolog/monolog`，并且把它下载到`vendor`目录。把第三方的代码放在一个名为`vendor`的目录是一个规范。在本例中，会把它放在`vendor/monolog/monolog`。
+
 > 如果你使用git，通常会把`vendor`目录放在`.gitignore`中。
 
 你会注意到`composer install`命令还会在当前目录下生成一个`composer.lock`文件。
@@ -55,8 +56,9 @@ tags = ["Composer", "PSR-4"]
 Packagist是Composer的信息库。一个Composer信息库本质上是一个包的源——从这里你可以获取包。Packagist希望成为每个人用的中心信息库。这意味着你可以自动`require`任何这里存在的包。
 ### 自动加载
 对于指定了自动加载信息的库，Composer会生成一个`vendor/autoload.php`文件。你可以放心的`include`这个文件而Composer会完成剩下的工作。
+
 ```php
-require __DIR__ . '/vendor/autoload.php
+require __DIR__ . '/vendor/autoload.php';
 ```
 这让使用第三方代码很方便。比如，如果你的项目依赖Monolog，你可以马上开始使用它的类，它会被自动加载。
 
