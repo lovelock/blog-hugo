@@ -2,7 +2,7 @@
 author = "frostwong@gmail.com"
 date = "2016-01-20T14:03:19+08:00"
 description = "description"
-draft = true
+draft = false
 keywords = ["rMBP", "1080P"]
 title = "rMBP连接1080P显示器显示效果优化"
 type = "post"
