@@ -68,14 +68,28 @@ protected function getKernelParameters()
 
 顺着这个一步步的往下追，就可以查到每个kernel参数的来源了。
 
-刚才说到了路由配置，而且只想用yaml的格式，下面就改一下。
+~~刚才说到了路由配置，而且只想用yaml的格式，下面就改一下。~~
+写这篇文章时之前我是坚持用yaml配置，但后来发现了这个
+![Symfony最佳实践](http://7xn2pe.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-01-23%20%E4%B8%8B%E5%8D%889.13.18.png)
+
+我一向是很坚持遵守各个项目的最佳实践的，因为毕竟是正了个社区的大部分人确立的，能最大程度的发挥这个项目的威力。所以我准备介绍下yaml和annotation两种方式。
+
+1. Annotation
+
+```yaml
+app:
+    resource: "@AppBundle/Controller/"
+    type: annotation
+```
+
+2. YAML
 
 ```yaml
 app:
     resource: "@AppBundle/Resources/config/routing.yml"
 ```
 
-这就表明会从`@AppBundle/Resources/config/routing.yml"`中读取路由配置了。当然在下面也可以直接加上更多配置——经过我的一番实验，发现在这里是无法引入第二个路由配置文件的，改文件不支持`import`，不支持多个`resource`。。。
+这就表明会从`@AppBundle/Resources/config/routing.yml"`中读取路由配置了。当然在下面也可以直接加上更多配置——经过我的一番实验，发现在这里是无法引入第二个路由配置文件的，该文件不支持`import`，不支持多个`resource`。。。
 
 注意，在`resource`中的配置优先级是比当前文件下面的高的。和在同一个文件中的配置一样，因为路由信息一旦匹配成功就不再往下找了。
 
