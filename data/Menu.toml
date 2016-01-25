@@ -20,4 +20,4 @@
 [tags]
     Name = "Tags"
     Title = "Show list of tags"
-    URL = "/tags/"
+    URL = "/tags"
