@@ -2,7 +2,7 @@
 author = "frostwong@gmail.com"
 date = "2016-01-25T12:14:35+08:00"
 description = "Firefox下日期解析行为兼容方案"
-draft = true
+draft = false
 keywords = ["JavaScript", "Firefox", "Date.parse()"]
 title = "Firefox Date.parse()方法行为不一致的兼容方案"
 topics = ["JavaScript"]
