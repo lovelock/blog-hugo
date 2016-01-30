@@ -76,22 +76,30 @@ protected function getKernelParameters()
 
 1. Annotation
 
-```yaml
-app:
-    resource: "@AppBundle/Controller/"
-    type: annotation
-```
-
+    ```yaml
+    app:
+        resource: "@AppBundle/Controller/"
+        type: annotation
+    ```
+    这样就表示从代码的Annotation中读取路由配置。
+    
 2. YAML
 
-```yaml
-app:
-    resource: "@AppBundle/Resources/config/routing.yml"
-```
+    ```yaml
+    app:
+        resource: "@AppBundle/Resources/config/routing.yml"
+    ```
+    这样就表示会从`@AppBundle/Resources/config/routing.yml"`中读取路由配置了。当然在下面也可以直接加上更多配置——~~经过我的一番实验，发现在这里是无法引入第二个路由配置文件的，该文件不支持`import`，不支持多个`resource`。~~后来发现这里的`app`段名字本身是没有意义的，可以设置多个，如这样就可以从多个不同的配置文件中引入路由配置。
+    
+    ```yaml
+    app:
+        resource: "@AppBundle/Resources/config/routing.yml"
 
-这就表明会从`@AppBundle/Resources/config/routing.yml"`中读取路由配置了。当然在下面也可以直接加上更多配置——经过我的一番实验，发现在这里是无法引入第二个路由配置文件的，该文件不支持`import`，不支持多个`resource`。。。
-
-注意，在`resource`中的配置优先级是比当前文件下面的高的。和在同一个文件中的配置一样，因为路由信息一旦匹配成功就不再往下找了。
+    app2:
+        resource: "@AppBundle/Resources/config/routing2.yml"
+    ```
+    
+    注意，在`resource`中的配置优先级是比当前文件下面的高的。和在同一个文件中的配置一样，因为路由信息一旦匹配成功就不再往下找了。
 
 ## 路由规则
 ### 简单路由规则
@@ -99,17 +107,33 @@ app:
 
 以下面的路由规则为例：
 
-```yaml
-# app/config/routing.yml
-_welcome:
-    path:      /
-    defaults:  { _controller: AppBundle:Main:homepage }
-```
+1. Annotation
 
-path是URI中的Path部分，完整的路径就是`http://symfony.dev/app_dev.php`，它被映射到`AppBundle/MainController/homepageAction`上。
+    ```php
+    use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+    ...
+   /**
+    * @Route("/", name="_welcome")
+    */
+   public function homepageAction()
+   {
+       ...
+   }
+    ```
+
+2. YAML
+
+    ```yaml
+    # app/config/routing.yml
+    _welcome:
+        path:      /
+        defaults:  { _controller: AppBundle:Main:homepage }
+    ```
+
+    path是URI中的Path部分，完整的路径就是`http://symfony.dev/app_dev.php`，它被映射到`AppBundle/MainController/homepageAction`上。
 
 ### 带占位符的路由规则
-在RESTful的API设计中，是避免用query string的，相应的，用`/`来分隔参数。我知道的有这样两种设计思路
+在RESTful的API设计中，是避免用query string的(存疑，待整理完Syfmony再来看RESTful)，相应的，用`/`来分隔参数。我知道的有这样两种设计思路
 
 1. 带参数名 `/param1/value1/param2/value2`
 2. 不带参数名 `/value1/value2`
@@ -118,46 +142,103 @@ path是URI中的Path部分，完整的路径就是`http://symfony.dev/app_dev.ph
 
 带占位符的路由规则
 
-```yaml
-show:
-    path:     /show/{title}
-    defaults: { _controller: AppBundle:Article:show }
-```
+1. Annotation
+
+    ```php
+    use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+    ...
+    /**
+     * @Route("/show/{title}")
+     */
+     public function showAction()
+     {
+        ...
+     }
+    ```
+
+2. YAML
+    
+    ```yaml
+    show:
+        path:     /show/{title}
+        defaults: { _controller: AppBundle:Article:show }
+    ```
 
 这个路径会匹配所有/show/*，传进来的值会被当做参数`$title`传递到方法`AppBundle\ArticleController\showAction`中。例如，`/show/hello`，那么在`AppBundle\ArticleController\showAction`方法中拿到的`$title`就是字符串`hello`。
 
 ### 可选占位符的路由规则
 上面介绍了带占位符的路由规则，那考虑这样一个场景，我像让`/show`显示`$page=1`的文章，而不需要指定`/show/1`，如果加了`/show/{page}`则按照给定的显示。可以类比PHP函数的默认参数，也很简单
 
-```yaml
-page_show:
-    path:     /show/{page}
-    defaults: { _controller: AppBundle:Article:page, page: 1 }
-```
+1. Annotation
 
+    ```php
+    use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+    ...
+    /**
+     * @Route("/show/{page}", name="page_show", defaults={"page" = 1})
+     */
+    ```
+2. YAML
+
+    ```yaml
+    page_show:
+        path:     /show/{page}
+        defaults: { _controller: AppBundle:Article:page, page: 1 }
+    ```
+    
+两种形式看起来不一样，其实功能都是一一对应的。
 ### 参数要求
 上面两个例子会有冲突吗？当然会！比如`/show/2`表示要展示第二页，那会不会是标题是2的文章呢？要怎么判断？
 
 可以看到，`show`要求的参数是字符串，也就是文章的标题，而`page_show`要求的参数是数字，也就是页数。所以可以用简单的正则表达式来做一下匹配。
 
-```yaml
-page_show:
-    path:     /show/{page}
-    defaults: { _controller: AppBundle:Article:page, page: 1 }
-    requirements:
-        page: \d+
-```
+1. Annotation
+
+    ```php
+    use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+    ...
+    /**
+     * @Route("/show/{page}", name="blog_show", defaults={"page": 1}, requirements={"page": "\d+"})
+     */
+    ```
+2. YAML
+
+    ```yaml
+    page_show:
+        path:     /show/{page}
+        defaults: { _controller: AppBundle:Article:page, page: 1 }
+        requirements:
+            page: \d+
+    ```
 
 这样，所有匹配到数字的参数都会作为page，反之是title，就不会有任何冲突了。
 
 ## 指定HTTP Method
 
-```yaml
-contact_form:
-    path:     /contact
-    defaults: { _controller: AppBundle:Article:contact_form }
-    methods: [GET, POST]
-```
+1. Annotation
+
+    ```php
+    use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+    use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+    ...
+    /**
+     * @Route("/contact", name="contact_form")
+     * @Method({"GET", "POST"})
+     */
+    public function contact_formAction()
+    {
+       ...
+    }
+    ```
+
+2. YAML
+
+    ```yaml
+    contact_form:
+        path:     /contact
+        defaults: { _controller: AppBundle:Article:contact_form }
+        methods: [GET, POST]
+    ```
 
 这样就要求只有用GET/POST方法，并且匹配到path才能完全匹配这条路由。
 
@@ -166,17 +247,43 @@ contact_form:
 ## 指定HOST域名
 假如你当前维护的一套代码运行在两个域名上，例如`m.example.com`和`example.com`，其中m开头的是只有移动端才会访问，这时要实现访问同一个path，但会route到不同的controller，就需要指定host域名了。
 
-```yaml
-mobile_update:
-    path:     /update
-    host:     "m.example.com"
-    defaults: { _controller: AppBundle:Article:mobile_update }
+1. Annotation
 
-update:
-    path:     /update
-    host:     "example.com"
-    defaults: { _controller: AppBundle:Article:update}
-```
+    ```php
+    use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+    ...
+    /**
+     * @Route("/update", host="symfony.dev", name="update")
+     */
+    public function updateAction()
+    {
+        echo __METHOD__;
+        exit;
+    }
+
+    /**
+     * @Route("/update", host="m.symfony.dev", name="mobile_update")
+     */
+    public function mobile_updateAction()
+    {
+        echo __METHOD__;
+        exit;
+    }
+    ```
+    
+2. YAML
+
+    ```yaml
+    mobile_update:
+        path:     /update
+        host:     "m.example.com"
+        defaults: { _controller: AppBundle:Article:mobile_update }
+    
+    update:
+        path:     /update
+        host:     "example.com"
+        defaults: { _controller: AppBundle:Article:update}
+    ```
 
 host字段和path字段一样，支持placeholder，同时支持默认值和正则匹配。
 
@@ -185,12 +292,28 @@ host字段和path字段一样，支持placeholder，同时支持默认值和正�
 
 例如
 
-```yaml
-update:
-    path:     /update
-    defaults: { _controller: AppBundle:Article:update}
-    condition: "context.getMethod() in ['GET', 'HEAD'] and request.headers.get('User-Agent') matches '/firefox/i'"
-```
+1. Annotation
+
+    ```php
+    use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+    ...
+    /**
+     * @Route("/update", name="update", condition="context.getMethod() in ['GET', 'HEAD'] and request.headers.get('User-Agent') matches '/firefox/i'")
+     */
+    public function updateAction()
+    {
+        ...
+    }
+    ```
+    
+2. YAML
+
+    ```yaml
+    update:
+        path:     /update
+        defaults: { _controller: AppBundle:Article:update}
+        condition: "context.getMethod() in ['GET', 'HEAD'] and request.headers.get('User-Agent') matches '/firefox/i'"
+    ```
 
 这样配置的路由规则就只允许Firefox浏览器访问了。
 
@@ -229,5 +352,4 @@ show:
 
 好了，现在基本上和路由相关的东西都介绍完了，如果想继续研究的话，就得看Route Component的文档了。
 
-看到这，读者应该会写第一个页面了吧？
 
