@@ -11,6 +11,8 @@ type = "post"
 
 在Symfony中，Controller是很薄的一层，逻辑不会很复杂，主要就是接受Request，用Request的参数取得资源，放在Response中返回给Client。
 
+> 注意，以下说的Controller，没有区分Controller类和Action，请自行根据上下文判断。
+
 ## 初识Controller
 
 ```php
