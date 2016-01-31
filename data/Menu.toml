@@ -4,8 +4,13 @@
 
 [PHP]
     Name = "PHP"
-    Title = "Show list of posts"
+    Title = "Show posts of PHP"
     URL = "/php"
+
+[Symfony]
+    Name = "Symfony"
+    Title = "Show Posts of Symfony Framework"
+    URL = "/symfony"
 
 [Python]
     Name = "Python"
