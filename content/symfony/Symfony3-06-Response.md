@@ -5,7 +5,7 @@ description = "Symfony3 框架"
 draft = true
 keywords = ["PHP", "Symfony3"]
 tags = ["one", "two"]
-title = "Symfony3 06 Response"
+title = "Symfony3 In Action——Response"
 topics = ["Symfony"]
 type = "post"
 

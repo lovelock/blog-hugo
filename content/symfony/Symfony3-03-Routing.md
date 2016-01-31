@@ -5,7 +5,7 @@ description = "Symfony3 框架"
 draft = false
 keywords = ["PHP", "Symfony3"]
 tags = ["Symfony3", "PHP框架"]
-title = "Symfony3学习第三章——Routing"
+title = "Symfony3 In Action——Routing"
 topics = ["Symfony"]
 type = "post"
 
