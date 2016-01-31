@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
 class HelloController extends Controller
 {
     /**
-     * @Route("/hello")
+     *@Route("/hello")
      */
     public function helloAction()
     {
@@ -61,7 +61,7 @@ use Symfony\Component\HttpFoundation\Response;
 class HelloController extends Controller
 {
     /**
-     * @Route("/hello")
+     *@Route("/hello")
      */
     public function helloAction(Request $request)
     {
@@ -87,7 +87,7 @@ use Symfony\Component\HttpFoundation\Response;
 class HelloController extends Controller
 {
     /**
-     * @Route("/hello")
+     *@Route("/hello")
      */
     public function helloAction(Request $request)
     {
@@ -153,8 +153,8 @@ Symfony默认使用优雅的Twig模板引擎，Twig也是由Sensio开发的。�
 1. 基础写法
     
     ```php
-        /**
-     * @Route("/render", name="render")
+    /**
+     *@Route("/render", name="render")
      */
     public function renderAction(Request $request)
     {
@@ -176,8 +176,8 @@ Symfony默认使用优雅的Twig模板引擎，Twig也是由Sensio开发的。�
     得益于继承的Controller类，可以直接访问很多Service，同时它也提供了很多简写的方法。
     
     ```php
-       /**
-     * @Route("/render", name="render")
+    /**
+     *@Route("/render", name="render")
      */
     public function renderAction(Request $request)
     {
@@ -194,7 +194,7 @@ Symfony默认使用优雅的Twig模板引擎，Twig也是由Sensio开发的。�
     }
     ```
     
-显然我们会更喜欢这种简单的写法。如果你看它实现，其实还是Controller帮我们转调了一次。
+显然我们会更喜欢这种简单的写法。如果你看它实现，其实还是Controller帮我们转调了一次。可以看到，不管是基础写法还是简单写法，最终都是把一个数组传递给了模板引擎，这样在模板中就可以获取到这些值。Twig的语法这里暂且不说。
 
 ## 报错
 
@@ -218,7 +218,7 @@ Symfony封装了一个管理Session的对象，是用Cookie实现的（但我用
 
 ```php
     /**
-     * @Route("/session", name="session")
+     *@Route("/session", name="session")
      */
     public function sessionAction(Request $request)
     {
@@ -239,7 +239,7 @@ Symfony封装了一个管理Session的对象，是用Cookie实现的（但我用
 ```php
 $this->addFlash(
     'notice',
-    'bing'
+    'bingo'
 );
 
 return $this->redirectToRoute('hello');
