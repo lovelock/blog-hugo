@@ -256,6 +256,136 @@ return $this->redirectToRoute('hello');
 
 就能把Flash Message打印出来了。
 
+## Request
+
+在Symfony中，我们可以很方便的访问Request和Response。了解了HTTP协议的同学都知道Request/Response是包括Header和Content（可选）的，看下面的常用方法吧。
+
+```php
+$request->isXmlHttpRequest(); // 是否是Ajax请求
+$request->query->get('param', 'default'); // 获取GET参数，并设默认值
+$request->request->get('param', 'default'); // 获取POST参数，并设置默认值
+
+$request->headers->get('Content-Type');
+$request->getContentType();
+```
+
+倒数第二个方法是通过HeaderBag获取Header中的字段，这种写法获取的是请求Header中的Content-Type，传过来的是什么，获取到的就是什么。而最后一种方法则不一样，看代码可知，返回的是经过格式化的简化格式。比如如果在请求中指定`Content-Type:application/json`，前者获取到的是`application/json`，而后者是`json`。但需要保证MIME type是合法的，否则后者获取到的就是null了。
+
+更多的Request信息见第5部分。
+
+## Response
+
+和Request一样，Response也是包含Header和Content两部分。我们经常用的
+
+```php
+return new Response('blah-blah');
+```
+
+其实就是返回Content是`blah-blah`，Status Code是200的相应。那么Header在哪里呢？对，HeaderBag。
+
+```php
+$response = new Response('blah', 201); // 默认是200
+$response->headers->set('Content-Type', 'application/json');
+
+return $response;
+```
+
+可以把第二行注释掉看看会有什么效果。
+
+> 默认的Content-Type是`text/html`，响应是字符串没有问题。但如果设置了`application/json`，那响应就需要时键值对了。相应的需要修改如下
+> 
+> ```php
+> $response = new Response(json_encode(array('I am a key' => 'I am a value')));
+> $response->headers->set('Content-Type', 'application/json');
+> return $response;
+> ```
+
+## 创建静态页面
+
+这里所说的静态页面是指『没有参数传入的页面』，也就是说不会因为你传入任何参数而改变的页面。前面说了，Controller的作用就是接受Request，搞一通之后把数据写入Response再返回给客户端。那既然是静态页面，我还需要创建Controller吗？
+
+是，也不是。
+
+本质上这个Controller还是存在的，只不过是Symfony已经创建好了的，不需要自己创建了而已。
+
+既然没有了Controller，也就没有地方写Annotation了，在routing.yml中可以这样写
+
+```yaml
+static_page:
+    path: /static
+    default:
+        _controller: FrameworkBundle:Template:template
+        template: static/sample.html.twig
+```
+
+写到这里就出现了另一个问题，既然你Symfony官方推荐我们用Annotation，那明显这样的需求用Annotation是实现不了的啊，如果要让两种方式并存应该怎么办？
+
+事实证明是可以的，前面说过，在`app/config/routing.yml`中跟节点的名字是没有意义的，既然我可以指定一个用Annotation的节点，当然就可以再指定一个用yml的节点，就像这样
+
+```yaml
+app:
+    resource: "@AppBundle/Controller/"
+    type: annotation
+
+yaml:
+    resource: "@AppBundle/Resources/config/routing.yml"
+    type: yaml
+```
+
+这样就可以随心所欲的在两种形式之间切换了（要小心顺序问题）。
+
+## 『跳』到另一个Controller
+
+前面介绍过`redirectToRoute`方法了，是做了一个302/301跳转，用户的浏览器会刷新一下，那有没有办法让它不刷新呢？
+
+当然有。用`forward`方法。这个方法比`redirectToRoute`方法少了两点限制：
+
+1. 用户浏览器不用刷新
+2. 要跳转到的Controller不用配置路由
+
+关于第二条，想不明白的话再往前找找。
+
+```php
+/**
+ *@Route("/forward", name="_forward")
+ */
+public function forwardAction()
+{
+   $response = $this->forward(
+       'AppBundle:Hello:render',
+       array(
+           'name' => '大众化',
+           'foo' => 'bar',
+       ));
+
+   return $response;
+}
+```
+
+## 验证CSRF token
+
+说实话我工作到现在还没有遇到过这个事儿。CSRF token是用来进行表单安全验证的，如果用Symfony的Form组件，默认就有，否则就需要自己在表单中加上CSRF token，然后服务端接收到的时候再验证一下了。
+
+```php
+public function validAction(Request $request)
+{
+   $submitted_token = $request->request->get('token_id');
+
+   if ($this->isCsrfTokenValid('token_id', $submitted_token)) {
+       // do something dangerous 
+   }
+   
+   return new Response('haha');
+}
+```
+
+
+最后想说一点，我写的这系列文章一定要自己动手实践才行，很多问题你不自己实践是发现不了的。官方文档的风格我很喜欢，但有些问题并没有解释的很清楚，或者要翻看具体组件的文档太麻烦，这时候自己尝试一下就会有很好的体验喽。
+
+下一篇谈谈Request对象。
+
+
+
 
 
 
