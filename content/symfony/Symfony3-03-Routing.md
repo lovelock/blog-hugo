@@ -81,6 +81,7 @@ protected function getKernelParameters()
         resource: "@AppBundle/Controller/"
         type: annotation
     ```
+    
     这样就表示从代码的Annotation中读取路由配置。
     
 2. YAML
@@ -89,6 +90,7 @@ protected function getKernelParameters()
     app:
         resource: "@AppBundle/Resources/config/routing.yml"
     ```
+    
     这样就表示会从`@AppBundle/Resources/config/routing.yml"`中读取路由配置了。当然在下面也可以直接加上更多配置——~~经过我的一番实验，发现在这里是无法引入第二个路由配置文件的，该文件不支持`import`，不支持多个`resource`。~~后来发现这里的`app`段名字本身是没有意义的，可以设置多个，如这样就可以从多个不同的配置文件中引入路由配置。
     
     ```yaml
@@ -112,13 +114,13 @@ protected function getKernelParameters()
     ```php
     use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
     ...
-   /**
-    * @Route("/", name="_welcome")
-    */
-   public function homepageAction()
-   {
+    /**
+     *@Route("/", name="_welcome")
+     */
+    public function homepageAction()
+    {
        ...
-   }
+    }
     ```
 
 2. YAML
@@ -148,7 +150,7 @@ protected function getKernelParameters()
     use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
     ...
     /**
-     * @Route("/show/{title}")
+     *@Route("/show/{title}")
      */
      public function showAction()
      {
@@ -175,7 +177,7 @@ protected function getKernelParameters()
     use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
     ...
     /**
-     * @Route("/show/{page}", name="page_show", defaults={"page" = 1})
+     *@Route("/show/{page}", name="page_show", defaults={"page" = 1})
      */
     ```
 2. YAML
@@ -198,7 +200,7 @@ protected function getKernelParameters()
     use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
     ...
     /**
-     * @Route("/show/{page}", name="blog_show", defaults={"page": 1}, requirements={"page": "\d+"})
+     *@Route("/show/{page}", name="blog_show", defaults={"page": 1}, requirements={"page": "\d+"})
      */
     ```
 2. YAML
@@ -222,8 +224,8 @@ protected function getKernelParameters()
     use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
     ...
     /**
-     * @Route("/contact", name="contact_form")
-     * @Method({"GET", "POST"})
+     *@Route("/contact", name="contact_form")
+     *@Method({"GET", "POST"})
      */
     public function contact_formAction()
     {
@@ -253,7 +255,7 @@ protected function getKernelParameters()
     use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
     ...
     /**
-     * @Route("/update", host="symfony.dev", name="update")
+     *@Route("/update", host="symfony.dev", name="update")
      */
     public function updateAction()
     {
@@ -262,7 +264,7 @@ protected function getKernelParameters()
     }
 
     /**
-     * @Route("/update", host="m.symfony.dev", name="mobile_update")
+     *@Route("/update", host="m.symfony.dev", name="mobile_update")
      */
     public function mobile_updateAction()
     {
@@ -298,7 +300,7 @@ host字段和path字段一样，支持placeholder，同时支持默认值和正�
     use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
     ...
     /**
-     * @Route("/update", name="update", condition="context.getMethod() in ['GET', 'HEAD'] and request.headers.get('User-Agent') matches '/firefox/i'")
+     *@Route("/update", name="update", condition="context.getMethod() in ['GET', 'HEAD'] and request.headers.get('User-Agent') matches '/firefox/i'")
      */
     public function updateAction()
     {
