@@ -5,7 +5,7 @@ description = "Symfony3应用安装"
 draft = false
 keywords = ["PHP", "Symfony3"]
 tags = ["Symfony3", "PHP框架"]
-title = "Symfony3学习第二章——Installation"
+title = "Symfony3 In Action——Installation"
 topics = ["Symfony"]
 type = "post"
 +++
