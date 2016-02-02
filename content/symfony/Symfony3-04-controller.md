@@ -295,11 +295,12 @@ return $response;
 可以把第二行注释掉看看会有什么效果。
 
 > 默认的Content-Type是`text/html`，响应是字符串没有问题。但如果设置了`application/json`，那响应就需要时键值对了。相应的需要修改如下
-```php
-    $response = new Response(json_encode(array('I am a key' => 'I am a value')));
-    $response->headers->set('Content-Type', 'application/json');
-    return $response;
-```
+> 
+> ```php
+> $response = new Response(json_encode(array('I am a key' => 'I am a value')));
+> $response->headers->set('Content-Type', 'application/json');
+> return $response;
+> ```
 
 ## 创建静态页面
 
@@ -382,3 +383,19 @@ public function validAction(Request $request)
 
 
 最后想说一点，我写的这系列文章一定要自己动手实践才行，很多问题你不自己实践是发现不了的。官方文档的风格我很喜欢，但有些问题并没有解释的很清楚，或者要翻看具体组件的文档太麻烦，这时候自己尝试一下就会有很好的体验喽。
+
+下一篇谈谈Request对象。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
