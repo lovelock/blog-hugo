@@ -273,7 +273,6 @@ $request->getContentType();
 
 倒数第二个方法是通过HeaderBag获取Header中的字段，这种写法获取的是请求Header中的Content-Type，传过来的是什么，获取到的就是什么。而最后一种方法则不一样，看代码可知，返回的是经过格式化的简化格式。比如如果在请求中指定`Content-Type:application/json`，前者获取到的是`application/json`，而后者是`json`。但需要保证MIME type是合法的，否则后者获取到的就是null了。
 
-更多的Request信息见第5部分。
 
 ## Response
 
