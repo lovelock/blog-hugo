@@ -260,7 +260,7 @@ class Bootstrap extends Bootstrap_Abstract
 ## 更多配置文件
 
 ### PHP-FPM
-
+[这里还没有实践成功，待更新]
 为了方便统一管理数据库配置，有些公司会把这些敏感信息放在php-fpm.conf里，用`env[DB_HOST]=xxx.xxx.xxx.xxx`这种方式。然后在`conf`目录里新建一个配置，
 
 ```ini
@@ -293,6 +293,8 @@ port="DB_PORT"
 host="DB_HOST_DEV"
 port="DB_PORT_DEV"
 ```
+
+TO BE CONTINUED.
 
 
 
