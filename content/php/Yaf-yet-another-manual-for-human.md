@@ -2,7 +2,7 @@
 author = "frostwong"
 date = "2016-02-01T11:55:20+08:00"
 description = "如果你对Yaf的用法迷迷糊糊，请点击"
-draft = true
+draft = false
 keywords = ["Yaf", "文档"]
 tags = ["Yaf", "解惑"]
 title = "写给迷惑的人的Yaf文档"
