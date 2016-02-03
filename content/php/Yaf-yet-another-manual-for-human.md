@@ -5,7 +5,7 @@ description = "如果你对Yaf的用法迷迷糊糊，请点击"
 draft = false
 keywords = ["Yaf", "文档"]
 tags = ["Yaf", "解惑"]
-title = "有一个Yaf文档——写给正在迷惑的你"
+title = "又一个Yaf文档——写给正在迷惑的你"
 topics = ["Yaf文档"]
 type = "post"
 
