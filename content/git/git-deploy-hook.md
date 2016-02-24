@@ -42,6 +42,9 @@ type = "post"
     mkdir project.git
     cd project.git
     git init --bare
+    cd hooks
+    echo 'git --work-tree=/var/www/project --git-dir=/var/git/project.git checkout -f' > post-receive
+    chmod +x post-receive
     ```
     
 2. clone 代码库到本地，开始工作
