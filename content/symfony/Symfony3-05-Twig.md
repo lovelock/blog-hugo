@@ -4,7 +4,6 @@ date = "2016-01-11T23:52:45+08:00"
 description = "Symfony3 框架"
 draft = true
 keywords = ["PHP", "Symfony3"]
-tags = ["one", "two"]
 title = "Symfony3 In Action——Twig"
 topics = ["Symfony"]
 type = "post"
@@ -13,7 +12,7 @@ type = "post"
 
 如果你是PHP程序员，那你一定知道模板引擎。虽然PHP本身就是一种模板语言，但还是几乎每天都不断的有新的模板引擎出现。
 
-你最经常听到的应该是Smarty。但Smarty老矣，我们要学的是现代化的模板引擎——Twig。
+你最经常听到的应该是Smarty。~~但Smarty老矣~~，（这对Smarty是一个很不公平的评价，可能因为我之前的项目中用到的Smarty版本比较老，很多功能都没有，而在Twig中有，我就认为Smarty很不好，实际上Smarty的新版本中加入了很多激动人心的功能），我们要学的是现代化的模板引擎——Twig。
 
 首先要知道模板引擎是干什么用的，以及它的实现原理。
 

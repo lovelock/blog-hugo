@@ -16,7 +16,9 @@ type = "post"
 环境部署我就不说了，直接上配置说明
 
 ![操作系统版本](http://7xn2pe.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-02-21%20%E4%B8%8B%E5%8D%883.49.05.png)
+
 ![PHP版本](http://7xn2pe.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-02-21%20%E4%B8%8B%E5%8D%883.47.48.png)
+
 ![PHP模块](http://7xn2pe.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-02-21%20%E4%B8%8B%E5%8D%883.48.04.png)
 
 ## Git自动部署
@@ -25,7 +27,7 @@ type = "post"
 
 对，就是钩子。
 
-第一次对钩子的作用有概念还是Yaf的Plugin中的钩子，说白了就是回调函数。你可以指定在某个事件发生前或者发生后做某件事。
+第一次对钩子的作用有概念还是Yaf的Plugin中的钩子，~~说白了就是回调函数~~。你可以指定在某个事件发生前或者发生后做某件事。
 
 那根据需求，这个钩子应该在`/var/www/project`中执行`git checkout -f`命令。那总不能要cd到Web目录去执行吧，所以得先设置两个变量
 
