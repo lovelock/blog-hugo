@@ -71,12 +71,12 @@ $(document).ready(function () {
 <table class="table table-striped table-bordered table-hover" id="example">
     <thead>
         <tr>
-            <th>Comlum1</th>
-            <th>Comlum2</th>
-            <th>Comlum3</th>
-            <th>Comlum4</th>
-            <th>Comlum5</th>
-            <th>Comlum6</th>
+            <th>Column1</th>
+            <th>Column2</th>
+            <th>Column3</th>
+            <th>Column4</th>
+            <th>Column5</th>
+            <th>Column6</th>
         <tr>
     </thead>
 </table>
