@@ -68,7 +68,7 @@ $(document).ready(function () {
 在页面上需要有
 
 ```html
-<table class="table table-striped table-bordered table-hover" id="example">
+<table class="table table-striped table-bordered table-hover" id="datatable-example">
     <thead>
         <tr>
             <th>Column1</th>
