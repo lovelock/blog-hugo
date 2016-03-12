@@ -3,8 +3,8 @@ author = "frostwong"
 date = "2016-01-21T16:21:46+08:00"
 description = "Debian删除了所有桌面相关的包之后无法上网了"
 draft = false
-keywords = ["Linux", "Debian", "网络故障"]
-tags = ["Network", "Debian"]
+keywords = ["Linux", "Debian", "网络故障","Network", "Debian"]
+tags = ["Linux"]
 title = "修复因为过量卸载引起的Debian无法上网"
 type = "post"
 
