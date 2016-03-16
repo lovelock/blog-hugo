@@ -66,6 +66,38 @@ rewrite ^/(.*)  /index.php?$1 last;
 
 这才是错误的。
 
+我的配置:
+
+```nginx
+server {
+    listen 80;
+
+    root /var/www/yaf.ubuntu.com/public;
+
+    index index.php index.html;
+
+    server_name yaf.ubuntu.com;
+
+    location = /favicon.ico {
+        access_log off;
+        error_log off;
+        log_not_found off;
+    }
+
+    if (!-e $request_filename) {
+        rewrite ^/(.*\.(js|ico|gif|jpg|png|css|bmp|html|xls)$) /public/$1 last;
+        rewrite ^/(.*)  /index.php/$1 last;
+    }
+
+    location ~ \.php {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/usr/local/var/run/php-fpm-www.sock;
+    }
+}
+```
+
+上面这个配置主要是加上了对静态文件的支持，如果没有多出来的配置，你会经常在日志中看到找不到Favicon.ico.php找不到的500报错。
+
 ## FPM配置
 
 那好，路由规则明白了，rewrite规则好了，毕竟我是PHP脚本啊，得有FPM吧。通常来说，Nginx会给你一个默认的配置，以Debian为例，用apt安装的Nginx自带的default配置`location ~ \.php$`段如下（已删除注释，我喜欢用unix socket，不服来打我啊）
@@ -269,7 +301,7 @@ adapter=pdo_mysql
 host="DB_HOST"
 port="DB_PORT"
 
-[dev:db]
+[dev:prod]
 host="DB_HOST_DEV"
 port="DB_PORT_DEV"
 ```
@@ -285,11 +317,10 @@ class Conf
 {
     public static function get($key)
     {
-        $filename = PATH/TO/CONF . substr($key, 0, strpos($key, '.')) . '.ini';
+        $filename = PATH/TO/CONF . '/' . explode('.', $key) . '.ini';
 
         if (is_file($filename) && is_readable($filename)) {
-            $ini = new Ini($filename, ENV);
-            $config = $ini->get($key);
+            $config = (new Ini($filename, ENV))->get($key);
             if (is_a($config, 'Yaf\Config\Ini')) {
                 $config = $config->toArray();
             }
