@@ -178,29 +178,29 @@ class FooController extends Controller_Abstract
 ```
 
 1. application
-	
+
 	这是应用的主目录。
-	
+
 	想让应用能最简单的跑起来，得有Controller，也就是controllers目录，这里面放的是IndexModule的东西。
-	
+
 	底层用到的一些类库，放在library里。
-	
+
 	数据库操作放在models里。
-	
+
 	多模块放在modules里。像上面的树图里一样，每个module里还有相应的Controller。
-	
+
 2. conf
-	
+
 	存放配置文件。
-	
+
 	我看多数时候是把它放在application里的，但我更倾向于把它放在和application同级目录下。其中的app.ini是Yaf框架的基础配置，里面需要包含Yaf的『唯一一个』必选配置项`application.directory`。
-	
+
 3. public
-	
+
 	存放index.php和静态文件。
-	
+
 	这里是用户可以直接访问的文件。静态文件放在这里最合适不过了。
-	
+
 ## 插件的使用
 
 应用上线后Nginx的配置就不太好改了，但我们可以随意修改代码啊，所以如果需要对路由规则做一些修改，可以写个插件。下面以Route插件为例，介绍插件的使用。
@@ -257,27 +257,7 @@ class Bootstrap extends Bootstrap_Abstract
 
 假设我们要做一个后台，不同模块是需要不同的访问权限的，该怎么办？我的想法是这样，做一个权限控制的plugin，先检查用户身份，然后`$request->getModule()`，如果要访问的是该用户不具有权限的模块，就给跳到一个403页。
 
-## 更多配置文件
-
-### PHP-FPM
-[这里还没有实践成功，待更新]
-为了方便统一管理数据库配置，有些公司会把这些敏感信息放在php-fpm.conf里，用`env[DB_HOST]=xxx.xxx.xxx.xxx`这种方式。然后在`conf`目录里新建一个配置，
-
-```ini
-[db]
-host="DB_HOST"
-```
-
-这样在应用程序里可以用如下的方法访问配置
-
-```php
-use Yaf\Config\Ini;
-
-$config = new Ini(APPLICATION_PATH.'/conf/db.ini');
-$host = $config->db->host;
-```
-
-### 配置分节
+## 配置分节
 
 假设这样一个场景，你线上和线下资源配置肯定是不一样的，但又有些是一样的，怎么办？还以`db.ini`为例
 
@@ -294,12 +274,45 @@ host="DB_HOST_DEV"
 port="DB_PORT_DEV"
 ```
 
-TO BE CONTINUED.
+这种情况下可以写一个工具类，因为我觉得这个Yaf\Config\Ini提供的API并不太好用，先要初始化才能用。我做一层封装，不成想竟然发现了很方便的从生产环境/开发环境/测试环境的方法。工具类如下:
 
+```php
 
+namespace Your\Name\Space;
+use Yaf\Config\Ini;
 
+class Conf
+{
+    public static function get($key)
+    {
+        $filename = PATH/TO/CONF . substr($key, 0, strpos($key, '.')) . '.ini';
 
+        if (is_file($filename) && is_readable($filename)) {
+            $ini = new Ini($filename, ENV);
+            $config = $ini->get($key);
+            if (is_a($config, 'Yaf\Config\Ini')) {
+                $config = $config->toArray();
+            }
+        } else {
+            $config = null;
+        }
 
+        return $config;
+    }
+}
+```
 
+上面这个工具类的作用是支持`Your\Name\Space\Conf::get('foo.bar.good');`的方式取值。如果配置文件是这样的
 
+```ini
+[test]
+foo.bar.good = 'good foo'
+foo.bar.better = 'better foo'
 
+[prod:test]
+foo.bar.better = 'best foo'
+```
+
+那用`Your\Name\Space\Conf::get('foo.bar');`取出的就是包含`good`和`better`的一个数组，如果是`Your\Name\Space\Conf::get('foo.bar.good');`这样，就是`good foo`这个字符串。
+
+重点是对生产环境的切换。注意实例化`Ini`类的时候的那个`ENV`变量，你可以在`/public/index.php`中`define`这个常量，然后又从一个公共的工具类中取出配置，所以只需要在修改`index.php`里面的`ENV`的定义，就可以方便的在各种环境之间切换了。
