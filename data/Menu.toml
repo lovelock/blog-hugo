@@ -7,6 +7,11 @@
     Title = "Show posts of PHP"
     URL = "/php"
 
+[Frontend]
+    Name = "FrontEnd"
+    Title = "Show posts of FrontEnd"
+    URL = "/frontend"
+
 [Symfony]
     Name = "Symfony"
     Title = "Show Posts of Symfony Framework"
@@ -17,7 +22,7 @@
     Title = "Python stuff"
     URL = "/python"
 
-[posts]
+[Posts]
     Name = "Posts"
     Title = "Show list of posts"
     URL = "/post"
