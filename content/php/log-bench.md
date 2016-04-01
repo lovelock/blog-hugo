@@ -6,7 +6,7 @@ draft = false
 keywords = ["error_log", "seaslog"]
 tags = ["PHP", "log"]
 title = "seaslog 和 error_log性能大比拼"
-
+type = "post"
 +++
 
 今天花了点时间测试了开源项目[seaslog](http://neeke.github.io/SeasLog/)和PHP内置的error_log的性能。本文不涉及该扩展的安装和使用，如果对其不了解，可移步[官网](http://neeke.github.io/SeasLog/)。
