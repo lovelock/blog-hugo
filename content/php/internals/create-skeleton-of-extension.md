@@ -179,18 +179,18 @@ After doing this, you may fix the identity used for this commit with:
 	
 	注意其中的`./buildconf --force`，之所以带`--force`是因为我们是在正式版的PHP源码中进行操作的，正常情况下使用这种方式编译的都是内建扩展，例如`PDO`这种，是PHP官方团队开发的，所以你非要用这种方式编译的话，就强制一下好了。
 	
-```bash
-➜  hylog git:(master) cd ..
-➜  ext cd ..
-➜  php-7.0.5 ./buildconf --force
-Forcing buildconf
-Removing configure caches
-buildconf: checking installation...
-buildconf: autoconf version 2.69 (ok)
-rebuilding aclocal.m4
-rebuilding configure
-rebuilding main/php_config.h.in
-```
+	```bash
+	➜  hylog git:(master) cd ..
+	➜  ext cd ..
+	➜  php-7.0.5 ./buildconf --force
+	Forcing buildconf
+	Removing configure caches
+	buildconf: checking installation...
+	buildconf: autoconf version 2.69 (ok)
+	rebuilding aclocal.m4
+	rebuilding configure
+	rebuilding main/php_config.h.in
+	```
 
 2. 查找变化
 	
@@ -201,74 +201,74 @@ rebuilding main/php_config.h.in
 	
 	这时检查一下`configure --help`
 	
-```bash
-➜  php-7.0.5 ./configure --help | grep hylog
-  --enable-hylog           Enable hylog support
-```
+	```bash
+	➜  php-7.0.5 ./configure --help | grep hylog
+	  --enable-hylog           Enable hylog support
+	```
 
 诶，有点眼熟对不对？就是刚才在`ext/hylog/config.m4`中取消注释的内容。
 
 3. 编译PHP
 
-既然要把它编译进来，那就加上`--enable-hylog`吧。
-
-```bash
-➜  php-7.0.5 ./configure --enable-hylog
-➜  php-7.0.5 make
-➜  php-7.0.5 sudo make install
-```
+	既然要把它编译进来，那就加上`--enable-hylog`吧。
+	
+	```bash
+	➜  php-7.0.5 ./configure --enable-hylog
+	➜  php-7.0.5 make
+	➜  php-7.0.5 sudo make install
+	```
 
 4. 查看已安装的扩展
 	
-```bash
-➜  php-7.0.5 php -v
-PHP 7.0.5 (cli) (built: Apr  9 2016 11:08:08) ( NTS )
-Copyright (c) 1997-2016 The PHP Group
-Zend Engine v3.0.0, Copyright (c) 1998-2016 Zend Technologies
-➜  php-7.0.5 php -m
-[PHP Modules]
-Core
-ctype
-date
-dom
-fileinfo
-filter
-hash
-hylog
-iconv
-json
-libxml
-pcre
-PDO
-pdo_sqlite
-Phar
-posix
-Reflection
-session
-SimpleXML
-SPL
-sqlite3
-standard
-tokenizer
-xml
-xmlreader
-xmlwriter
+	```bash
+	➜  php-7.0.5 php -v
+	PHP 7.0.5 (cli) (built: Apr  9 2016 11:08:08) ( NTS )
+	Copyright (c) 1997-2016 The PHP Group
+	Zend Engine v3.0.0, Copyright (c) 1998-2016 Zend Technologies
+	➜  php-7.0.5 php -m
+	[PHP Modules]
+	Core
+	ctype
+	date
+	dom
+	fileinfo
+	filter
+	hash
+	hylog
+	iconv
+	json
+	libxml
+	pcre
+	PDO
+	pdo_sqlite
+	Phar
+	posix
+	Reflection
+	session
+	SimpleXML
+	SPL
+	sqlite3
+	standard
+	tokenizer
+	xml
+	xmlreader
+	xmlwriter
+	
+	[Zend Modules]
+	```
+	
+	现在可以看到我们新创建的扩展已经编译进PHP了——虽然它没有任何功能。可以再到`/usr/local/lib/php/extensions/no-debug-non-zts-20151012`中验证一下是不是真的没有`hylog.so`存在。
+	
+	所以如果不想用它了怎么办呢？你当然可以选择无视它，但最好还是卸载了吧，卸载的方法也很简单，
+	
+	
+	```bash
+	➜  php-7.0.5 ./configure --disable-hylog
+	➜  php-7.0.5 make
+	➜  php-7.0.5 sudo make install
+	```
 
-[Zend Modules]
-```
-
-现在可以看到我们新创建的扩展已经编译进PHP了——虽然它没有任何功能。可以再到`/usr/local/lib/php/extensions/no-debug-non-zts-20151012`中验证一下是不是真的没有`hylog.so`存在。
-
-所以如果不想用它了怎么办呢？你当然可以选择无视它，但最好还是卸载了吧，卸载的方法也很简单，
-
-
-```bash
-➜  php-7.0.5 ./configure --disable-hylog
-➜  php-7.0.5 make
-➜  php-7.0.5 sudo make install
-```
-
-看起来就是三行，其实要用很长时间，所以，像我们这样的第三方扩展开发者还是不要用这种方式比较好。
+	看起来就是三行，其实要用很长时间，所以，像我们这样的第三方扩展开发者还是不要用这种方式比较好。
 
 ### 动态加载
 
@@ -278,37 +278,37 @@ xmlwriter
 
 	还记得我刚刚提到的执行某些命令后会生成很多文件吗？就是这里了。如果你还没有用`git`，我劝你现在用了。
 	
-```bash
-➜  hylog git:(master) phpize
-Configuring for:
-PHP Api Version:         20151012
-Zend Module Api No:      20151012
-Zend Extension Api No:   320151012
-➜  hylog git:(master) ✗ ./configure
-➜  hylog git:(master) ✗ make
-➜  hylog git:(master) ✗ sudo make install
-Installing shared extensions:     /usr/local/lib/php/extensions/no-debug-non-zts-20151012/
-```
+	```bash
+	➜  hylog git:(master) phpize
+	Configuring for:
+	PHP Api Version:         20151012
+	Zend Module Api No:      20151012
+	Zend Extension Api No:   320151012
+	➜  hylog git:(master) ✗ ./configure
+	➜  hylog git:(master) ✗ make
+	➜  hylog git:(master) ✗ sudo make install
+	Installing shared extensions:     /usr/local/lib/php/extensions/no-debug-non-zts-20151012/
+	```
 
-好，到这里已经看到在独立编译动态扩展时，生成的`.so`文件是放在了这个目录下的。这时动态的好处就体现出来了。文件有了，至于你想不想用，只需要修改`php.ini`即可，不用任何重新编译。
+	好，到这里已经看到在独立编译动态扩展时，生成的`.so`文件是放在了这个目录下的。这时动态的好处就体现出来了。文件有了，至于你想不想用，只需要修改`php.ini`即可，不用任何重新编译。
 
 2. 安装和卸载扩展
 
 	前面说了，如果需要该扩展，编辑`/usr/local/lib/php.ini`，在最下面添加（安装）或删除（卸载）一行
 
-```ini
-extension=hylog.so
-```
+	```ini
+	extension=hylog.so
+	```
 
 3. 调试
 
 	我可不敢保证代码一次就能成功，调试的时候要多次执行以上三个命令，所以可以创建一个`rebuild.sh`脚本，运行脚本重新编译并安装最新的版本。
 	
-```bash
-./configure
-make
-sudo make install
-```
+	```bash
+	./configure
+	make
+	sudo make install
+	```
 
 最好把它加入到`git`工作目录中。
 
