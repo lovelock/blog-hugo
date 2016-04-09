@@ -5,7 +5,7 @@ description = "通过编写扩展深入理解PHP"
 draft = false
 keywords = ["PHP", "扩展"]
 tags = ["PHP", "扩展"]
-title = "PHP扩展简介"
+title = "PHP扩展实战——背景介绍"
 type = "post"
 
 +++
