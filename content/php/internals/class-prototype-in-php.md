@@ -1,5 +1,5 @@
 +++
-author = "frostwong@gmail.com"
+author = "frostwong"
 date = "2016-04-09T21:55:00+08:00"
 description = "通过编写扩展深入理解PHP"
 draft = false

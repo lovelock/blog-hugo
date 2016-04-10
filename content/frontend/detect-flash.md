@@ -1,5 +1,5 @@
 +++
-author = "frostwong@gmail.com"
+author = "frostwong"
 date = "2016-03-30T16:08:03+08:00"
 description = "检测浏览器是否安装了Flash"
 draft = false

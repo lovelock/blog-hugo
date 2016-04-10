@@ -1,5 +1,5 @@
 +++
-author = "frostwong@gmail.com"
+author = "frostwong"
 date = "2016-02-21T15:37:20+08:00"
 description = "Git自动部署钩子的使用"
 draft = true

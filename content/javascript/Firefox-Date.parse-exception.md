@@ -1,5 +1,5 @@
 +++
-author = "frostwong@gmail.com"
+author = "frostwong"
 date = "2016-01-25T12:14:35+08:00"
 description = "Firefox下日期解析行为兼容方案"
 draft = false

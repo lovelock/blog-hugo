@@ -1,5 +1,5 @@
 +++
-author = "frostwong@gmail.com"
+author = "frostwong"
 date = "2016-03-07T12:06:45+08:00"
 description = "描述怎样自定义svn-diff"
 draft = false

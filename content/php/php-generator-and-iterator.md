@@ -1,5 +1,5 @@
 +++
-author = "frostwong@gmail.com"
+author = "frostwong"
 date = "2016-04-05T12:05:46+08:00"
 description = "description"
 draft = false
