@@ -27,7 +27,12 @@
     Title = "Show list of posts"
     URL = "/post"
 
-[tags]
+[Tags]
     Name = "Tags"
     Title = "Show list of tags"
     URL = "/tags"
+
+[Topics]
+    Name = "Topics"
+    Title = "Show list of topics"
+    URL = "/topics"

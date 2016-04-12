@@ -1,7 +1,7 @@
 baseurl = "http://unixera.com/"
 languageCode = "en-us"
 title = "Me & Web"
-copyright = "(c) 2013-2015 Frost Wong. All rights reserved."
+copyright = "(c) 2013-2016 Frost Wong. All rights reserved."
 theme = "hyde-y"
 # Pagination
 paginate = 5
@@ -24,12 +24,13 @@ paginatePath = "page"
     brand = "Frost Wong"
     topline = "Be a better WEB developer"
     footline = "Learn what you eager"
-    sidebar = "left"
+    sidebar = "right"
     highlight = "default"
 
     github = "lovelock"
     twitter = "frostwong"
     duoshuoShortname = "UnixAgain"
+    linkedin = "青春-王-21466080"
 
 [blackfriday]
     angleQuotes = true
