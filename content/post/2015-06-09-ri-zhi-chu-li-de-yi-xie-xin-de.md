@@ -1,5 +1,6 @@
 +++
 +++
+isCJKLanguage = true
 
 title  = "日志处理的一些心得"
 date = "2015-06-09T19:32:40+08:00"

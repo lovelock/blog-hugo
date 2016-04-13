@@ -1,5 +1,6 @@
 +++
 title  = "JavaScript闭包深究"
+isCJKLanguage = true
 date = "2015-12-02T21:35:12+08:00"
 keywords = ["JavaScript", "Closure"]
 tags = ["JavaScript", "Closure"]

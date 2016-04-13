@@ -1,5 +1,6 @@
 +++
 title  = "缓存使用小记"
+isCJKLanguage = true
 date = "2015-06-26T10:24:03+08:00"
 +++
 

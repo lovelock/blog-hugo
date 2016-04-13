@@ -1,5 +1,6 @@
 +++
 author = "frostwong"
+isCJKLanguage = true
 date = "2016-01-20T14:03:19+08:00"
 description = "description"
 draft = false

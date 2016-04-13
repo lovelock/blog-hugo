@@ -1,5 +1,6 @@
 +++
 title  = "jQuery动态生成元素"
+isCJKLanguage = true
 date = "2015-05-05T23:14:20+08:00"
 +++
 

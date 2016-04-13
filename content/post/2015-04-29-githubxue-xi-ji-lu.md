@@ -1,5 +1,6 @@
 +++
 title  = "github学习记录"
+isCJKLanguage = true
 date = "2015-04-29T00:31:18+08:00"
 +++
 

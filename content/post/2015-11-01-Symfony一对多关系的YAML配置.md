@@ -1,5 +1,6 @@
 +++
 title  = "Symfony一对多关系的YAML配置"
+isCJKLanguage = true
 date = "2015-11-01T16:11:21"
 +++
 

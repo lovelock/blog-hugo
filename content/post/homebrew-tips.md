@@ -1,5 +1,6 @@
 +++
 author = "frostwong"
+isCJKLanguage = true
 date = "2016-02-17T22:58:19+08:00"
 description = "Homebrew的一个小坑"
 draft = true

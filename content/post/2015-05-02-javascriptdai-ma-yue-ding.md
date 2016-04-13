@@ -1,5 +1,6 @@
 +++
 title  = "JavaScript代码约定"
+isCJKLanguage = true
 date = "2015-05-02T21:08:49+08:00"
 draft = true
 

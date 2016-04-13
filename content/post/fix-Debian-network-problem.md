@@ -1,5 +1,6 @@
 +++
 author = "frostwong"
+isCJKLanguage = true
 date = "2016-01-21T16:21:46+08:00"
 description = "Debian删除了所有桌面相关的包之后无法上网了"
 draft = false

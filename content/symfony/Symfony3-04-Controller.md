@@ -1,5 +1,6 @@
 +++
 author = "frostwong"
+isCJKLanguage = true
 date = "2016-01-11T23:51:43+08:00"
 description = "Symfony3 框架 Controller"
 draft = false

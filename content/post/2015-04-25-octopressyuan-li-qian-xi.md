@@ -1,5 +1,6 @@
 +++
 title  = "octopress原理浅析"
+isCJKLanguage = true
 date = "2015-04-25T21:35:12+08:00"
 +++
 

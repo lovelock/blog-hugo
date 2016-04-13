@@ -1,5 +1,6 @@
 +++
 title  = "homebrew使用心得"
+isCJKLanguage = true
 date = "2015-06-26T10:25:07+08:00"
 +++
 

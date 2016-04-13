@@ -1,5 +1,6 @@
 +++
 title  = "vim常用插件收藏及简单说明"
+isCJKLanguage = true
 date = "2015-04-26T01:18:12+08:00"
 +++
 

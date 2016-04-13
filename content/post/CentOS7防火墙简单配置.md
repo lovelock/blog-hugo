@@ -1,5 +1,6 @@
 +++
 title  = "CentOS7防火墙简单配置"
+isCJKLanguage = true
 date = "2015-07-12T17:46:00"
 +++
 

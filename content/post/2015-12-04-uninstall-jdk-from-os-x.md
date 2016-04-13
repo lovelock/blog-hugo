@@ -1,5 +1,6 @@
 +++
 title  = "OS X完全卸载JDK的方法"
+isCJKLanguage = true
 date = "2015-12-04T23:04:43"
 +++
 

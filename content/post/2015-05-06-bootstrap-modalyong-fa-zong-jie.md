@@ -1,5 +1,6 @@
 +++
 title  = "Bootstrap Modal用法总结"
+isCJKLanguage = true
 date = "2015-05-06T23:15:41+08:00"
 +++
 

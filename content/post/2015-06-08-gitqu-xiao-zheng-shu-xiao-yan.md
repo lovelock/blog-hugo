@@ -1,5 +1,6 @@
 +++
 title  = "git取消证书校验"
+isCJKLanguage = true
 date = "2015-06-08T12:32:44+08:00"
 +++
 

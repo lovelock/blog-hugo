@@ -1,5 +1,6 @@
 +++
 author = "frostwong"
+isCJKLanguage = true
 date = "2016-02-26T22:37:27+08:00"
 description = "解放生产力的工具"
 draft = true

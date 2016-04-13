@@ -1,5 +1,6 @@
 +++
 author = "frostwong"
+isCJKLanguage = true
 date = "2016-02-28T21:40:04+08:00"
 description = "教你如何使用Bootstrap插件DataTables"
 draft = false

@@ -24,8 +24,8 @@ paginatePath = "page"
     brand = "Frost Wong"
     topline = "Be a better WEB developer"
     footline = "Learn what you eager"
-    sidebar = "right"
-    highlight = "default"
+    sidebar = false
+    highlight = "solarized_light"
 
     github = "lovelock"
     twitter = "frostwong"
