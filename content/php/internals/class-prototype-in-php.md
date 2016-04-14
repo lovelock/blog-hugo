@@ -7,6 +7,7 @@ keywords = ["PHP", "扩展"]
 tags = ["PHP", "扩展"]
 title = "PHP扩展实战——用PHP实现类的原型"
 type = "post"
+isCJKLanguage = true
 
 +++
 
