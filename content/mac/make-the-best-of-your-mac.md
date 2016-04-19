@@ -2,7 +2,7 @@
 author = "frostwong"
 date = "2016-04-19T19:43:06+08:00"
 description = "提高Mac电脑的生产力"
-draft = true
+draft = false
 keywords = ["homebrew", "mac"]
 tags = ["Mac"]
 title = "善用你的Mac电脑"
