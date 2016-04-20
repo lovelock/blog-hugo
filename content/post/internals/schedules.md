@@ -7,6 +7,7 @@ keywords = ["PHP", "扩展"]
 tags = ["PHP", "扩展"]
 title = "PHP扩展实战——目标和计划"
 type = "post"
+topics = ["PHP"]
 isCJKLanguage = true
 
 +++

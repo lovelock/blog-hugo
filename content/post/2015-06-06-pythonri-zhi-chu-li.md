@@ -2,6 +2,7 @@
 title  = "Python日志处理记"
 isCJKLanguage = true
 date = "2015-06-06T10:31:09+08:00"
+topics = ["Python"]
 +++
 
 事情是这样的，今天领导给了一个需求，处理日志。

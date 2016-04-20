@@ -6,7 +6,7 @@ draft = false
 keywords = ["Yaf", "文档"]
 tags = ["Yaf", "解惑"]
 title = "又一份Yaf文档——写给正在迷惑的你"
-topics = ["Yaf文档"]
+topics = ["PHP"]
 type = "post"
 
 +++

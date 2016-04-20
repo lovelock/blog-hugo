@@ -5,6 +5,7 @@ description = "通过编写扩展深入理解PHP"
 draft = false
 keywords = ["PHP", "扩展"]
 tags = ["PHP", "扩展"]
+topics = ["PHP"]
 title = "PHP扩展实战——用PHP实现类的原型"
 type = "post"
 isCJKLanguage = true

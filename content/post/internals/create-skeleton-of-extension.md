@@ -6,6 +6,7 @@ draft = false
 keywords = ["PHP", "扩展"]
 tags = ["PHP", "扩展"]
 title = "PHP扩展实战——扩展的骨架"
+topics = ["PHP"]
 type = "post"
 isCJKLanguage = true
 

@@ -5,6 +5,7 @@ description = "提高Mac电脑的生产力"
 draft = false
 keywords = ["homebrew", "mac"]
 tags = ["Mac"]
+topics = ["Mac"]
 title = "善用你的Mac电脑"
 type = "post"
 

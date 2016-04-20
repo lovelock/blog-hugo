@@ -6,6 +6,7 @@ description = "教你如何使用Bootstrap插件DataTables"
 draft = false
 keywords = ["Bootstrap", "DataTables"]
 title = "Bootstrap插件DataTables实现服务器端分页"
+topics = ["FrontEnd"]
 type = "post"
 
 +++

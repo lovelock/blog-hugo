@@ -4,6 +4,7 @@ date = "2015-04-25T17:07:18+08:00"
 author = "frostwong"
 type = "post"
 description = "PHP单入口模式简介"
+topics = ["PHP"]
 +++
 
 单入口模式是现在很多项目遵循的模式，如WordPress等。

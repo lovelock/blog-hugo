@@ -1,6 +1,7 @@
 +++
 author = "frostwong"
 type = "post"
+topics = ["PHP"]
 date = "2016-01-09T21:11:33+08:00"
 description = "动态类型和强类型"
 draft = false

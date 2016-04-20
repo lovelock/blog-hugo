@@ -6,6 +6,7 @@ description = "Git自动部署钩子的使用"
 draft = true
 keywords = ["git", "hook"]
 title = "使用Git钩子自动部署代码"
+topics = ["VersionControl"]
 type = "post"
 
 +++
