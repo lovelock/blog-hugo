@@ -2,6 +2,7 @@
 title  = "HTML中的input[type=radio]的一个小发现"
 isCJKLanguage = true
 date = "2015-12-04T23:12:52"
+topics = ["javascript"]
 tags = ["HTML", "tags"]
 keywords = ["radio"]
 +++

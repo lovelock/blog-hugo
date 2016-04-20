@@ -2,7 +2,9 @@
 title  = "UIImagePickerControllerUsage"
 isCJKLanguage = true
 date = "2015-07-12T16:27:05"
-draft = true
+draft = false
+topics = ["iOS"]
+tags = ["iOS"]
 +++
 
 

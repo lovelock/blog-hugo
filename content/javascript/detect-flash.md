@@ -6,7 +6,7 @@ description = "检测浏览器是否安装了Flash"
 draft = false
 title = "检测浏览器是否安装了Flash"
 tags = ["Flash", "JavaScript"]
-topics = ["FrontEnd"]
+topics = ["javascript"]
 type = "post"
 
 +++

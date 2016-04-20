@@ -2,7 +2,9 @@
 title  = "iOS8及以下使用NSURLConnectionDelegate实现网络请求"
 isCJKLanguage = true
 date = "2015-07-13T20:20:18"
-draft = true
+draft = false
+topics = ["iOS"]
+tags = ["iOS"]
 +++
 
 花了点时间把iOS的网络请求算是有了一点肤浅的认识，在这个夜深人静的晚上记录以下。

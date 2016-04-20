@@ -6,6 +6,7 @@ description = "Debian删除了所有桌面相关的包之后无法上网了"
 draft = false
 keywords = ["Linux", "Debian", "网络故障","Network", "Debian"]
 tags = ["Linux"]
+topics = ["Linux"]
 title = "修复因为过量卸载引起的Debian无法上网"
 type = "post"
 

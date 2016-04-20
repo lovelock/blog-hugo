@@ -2,6 +2,8 @@
 title  = "Bootstrap Modal用法总结"
 isCJKLanguage = true
 date = "2015-05-06T23:15:41+08:00"
+topics = ["javascript"]
+tags = ["jQuery", "BootStrap"]
 +++
 
 这段时间前端后端同时写，对jQuery和Bootstrap用的比较多，说实话我对Modal很感兴趣，单纯的就是因为它好看，并且看起来友好，不像alert那么暴力，FF的实现还好，而Chrome的alert直接忽视所有其他操作，只能选择不再弹出，但只要选择了这个不再弹出，在重启这个页面之前（刷新没用）就不会再弹出了，真不明白这是什么逻辑。当然最重要的一点是Modal可以交互。

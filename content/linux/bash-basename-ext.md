@@ -6,7 +6,7 @@ description = "用Shell脚本获取不包含后缀的文件名"
 draft = false
 keywords = ["shell"]
 title = "Shell脚本获取文件名"
-topics = ["Bash"]
+topics = ["Linux"]
 type = "post"
 
 +++

@@ -2,6 +2,8 @@
 title  = "JavaScript执行总结"
 isCJKLanguage = true
 date = "2015-04-28T22:03:47+08:00"
+topics = ["javascript"]
+keywords = ["async", "sync", "javascript"]
 +++
 
 在所有的场景下，都有一个**将来某个时刻**会执行的回调函数，这**将来某个时刻**就是我们所说的**异步流**。

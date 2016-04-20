@@ -3,10 +3,10 @@ author = "frostwong"
 isCJKLanguage = true
 date = "2016-02-21T15:37:20+08:00"
 description = "Git自动部署钩子的使用"
-draft = true
+draft = false
 keywords = ["git", "hook"]
 title = "使用Git钩子自动部署代码"
-topics = ["VersionControl"]
+topics = ["git"]
 type = "post"
 
 +++
@@ -72,4 +72,3 @@ type = "post"
 这个过程需要注意**用户git需要有Web目录的写权限**。
 
 基础搭好了，就可以继续了。
-

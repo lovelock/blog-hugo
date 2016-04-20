@@ -5,6 +5,7 @@ date = "2016-02-17T22:58:19+08:00"
 description = "Homebrew的一个小坑"
 draft = true
 keywords = ["homebrew", "curl"]
+topics = ["Mac"]
 title = "homebrew 和 curl 的一个坑"
 type = "post"
 

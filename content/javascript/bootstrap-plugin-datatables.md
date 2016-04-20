@@ -5,8 +5,9 @@ date = "2016-02-28T21:40:04+08:00"
 description = "教你如何使用Bootstrap插件DataTables"
 draft = false
 keywords = ["Bootstrap", "DataTables"]
+tags = ["Bootstrap", "DataTables"]
 title = "Bootstrap插件DataTables实现服务器端分页"
-topics = ["FrontEnd"]
+topics = ["javascript"]
 type = "post"
 
 +++

@@ -2,6 +2,8 @@
 title  = "jQuery动态生成元素"
 isCJKLanguage = true
 date = "2015-05-05T23:14:20+08:00"
+topics = ["javascript"]
+tags = ["jQuery"]
 +++
 
 这些天做的项目中频繁遇到类似的问题，比如根据ajax返回的结果动态生成一个table或者select的options。这里做一个简单的总结。

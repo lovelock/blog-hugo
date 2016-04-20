@@ -2,6 +2,8 @@
 title  = "CentOS7防火墙简单配置"
 isCJKLanguage = true
 date = "2015-07-12T17:46:00"
+topics = ["Linux"]
+tags = ["firewall", "iptables"]
 +++
 
 防火墙这么个复杂的东西没有一个标准的配置方式真是太烦了，iptables的命令太繁琐，时间长了不用就忘记了，忘记可以记下来，可到了RHEL7竟然又加了个wrapper，叫什么firewall-cmd，我的天，你看看你取了个什么名字吧，不得不说红帽的人真是没有品位。
