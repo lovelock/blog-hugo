@@ -1,10 +1,9 @@
 +++
-+++
 isCJKLanguage = true
-
 title  = "关于smcFanControl的一点感想"
 date = "2015-06-06T15:39:24+08:00"
 topics = ["Mac"]
+type="post"
 +++
 
 前天晚上看了池建强先生的《MacTalk：人生元编程》，其中提到了很多关于Mac和OS X的东西，其中一点引起了我的注意，那就是关于夏天电脑发热严重，怎样避免呢？那么作者就提到了smcFanControl。

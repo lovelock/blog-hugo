@@ -1,4 +1,5 @@
 +++
+type = "post"
 author = "frostwong"
 type = "post"
 topics = ["PHP"]

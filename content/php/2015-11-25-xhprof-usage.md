@@ -1,6 +1,7 @@
 +++
 title  = "xhprof方便的插入要检测的代码"
 isCJKLanguage = true
+type = "post"
 date = "2015-11-25T22:10:51"
 +++
 

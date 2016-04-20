@@ -1,7 +1,7 @@
 +++
 +++
 isCJKLanguage = true
-
+type="post"
 title  = "一位老人在地铁上摔倒想到的"
 date = "2015-06-12T10:29:55+08:00"
 +++

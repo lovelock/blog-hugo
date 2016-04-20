@@ -2,6 +2,7 @@
 title  = "PHP设置cookie"
 date = "2015-06-19T12:30:13+08:00"
 topics = ["PHP"]
+type = "post"
 +++
 
 之前一直没有处理过cookie，刚才小小的看了一下，貌似很简单，大概记一下。

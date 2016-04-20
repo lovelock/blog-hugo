@@ -4,6 +4,7 @@ isCJKLanguage = true
 date = "2015-06-26T10:25:07+08:00"
 topics = ["Mac"]
 tags = ["homebrew"]
+type="post"
 +++
 
 作为Linux派系的程序员，我喜欢Linux的原因很大程度上是它的包管理工具，RedHat系的rpm/yum/dnf/zypper，Debian系的dpkg/apt-get/aptitude，还有小众点的pacman/emerge/port，这些东西最大的用途就是**让用户可以方便的安装软件**。
