@@ -7,6 +7,7 @@ isCJKLanguage = true
 keywords = ["PHP", "扩展"]
 tags = ["PHP", "扩展"]
 title = "为PHP添加全局函数"
+topics = ["PHP"]
 type = "post"
 
 +++

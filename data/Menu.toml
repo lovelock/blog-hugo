@@ -2,30 +2,10 @@
     Name = "About"
     URL = "/about"
 
-[PHP]
-    Name = "PHP"
-    Title = "Show posts of PHP"
-    URL = "/php"
-
-[Frontend]
-    Name = "FrontEnd"
-    Title = "Show posts of FrontEnd"
-    URL = "/frontend"
-
-[Symfony]
-    Name = "Symfony"
-    Title = "Show Posts of Symfony Framework"
-    URL = "/symfony"
-
-[Python]
-    Name = "Python"
-    Title = "Python stuff"
-    URL = "/python"
-
 [Posts]
     Name = "Posts"
     Title = "Show list of posts"
-    URL = "/post"
+    URL = "/"
 
 [Tags]
     Name = "Tags"

@@ -4,7 +4,7 @@ title = "Me & Web"
 copyright = "(c) 2013-2016 Frost Wong. All rights reserved."
 theme = "hyde-y"
 # Pagination
-paginate = 5
+paginate = 10
 paginatePath = "page"
 
 

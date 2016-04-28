@@ -4,6 +4,7 @@ author = "frostwong"
 type = "post"
 date = "2016-01-09T21:11:33+08:00"
 description = "创建一个PSR-4规范的composer包"
+topics = ["PHP"]
 draft = false
 tags = ["Composer", "PSR-4"]
 +++

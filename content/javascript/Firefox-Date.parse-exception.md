@@ -6,7 +6,7 @@ description = "Firefox下日期解析行为兼容方案"
 draft = false
 keywords = ["JavaScript", "Firefox", "Date.parse()"]
 title = "Firefox Date.parse()方法行为不一致的兼容方案"
-topics = ["JavaScript"]
+topics = ["javascript"]
 type = "post"
 
 +++
