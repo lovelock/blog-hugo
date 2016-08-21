@@ -10,7 +10,6 @@ fi
 git add -A
 git commit -m "$msg"
 git push origin master
-git push coding master
 
 
 # Build the project. 
