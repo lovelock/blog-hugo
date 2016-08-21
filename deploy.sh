@@ -10,6 +10,7 @@ fi
 git add -A
 git commit -m "$msg"
 git push origin master
+git push coding master
 
 
 # Build the project. 
@@ -26,6 +27,7 @@ git commit -m "$msg"
 
 # Push source and build repos.
 git push origin master
+git push coding coding-pages
 
 # Come Back
 cd ..
