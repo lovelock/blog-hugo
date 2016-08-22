@@ -2,12 +2,12 @@
 author = "frostwong"
 isCJKLanguage = true
 date = "2016-03-07T12:06:45+08:00"
-description = "描述怎样自定义svn-diff"
+description = "描述怎样自定义svn-diff/git-diff"
 draft = false
 keywords = ["svn", "vim", "diff"]
 topics = ["vim"]
 tags = ["vim", "svn"]
-title = "用vimdiff作为svn的diff工具"
+title = "用vimdiff作为svn/git的diff工具"
 type = "post"
 
 +++
@@ -27,6 +27,14 @@ type = "post"
 
 注意vimdiff.sh文件必须是可执行的。我在提交之前已经加了755，如果出错，请自行检查一下。
 
+Git默认的也是用系统预装的diff工具，所以还可以给git加个配置
+
+```
+git config --global diff.tool vimdiff
+git config --global difftool.prompt false
+git config --global alias.d difftool
+```
+最后一行是可选的，因为执行之后`git d`就是`git diff`的别名了，当使用oh-my-zsh的时候，它带的git插件给`git diff`设置了一个别名`gd`，貌似别名是不支持嵌套的，所以如果执行完第三行，`gd`就不会用vim了。
 
 
 
