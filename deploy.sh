@@ -25,7 +25,7 @@ git add -A
 git commit -m "$msg"
 
 # Push source and build repos.
-git push -u origin coding-pages
+git push origin HEAD:coding-pages
 
 # Come Back
 cd ..
