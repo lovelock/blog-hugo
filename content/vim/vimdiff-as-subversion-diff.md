@@ -34,7 +34,7 @@ git config --global diff.tool vimdiff
 git config --global difftool.prompt false
 git config --global alias.d difftool
 ```
-最后一行是可选的，因为执行之后`git d`就是`git diff`的别名了，当使用oh-my-zsh的时候，它带的git插件给`git diff`设置了一个别名`gd`，貌似别名是不支持嵌套的，所以如果执行完第三行，`gd`就不会用vim了。
 
+配置完之后，执行`git d`就可以呼出`vimdiff`了。
 
 
