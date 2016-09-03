@@ -27,6 +27,7 @@ paginatePath = "page"
     footline = "Learn what you eager"
     sidebar = false
     highlightjs = "monokai"
+    duoshuoShortname = "UnixAgain"
 
 [menu]
     [[menu.main]]
@@ -51,6 +52,5 @@ paginatePath = "page"
 [social]
     github = "lovelock"
     twitter = "frostwong"
-    duoshuoShortname = "UnixAgain"
     linkedin = "青春-王-21466080"
     weibo = "2122681617"
