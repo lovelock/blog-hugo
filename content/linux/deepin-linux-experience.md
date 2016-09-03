@@ -1,14 +1,11 @@
 +++
+title = "DeepinLinux体验报告"
 date = "2016-09-03T17:20:45+08:00"
 description = "也许是国内最好的Linux发行版试用评测"
-draft = false
-tags = ["Deepin"]
-title = "deepin linux experience"
-topics = ["Linux"]
-
+isCJKLanguage = true
+tags = ["deepin"]
+topics = ["linux"]
 +++
-
-> 如果对这个发行版没有兴趣，那么就不需要看下面的描述了，直接告诉你，它还远远达不到可以供日常使用的程度，但愿能做的更好吧，起码让我看到了一些希望。
 
 ## 为什么要写这篇文章
 
