@@ -2,7 +2,7 @@
 date = "2016-09-03T17:20:45+08:00"
 description = "也许是国内最好的Linux发行版试用评测"
 draft = false
-tags = ["Deepin Linux"]
+tags = ["Deepin"]
 title = "deepin linux experience"
 topics = ["Linux"]
 
