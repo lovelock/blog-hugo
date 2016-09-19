@@ -5,6 +5,7 @@ description = "也许是国内最好的Linux发行版试用评测"
 isCJKLanguage = true
 tags = ["deepin"]
 topics = ["linux"]
+draft = false
 +++
 
 ## 为什么要写这篇文章
