@@ -1,4 +1,5 @@
 +++
+categories = ["Miscs"]
 author = "frostwong"
 isCJKLanguage = true
 title  = "我的编程心得——第一篇章"

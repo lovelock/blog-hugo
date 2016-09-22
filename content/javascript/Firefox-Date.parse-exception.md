@@ -1,4 +1,5 @@
 +++
+categories = ["Javascript"]
 author = "frostwong"
 isCJKLanguage = true
 date = "2016-01-25T12:14:35+08:00"
@@ -7,6 +8,7 @@ draft = false
 keywords = ["JavaScript", "Firefox", "Date.parse()"]
 title = "Firefox Date.parse()方法行为不一致的兼容方案"
 topics = ["javascript"]
+tags = ["javascript"]
 type = "post"
 
 +++

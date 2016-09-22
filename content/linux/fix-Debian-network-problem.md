@@ -1,4 +1,5 @@
 +++
+categories = ["Linux"]
 author = "frostwong"
 isCJKLanguage = true
 date = "2016-01-21T16:21:46+08:00"

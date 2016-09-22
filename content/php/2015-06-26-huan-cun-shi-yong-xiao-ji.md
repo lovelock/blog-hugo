@@ -1,4 +1,5 @@
 +++
+categories = ["Php"]
 title  = "缓存使用小记"
 isCJKLanguage = true
 type = "post"

@@ -1,4 +1,5 @@
 +++
+categories = ["Git"]
 author = "frostwong"
 isCJKLanguage = true
 date = "2016-02-21T15:37:20+08:00"
@@ -7,6 +8,7 @@ draft = false
 keywords = ["git", "hook"]
 title = "使用Git钩子自动部署代码"
 topics = ["git"]
+tags = ["git"]
 type = "post"
 
 +++

@@ -1,4 +1,5 @@
 +++
+categories = ["Php"]
 title  = "PHP延迟绑定"
 date = "2015-06-17T23:37:38+08:00"
 topics = ["PHP"]

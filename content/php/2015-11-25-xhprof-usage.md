@@ -1,4 +1,5 @@
 +++
+categories = ["Php"]
 title  = "xhprof方便的插入要检测的代码"
 isCJKLanguage = true
 type = "post"

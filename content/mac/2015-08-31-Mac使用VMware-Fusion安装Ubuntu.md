@@ -1,8 +1,10 @@
 +++
+categories = ["Mac"]
 title  = "Mac使用VMware Fusion安装Ubuntu"
 isCJKLanguage = true
 date = "2015-08-31T19:37:00"
 topics = ["Mac"]
+tags = ["Mac"]
 type="post"
 +++
 

@@ -1,4 +1,5 @@
 +++
+categories = ["Symfony"]
 author = "frostwong"
 isCJKLanguage = true
 date = "2016-01-10T22:02:07+08:00"

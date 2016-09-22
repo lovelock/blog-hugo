@@ -1,8 +1,10 @@
 +++
+categories = ["Mac"]
 title  = "和接口调用方联调的经验教训"
 isCJKLanguage = true
 date = "2015-06-26T10:22:18+08:00"
 topics = ["Mac"]
+tags = ["Mac"]
 type="post"
 +++
 

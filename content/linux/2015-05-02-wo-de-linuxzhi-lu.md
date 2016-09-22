@@ -1,4 +1,6 @@
 +++
+categories = ["Linux"]
+tags = ["Linux"]
 title  = "我的Linux之路"
 isCJKLanguage = true
 date = "2015-05-02T15:26:15+08:00"

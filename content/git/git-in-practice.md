@@ -1,4 +1,5 @@
 +++
+categories = ["Git"]
 author = "frostwong"
 date = "2016-05-13T22:30:18+08:00"
 description = "实际工作中使用的git是什么样的"

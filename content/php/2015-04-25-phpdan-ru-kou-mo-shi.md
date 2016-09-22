@@ -1,4 +1,5 @@
 +++
+categories = ["Php"]
 title  = "PHP单入口模式"
 date = "2015-04-25T17:07:18+08:00"
 author = "frostwong"

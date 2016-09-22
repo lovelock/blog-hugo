@@ -1,4 +1,5 @@
 +++
+categories = ["Vim"]
 author = "frostwong"
 isCJKLanguage = true
 date = "2016-03-07T12:06:45+08:00"

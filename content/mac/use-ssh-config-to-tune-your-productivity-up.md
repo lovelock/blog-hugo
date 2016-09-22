@@ -1,4 +1,5 @@
 +++
+categories = ["Mac"]
 author = "frostwong"
 date = "2016-08-09T14:57:11+08:00"
 description = "如果你还在因为使用ssh而窝火，看看这篇短文吧"

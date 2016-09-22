@@ -1,4 +1,5 @@
 +++
+categories = ["Miscs"]
 author = "frostwong"
 date = "2016-07-17T22:53:33+08:00"
 description = "关于转基因食物的一点看法"

@@ -1,4 +1,6 @@
 +++
+categories = ["Miscs"]
+tags = ["Miscs"]
 title  = "函数默认参数比较"
 isCJKLanguage = true
 date = "2015-05-02T18:21:24+08:00"

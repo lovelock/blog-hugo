@@ -1,4 +1,5 @@
 +++
+categories = ["Linux"]
 author = "frostwong"
 isCJKLanguage = true
 date = "2016-01-09T21:38:27+08:00"
@@ -7,6 +8,7 @@ draft = false
 keywords = ["shell"]
 title = "Shell脚本获取文件名"
 topics = ["Linux"]
+tags = ["Linux"]
 type = "post"
 
 +++

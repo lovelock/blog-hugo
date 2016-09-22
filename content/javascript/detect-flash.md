@@ -1,4 +1,5 @@
 +++
+categories = ["Javascript"]
 author = "frostwong"
 isCJKLanguage = true
 date = "2016-03-30T16:08:03+08:00"

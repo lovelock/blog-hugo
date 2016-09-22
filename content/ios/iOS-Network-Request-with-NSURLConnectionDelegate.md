@@ -1,4 +1,5 @@
 +++
+categories = ["Ios"]
 title  = "iOS8及以下使用NSURLConnectionDelegate实现网络请求"
 isCJKLanguage = true
 date = "2015-07-13T20:20:18"

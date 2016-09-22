@@ -1,7 +1,9 @@
 +++
+categories = ["Http"]
 title  = "HTTP权威指南学习笔记[1]"
 isCJKLanguage = true
 date = "2015-05-01T22:33:03+08:00"
+tags = ["http"]
 +++
 
 1. Web服务器是Web资源的宿主。Web资源是Web内容的源头，最简单的Web资源就是Web服务器文件系统中的静态资源，但也可以是根据需要生成内容的软件程序。

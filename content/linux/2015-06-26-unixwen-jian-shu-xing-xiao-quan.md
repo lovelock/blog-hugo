@@ -1,4 +1,5 @@
 +++
+categories = ["Linux"]
 title  = "Unix文件属性小全"
 isCJKLanguage = true
 date = "2015-06-26T18:48:56+08:00"

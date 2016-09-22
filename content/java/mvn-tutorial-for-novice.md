@@ -1,4 +1,5 @@
 +++
+categories = ["Java"]
 author = "frostwong"
 date = "2016-08-28T14:29:16+08:00"
 description = "Maven基础"

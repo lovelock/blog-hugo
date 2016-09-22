@@ -1,4 +1,5 @@
 +++
+categories = ["Php"]
 author = "frostwong"
 date = "2016-04-01T16:33:19+08:00"
 description = "seaslog 和 error_log性能大比拼"

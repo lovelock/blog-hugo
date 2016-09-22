@@ -1,8 +1,10 @@
 +++
+categories = ["Mac"]
 isCJKLanguage = true
 title  = "关于smcFanControl的一点感想"
 date = "2015-06-06T15:39:24+08:00"
 topics = ["Mac"]
+tags = ["Mac"]
 type="post"
 +++
 

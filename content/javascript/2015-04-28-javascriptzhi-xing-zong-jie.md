@@ -1,8 +1,10 @@
 +++
+categories = ["Javascript"]
 title  = "JavaScript执行总结"
 isCJKLanguage = true
 date = "2015-04-28T22:03:47+08:00"
 topics = ["javascript"]
+tags = ["javascript"]
 keywords = ["async", "sync", "javascript"]
 +++
 

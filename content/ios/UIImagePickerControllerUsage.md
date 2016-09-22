@@ -1,4 +1,5 @@
 +++
+categories = ["Ios"]
 title  = "UIImagePickerControllerUsage"
 isCJKLanguage = true
 date = "2015-07-12T16:27:05"
