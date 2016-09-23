@@ -2,7 +2,7 @@
 categories = ["Java"]
 date = "2016-09-22T14:15:41+08:00"
 description = "使用maven创建和运行Java应用"
-draft = false
+draft = true
 tags = ["Java", "Maven"]
 title = "使用maven创建和运行Java应用"
 topics = ["Java", "Maven"]

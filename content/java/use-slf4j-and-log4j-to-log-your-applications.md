@@ -2,7 +2,7 @@
 categories = ["Java"]
 date = "2016-09-22T14:16:06+08:00"
 description = "是否看了好多文章仍是无法让slf4j正确的运行起来？来看一下吧"
-draft = false
+draft = true
 tags = ["Java", "Log"]
 title = "slf4j配合log4j来给你的应用打log"
 topics = ["Java", "Log"]
@@ -64,3 +64,5 @@ log4j.appender.file.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} [%t] %-5p::
 
 todo 需要研究一下`log4j.appender.file.File`的根目录是哪里，看起来好像是classpath，但写一个点就会变成当前目录（项目根目录）
 再重新编译，happy coding
+
+
