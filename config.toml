@@ -11,6 +11,7 @@ paginatePath = "page"
 [params]
     toc = true
     disqusShortname = "unixera"
+    duoshuoShortname = "UnixAgain"
 
 [permalinks]
     post = "/:year/:month/:day/:slug/"
