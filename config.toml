@@ -10,15 +10,16 @@ paginatePath = "page"
 
 [params]
     toc = true
-    duoshuoShortname = "UnixAgain"
+    disqusShortname = "unixera"
 
 [permalinks]
     post = "/:year/:month/:day/:slug/"
     code = "/:slug/"
 
 [taxonomies]
-    tag = "tags"
-    topic = "topics"
+    Tags = "tags"
+    Topics = "topics"
+    Categories = "categories"
 
 [author]
     name = "Frost Wong"
