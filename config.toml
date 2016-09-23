@@ -2,12 +2,15 @@ baseurl = "http://unixera.com/"
 languageCode = "en-us"
 title = "Me & Web"
 copyright = "(c) 2013-2016 Frost Wong. All rights reserved."
-theme = "blackburn"
+theme = "beg"
 # Pagination
 canonifyurls = true
 paginate = 10
 paginatePath = "page"
 
+[params]
+    toc = true
+    duoshuoShortname = "UnixAgain"
 
 [permalinks]
     post = "/:year/:month/:day/:slug/"
@@ -20,14 +23,6 @@ paginatePath = "page"
 [author]
     name = "Frost Wong"
     email = "frostwong@gmail.com"
-
-[params]
-    brand = "Frost Wong"
-    topline = "Be a better WEB developer"
-    footline = "Learn what you eager"
-    sidebar = false
-    highlightjs = "monokai"
-    duoshuoShortname = "UnixAgain"
 
 [menu]
     [[menu.main]]
@@ -43,14 +38,15 @@ paginatePath = "page"
         identifier = "tags"
         url = "/tags/"
     [[menu.main]]
+        name = "Categories"
+        pre = "<i class='fa fa-list fa-fw'></i>"
+        weight = 1
+        identifier = "categories"
+        url = "/categories/"
+    [[menu.main]]
         name = "About"
         pre = "<i class='fa fa-user fa-fw'></i>"
         weight = 2
         identifier = "about"
         url = "/about/"
 
-[social]
-    github = "lovelock"
-    twitter = "frostwong"
-    linkedin = "青春-王-21466080"
-    weibo = "2122681617"
