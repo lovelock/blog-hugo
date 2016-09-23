@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.16" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Open+Sans|Marcellus+SC'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <link rel="stylesheet" href="http://localhost:1313/css/styles.css">
+    <link rel="stylesheet" href="http://localhost:1313/css/custom.css">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://localhost:1313//index.xml">
+
+    
+    <title>CentOS7防火墙简单配置 - Me &amp; Web</title>
+    <meta property='og:title' content="CentOS7防火墙简单配置 - Me &amp; Web">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://localhost:1313/linux/CentOS7%E9%98%B2%E7%81%AB%E5%A2%99%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE/">
+    
+    
+
+  </head>
+
+  <body>
+
+    <header class="site">
+      <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://localhost:1313/">Me &amp; Web&nbsp;&nbsp;致力于创作可操作性更好的文章</a>
+          </div>
+
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://localhost:1313/">Home</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/about">About</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/categories/">Categories</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/tags/">Tags</a></li>
+              
+              
+            </ul>
+            
+          </div>
+
+        </div>
+      </nav>
+    </header>
+
+    <div class="site">
+      <div class="container">
+
+
+
+<div class="single">
+
+    <div class="row">
+        <div class="col-md-8">
+
+            <article class="single" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+                <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://localhost:1313/"/>
+                <meta itemprop="dateModified" content="2015-07-12T17:46:00&#43;00:00">
+                <meta itemprop="headline" content="CentOS7防火墙简单配置">
+                <meta itemprop="description" content="防火墙这么个复杂的东西没有一个标准的配置方式真是太烦了，iptables的命令太繁琐，时间长了不用就忘记了，忘记可以记下来，可到了RHEL7">
+                <meta itemprop="url" content="http://localhost:1313/linux/CentOS7%E9%98%B2%E7%81%AB%E5%A2%99%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE/">
+                <div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+                    <meta itemprop="url" content="http://localhost:1313/images/default.jpg" />
+                    <meta itemprop="width" content="800">
+                    <meta itemprop="height" content="800">
+                </div>
+                <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+                    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+                        <meta itemprop="url" content="http://localhost:1313/images/logo.jpg">
+                        <meta itemprop="width" content="100">
+                        <meta itemprop="height" content="100">
+                    </div>
+                    <meta itemprop="name" content="Me &amp; Web">
+                </div>
+                <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <meta itemprop="name" content="">
+                </div>
+
+                <header class="article-header">
+                    <time itemprop="datePublished" pubdate="pubdate" datetime="2015-07-12T17:46:00&#43;00:00">Sun, Jul 12, 2015</time>
+                    <h1 class="article-title">CentOS7防火墙简单配置</h1>
+                </header>
+
+                <div class="article-body" itemprop="articleBody">
+                    <p>防火墙这么个复杂的东西没有一个标准的配置方式真是太烦了，iptables的命令太繁琐，时间长了不用就忘记了，忘记可以记下来，可到了RHEL7竟然又加了个wrapper，叫什么firewall-cmd，我的天，你看看你取了个什么名字吧，不得不说红帽的人真是没有品位。</p>
+
+<p>言归正传，通常我们的工作环境其实也打不到这个7，也不会接触这个东西。</p>
+
+<p>打开一个端口
+<code>sudo firewall-cmd --zone=public --add-port=80/tcp --permanent</code>
+这就添加了一个80/tcp的端口
+然后需要<code>reload</code>一下
+<code>sudo firewall-cmd --reload</code></p>
+
+<p>说它是个wrapper是因为不管是这个<code>firewall-cmd</code>还是Ubuntu的<code>ufw</code>其实都是对<code>iptables</code>系列命令的一个封装，无非就是三步</p>
+
+<ol>
+<li>添加一条记录</li>
+<li>把这条记录写入内存</li>
+<li>如果下次开机后还要它生效，那就把它写入文件</li>
+</ol>
+
+<p>相应的，<code>ufw</code>的操作如下</p>
+
+                </div>
+
+
+                <aside>
+                    <div class="section"><a href="http://localhost:1313/tags/firewall/" class="tag">firewall</a> <a href="http://localhost:1313/tags/iptables/" class="tag">iptables</a> </div>
+
+                    <div class="section share">
+                        <a href="http://v.t.sina.com.cn/share/share.php?src=bm&url=http%3a%2f%2flocalhost%3a1313%2flinux%2fCentOS7%25E9%2598%25B2%25E7%2581%25AB%25E5%25A2%2599%25E7%25AE%2580%25E5%258D%2595%25E9%2585%258D%25E7%25BD%25AE%2f&title=CentOS7%e9%98%b2%e7%81%ab%e5%a2%99%e7%ae%80%e5%8d%95%e9%85%8d%e7%bd%ae" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-weibo"></i></a>
+                    </div>
+
+                    
+                    <div class="section">
+                        
+                        <div class="ds-thread" data-thread-key="" data-title="CentOS7防火墙简单配置" data-url="http://localhost:1313/linux/CentOS7%E9%98%B2%E7%81%AB%E5%A2%99%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE/"></div>
+                        
+
+                        
+                        <script type="text/javascript">
+                            var duoshuoQuery = {short_name:"UnixAgain"};
+                        (function() {
+                            var ds = document.createElement('script');
+                            ds.type = 'text/javascript';ds.async = true;
+                            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                            ds.charset = 'UTF-8';
+                            (document.getElementsByTagName('head')[0]
+                             || document.getElementsByTagName('body')[0]).appendChild(ds);
+                        })();
+                        </script>
+                    </div>
+                    
+                    
+                </aside>
+
+            </article>
+
+        </div>
+        <div class="col-md-4">
+            
+<aside class="site">
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">LatestPosts</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/java/use-slf4j-and-log4j-to-log-your-applications/" class="list-group-item">slf4j配合log4j来给你的应用打log</a>
+      
+      <a href="http://localhost:1313/java/create-and-run-java-application-with-maven/" class="list-group-item">使用maven创建和运行Java应用</a>
+      
+      <a href="http://localhost:1313/linux/deepin-linux-experience/" class="list-group-item">DeepinLinux体验报告</a>
+      
+      <a href="http://localhost:1313/java/mvn-tutorial-for-novice/" class="list-group-item">给Java新手看的mvn指南</a>
+      
+      <a href="http://localhost:1313/mac/use-ssh-config-to-tune-your-productivity-up/" class="list-group-item">使用ssh-config提升你的生产力</a>
+      
+      <a href="http://localhost:1313/miscs/talk-about-transgene-foods/" class="list-group-item">谈谈转基因食物</a>
+      
+      <a href="http://localhost:1313/php/understanding-PHP-container/" class="list-group-item">理解PHP的Service Container</a>
+      
+      <a href="http://localhost:1313/git/git-in-practice/" class="list-group-item">多人协作场景下的git</a>
+      
+      <a href="http://localhost:1313/php/internals/create-functions/" class="list-group-item">为PHP添加全局函数</a>
+      
+      <a href="http://localhost:1313/php/internals/create-skeleton-of-extension/" class="list-group-item">PHP扩展实战——扩展的骨架</a>
+      
+    </div>
+  </div>
+
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">category</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/categories/php" class="list-group-item">php</a>
+      
+      <a href="http://localhost:1313/categories/javascript" class="list-group-item">javascript</a>
+      
+      <a href="http://localhost:1313/categories/miscs" class="list-group-item">miscs</a>
+      
+      <a href="http://localhost:1313/categories/mac" class="list-group-item">mac</a>
+      
+      <a href="http://localhost:1313/categories/linux" class="list-group-item">linux</a>
+      
+      <a href="http://localhost:1313/categories/symfony" class="list-group-item">symfony</a>
+      
+      <a href="http://localhost:1313/categories/git" class="list-group-item">git</a>
+      
+      <a href="http://localhost:1313/categories/blog" class="list-group-item">blog</a>
+      
+      <a href="http://localhost:1313/categories/java" class="list-group-item">java</a>
+      
+      <a href="http://localhost:1313/categories/python" class="list-group-item">python</a>
+      
+    </div>
+  </div>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">tag</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/tags/php" class="list-group-item">php</a>
+      
+      <a href="http://localhost:1313/tags/miscs" class="list-group-item">miscs</a>
+      
+      <a href="http://localhost:1313/tags/mac" class="list-group-item">mac</a>
+      
+      <a href="http://localhost:1313/tags/javascript" class="list-group-item">javascript</a>
+      
+      <a href="http://localhost:1313/tags/linux" class="list-group-item">linux</a>
+      
+      <a href="http://localhost:1313/tags/%E6%89%A9%E5%B1%95" class="list-group-item">扩展</a>
+      
+      <a href="http://localhost:1313/tags/git" class="list-group-item">git</a>
+      
+      <a href="http://localhost:1313/tags/java" class="list-group-item">java</a>
+      
+      <a href="http://localhost:1313/tags/bootstrap" class="list-group-item">bootstrap</a>
+      
+      <a href="http://localhost:1313/tags/ios" class="list-group-item">ios</a>
+      
+    </div>
+  </div>
+  
+
+</aside>
+
+
+        </div>
+    </div>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site">
+      <div class="container">
+        <p>(c) 2013-2016 Frost Wong. All rights reserved.</p>
+        <p>Powered by <a href="http://gohugo.io" target="_blank" rel="nofollow">Hugo</a>, Theme <a href="https://github.com/dim0627/hugo_theme_beg" target="_blank" rel="nofollow">beg</a> designed by <a href="http://yet.unresolved.xyz" target="_blank" rel="nofollow">Daisuke Tsuji</a></p>
+      </div>
+    </footer>
+
+    <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+
+  <script data-no-instant>document.write('<script src="/livereload.js?mindelay=10"></' + 'script>')</script></body>
+</html>
+

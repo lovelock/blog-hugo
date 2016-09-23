@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.16" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Open+Sans|Marcellus+SC'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <link rel="stylesheet" href="http://localhost:1313/css/styles.css">
+    <link rel="stylesheet" href="http://localhost:1313/css/custom.css">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://localhost:1313//index.xml">
+
+    
+    <title>Bootstrap Modal用法总结 - Me &amp; Web</title>
+    <meta property='og:title' content="Bootstrap Modal用法总结 - Me &amp; Web">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://localhost:1313/javascript/2015-05-06-bootstrap-modalyong-fa-zong-jie/">
+    
+    
+
+  </head>
+
+  <body>
+
+    <header class="site">
+      <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://localhost:1313/">Me &amp; Web&nbsp;&nbsp;致力于创作可操作性更好的文章</a>
+          </div>
+
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://localhost:1313/">Home</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/about">About</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/categories/">Categories</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/tags/">Tags</a></li>
+              
+              
+            </ul>
+            
+          </div>
+
+        </div>
+      </nav>
+    </header>
+
+    <div class="site">
+      <div class="container">
+
+
+
+<div class="single">
+
+    <div class="row">
+        <div class="col-md-8">
+
+            <article class="single" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+                <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://localhost:1313/"/>
+                <meta itemprop="dateModified" content="2015-05-06T23:15:41&#43;08:00">
+                <meta itemprop="headline" content="Bootstrap Modal用法总结">
+                <meta itemprop="description" content="这段时间前端后端同时写，对jQuery和Bootstrap用的比较多，说实话我对Modal很感兴趣，单纯的就是因为它好看，并且看起来友好，不">
+                <meta itemprop="url" content="http://localhost:1313/javascript/2015-05-06-bootstrap-modalyong-fa-zong-jie/">
+                <div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+                    <meta itemprop="url" content="http://localhost:1313/images/default.jpg" />
+                    <meta itemprop="width" content="800">
+                    <meta itemprop="height" content="800">
+                </div>
+                <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+                    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+                        <meta itemprop="url" content="http://localhost:1313/images/logo.jpg">
+                        <meta itemprop="width" content="100">
+                        <meta itemprop="height" content="100">
+                    </div>
+                    <meta itemprop="name" content="Me &amp; Web">
+                </div>
+                <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <meta itemprop="name" content="">
+                </div>
+
+                <header class="article-header">
+                    <time itemprop="datePublished" pubdate="pubdate" datetime="2015-05-06T23:15:41&#43;08:00">Wed, May 6, 2015</time>
+                    <h1 class="article-title">Bootstrap Modal用法总结</h1>
+                </header>
+
+                <div class="article-body" itemprop="articleBody">
+                    
+
+<p>这段时间前端后端同时写，对jQuery和Bootstrap用的比较多，说实话我对Modal很感兴趣，单纯的就是因为它好看，并且看起来友好，不像alert那么暴力，FF的实现还好，而Chrome的alert直接忽视所有其他操作，只能选择不再弹出，但只要选择了这个不再弹出，在重启这个页面之前（刷新没用）就不会再弹出了，真不明白这是什么逻辑。当然最重要的一点是Modal可以交互。</p>
+
+<p>下面简单说说Modal的用法，当然基本上来自<a href="http://getbootstrap.com/javascript/">官方文档</a>。</p>
+
+<h2 id="依赖">依赖</h2>
+
+<ol>
+<li>jQuery</li>
+<li>Bootstrap</li>
+</ol>
+
+<p>没有对它们进行安全版本测试，就现在而言，使用最新的版本总是没有问题的。</p>
+
+<h2 id="基本组成">基本组成</h2>
+
+<ol>
+<li><code>.modal</code> Modal的主体div
+
+<ul>
+<li>通常我们会给它指定一个id，因为你总是会希望能更细粒度的控制一个modal的行为吧，况且文档中也说不可以使用叠加的modal，也就是说，同一时间一个页面上只能出现一个modal，如果直接使用<code>.modal</code> 来控制它的显示和隐藏，早晚会出现问题的</li>
+<li>还有一个属性是<code>role</code> ，这个属性很有意思，其实没有什么特别的用途，只是在阅读代码时让你知道它的作用是一个对话框，为什么需要这个呢？因为<code>&lt;div&gt;</code> 这个标签本身不能表达这个意思，比如<code>&lt;select&gt;</code> 标签，你一看就知道它一定是一个下拉选择器，但<code>&lt;div&gt;</code> 呢？所以，这个<code>role</code> 就是用来说明标签本身无法说明的一些内容，比较常见的还有在一个<code>.nav .nav-tabs</code> 中的<code>&lt;li&gt;</code> 标签中，会添加<code>role=&quot;option&quot;</code> 这样的说明，就是告诉开发者这是一个功能的多个选项之一</li>
+<li>通常我们会喜欢加上一些动画，最常用的是<code>.fade</code> ，当然如果你更喜欢直接，也可以忽视它</li>
+<li><code>tabIndex=&quot;-1&quot;</code> <a href="http://jehiah.cz/a/tabindex">关于这个属性的解释</a></li>
+</ul></li>
+<li><code>.modal-dialog</code> 关于这个没有找到更多的解释，我想大概是因为弹出的是一个对话框吧，没有见到更多的类型
+
+<ul>
+<li>同样这个class也可以有叠加选项，<code>.modal-lg/.modal-md/.modal-sm</code> 分别表示大中小三种型号</li>
+</ul></li>
+<li><code>.modal-content</code> 当然就是modal的内容了</li>
+<li><code>.modal-header</code> 内容的第一层，头部
+
+<ul>
+<li>可以在其中放置一个关闭按钮，比如右上角的一个<code>x</code> 等，为了诸如屏幕阅读器之类的用户辅助工具更好的工作，可以在这个关闭按钮上加上<code>aria-labelledby</code> 属性，值是<code>.modal-title</code> 的<code>id</code> ，当然也可以手动用<code>aria-label=&quot;myModalTitle&quot;</code> 来指定，但动态的写法更方便，不是吗？</li>
+</ul></li>
+<li><code>.modal-title</code> 放置在<code>.modal-header</code> 中，modal的标题</li>
+<li><code>.modal-body</code>  modal的正文部分，需要显示的主要内容就在这个部分了</li>
+<li><code>.modal-footer</code> 通常用来放置确认/关闭等按钮
+
+<ul>
+<li>当然我们需要一个关闭modal的按钮，这个按钮需要添加一个<code>data-dismiss=&quot;modal&quot;</code> 的属性才能正确的完成功能，和上面那个<code>x</code> 按钮的功能是一样的</li>
+</ul></li>
+</ol>
+
+<iframe width="100%" height="300" src="//jsfiddle.net/frostwong/ve96c6fr/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<p>经过上面这几步，一个完整的modal对话框就完成了，但问题来了，怎么触发它呢？</p>
+
+<p>下面来说一下modal的触发方式。</p>
+
+<ol>
+<li><p>按钮
+这个应该是最常用的方式。需要注意的有几点</p>
+
+<ul>
+<li><code>data-toggle=&quot;modal&quot;</code> 指明这个按钮要触发的widget类型是modal，常见的还有
+<code>html
+data-toggle=&quot;modal&quot;
+data-toggle=&quot;collapse&quot;
+data-toggle=&quot;dropdown&quot;
+data-toggle=&quot;tab&quot;
+</code></li>
+<li><code>data-target=&quot;#myModal&quot;</code> 指明这个按钮要触发的modal的id是<code>myModal</code>
+有了这两个属性点击这个按钮时就可以触发这个modal了。</li>
+</ul></li>
+
+<li><p>JavaScript方法
+<code>$('#myModal').modal(options)</code>
+关于<code>options</code>，有以下几个选项</p>
+
+<ul>
+<li>backdrop，值可选布尔值(<code>true/false</code>)或<code>'static'</code> ，默认值是<code>true</code>，当设置为<code>false</code> 或<code>'static'</code> 时点击modal外的区域modal不消失，反之会消失</li>
+<li>keyboard，点击<code>Escape</code> 键时modal是否消失，默认是<code>true</code>，可选<code>false</code></li>
+<li>show，初始化时modal是否显示，默认<code>false</code> 不显示
+<code>javascript
+$('#myModal').modal({
+	backdrop: 'static',
+	keyboard: false,
+	show: true
+});
+</code></li>
+</ul></li>
+</ol>
+
+<h2 id="modal方法">Modal方法</h2>
+
+<ol>
+<li><code>$('#myModal').modal(options)</code> 上面已经说过了</li>
+<li><code>$('#myModal').modal('toggle')</code> 手动显示或隐藏modal</li>
+<li><code>$('#myModal').modal('show')</code> 手动显示modal</li>
+<li><code>$('#myModal').modal('hide')</code> 手动隐藏modal</li>
+<li><code>$('#myModal').modal('handleUpdate')</code> 在modal处于显示状态时，如果它的高度有变化，就需要执行这个方法（也仅有这个情况下需要执行这个方法），它会在右边产生一个滚动条，并且把内容向左跳一下。</li>
+</ol>
+
+<iframe width="100%" height="300" src="//jsfiddle.net/frostwong/ya6956pp/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<h2 id="modal事件">Modal事件</h2>
+
+<ol>
+<li><code>show.bs.modal</code> 当<code>show</code> 方法执行时，立即触发该事件</li>
+<li><code>shown.bs.modal</code> 当<code>show</code> 方法执行时，会等待CSS效果完成之后再触发该事件</li>
+<li><code>hide.bs.modal</code> 同1，<code>hide</code> 方法</li>
+<li><code>hidden.bs.modal</code> 同2， <code>hide</code> 方法</li>
+</ol>
+
+<blockquote>
+<p>关于Modal还有使用Bootstrap网格系统的部分，但这个部分至少对目前来说用处不多，暂不提。
+<code>options</code> 中还包括一个<code>remote</code> 选项，因为已经被废弃，将来（4.0）版本中会移除，故对该主体和它相关的<code>loaded.bs.modal</code> 都未涉及。</p>
+</blockquote>
+
+                </div>
+
+
+                <aside>
+                    <div class="section"><a href="http://localhost:1313/tags/jquery/" class="tag">jQuery</a> <a href="http://localhost:1313/tags/bootstrap/" class="tag">BootStrap</a> </div>
+
+                    <div class="section share">
+                        <a href="http://v.t.sina.com.cn/share/share.php?src=bm&url=http%3a%2f%2flocalhost%3a1313%2fjavascript%2f2015-05-06-bootstrap-modalyong-fa-zong-jie%2f&title=Bootstrap%20Modal%e7%94%a8%e6%b3%95%e6%80%bb%e7%bb%93" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-weibo"></i></a>
+                    </div>
+
+                    
+                    <div class="section">
+                        
+                        <div class="ds-thread" data-thread-key="" data-title="Bootstrap Modal用法总结" data-url="http://localhost:1313/javascript/2015-05-06-bootstrap-modalyong-fa-zong-jie/"></div>
+                        
+
+                        
+                        <script type="text/javascript">
+                            var duoshuoQuery = {short_name:"UnixAgain"};
+                        (function() {
+                            var ds = document.createElement('script');
+                            ds.type = 'text/javascript';ds.async = true;
+                            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                            ds.charset = 'UTF-8';
+                            (document.getElementsByTagName('head')[0]
+                             || document.getElementsByTagName('body')[0]).appendChild(ds);
+                        })();
+                        </script>
+                    </div>
+                    
+                    
+                </aside>
+
+            </article>
+
+        </div>
+        <div class="col-md-4">
+            
+<aside class="site">
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">LatestPosts</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/java/use-slf4j-and-log4j-to-log-your-applications/" class="list-group-item">slf4j配合log4j来给你的应用打log</a>
+      
+      <a href="http://localhost:1313/java/create-and-run-java-application-with-maven/" class="list-group-item">使用maven创建和运行Java应用</a>
+      
+      <a href="http://localhost:1313/linux/deepin-linux-experience/" class="list-group-item">DeepinLinux体验报告</a>
+      
+      <a href="http://localhost:1313/java/mvn-tutorial-for-novice/" class="list-group-item">给Java新手看的mvn指南</a>
+      
+      <a href="http://localhost:1313/mac/use-ssh-config-to-tune-your-productivity-up/" class="list-group-item">使用ssh-config提升你的生产力</a>
+      
+      <a href="http://localhost:1313/miscs/talk-about-transgene-foods/" class="list-group-item">谈谈转基因食物</a>
+      
+      <a href="http://localhost:1313/php/understanding-PHP-container/" class="list-group-item">理解PHP的Service Container</a>
+      
+      <a href="http://localhost:1313/git/git-in-practice/" class="list-group-item">多人协作场景下的git</a>
+      
+      <a href="http://localhost:1313/php/internals/create-functions/" class="list-group-item">为PHP添加全局函数</a>
+      
+      <a href="http://localhost:1313/php/internals/create-skeleton-of-extension/" class="list-group-item">PHP扩展实战——扩展的骨架</a>
+      
+    </div>
+  </div>
+
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">category</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/categories/php" class="list-group-item">php</a>
+      
+      <a href="http://localhost:1313/categories/javascript" class="list-group-item">javascript</a>
+      
+      <a href="http://localhost:1313/categories/miscs" class="list-group-item">miscs</a>
+      
+      <a href="http://localhost:1313/categories/mac" class="list-group-item">mac</a>
+      
+      <a href="http://localhost:1313/categories/linux" class="list-group-item">linux</a>
+      
+      <a href="http://localhost:1313/categories/symfony" class="list-group-item">symfony</a>
+      
+      <a href="http://localhost:1313/categories/git" class="list-group-item">git</a>
+      
+      <a href="http://localhost:1313/categories/blog" class="list-group-item">blog</a>
+      
+      <a href="http://localhost:1313/categories/java" class="list-group-item">java</a>
+      
+      <a href="http://localhost:1313/categories/python" class="list-group-item">python</a>
+      
+    </div>
+  </div>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">tag</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/tags/php" class="list-group-item">php</a>
+      
+      <a href="http://localhost:1313/tags/miscs" class="list-group-item">miscs</a>
+      
+      <a href="http://localhost:1313/tags/mac" class="list-group-item">mac</a>
+      
+      <a href="http://localhost:1313/tags/javascript" class="list-group-item">javascript</a>
+      
+      <a href="http://localhost:1313/tags/linux" class="list-group-item">linux</a>
+      
+      <a href="http://localhost:1313/tags/%E6%89%A9%E5%B1%95" class="list-group-item">扩展</a>
+      
+      <a href="http://localhost:1313/tags/git" class="list-group-item">git</a>
+      
+      <a href="http://localhost:1313/tags/java" class="list-group-item">java</a>
+      
+      <a href="http://localhost:1313/tags/bootstrap" class="list-group-item">bootstrap</a>
+      
+      <a href="http://localhost:1313/tags/ios" class="list-group-item">ios</a>
+      
+    </div>
+  </div>
+  
+
+</aside>
+
+
+        </div>
+    </div>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site">
+      <div class="container">
+        <p>(c) 2013-2016 Frost Wong. All rights reserved.</p>
+        <p>Powered by <a href="http://gohugo.io" target="_blank" rel="nofollow">Hugo</a>, Theme <a href="https://github.com/dim0627/hugo_theme_beg" target="_blank" rel="nofollow">beg</a> designed by <a href="http://yet.unresolved.xyz" target="_blank" rel="nofollow">Daisuke Tsuji</a></p>
+      </div>
+    </footer>
+
+    <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+
+  <script data-no-instant>document.write('<script src="/livereload.js?mindelay=10"></' + 'script>')</script></body>
+</html>
+

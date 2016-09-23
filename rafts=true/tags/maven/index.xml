@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Maven on Me &amp; Web</title>
+    <link>http://localhost:1313/tags/maven/</link>
+    <description>Recent content in Maven on Me &amp; Web</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>frostwong@gmail.com (Frost Wong)</managingEditor>
+    <webMaster>frostwong@gmail.com (Frost Wong)</webMaster>
+    <copyright>(c) 2013-2016 Frost Wong. All rights reserved.</copyright>
+    <lastBuildDate>Thu, 22 Sep 2016 14:15:41 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/maven/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>使用maven创建和运行Java应用</title>
+      <link>http://localhost:1313/java/create-and-run-java-application-with-maven/</link>
+      <pubDate>Thu, 22 Sep 2016 14:15:41 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/java/create-and-run-java-application-with-maven/</guid>
+      <description>&lt;ol&gt;
+&lt;li&gt;创建应用&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;因为我最近的使用场景是创建一个普通项目（区别于Web项目），所以直接用&lt;code&gt;mvn archetype:generate&lt;/code&gt;根据提示如果默认一路点下来会生成一个简单应用的骨架。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;注意：如果你在哪里看到&lt;code&gt;mvn archetype:create&lt;/code&gt;这样的写法，而在你的机器上执行出错，不用怀疑，因为你看到的资料太老了，而你用的是新版的maven，按我的写法没有错。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;如果需要生成webapp类型应用，比如一个机遇SpringFramework的应用就不是831了，而是类似这样&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mvn archetype:generate -DarchetypeArtifactId=maven-archetype-webapp\
+                        -DinteractiveMode=false \
+                        -DgroupId=com.unixera.webapp \
+                        -DartifactId=spring-example
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;打包应用&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;一般需要把应用和它的依赖打到同一个包里面，所以就需要配置jar-with-dependencies
+然后配置一下execute single&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;执行应用&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;code&gt;java -cp $CLASSPATH -jar /path/to/jar-with-dependencies.jar&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;mvn生成的还需要在pom.xml中配置主class&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

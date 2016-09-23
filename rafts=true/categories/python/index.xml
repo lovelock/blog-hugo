@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python on Me &amp; Web</title>
+    <link>http://localhost:1313/categories/python/</link>
+    <description>Recent content in Python on Me &amp; Web</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>frostwong@gmail.com (Frost Wong)</managingEditor>
+    <webMaster>frostwong@gmail.com (Frost Wong)</webMaster>
+    <copyright>(c) 2013-2016 Frost Wong. All rights reserved.</copyright>
+    <lastBuildDate>Fri, 31 Jul 2015 11:26:37 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/python/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Python日志处理总结</title>
+      <link>http://localhost:1313/python/2015-07-31-Python%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Fri, 31 Jul 2015 11:26:37 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/python/2015-07-31-Python%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/</guid>
+      <description>
+
+&lt;p&gt;前段时间写了一篇比较简单的Python处理日志的笔记，现在又遇到了类似的问题，干脆我就把这中间会遇到的各种问题总结一下，大致可以得到一个简单的日志处理框架。&lt;/p&gt;
+
+&lt;h2 id=&#34;文件读取&#34;&gt;文件读取&lt;/h2&gt;
+
+&lt;h3 id=&#34;批量文件读取&#34;&gt;批量文件读取&lt;/h3&gt;
+
+&lt;p&gt;标准库: &lt;code&gt;Lib/glob&lt;/code&gt;
+glob库可以用来读取符合指定&amp;rdquo;Unix风格&amp;rdquo;路径下的文件列表。&lt;/p&gt;
+
+&lt;p&gt;用法:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;frost@Hack-Station [12:08:15] [~/Playground/tmp]
+-&amp;gt; % ls
+1.gif    2.gif    card.gif
+frost@Hack-Station [12:08:28] [~/Playground/tmp]
+-&amp;gt; % ipython2
+Python 2.7.10 (default, Jul 13 2015, 12:05:58)
+Type &amp;quot;copyright&amp;quot;, &amp;quot;credits&amp;quot; or &amp;quot;license&amp;quot; for more information.
+
+IPython 3.2.1 -- An enhanced Interactive Python.
+?         -&amp;gt; Introduction and overview of IPython&#39;s features.
+%quickref -&amp;gt; Quick reference.
+help      -&amp;gt; Python&#39;s own help system.
+object?   -&amp;gt; Details about &#39;object&#39;, use &#39;object??&#39; for extra details.
+
+In [1]: import glob
+
+In [2]: glob.glob(&#39;./[0-9].gif&#39;)
+Out[2]: [&#39;./1.gif&#39;, &#39;./2.gif&#39;]
+
+In [3]: glob.glob(&#39;./?.gif&#39;)
+Out[3]: [&#39;./1.gif&#39;, &#39;./2.gif&#39;]
+
+In [4]: glob.glob(&#39;./*.gif&#39;)
+Out[4]: [&#39;./1.gif&#39;, &#39;./2.gif&#39;, &#39;./card.gif&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意几点：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;*&lt;/code&gt;用来表示通配，适配任意多的连续字符，但当出现显式指定的字符时则以指定的为准。例如:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;In [4]: glob.glob(&#39;./*d.gif&#39;)
+Out[4]: [&#39;./card.gif&#39;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;?&lt;/code&gt;用来表示单个字符&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;[0-9]&lt;/code&gt;用来表示单个数字&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;glob兼容Python2和Python3，用法相同&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;单个文件读取&#34;&gt;单个文件读取&lt;/h3&gt;
+
+&lt;p&gt;内建函数&lt;a href=&#34;https://docs.python.org/2/library/functions.html#open&#34;&gt;&lt;code&gt;open&lt;/code&gt;&lt;/a&gt;
+&lt;code&gt;open&lt;/code&gt;返回一个文件对象，原型是&lt;code&gt;open(filename, [mode, [buffer]])&lt;/code&gt;。filename是要打开的文件名，是一个字符串，mode可选的有&lt;code&gt;r(ead), w(rite), a(ppend), b(inary)&lt;/code&gt;，这些模式本身已经很清楚了，值得一提的是&lt;code&gt;b&lt;/code&gt;，如果一个系统区别对待文本和二进制，那么用&lt;code&gt;b&lt;/code&gt;模式可以以二进制模式打开文件，否则，&lt;code&gt;b&lt;/code&gt;是无效的。&lt;/p&gt;
+
+&lt;h2 id=&#34;字段处理&#34;&gt;字段处理&lt;/h2&gt;
+
+&lt;p&gt;读取了文件之后需要做的当然就是处理每一行的日志了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;for eachline in fp:
+    do_something()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;通常我们的日志格式会是前面有一些固定的字段，例如执行的流程、执行结果等等信息，如果有一些不确定有无的无法标准化的信息会放在最后一个扩展字段中，以类似&lt;code&gt;{&amp;quot;a&amp;quot;: &amp;quot;b&amp;quot;, &amp;quot;c&amp;quot;: &amp;quot;d&amp;quot;}&lt;/code&gt;的格式存在。
+首先要做的是用相应的分隔符把每一列分开，以&lt;code&gt;&amp;quot;\t&amp;quot;&lt;/code&gt;为例，&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;for eachline in fp:
+    splited = eachline.split(&amp;quot;\t&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;符号分隔&#34;&gt;符号分隔&lt;/h3&gt;
+
+&lt;p&gt;如果每列记录以tab分隔，则应该用&lt;code&gt;split&lt;/code&gt;方法把它们分隔成数组。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;for eachline in fp:
+    splited = eachline.split(&amp;quot;\t&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;删除换行&#34;&gt;删除换行&lt;/h3&gt;
+
+&lt;p&gt;日志每一行的结尾会有一个回车符，虽然我们注意不到这个&lt;code&gt;&amp;quot;\n&amp;quot;&lt;/code&gt;，但Python不会忽略它，需要显式的删除它，才不至于想打印这个字段的时候后面莫名其妙的出现一个换行。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;for eachline in fp:
+    splited = eachline.split(&amp;quot;\t&amp;quot;)
+    # 如果end是最后一个元素
+    end = splited[-1].rstrip(&amp;quot;\n&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;分片数量&#34;&gt;分片数量&lt;/h3&gt;
+
+&lt;p&gt;日志记录可能会出现异常的情况，所以最好还是确认一下日志的列数，以免你获取的最后一个元素并不是你要的。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;for eachline in fp:
+    splited = eachline.split(&amp;quot;\t&amp;quot;)
+    if len(splited) == 9:
+        # 如果end是最后一个元素
+        end = splited[-1].rstrip(&amp;quot;\n&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;异常处理&#34;&gt;异常处理&lt;/h3&gt;
+
+&lt;p&gt;文件操作是最容易出现异常的，所以最好在读取文件的时候加上异常捕获。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;try fp = open(&#39;filename&#39;, &#39;r&#39;):
+    for eachline in fp:
+        do_something()
+except IOError as e:
+    print &amp;quot;I/O error({0}): {1}&amp;quot;.format(e.errno, e.strerror)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;结果输出&#34;&gt;结果输出&lt;/h2&gt;
+
+&lt;p&gt;费了那么大劲当然是为了导出结果。&lt;/p&gt;
+
+&lt;h3 id=&#34;标准输出&#34;&gt;标准输出&lt;/h3&gt;
+
+&lt;p&gt;如果结果不多，可以直接输出到标准输出，观察结果即可。用&lt;code&gt;print arg&lt;/code&gt;(Python2)或&lt;code&gt;print(arg)&lt;/code&gt;(Python3)打印。&lt;/p&gt;
+
+&lt;h3 id=&#34;输出到文件&#34;&gt;输出到文件&lt;/h3&gt;
+
+&lt;p&gt;大多数情况下拿到的结果是要交给运营或市场部门去分析的，对方当然是希望要一个能看到的文件。
+首先需要用&lt;code&gt;w&lt;/code&gt;模式打开一个文件&lt;code&gt;fp = open(&#39;file&#39;, &#39;w&#39;)&lt;/code&gt;，然后对这个文件对象调用&lt;code&gt;write&lt;/code&gt;方法，注意，如果后面不显式的增加&lt;code&gt;&amp;quot;\n&amp;quot;&lt;/code&gt;，写操作是不会换行的。至于哪里需要换行就要看自己的需求了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;fp = open(&#39;file&#39;, &#39;rw&#39;)
+fp.write(&#39;first line\n&#39;)
+fp.write(&#39;second line\n&#39;)
+fp.close()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;格式化&#34;&gt;格式化&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.python-course.eu/python3_formatted_output.php&#34;&gt;格式化输出&lt;/a&gt;的详细信息。但都是用&lt;code&gt;print&lt;/code&gt;函数实现的，而&lt;code&gt;write&lt;/code&gt;则只能用字符串了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>日志处理的一些心得</title>
+      <link>http://localhost:1313/python/2015-06-09-ri-zhi-chu-li-de-yi-xie-xin-de/</link>
+      <pubDate>Tue, 09 Jun 2015 19:32:40 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/python/2015-06-09-ri-zhi-chu-li-de-yi-xie-xin-de/</guid>
+      <description>&lt;p&gt;今天花了很长时间处理日志，然而并没有什么卵用。&lt;/p&gt;
+
+&lt;p&gt;发给我的日志是个压缩包，127M，解压后大概是430多M，在我之前的工作生涯中是没有见过那么大的日志的，果然在小公司待的时间长了是完全体会不到大公司的量级了。&lt;/p&gt;
+
+&lt;p&gt;言归正传，说说问题本身。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;日志有6天的纪录，4列数据，一定是我前面已经有人筛选过了，不过ta画蛇添足的把这几天的日志merge到一起了，我还得再给他拆分。&lt;/li&gt;
+&lt;li&gt;第一列是日期，第二列是来源，第三列是重点，是object_id，需要拿这个id作为HTTP请求的参数，然后根据返回的结果求和第四列的值。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;条件是这样的：
+需要调用的接口是可以接受批处理请求的，而且一次接受的id数量不能超过100个。&lt;/p&gt;
+
+&lt;p&gt;因此，我起初最简单的想法就是&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;只要文件还没有结束，就顺序读取文件的每一行，当读取的行数是100的倍数时，就把这最近的100个id组合成一个参数值传到请求的url参数表中&lt;/li&gt;
+&lt;li&gt;从返回的结果中查找想要的字段&lt;/li&gt;
+&lt;li&gt;根据该字段的值对第四列的次数做求和&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;本身是直观的一个想法，但实际上实施起来就没那么简单了，对，就是内存溢出。&lt;/p&gt;
+
+&lt;p&gt;看到这个结果首先想到的就是拆分文件，但实际上我按天拆分了之后完全起不到作用，日志总共有700多万条，而即使按天拆分每天也是有100多万条，这100多万条本身并不大，但如果算上每100条就要请求发一次HTTP请求，而且要根据返回值进行一系列的判断的话，内存就吃紧了，要知道我不是在那仅仅有1G内存的公司开发用的服务器上跑的程序，而是在我新买的16G内存的rMBP 15&amp;rsquo;上跑的！&lt;/p&gt;
+
+&lt;p&gt;所以就还需要想办法，我就想到了之前的公司经常用的&lt;code&gt;shell_exec&lt;/code&gt; 打法，但整理了一下思路之后发现这个方法的实施难度也是挺高的，因为这并不是数据库操作，如果是数据库的话，可以给要执行的worker &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:worker&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:worker&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; 部分的代码传入一个&lt;code&gt;limit&lt;/code&gt; ，然后它就根据这个值自动的查询到你要的结果，但这里不是，一旦你读入了这个文件，就要一直读下去，中途如果&lt;code&gt;close&lt;/code&gt;掉了，就再也不知道上一次运行到哪里了，那能它传入什么呢？传入HTTP请求的返回值？如果这个HTTP请求都已经放在invoker里面了，那其实worker就没有存在的必要了。无论如何我也想不出这个方案的可行度，后来放弃了。&lt;/p&gt;
+
+&lt;p&gt;然后呢，需求方那边要得急，我也来不及多想，只能想着把文件再切分，直接上了&lt;code&gt;split&lt;/code&gt;方法，把文件切分成每10万行一个的小文件，为了加快速度，把文件作为参数传入脚本，开很多个终端同时跑，出来的结果是多行，但列数是固定的，这时就可以用awk把最终的结果搞出来&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;split -l 100000 all.log stat_
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;简单说一下split的用法，&lt;code&gt;-l&lt;/code&gt;指定每个文件的大小，比如这个文件一共750000行，那你每10万行分成一个文件，前7个文件都是100000行，最后一个当然就只有50000万行。
+最后一个参数是生成的文件的前缀，比如执行完这条命令后会在当前目录里生成若干个&lt;code&gt;stat_aa&lt;/code&gt;之类的文件。这是默认的情况，其实是可以指定用来区分每个文件的后缀的长度的，它是这个命令的第一个参数，不可以放在最后，&lt;code&gt;-a 4&lt;/code&gt;，在&lt;code&gt;split&lt;/code&gt;后紧跟这个命令得到的文件名就形如&lt;code&gt;stat_aaaa&lt;/code&gt;这样的了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;awk -F&#39;|&#39; &#39;BEGIN{sum=0}{sum+=$1}END{print sum}&#39; $1
+echo &#39;|&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面这行是第一列的和，多写几遍就得到了类似
+&lt;code&gt;x1 | x2 | x3 | ..&lt;/code&gt;的一行数据，直接粘在markdown编辑器里就能得到他们要得表格了。&lt;/p&gt;
+
+&lt;p&gt;虽然这个方法土的掉渣，朴素的掉渣，但在短时间内确实解决了问题，也不枉我这一下午的时间。但我心里还是觉得难受，这样的工作其实是没有什么意义的，解决这种大数据量的问题，让计算机自己去分片然后处理才是王道，这样的做法虽然是解决了问题，但问题其实是仍然存在的。&lt;/p&gt;
+
+&lt;p&gt;下面多想一点，能不能把我自己手工做的工作让计算机自己去做呢？&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;分片，已经确定了分成10万行的单个文件处理起来是没有问题的&lt;/li&gt;
+&lt;li&gt;把文件作为参数传入脚本，这就牵涉到一个for循环&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;脚本的执行流程就可以是这样&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;先分片&lt;/li&gt;
+&lt;li&gt;在invoker中组织&lt;code&gt;stat_aaaa&lt;/code&gt;这样的文件名，把文件传入用&lt;code&gt;shell_exec&lt;/code&gt;调用的命令中作为参数，命令直接输出到标准输出，或者复杂一点可以写入文件，其实是写入文件更方便操作。&lt;/li&gt;
+&lt;li&gt;在worker中执行完之后&lt;code&gt;exit&lt;/code&gt;，内存释放，重新回到invoker&lt;/li&gt;
+&lt;li&gt;invoker把下一个文件名传给worker，重复3，直至所有文件遍历完毕。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;明天可以抽时间实践一下这个想法。&lt;/p&gt;
+
+&lt;p&gt;2015年6月10日更新：
+今天尝试了一下昨天想到的方案，果然好用，再加一点，把每个worker的输出结果重定向到一个结果文件中，最终就可以直接出来结果文件了，很简单了。我真是太有才了。&lt;/p&gt;
+
+&lt;p&gt;不过这其实也不是一个优雅的方案，这仅仅是用了PHP内建的cURL功能来完成网络请求，主要用的还是UNIX得那一套工具链，并没有把工具很好的集成。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:worker&#34;&gt;和invoker都是我自己的说法，其中invoker指的是入口脚本，在它里面做数据分片的工作，实际的工作在worker中完成，然后退出，控制权回到invoker继续调用下一次worker，达到每做完一个worker的工作，其占用的内存就释放掉的效果。
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:worker&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Python日志处理记</title>
+      <link>http://localhost:1313/python/2015-06-06-pythonri-zhi-chu-li/</link>
+      <pubDate>Sat, 06 Jun 2015 10:31:09 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/python/2015-06-06-pythonri-zhi-chu-li/</guid>
+      <description>&lt;p&gt;事情是这样的，今天领导给了一个需求，处理日志。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;给了我一个文件，是一个文件列表ids.txt&lt;/li&gt;
+&lt;li&gt;让我在当天所有的日志里找到这些文件所在的行，从而查找失败原因&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;首先我就想到了用Python 作匹配，当然由于刚来到公司，自己的工作环境配置的不顺手，期间又装了个tar, Python，下面说说我的思路，很朴素，但很管用。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;读取ids.txt中的所有行&lt;/li&gt;
+&lt;li&gt;读取所有日志然后作匹配&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;于是写了下面的代码&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-Python&#34;&gt;#!/usr/bin/env python2
+
+import glob
+import re
+
+
+lines = open(&#39;ids.txt&#39;, &#39;r&#39;)
+logfiles = glob.glob(&#39;logs/*.log&#39;)
+
+result = open(&#39;result.log&#39;, &#39;r+&#39;)
+
+for line in lines:
+    # 去除换行符
+    pattern = re.compile(line)
+    for logfile in logfiles:
+        logfilehd = open(logfile, &#39;r&#39;)
+        for logline in logfilehd.readlines():
+            if pattern.search(logline):
+                # 防止覆盖
+                result.read()
+                result.write(logline)
+    # 为每个不同的id加一个分隔线，方便查看
+    result.read()
+    result.write(100 * &#39;-&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;看起来没有什么问题，但执行的时候无论如何都得不到我想要的结果。我注意到如果把在第一个&lt;code&gt;for in&lt;/code&gt;里面的&lt;code&gt;line&lt;/code&gt;打印出来，每行后面都有一个空行，所以想到是这个空行引起的，匹配的时候把空行也算在内了，而日志里面很明显是匹配不到这个空行的。&lt;/p&gt;
+
+&lt;p&gt;于是在第一个&lt;code&gt;for in&lt;/code&gt;下面加上了一行&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;line = line.strip(&#39;\n&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;去掉了换行符，于是一切OK。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

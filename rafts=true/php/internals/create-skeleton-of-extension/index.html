@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.16" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Open+Sans|Marcellus+SC'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <link rel="stylesheet" href="http://localhost:1313/css/styles.css">
+    <link rel="stylesheet" href="http://localhost:1313/css/custom.css">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://localhost:1313//index.xml">
+
+    
+    <title>PHP扩展实战——扩展的骨架 - Me &amp; Web</title>
+    <meta property='og:title' content="PHP扩展实战——扩展的骨架 - Me &amp; Web">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://localhost:1313/php/internals/create-skeleton-of-extension/">
+    <meta name="description" content="PHP扩展实战">
+    
+
+  </head>
+
+  <body>
+
+    <header class="site">
+      <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://localhost:1313/">Me &amp; Web&nbsp;&nbsp;致力于创作可操作性更好的文章</a>
+          </div>
+
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://localhost:1313/">Home</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/about">About</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/categories/">Categories</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/tags/">Tags</a></li>
+              
+              
+            </ul>
+            
+          </div>
+
+        </div>
+      </nav>
+    </header>
+
+    <div class="site">
+      <div class="container">
+
+
+
+<div class="single">
+
+    <div class="row">
+        <div class="col-md-8">
+
+            <article class="single" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+                <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://localhost:1313/"/>
+                <meta itemprop="dateModified" content="2016-04-09T22:04:18&#43;08:00">
+                <meta itemprop="headline" content="PHP扩展实战——扩展的骨架">
+                <meta itemprop="description" content="前面啰嗦了这么多读者都要没有兴趣了。从现在起要真正开始PHP扩展开发阶段了。 首先来生成扩展的骨架。所谓骨架就是一个扩展需要的基本文件了。 获取">
+                <meta itemprop="url" content="http://localhost:1313/php/internals/create-skeleton-of-extension/">
+                <div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+                    <meta itemprop="url" content="http://localhost:1313/images/default.jpg" />
+                    <meta itemprop="width" content="800">
+                    <meta itemprop="height" content="800">
+                </div>
+                <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+                    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+                        <meta itemprop="url" content="http://localhost:1313/images/logo.jpg">
+                        <meta itemprop="width" content="100">
+                        <meta itemprop="height" content="100">
+                    </div>
+                    <meta itemprop="name" content="Me &amp; Web">
+                </div>
+                <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <meta itemprop="name" content="">
+                </div>
+
+                <header class="article-header">
+                    <time itemprop="datePublished" pubdate="pubdate" datetime="2016-04-09T22:04:18&#43;08:00">Sat, Apr 9, 2016</time>
+                    <h1 class="article-title">PHP扩展实战——扩展的骨架</h1>
+                </header>
+
+                <div class="article-body" itemprop="articleBody">
+                    
+
+<p>前面啰嗦了这么多读者都要没有兴趣了。从现在起要真正开始PHP扩展开发阶段了。</p>
+
+<p>首先来生成扩展的骨架。所谓骨架就是一个扩展需要的基本文件了。</p>
+
+<h2 id="获取php源码">获取PHP源码</h2>
+
+<p>截至目前，PHP最新源码是7.0.5。<a href="http://cn2.php.net/get/php-7.0.5.tar.bz2/from/this/mirror">下载链接</a></p>
+
+<pre><code class="language-bash">➜  projects wget http://cn2.php.net/get/php-7.0.5.tar.bz2/from/this/mirror -O php705.tar.bz2
+--2016-04-09 10:18:39--  http://cn2.php.net/get/php-7.0.5.tar.bz2/from/this/mirror
+Resolving cn2.php.net (cn2.php.net)... 202.108.35.194, 202.108.35.235, 202.108.35.237, ...
+Connecting to cn2.php.net (cn2.php.net)|202.108.35.194|:80... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: http://cn2.php.net/distributions/php-7.0.5.tar.bz2 [following]
+--2016-04-09 10:18:39--  http://cn2.php.net/distributions/php-7.0.5.tar.bz2
+Reusing existing connection to cn2.php.net:80.
+HTTP request sent, awaiting response... 200 OK
+Length: 14086522 (13M) [application/octet-stream]
+Saving to: ‘php705.tar.bz2’
+
+php705.tar.bz2                             100%[=======================================================================================&gt;]  13.43M  4.49MB/s    in 3.0s
+
+2016-04-09 10:18:42 (4.49 MB/s) - ‘php705.tar.bz2’ saved [14086522/14086522]
+
+➜  projects md5sum php705.tar.bz2
+b15e6836babcbf0aa446678ee38f896b  php705.tar.bz2
+➜  projects echo b15e6836babcbf0aa446678ee38f896b
+b15e6836babcbf0aa446678ee38f896b
+➜  projects tar xjf php705.tar.bz2
+➜  projects cd php-7.0.5/ext
+</code></pre>
+
+<p>终于来到了正题了。我现在也终于明白鸟哥为啥费劲写个生成Yaf最小化应用的脚本了，就是从写扩展的经历中得来的，既然可以帮用户做的更多，那就帮一下好了。</p>
+
+<pre><code class="language-bash">➜  ext ./ext_skel --extname=hylog
+Creating directory hylog
+Creating basic files: config.m4 config.w32 .gitignore hylog.c php_hylog.h CREDITS EXPERIMENTAL tests/001.phpt hylog.php [done].
+
+To use your new extension, you will have to execute the following steps:
+
+1.  $ cd ..
+2.  $ vi ext/hylog/config.m4
+3.  $ ./buildconf
+4.  $ ./configure --[with|enable]-hylog
+5.  $ make
+6.  $ ./sapi/cli/php -f ext/hylog/hylog.php
+7.  $ vi ext/hylog/hylog.c
+8.  $ make
+
+Repeat steps 3-6 until you are satisfied with ext/hylog/config.m4 and
+step 6 confirms that your module is compiled into PHP. Then, start writing
+code and repeat the last two steps as often as necessary.
+</code></pre>
+
+<p>这样，<code>ext_skel</code>就帮我们生成了一个名为<code>hylog</code>的扩展框架。</p>
+
+<p>下面要介绍一下安装扩展的两种方式了，一种是直接编译进PHP，一种是接下来我们要讨论的这种，即动态加载的扩展。</p>
+
+<p>什么是直接编译进PHP呢？</p>
+
+<pre><code class="language-bash">➜  ext cd hylog
+➜  hylog ls
+config.m4  config.w32  CREDITS  EXPERIMENTAL  hylog.c  hylog.php  php_hylog.h  tests
+➜  hylog vim config.m4
+</code></pre>
+
+<p>会看到这样的几行</p>
+
+<pre><code class="language-m4">dnl If your extension references something external, use with:
+
+dnl PHP_ARG_WITH(hylog, for hylog support,
+dnl Make sure that the comment is aligned:
+dnl [  --with-hylog             Include hylog support])
+
+dnl Otherwise use enable:
+
+dnl PHP_ARG_ENABLE(hylog, whether to enable hylog support,
+dnl Make sure that the comment is aligned:
+dnl [  --enable-hylog           Enable hylog support])
+</code></pre>
+
+<p>其中的<code>dnl</code>是注释，主要看<code>--with-hylog</code>和<code>--enable-hylog</code>。假定你来看本文，你一定自己编译过PHP了，如果没有，那先去整一遍再回来看吧：）
+是这样的，我们在编译PHP的时候经常会碰到类似这种<code>--with[out]-blah=/path/to/foo</code>或者<code>--enable-blah</code>或者<code>--disable-blah</code>的选项吧。其实对编写扩展的我们来说，这两种都是可行的，并没有本质上的区别，只是一般用<code>--with</code>会带个路径，告诉PHP这个扩展依赖的外部库的路径，而<code>--enable</code>则表示该扩展是独立的，或者依赖的库在默认的搜索路径内。</p>
+
+<p>那和我们说的两种安装方式有什么关系呢？不如我们就来真的安装一下看看效果吧。</p>
+
+<p>看上面的注释，我们知道了需要把</p>
+
+<pre><code class="language-m4">dnl PHP_ARG_ENABLE(hylog, whether to enable hylog support,
+dnl Make sure that the comment is aligned:
+dnl [  --enable-hylog           Enable hylog support])
+</code></pre>
+
+<p>这段改成</p>
+
+<pre><code class="language-m4">PHP_ARG_ENABLE(hylog, whether to enable hylog support,
+dnl Make sure that the comment is aligned:
+[  --enable-hylog           Enable hylog support])
+</code></pre>
+
+<p>至于是喜欢用<code>--enable</code>还是喜欢用<code>--with</code>看个人喜好了，因为本例中并没有用到外部依赖，所以用<code>--enable</code>。</p>
+
+<p>提醒一下，改完之后最好把当前的这个状态保存下来——创建一个git工作目录就好了。</p>
+
+<pre><code class="language-bash">➜  hylog git init
+Initialized empty Git repository in /home/frost/projects/php-7.0.5/ext/hylog/.git/
+➜  hylog git:(master) ✗ gst
+On branch master
+
+Initial commit
+
+Untracked files:
+  (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+
+	.gitignore
+	CREDITS
+	EXPERIMENTAL
+	config.m4
+	config.w32
+	hylog.c
+	hylog.php
+	php_hylog.h
+	tests/
+
+nothing added to commit but untracked files present (use &quot;git add&quot; to track)
+➜  hylog git:(master) ✗ ga .
+➜  hylog git:(master) ✗ gc -m 'init hylog'
+[master (root-commit) 58e5e4a] init hylog
+ Committer: frost &lt;frost@debian.unixera.com&gt;
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 9 files changed, 409 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 CREDITS
+ create mode 100644 EXPERIMENTAL
+ create mode 100644 config.m4
+ create mode 100644 config.w32
+ create mode 100644 hylog.c
+ create mode 100644 hylog.php
+ create mode 100644 php_hylog.h
+ create mode 100644 tests/001.phpt
+</code></pre>
+
+<p>为什么要这么做呢？其实主要是想让这个目录干净，因为待会儿执行了一些命令之后会生成很多文件，如果你想清除这些文件就变得很麻烦。但现在我只把这些文件<code>commit</code>了，待会儿生成文件后，如果我想删除，就可以用<code>git clean -df</code>，立即回到现在的状态。但关于<code>git</code>的操作，那就是另外一回事了（强烈推荐<a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000">廖雪峰的git教程</a>)。</p>
+
+<h3 id="编译进php">编译进PHP</h3>
+
+<ol>
+<li><p>重新生成配置文件</p>
+
+<p>注意其中的<code>./buildconf --force</code>，之所以带<code>--force</code>是因为我们是在正式版的PHP源码中进行操作的，正常情况下使用这种方式编译的都是内建扩展，例如<code>PDO</code>这种，是PHP官方团队开发的，所以你非要用这种方式编译的话，就强制一下好了。</p>
+
+<pre><code class="language-bash">➜  hylog git:(master) cd ..
+➜  ext cd ..
+➜  php-7.0.5 ./buildconf --force
+Forcing buildconf
+Removing configure caches
+buildconf: checking installation...
+buildconf: autoconf version 2.69 (ok)
+rebuilding aclocal.m4
+rebuilding configure
+rebuilding main/php_config.h.in
+</code></pre></li>
+
+<li><p>查找变化</p>
+
+<p>刚刚的操作背后发生了什么呢？注意<code>rebuilding</code>的三行，那我们就挨个看看。分别在三个文件中搜索<code>hylog</code>关键字吧。
+在<code>aclocal.m4</code>中未找到变化。
+在<code>configure</code>中有大量变化，稍后介绍能看到的变化。
+在<code>main/php_config.h.in</code>中，增加了两行，用来取消<code>COMPILE_DL_HYLOG</code>的定义，表示该扩展不是动态加载。</p>
+
+<p>这时检查一下<code>configure --help</code></p>
+
+<pre><code class="language-bash">➜  php-7.0.5 ./configure --help | grep hylog
+  --enable-hylog           Enable hylog support
+</code></pre></li>
+</ol>
+
+<p>诶，有点眼熟对不对？就是刚才在<code>ext/hylog/config.m4</code>中取消注释的内容。</p>
+
+<ol>
+<li><p>编译PHP</p>
+
+<p>既然要把它编译进来，那就加上<code>--enable-hylog</code>吧。</p>
+
+<pre><code class="language-bash">➜  php-7.0.5 ./configure --enable-hylog
+➜  php-7.0.5 make
+➜  php-7.0.5 sudo make install
+</code></pre></li>
+
+<li><p>查看已安装的扩展</p>
+
+<pre><code class="language-bash">➜  php-7.0.5 php -v
+PHP 7.0.5 (cli) (built: Apr  9 2016 11:08:08) ( NTS )
+Copyright (c) 1997-2016 The PHP Group
+Zend Engine v3.0.0, Copyright (c) 1998-2016 Zend Technologies
+➜  php-7.0.5 php -m
+[PHP Modules]
+Core
+ctype
+date
+dom
+fileinfo
+filter
+hash
+hylog
+iconv
+json
+libxml
+pcre
+PDO
+pdo_sqlite
+Phar
+posix
+Reflection
+session
+SimpleXML
+SPL
+sqlite3
+standard
+tokenizer
+xml
+xmlreader
+xmlwriter
+    
+[Zend Modules]
+</code></pre>
+
+<p>现在可以看到我们新创建的扩展已经编译进PHP了——虽然它没有任何功能。可以再到<code>/usr/local/lib/php/extensions/no-debug-non-zts-20151012</code>中验证一下是不是真的没有<code>hylog.so</code>存在。</p>
+
+<p>所以如果不想用它了怎么办呢？你当然可以选择无视它，但最好还是卸载了吧，卸载的方法也很简单，</p>
+
+<pre><code class="language-bash">➜  php-7.0.5 ./configure --disable-hylog
+➜  php-7.0.5 make
+➜  php-7.0.5 sudo make install
+</code></pre>
+
+<p>看起来就是三行，其实要用很长时间，所以，像我们这样的第三方扩展开发者还是不要用这种方式比较好。</p></li>
+</ol>
+
+<h3 id="动态加载">动态加载</h3>
+
+<p>动态加载方式是把每个扩展编译成一个单独的<code>.so</code>文件，然后在<code>php.ini</code>中加上<code>extension=hylog.so</code>，如果有配置就再加上一些配置。CLI的话就直接生效了，FPM环境下就要重启一下FPM了。我们这里只讨论CLI模式。</p>
+
+<ol>
+<li><p>第三方扩展安装的一般流程</p>
+
+<p>还记得我刚刚提到的执行某些命令后会生成很多文件吗？就是这里了。如果你还没有用<code>git</code>，我劝你现在用了。</p>
+
+<pre><code class="language-bash">➜  hylog git:(master) phpize
+Configuring for:
+PHP Api Version:         20151012
+Zend Module Api No:      20151012
+Zend Extension Api No:   320151012
+➜  hylog git:(master) ✗ ./configure
+➜  hylog git:(master) ✗ make
+➜  hylog git:(master) ✗ sudo make install
+Installing shared extensions:     /usr/local/lib/php/extensions/no-debug-non-zts-20151012/
+</code></pre>
+
+<p>好，到这里已经看到在独立编译动态扩展时，生成的<code>.so</code>文件是放在了这个目录下的。这时动态的好处就体现出来了。文件有了，至于你想不想用，只需要修改<code>php.ini</code>即可，不用任何重新编译。</p></li>
+
+<li><p>安装和卸载扩展</p>
+
+<p>前面说了，如果需要该扩展，编辑<code>/usr/local/lib/php.ini</code>，在最下面添加（安装）或删除（卸载）一行</p>
+
+<pre><code class="language-ini">extension=hylog.so
+</code></pre></li>
+
+<li><p>调试</p>
+
+<p>我可不敢保证代码一次就能成功，调试的时候要多次执行以上三个命令，所以可以创建一个<code>rebuild.sh</code>脚本，运行脚本重新编译并安装最新的版本。</p>
+
+<pre><code class="language-bash">./configure
+make
+sudo make install
+</code></pre></li>
+</ol>
+
+<p>最好把它加入到<code>git</code>工作目录中。</p>
+
+<p>扩展的安装就这些，下一节介绍PHP变量的基本类型。</p>
+
+                </div>
+
+
+                <aside>
+                    <div class="section"><a href="http://localhost:1313/tags/php/" class="tag">PHP</a> <a href="http://localhost:1313/tags/%E6%89%A9%E5%B1%95/" class="tag">扩展</a> </div>
+
+                    <div class="section share">
+                        <a href="http://v.t.sina.com.cn/share/share.php?src=bm&url=http%3a%2f%2flocalhost%3a1313%2fphp%2finternals%2fcreate-skeleton-of-extension%2f&title=PHP%e6%89%a9%e5%b1%95%e5%ae%9e%e6%88%98%e2%80%94%e2%80%94%e6%89%a9%e5%b1%95%e7%9a%84%e9%aa%a8%e6%9e%b6" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-weibo"></i></a>
+                    </div>
+
+                    
+                    <div class="section">
+                        
+                        <div class="ds-thread" data-thread-key="" data-title="PHP扩展实战——扩展的骨架" data-url="http://localhost:1313/php/internals/create-skeleton-of-extension/"></div>
+                        
+
+                        
+                        <script type="text/javascript">
+                            var duoshuoQuery = {short_name:"UnixAgain"};
+                        (function() {
+                            var ds = document.createElement('script');
+                            ds.type = 'text/javascript';ds.async = true;
+                            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                            ds.charset = 'UTF-8';
+                            (document.getElementsByTagName('head')[0]
+                             || document.getElementsByTagName('body')[0]).appendChild(ds);
+                        })();
+                        </script>
+                    </div>
+                    
+                    
+                </aside>
+
+            </article>
+
+        </div>
+        <div class="col-md-4">
+            
+<aside class="site">
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">LatestPosts</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/java/use-slf4j-and-log4j-to-log-your-applications/" class="list-group-item">slf4j配合log4j来给你的应用打log</a>
+      
+      <a href="http://localhost:1313/java/create-and-run-java-application-with-maven/" class="list-group-item">使用maven创建和运行Java应用</a>
+      
+      <a href="http://localhost:1313/linux/deepin-linux-experience/" class="list-group-item">DeepinLinux体验报告</a>
+      
+      <a href="http://localhost:1313/java/mvn-tutorial-for-novice/" class="list-group-item">给Java新手看的mvn指南</a>
+      
+      <a href="http://localhost:1313/mac/use-ssh-config-to-tune-your-productivity-up/" class="list-group-item">使用ssh-config提升你的生产力</a>
+      
+      <a href="http://localhost:1313/miscs/talk-about-transgene-foods/" class="list-group-item">谈谈转基因食物</a>
+      
+      <a href="http://localhost:1313/php/understanding-PHP-container/" class="list-group-item">理解PHP的Service Container</a>
+      
+      <a href="http://localhost:1313/git/git-in-practice/" class="list-group-item">多人协作场景下的git</a>
+      
+      <a href="http://localhost:1313/php/internals/create-functions/" class="list-group-item">为PHP添加全局函数</a>
+      
+      <a href="http://localhost:1313/php/internals/create-skeleton-of-extension/" class="list-group-item">PHP扩展实战——扩展的骨架</a>
+      
+    </div>
+  </div>
+
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">category</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/categories/php" class="list-group-item">php</a>
+      
+      <a href="http://localhost:1313/categories/javascript" class="list-group-item">javascript</a>
+      
+      <a href="http://localhost:1313/categories/miscs" class="list-group-item">miscs</a>
+      
+      <a href="http://localhost:1313/categories/mac" class="list-group-item">mac</a>
+      
+      <a href="http://localhost:1313/categories/linux" class="list-group-item">linux</a>
+      
+      <a href="http://localhost:1313/categories/symfony" class="list-group-item">symfony</a>
+      
+      <a href="http://localhost:1313/categories/git" class="list-group-item">git</a>
+      
+      <a href="http://localhost:1313/categories/blog" class="list-group-item">blog</a>
+      
+      <a href="http://localhost:1313/categories/java" class="list-group-item">java</a>
+      
+      <a href="http://localhost:1313/categories/python" class="list-group-item">python</a>
+      
+    </div>
+  </div>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">tag</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/tags/php" class="list-group-item">php</a>
+      
+      <a href="http://localhost:1313/tags/miscs" class="list-group-item">miscs</a>
+      
+      <a href="http://localhost:1313/tags/mac" class="list-group-item">mac</a>
+      
+      <a href="http://localhost:1313/tags/javascript" class="list-group-item">javascript</a>
+      
+      <a href="http://localhost:1313/tags/linux" class="list-group-item">linux</a>
+      
+      <a href="http://localhost:1313/tags/%E6%89%A9%E5%B1%95" class="list-group-item">扩展</a>
+      
+      <a href="http://localhost:1313/tags/git" class="list-group-item">git</a>
+      
+      <a href="http://localhost:1313/tags/java" class="list-group-item">java</a>
+      
+      <a href="http://localhost:1313/tags/bootstrap" class="list-group-item">bootstrap</a>
+      
+      <a href="http://localhost:1313/tags/ios" class="list-group-item">ios</a>
+      
+    </div>
+  </div>
+  
+
+</aside>
+
+
+        </div>
+    </div>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site">
+      <div class="container">
+        <p>(c) 2013-2016 Frost Wong. All rights reserved.</p>
+        <p>Powered by <a href="http://gohugo.io" target="_blank" rel="nofollow">Hugo</a>, Theme <a href="https://github.com/dim0627/hugo_theme_beg" target="_blank" rel="nofollow">beg</a> designed by <a href="http://yet.unresolved.xyz" target="_blank" rel="nofollow">Daisuke Tsuji</a></p>
+      </div>
+    </footer>
+
+    <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+
+  <script data-no-instant>document.write('<script src="/livereload.js?mindelay=10"></' + 'script>')</script></body>
+</html>
+

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.16" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Open+Sans|Marcellus+SC'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <link rel="stylesheet" href="http://localhost:1313/css/styles.css">
+    <link rel="stylesheet" href="http://localhost:1313/css/custom.css">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://localhost:1313//index.xml">
+
+    
+    <title>使用homebrew提升使用Mac的幸福感 - Me &amp; Web</title>
+    <meta property='og:title' content="使用homebrew提升使用Mac的幸福感 - Me &amp; Web">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://localhost:1313/mac/2015-06-26-homebrewshi-yong-xin-de/">
+    
+    
+
+  </head>
+
+  <body>
+
+    <header class="site">
+      <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://localhost:1313/">Me &amp; Web&nbsp;&nbsp;致力于创作可操作性更好的文章</a>
+          </div>
+
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://localhost:1313/">Home</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/about">About</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/categories/">Categories</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/tags/">Tags</a></li>
+              
+              
+            </ul>
+            
+          </div>
+
+        </div>
+      </nav>
+    </header>
+
+    <div class="site">
+      <div class="container">
+
+
+
+<div class="single">
+
+    <div class="row">
+        <div class="col-md-8">
+
+            <article class="single" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+                <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://localhost:1313/"/>
+                <meta itemprop="dateModified" content="2015-06-26T10:25:07&#43;08:00">
+                <meta itemprop="headline" content="使用homebrew提升使用Mac的幸福感">
+                <meta itemprop="description" content="作为Linux派系的程序员，我喜欢Linux的原因很大程度上是它的包管理工具，RedHat系的rpm/yum/dnf/zypper，Debi">
+                <meta itemprop="url" content="http://localhost:1313/mac/2015-06-26-homebrewshi-yong-xin-de/">
+                <div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+                    <meta itemprop="url" content="http://localhost:1313/images/default.jpg" />
+                    <meta itemprop="width" content="800">
+                    <meta itemprop="height" content="800">
+                </div>
+                <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+                    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+                        <meta itemprop="url" content="http://localhost:1313/images/logo.jpg">
+                        <meta itemprop="width" content="100">
+                        <meta itemprop="height" content="100">
+                    </div>
+                    <meta itemprop="name" content="Me &amp; Web">
+                </div>
+                <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <meta itemprop="name" content="">
+                </div>
+
+                <header class="article-header">
+                    <time itemprop="datePublished" pubdate="pubdate" datetime="2015-06-26T10:25:07&#43;08:00">Fri, Jun 26, 2015</time>
+                    <h1 class="article-title">使用homebrew提升使用Mac的幸福感</h1>
+                </header>
+
+                <div class="article-body" itemprop="articleBody">
+                    <p>作为Linux派系的程序员，我喜欢Linux的原因很大程度上是它的包管理工具，RedHat系的rpm/yum/dnf/zypper，Debian系的dpkg/apt-get/aptitude，还有小众点的pacman/emerge/port，这些东西最大的用途就是<strong>让用户可以方便的安装软件</strong>。</p>
+
+<p>Windows没有，Mac有AppStore，但在我大天朝，并没有什么卵用，经常连不上，连上下载慢。</p>
+
+<p>所以我们可以用<a href="https://brew.sh">Homebrew</a>了。</p>
+
+<p>它的作用其实就是为Mac提供本应该是苹果提供的包管理工具。</p>
+
+<p>同事问我在Mac 上安装软件的问题，我看到是下载的过程出了问题，并且出在证书上，想起来之前看到说curl在某个版本之后就把证书和二进制文件打包在一起了，就想着让她更新一下curl试试看。我之前在自己的机器上也用brew安装过curl，但并没有注意到其实安装的版本默认并没有生效。</p>
+
+<p>这里要引出的一种安装方式就是<code>keg-only</code>。</p>
+
+<p>看到这我就想插一句，国外的程序员们可真会玩儿，能给软件起很有意思的名字，连其中的组件都很有意思。比如这里，homehrew默认是把软件安装在<code>/usr/local/Cellar</code>目录中的，而<code>Cellar</code>的意思是<strong>酒窖</strong>。如果你了解过<code>FreeBSD</code>的目录树结构，就知道它这么做的意义了，是要把同一个来源的文件组织在一起，不扰乱整个目录树。相应的，<code>keg-only</code>中的<code>keg</code>的意思是<strong>酒桶</strong>。就让我试着用平实的语言来解释一下：</p>
+
+<p>Homebrew安装软件分为<a href="http://stackoverflow.com/questions/4691403/keg-only-homebrew-formulas">两种情况</a>。</p>
+
+<ol>
+<li><p>系统没有自带的<br />
+这个没什么好说的，因为如果系统没有带，我们安装完相应的软件之后就自动的将编译好的二进制文件软链接到<code>PATH</code>中，这样才会生效。</p></li>
+
+<li><p>系统自带的<br />
+如果系统自带的有这个软件，那么问题就不好办了，是直接覆盖呢，还是应该给用户一些选择？本着上面说过的原则，尽量少的影响原来的目录树，那么它在安装完二进制文件之后并没有做建软链的那一步操作，这就是所谓的<code>keg-only</code>的意思了。</p></li>
+</ol>
+
+<p>那么，如果我要更新curl，而OS X发行时本就是带着curl的，应该怎么办呢？当然作者已经替我们想到了这一点，</p>
+
+<pre><code>brew link curl --force
+</code></pre>
+
+<p>这样，它就会把需要的二进制链接到<code>PATH</code>中，要注意这时这些路径中是存在相应的二进制文件的，正是homebrew不敢确定是不是要直接帮我们做这些操作，才给我们提供了这个命令。</p>
+
+<p>那么如果你之前已经安装了不少软件了，发现有好几个没有建软链，难道要手工的一个一个执行？当然不用，可以参考下面的<a href="http://apple.stackexchange.com/questions/123900/is-there-a-quick-way-to-relink-my-homebrew-kegs">脚本</a></p>
+
+<pre><code class="language-bash">ls -1 /usr/local/Library/LinkedKegs | while read line; do
+    echo $LINE
+    brew unlink $LINE
+    brew link $LINE --force
+done
+</code></pre>
+
+<p>上面的脚本是利用了homebrew将<code>LinkedKegs</code>目录设置成了存放所有二进制文件的路径的特点，将其全部取出，删除全部软链，而后重新建立软链。</p>
+
+<p>其实也可以将<code>ls -1 /usr/local/Library/LinkedKegs</code>替换成<code>brew list -1</code>也可。</p>
+
+<p>另外别的诸如<code>brew install</code>，<code>brew uninstall</code>的方法就不说了。</p>
+
+<p>我不是一个Python爱好者，只是一个用户，偶尔写点Python，但即便这样也会遭遇版本问题，<code>brew install python3 python2</code>一站式解决所有问题。</p>
+
+<p>多说一点，现在很多语言都开发了包管理工具，我知道的有pip、npm、composer、gem，甚至我最不了解的Java，像Maven估计也是用来做这种事情的。</p>
+
+<p>这其实就是在帮<strong>操作系统或者说发行版减负</strong>。之前没有这些语言的包管理器的时候都是需要系统给打包，比如各种pip的包，那现在，它就成了跨平台的，每个发行版只需要维护Python的包，只要用户有了Python就有了pip，有了pip就有了无限的可能。</p>
+
+<p>但我发现周围根本没有人用这些东西，虽然Mac的普及率很高，但大部分人都没有听过这些东西，我们的PHP程序员本来也不必关心别的语言的东西，但了解一些提高效率的东西还是很有必要的。</p>
+
+                </div>
+
+
+                <aside>
+                    <div class="section"><a href="http://localhost:1313/tags/homebrew/" class="tag">homebrew</a> </div>
+
+                    <div class="section share">
+                        <a href="http://v.t.sina.com.cn/share/share.php?src=bm&url=http%3a%2f%2flocalhost%3a1313%2fmac%2f2015-06-26-homebrewshi-yong-xin-de%2f&title=%e4%bd%bf%e7%94%a8homebrew%e6%8f%90%e5%8d%87%e4%bd%bf%e7%94%a8Mac%e7%9a%84%e5%b9%b8%e7%a6%8f%e6%84%9f" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-weibo"></i></a>
+                    </div>
+
+                    
+                    <div class="section">
+                        
+                        <div class="ds-thread" data-thread-key="" data-title="使用homebrew提升使用Mac的幸福感" data-url="http://localhost:1313/mac/2015-06-26-homebrewshi-yong-xin-de/"></div>
+                        
+
+                        
+                        <script type="text/javascript">
+                            var duoshuoQuery = {short_name:"UnixAgain"};
+                        (function() {
+                            var ds = document.createElement('script');
+                            ds.type = 'text/javascript';ds.async = true;
+                            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                            ds.charset = 'UTF-8';
+                            (document.getElementsByTagName('head')[0]
+                             || document.getElementsByTagName('body')[0]).appendChild(ds);
+                        })();
+                        </script>
+                    </div>
+                    
+                    
+                </aside>
+
+            </article>
+
+        </div>
+        <div class="col-md-4">
+            
+<aside class="site">
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">LatestPosts</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/java/use-slf4j-and-log4j-to-log-your-applications/" class="list-group-item">slf4j配合log4j来给你的应用打log</a>
+      
+      <a href="http://localhost:1313/java/create-and-run-java-application-with-maven/" class="list-group-item">使用maven创建和运行Java应用</a>
+      
+      <a href="http://localhost:1313/linux/deepin-linux-experience/" class="list-group-item">DeepinLinux体验报告</a>
+      
+      <a href="http://localhost:1313/java/mvn-tutorial-for-novice/" class="list-group-item">给Java新手看的mvn指南</a>
+      
+      <a href="http://localhost:1313/mac/use-ssh-config-to-tune-your-productivity-up/" class="list-group-item">使用ssh-config提升你的生产力</a>
+      
+      <a href="http://localhost:1313/miscs/talk-about-transgene-foods/" class="list-group-item">谈谈转基因食物</a>
+      
+      <a href="http://localhost:1313/php/understanding-PHP-container/" class="list-group-item">理解PHP的Service Container</a>
+      
+      <a href="http://localhost:1313/git/git-in-practice/" class="list-group-item">多人协作场景下的git</a>
+      
+      <a href="http://localhost:1313/php/internals/create-functions/" class="list-group-item">为PHP添加全局函数</a>
+      
+      <a href="http://localhost:1313/php/internals/create-skeleton-of-extension/" class="list-group-item">PHP扩展实战——扩展的骨架</a>
+      
+    </div>
+  </div>
+
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">category</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/categories/php" class="list-group-item">php</a>
+      
+      <a href="http://localhost:1313/categories/javascript" class="list-group-item">javascript</a>
+      
+      <a href="http://localhost:1313/categories/miscs" class="list-group-item">miscs</a>
+      
+      <a href="http://localhost:1313/categories/mac" class="list-group-item">mac</a>
+      
+      <a href="http://localhost:1313/categories/linux" class="list-group-item">linux</a>
+      
+      <a href="http://localhost:1313/categories/symfony" class="list-group-item">symfony</a>
+      
+      <a href="http://localhost:1313/categories/git" class="list-group-item">git</a>
+      
+      <a href="http://localhost:1313/categories/blog" class="list-group-item">blog</a>
+      
+      <a href="http://localhost:1313/categories/java" class="list-group-item">java</a>
+      
+      <a href="http://localhost:1313/categories/python" class="list-group-item">python</a>
+      
+    </div>
+  </div>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">tag</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/tags/php" class="list-group-item">php</a>
+      
+      <a href="http://localhost:1313/tags/miscs" class="list-group-item">miscs</a>
+      
+      <a href="http://localhost:1313/tags/mac" class="list-group-item">mac</a>
+      
+      <a href="http://localhost:1313/tags/javascript" class="list-group-item">javascript</a>
+      
+      <a href="http://localhost:1313/tags/linux" class="list-group-item">linux</a>
+      
+      <a href="http://localhost:1313/tags/%E6%89%A9%E5%B1%95" class="list-group-item">扩展</a>
+      
+      <a href="http://localhost:1313/tags/git" class="list-group-item">git</a>
+      
+      <a href="http://localhost:1313/tags/java" class="list-group-item">java</a>
+      
+      <a href="http://localhost:1313/tags/bootstrap" class="list-group-item">bootstrap</a>
+      
+      <a href="http://localhost:1313/tags/ios" class="list-group-item">ios</a>
+      
+    </div>
+  </div>
+  
+
+</aside>
+
+
+        </div>
+    </div>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site">
+      <div class="container">
+        <p>(c) 2013-2016 Frost Wong. All rights reserved.</p>
+        <p>Powered by <a href="http://gohugo.io" target="_blank" rel="nofollow">Hugo</a>, Theme <a href="https://github.com/dim0627/hugo_theme_beg" target="_blank" rel="nofollow">beg</a> designed by <a href="http://yet.unresolved.xyz" target="_blank" rel="nofollow">Daisuke Tsuji</a></p>
+      </div>
+    </footer>
+
+    <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+
+  <script data-no-instant>document.write('<script src="/livereload.js?mindelay=10"></' + 'script>')</script></body>
+</html>
+

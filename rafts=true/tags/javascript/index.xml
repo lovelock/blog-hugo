@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Javascript on Me &amp; Web</title>
+    <link>http://localhost:1313/tags/javascript/</link>
+    <description>Recent content in Javascript on Me &amp; Web</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>frostwong@gmail.com (Frost Wong)</managingEditor>
+    <webMaster>frostwong@gmail.com (Frost Wong)</webMaster>
+    <copyright>(c) 2013-2016 Frost Wong. All rights reserved.</copyright>
+    <lastBuildDate>Wed, 30 Mar 2016 16:08:03 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>检测浏览器是否安装了Flash</title>
+      <link>http://localhost:1313/javascript/detect-flash/</link>
+      <pubDate>Wed, 30 Mar 2016 16:08:03 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/javascript/detect-flash/</guid>
+      <description>&lt;p&gt;现在国内竟然那么多的视频网站都还不支持HTML5的视频播放，无外乎几个原因：&lt;/p&gt;
+
+&lt;p&gt;现在我们的浏览器也只是对Safari开启了默认HTML5，而其他浏览器都是&lt;strong&gt;鼓励&lt;/strong&gt;用户使用Flash的，但我觉得这样不好。&lt;/p&gt;
+
+&lt;p&gt;下面的代码可以用来检测用户是否装了Flash。其实我不需要知道Flash的版本，因为任何的版本都应该是支持视频播放的。如果有些其他功能需要高版本的Flash，那也是用户安装了之后的事情了，API受限的或者有安全漏洞的话，浏览器会提示用户更新。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;
+function detectFlash() {
+    if (navigator.mimeTypes.length &amp;gt; 0) {
+        var flashAct = navigator.mimeTypes[&amp;quot;application/x-shockwave-flash&amp;quot;];
+        return flashAct != null ? flashAct.enabledPlugin != null : false;
+    } else if (self.ActiveXObject) {
+        try {
+            new ActiveXObject(&#39;ShockwaveFlash.ShockwaveFlash&#39;);
+            return true;
+        } catch (oError) {
+            return false;
+        }
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Firefox Date.parse()方法行为不一致的兼容方案</title>
+      <link>http://localhost:1313/javascript/Firefox-Date.parse-exception/</link>
+      <pubDate>Mon, 25 Jan 2016 12:14:35 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/javascript/Firefox-Date.parse-exception/</guid>
+      <description>
+
+&lt;p&gt;事情是这样的，我有两个输入框，用Wdatepicker自定义了日期格式，格式当然是我们中国人最喜欢的Y-M-d H:i:s，然后需要确定后者（结束时间）不能小于前者（开始时间）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;// Firefox incompatible
+var start = $(&amp;quot;#start&amp;quot;).val();
+var end = $(&amp;quot;#end&amp;quot;).val();
+retrun Date.parse(end) - Date.parse(start) &amp;gt; 0 ? true : false;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Chrome下测试没问题，当时负责的同事就上线了。（因为这个是内部用的，只有两三个同事用，所以规定一下大家都用Chrome没有问题）&lt;/p&gt;
+
+&lt;p&gt;后来发现Firefox下不管两个日期怎么填，总会提示不对，跟了一下发现&lt;code&gt;Date.parse(end)&lt;/code&gt;和&lt;code&gt;Date.parse(start)&lt;/code&gt;里面的两个值都是NaN，但在Chrome里却是正常的Unix时间戳。&lt;/p&gt;
+
+&lt;p&gt;这就诡异了，查看了&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Date/parse&#34;&gt;MDN&lt;/a&gt;发现了&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;h3 id=&#34;parameters&#34;&gt;Parameters&lt;/h3&gt;
+
+&lt;h4 id=&#34;datestring&#34;&gt;dateString&lt;/h4&gt;
+
+&lt;p&gt;A string representing an RFC2822 or ISO 8601 date (other formats &lt;strong&gt;may be&lt;/strong&gt; used, but results may be &lt;strong&gt;unexpected&lt;/strong&gt;).&lt;/p&gt;
+
+&lt;p&gt;##ECMAScript 5 ISO-8601 format support&lt;/p&gt;
+
+&lt;p&gt;The date time string may be in ISO 8601 format. For example, &amp;ldquo;2011-10-10&amp;rdquo; (just date) or &amp;ldquo;2011-10-10T14:48:00&amp;rdquo; (date and time) can be passed and parsed. The UTC time zone is used to interpret arguments in ISO 8601 format that do not contain time zone information (note that ECMAScript 2015 specifies that date time strings without a time zone are to be treated as local, not UTC).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;从上面可以看到，Firefox是支持RFC2822 or ISO 8601格式的，但其他格式就呵呵了，或许可以支持，但可能会得到意想不到的结果。&lt;/p&gt;
+
+&lt;p&gt;所以，我们可以认为Chrome在标准之外支持了一些非标准的写法，而Firefox却没有。&lt;/p&gt;
+
+&lt;p&gt;知道了问题所在，就好解决了。&lt;/p&gt;
+
+&lt;p&gt;在比较之前把时间里面的空格替换成&amp;rdquo;T&amp;rdquo;即可。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;// Firefox compatible
+var start = $(&amp;quot;#start&amp;quot;).val();
+var end = $(&amp;quot;#end&amp;quot;).val();
+
+start = start.replace(/ /, &#39;T&#39;);
+end = start.replace(/ /, &#39;T&#39;);
+retrun Date.parse(end) - Date.parse(start) &amp;gt; 0 ? true : false;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;问题解决。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>JavaScript闭包深究</title>
+      <link>http://localhost:1313/javascript/2015-12-02-JavaScript-closure-internals/</link>
+      <pubDate>Wed, 02 Dec 2015 21:35:12 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/javascript/2015-12-02-JavaScript-closure-internals/</guid>
+      <description>
+
+&lt;h2 id=&#34;问题来源&#34;&gt;问题来源&lt;/h2&gt;
+
+&lt;p&gt;刚刚看到微信公众号推送的一篇文章, &lt;a href=&#34;http://www.cnblogs.com/xxcanghai/p/4991870.html&#34;&gt;大部分人都会做错的经典JS闭包面试题&lt;/a&gt;,里面出现了一道很有意思的题目，让我有兴趣自己尝试一下。&lt;/p&gt;
+
+&lt;p&gt;题目是这样的&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function fun(n, o) {
+	console.log(o);
+	
+	return {
+		fun: function (m) {
+			return fun(m, n);
+		}
+	};
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;问题是下面这三行的输出分别是什么。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;注意不是问a, b, c的值，是输出。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var a = fun(0);  a.fun(1);  a.fun(2);  a.fun(3);//undefined,?,?,?
+var b = fun(0).fun(1).fun(2).fun(3);//undefined,?,?,?
+var c = fun(0).fun(1);  c.fun(2);  c.fun(3);//undefined,?,?,?
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;答案在最后，如果有兴趣可以先尝试自己分析一下。这道题的答案并没有争议，但我看了原作者的分析之后，感觉到可能有点问题，于是找到了经常翻阅的《JavaScript the Good Parts》再来参详一遍第四章吧，大概翻了一下发现这本书并没有太详细的介绍这部分，于是找了一篇博文&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:refer1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:refer1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;，详细的研究一下。&lt;/p&gt;
+
+&lt;p&gt;函数(function)在JavaScript中是一等公民，老道说它是几乎完美的——当然也存在瑕疵，当你用过它变态的&lt;code&gt;this&lt;/code&gt;特性以后，肯定会对这句话的严谨表示赞同。&lt;/p&gt;
+
+&lt;p&gt;我们知道，在JavaScript中创建对象时，对象字面量会连接到&lt;code&gt;Object.prototype&lt;/code&gt;。而函数对象会连接到&lt;code&gt;Function.prototype&lt;/code&gt;。那么&lt;code&gt;Function.prototype&lt;/code&gt;又连接到谁呢？答案还是&lt;code&gt;Object.prototype&lt;/code&gt;。因为在JavaScript中，函数、数组、对象(指我们经常见到的JSON对象)都是对象(特指原型链的对象)。&lt;/p&gt;
+
+&lt;h2 id=&#34;探究&#34;&gt;探究&lt;/h2&gt;
+
+&lt;p&gt;根据《JavaScript the Good Parts》的说法，函数的定义有4个要素。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;// 创建一个名为add的变量，并把一个函数赋值给它
+
+var add = function (a, b) {
+	return a + b;
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;函数字面量包括4个部分：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;保留字&lt;code&gt;function&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;函数名&lt;/li&gt;
+&lt;li&gt;包围在圆括号内的一组参数&lt;/li&gt;
+&lt;li&gt;包围在花括号中的一组语句，它是函数的主题，在函数调用时被执行&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;从上面函数的定义可以看到，这个&lt;code&gt;add&lt;/code&gt; 并不是函数字面量的一部分。而作为函数字面量的函数名却可以不存在，这也就是匿名函数。&lt;/p&gt;
+
+&lt;p&gt;重点来了：&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;函数字面量可以出现在任何允许表达式出现的地方。函数也可以被定义在其他函数中。一个内部函数除了可以访问自己的参数和变量，同时也能自由访问把它嵌套在其中的父函数的参数与变量。通过函数字面量创建的函数对象包含一个连到外部上下文的连接。这被称为闭包(closure)。它是JavaScript强大表现力的来源。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;函数的定义方式&#34;&gt;函数的定义方式&lt;/h3&gt;
+
+&lt;p&gt;先来看一下JavaScript定义函数的各种方法&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function A() {}     // 函数声明
+var B = function () {}; // 函数表达式
+var C = (function () {}); // 带有分组操作符的函数表达式
+var D = function foo() {}; // 命名的函数表达式
+var E = (function () {
+            return function () {};
+        }());           // 返回函数的立即执行的函数表达式
+var F = new Function (); // 函数构造器
+var G = new Function () {}; // 特殊情况，对象构造器
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;不看不知道，竟然还有那么多种方式，老实说，我只有过第1、2、5这三种，并且没有区分的那么细致。下面详细的剖析一下这种方式的使用场景。&lt;/p&gt;
+
+&lt;h4 id=&#34;a-name-函数声明-a-函数声明&#34;&gt;&lt;a name=&#34;函数声明&#34;&gt;&lt;/a&gt;函数声明&lt;/h4&gt;
+
+&lt;h5 id=&#34;a-name-作用域提升-a-作用域提升&#34;&gt;&lt;a name=&#34;作用域提升&#34;&gt;&lt;/a&gt;作用域提升&lt;/h5&gt;
+
+&lt;p&gt;这种方式是见到的最多的声明函数的方式了，而且这种方式会引发『作用域提升』(Hoisting)，不知道是不是这么翻译，但我一说下面的你就知道是什么意思了。&lt;/p&gt;
+
+&lt;p&gt;如果这么写&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;A();
+function A() {
+    console.log(&#39;foo&#39;);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;你可能会担心出现&lt;code&gt;A is not a function&lt;/code&gt;这种错误吧？但是这里不会有，一切都会正常运行。因为在执行这段代码时，解释器会把它当做下面的这样来执行&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function A() {
+    console.log(&#39;foo&#39;);
+}
+A();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样当然不会有问题了。&lt;/p&gt;
+
+&lt;p&gt;这里说到变量的作用域提升，你可能会想到下面这种例子，&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;console.log(A);
+
+var A = &#39;foo&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这时也会发生一个变量提升，但不同的是，这段代码等同于下面的&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var A;
+
+console.log(A);
+
+A = &#39;foo&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;所以，这段代码的输出会是&lt;code&gt;undefined&lt;/code&gt;，而不是&lt;code&gt;A is not defined&lt;/code&gt;的错误信息。也就是说，这种方式的变量作用域提升只会把变量的&lt;strong&gt;声明&lt;/strong&gt;提升，而不会把&lt;strong&gt;定义&lt;/strong&gt;提升。&lt;/p&gt;
+
+&lt;p&gt;变量声明和函数声明方式的不同了，上面说了，函数在JavaScript里是可以赋值给变量的，那么用函数表达式定义的函数也是一个变量，本质上会和上面&lt;strong&gt;变量作用域提升&lt;/strong&gt;出现同样的效果。即&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;B();
+
+var B = function () {
+    console.log(&#39;foo&#39;);
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;并不会有输出，并且会报错，&lt;code&gt;B is not a function&lt;/code&gt;，因为它等同于&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var B;
+
+B();
+
+B = function () {
+    console.log(&#39;foo&#39;);
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在执行函数B的时候，B只是一个变量声明，解释器并不知道它是一个函数或者一个普通的变量，但看报错结果&lt;code&gt;B is not a function&lt;/code&gt;就可以知道，在执行函数B的时候，解释器是知道B的存在的，也就是B已经被声明过，只是它不知道它是函数而已，否则报的错就是&lt;code&gt;B is not defined&lt;/code&gt;了。&lt;/p&gt;
+
+&lt;h5 id=&#34;不能在-if-或其他条件语句中使用函数声明&#34;&gt;不能在&lt;code&gt;if&lt;/code&gt;或其他条件语句中使用函数声明&lt;/h5&gt;
+
+&lt;p&gt;也就是说，不能这样&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;if (true) {
+    function foo() {
+        return &#39;foo&#39;;
+    }
+} else {
+    function foo() {
+        return &#39;bar&#39;;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;当我想在&lt;a href=&#34;http:jsbin.com&#34;&gt;JSbin&lt;/a&gt;中执行这段代码时，它报出了以下错误
+&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/b_Screen%20Shot%202015-12-05%20at%2010.20.25%20PM.png&#34; alt=&#34;条件语句中用函数声明报错&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;建议的方式是这样的&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var foo;
+
+if (true) {
+    foo = function () {
+        return &#39;foo&#39;;
+    };
+} else {
+    foo = function () {
+        return &#39;bar&#39;;
+    };
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;永远不要&lt;/strong&gt;这样写，不同的浏览器可能会表现出不同的行为。&lt;/p&gt;
+
+&lt;h5 id=&#34;必须有函数名&#34;&gt;必须有函数名&lt;/h5&gt;
+
+&lt;p&gt;声明一个没有赋值的函数是不能不带函数名的，也就是，无法这样声明以下函数&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function () {
+    return &#39;blahblah&#39;;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/b_Screen%20Shot%202015-12-05%20at%2010.24.19%20PM.png&#34; alt=&#34;用函数声明的方式声明不带函数名的函数报错信息&#34; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;a-name-函数表达式-a-函数表达式&#34;&gt;&lt;a name=&#34;函数表达式&#34;&gt;&lt;/a&gt;函数表达式&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;var B = function () {};&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;函数表达式和函数声明的方式很类似，但不同的是函数被赋值给了一个变量。要知道函数在JavaScript里并不是primitive的，也就是说它是可以再分解的，但这并不妨碍函数是JavaScript世界的一等公民，它可以被赋值给变量，可以作为其他函数的返回值，可以作为参数传递给其他变量也可以存储在其他数据结构中。&lt;/p&gt;
+
+&lt;h5 id=&#34;匿名函数&#34;&gt;匿名函数&lt;/h5&gt;
+
+&lt;p&gt;虽然函数赋值给了一个变量，但这个函数仍然是一个匿名函数，因为在函数定义的4个要素里，缺少了『函数名』这一要素。&lt;/p&gt;
+
+&lt;h5 id=&#34;变量的作用域提升&#34;&gt;变量的作用域提升&lt;/h5&gt;
+
+&lt;p&gt;这在&lt;a href=&#34;#作用域提升&#34;&gt;上一节&lt;/a&gt;中已经讲过，这里略过。&lt;/p&gt;
+
+&lt;h4 id=&#34;带有分组操作符的函数表达式&#34;&gt;带有分组操作符的函数表达式&lt;/h4&gt;
+
+&lt;p&gt;这种写法很应该很少见，或者说只会出现在测试题中了，因为它除了会带来迷惑之外并没有什么卵用（如果真有实际用处，请一定告诉我）。&lt;/p&gt;
+
+&lt;p&gt;可以这样理解这种写法。
+当你写&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function () {}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;的时候，它是一个『函数声明』，函数声明没有函数名是不正确的。而当你给它加上一对括号，那么它就成了一个『函数表达式』，还记得吗？函数表达式是可以赋值给变量的。&lt;/p&gt;
+
+&lt;p&gt;这时候就可以把&lt;code&gt;(function () {})&lt;/code&gt;理解成一个没有被赋值的函数表达式。它的存在是没有意义的，就像你写了一个这样的表达式&lt;code&gt;&#39;foo&#39;;&lt;/code&gt;，它能有什么意义？对，它是一个字符串，谁都知道它是一个字符串，但它并没有被赋值给任何一个变量，换言之，在依赖『引用计数』做垃圾回收的语言里（没有研究过JavaScript是不是这种），它在执行时是会被回收的——因为它并没有被引用过。只有当&lt;code&gt;var C = (function () {});&lt;/code&gt;时才有意义，而这时它和&lt;code&gt;var C = function () {};&lt;/code&gt;的意义是一样的。&lt;/p&gt;
+
+&lt;h4 id=&#34;带有变量名的函数声明&#34;&gt;带有变量名的函数声明&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;var D = function foo() {}&lt;/code&gt; 这种写法简直综合了&lt;a href=&#34;#函数声明&#34;&gt;函数声明&lt;/a&gt;和&lt;a href=&#34;#函数表达式&#34;&gt;函数表达式&lt;/a&gt;，搞得更让人摸不到头脑了。&lt;/p&gt;
+
+&lt;h5 id=&#34;函数名只在函数内部可见&#34;&gt;函数名只在函数内部可见&lt;/h5&gt;
+
+&lt;p&gt;在这种情况下，函数名在函数外部是不可见的，例如&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var D = function foo(){
+  console.log(typeof foo);
+};
+D();                       // function
+console.log(typeof foo);   // undefined
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;需要递归执行时很有用&#34;&gt;需要递归执行时很有用&lt;/h5&gt;
+
+&lt;p&gt;想一下它的应用场景，在函数内部可以调用自己，但外部不需要知道它的实现机制。外部调用它仍然可以用变量名，然而调用变量名一次，却可以递归的调用函数内部的实现，是不是很酷炫呢？&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var countdown = function a(count){
+  if(count &amp;gt; 0) {
+    count--;
+    return a(count);  // we can also do this: a(--count), which is less clear
+  }
+  console.log(&#39;end of recursive function&#39;);
+}
+countdown(5);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;debug时很有用&#34;&gt;debug时很有用&lt;/h5&gt;
+
+&lt;p&gt;这个嘛，看你有没有需要了，因为匿名的函数表达式是没有名字的，那再函数内部调用自己的时候也就无法记录被调用的函数名了，但如果函数表达式也有了名字，那事情就变得很奇妙了。&lt;/p&gt;
+
+&lt;h5 id=&#34;jscript的实现有坑&#34;&gt;JScript的实现有坑&lt;/h5&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://kangax.github.io/nfe/&#34;&gt;kangax&lt;/a&gt;指出，IE的ECMAScript实现——JScript对这一特性的实现是有坑的，所以，如果有对这方面的需求的话，最好回避这个功能。&lt;/p&gt;
+
+&lt;h4 id=&#34;立即执行的函数表达式&#34;&gt;立即执行的函数表达式&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;var E = (function () { return function () {}; }())&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;要理解这一特性，先要把它做的事情分解&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;执行一个函数&lt;/li&gt;
+&lt;li&gt;函数的返回值是函数&lt;/li&gt;
+&lt;li&gt;将返回的函数赋给一个变量&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;为了深入浅出的理解这种做法，可以先尝试一种已经接受的方式，&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var foo = function () {
+    return &#39;bar&#39;;
+}
+
+var output = foo();
+console.log(output);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;很显然，这段代码的输出就是&lt;code&gt;bar&lt;/code&gt;。没什么好说的。&lt;/p&gt;
+
+&lt;p&gt;但是经过上面的讨论，我们知道了
+&lt;code&gt;var foo = function () { return function () {}; }&lt;/code&gt;是等价于&lt;code&gt;var foo = (function () { return function () {}; })&lt;/code&gt;的，那么同时加个括号呢？对，
+就变成了&lt;code&gt;(function () { return function () {}; })()&lt;/code&gt;。到这里，这种写法是不是就很好理解了呢？&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;mark&gt;注意&lt;/mark&gt;&lt;/strong&gt;这个特性很重要，尤其在模块模式下隐藏一些信息时很有用。最常见的jQuery就用到了这种方法。&lt;/p&gt;
+
+&lt;h4 id=&#34;构造器&#34;&gt;构造器&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;var F = new Function();&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;这是一种很老的并且已经不推荐使用的写法。而且，根据老道的推荐，所有直接使用构造器，也就是使用了&lt;code&gt;new&lt;/code&gt;关键字的方式都不推荐使用。这是因为他是一个强迫症——好吧，原因如下：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;JavaScript的&lt;code&gt;new&lt;/code&gt;运算符创建一个继承于其运算数的原型的新对象，然后调用该运算数，把新创建的对象绑定给&lt;code&gt;this&lt;/code&gt;。这给运算数（应该是一个构造器函数）一个机会在返回给请求者前自定义新创建的对象。
+如果忘记了使用&lt;code&gt;new&lt;/code&gt;运算符，得到的就是一个普通的函数调用，并且&lt;code&gt;this&lt;/code&gt;被绑定到全局对象，而不是创建新的对象。这意外着当你的函数尝试去初始化新成员属性时它将会污染全局变量。这是一件非常糟糕的事情（老道非常不愿意看到JavaScript语言里的变量名的污染）。而且既没有编译时警告，也没有运行时警告。
+按照惯例，打算域&lt;code&gt;new&lt;/code&gt;结合使用的函数应该以首字母大写的形式命名，并且首字母大写形式应该只用来命名那些构造器函数。这个约定帮助我们进行区分（然而我还没有看到我修改的代码里真的遵守这个约定的），便于我们发现那些JavaScript语言自身经常忘记但却会带来昂贵代价的错误。
+&lt;strong&gt;一个更好的应对策略就是根本不去使用&lt;code&gt;new&lt;/code&gt;关键字。&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&#34;使用方法&#34;&gt;使用方法&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var F = new Function (&#39;arg1&#39;, &#39;arg2&#39;, &#39;console.log(arg1 + &amp;quot;, &amp;quot; + arg2)&#39;);
+F(&#39;foo&#39;, &#39;bar&#39;); // &#39;foo, bar&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;避免使用-new-操作符&#34;&gt;避免使用&lt;code&gt;new&lt;/code&gt;操作符&lt;/h5&gt;
+
+&lt;h5 id=&#34;怪癖&#34;&gt;怪癖&lt;/h5&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://developer.mozilla.org/en/JavaScript/Reference/Functions_and_function_scope#Function_constructor_vs._function_declaration_vs._function_expression&#34;&gt;MDN开发文档&lt;/a&gt;指出了另一个这种方式不好的地方，它不能正确的创建闭包。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function foo () {
+    var bar = &#39;bar&#39;;
+    
+    var first = new Function(&#39;console.log(typeof bar&#39;)&#39;);
+    first(); //undefined
+    
+    var second = function () {
+        console.log(typeof bar);
+    };
+    second(); // string
+}
+
+foo();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;从结果可以看到，使用构造器创建的函数并不能正确的创建闭包，所以，这种方式还是不要用了。&lt;/p&gt;
+
+&lt;h4 id=&#34;特殊情况&#34;&gt;特殊情况&lt;/h4&gt;
+
+&lt;p&gt;说它是特殊情况是因为虽然用了&lt;code&gt;function&lt;/code&gt;关键字，但它并没有意义。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;new function() {}&lt;/code&gt;创建一个对象并且调用这个匿名函数来作为它的构造函数。如果函数返回的是一个对象，它的结果就是一个对象，否则就会从头创建一个对象并且函数在这个新函数的上下文中执行。（好绕，回头但针对这个问题再另起一篇）。&lt;/p&gt;
+
+&lt;p&gt;如果看到这了，你还没有整明白文章开头的那道题，那我也没有办法了。&lt;/p&gt;
+
+&lt;p&gt;答案：
+//a: undefined,0,0,0
+//b: undefined,0,1,2
+//c: undefined,0,1,1&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:refer1&#34;&gt;&lt;a href=&#34;http://davidbcalhoun.com/2011/different-ways-of-defining-functions-in-javascript-this-is-madness/&#34;&gt;Different Ways of Defining Functions in JavaScript (This Is Madness!)&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:refer1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>JavaScript代码约定</title>
+      <link>http://localhost:1313/javascript/2015-05-02-javascriptdai-ma-yue-ding/</link>
+      <pubDate>Sat, 02 May 2015 21:08:49 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/javascript/2015-05-02-javascriptdai-ma-yue-ding/</guid>
+      <description>
+
+&lt;p&gt;原文标题：Code Conventions for the JavaScript Programming Language
+作者：Douglas Crockford&lt;/p&gt;
+
+&lt;p&gt;这是JavaScript编程中的一系列代码约定和规则。灵感来自于Sun的Code Conventions for the Java Programming Language。当然，因为JavaScript不是Java，所以这篇文章也完全不同于前者。&lt;/p&gt;
+
+&lt;p&gt;对于一个组织而言，代码库的质量和软件的长期价值成正比。在它的生命周期内，一个程序会经手很多人。如果一个程序可以清晰的传达它的结构和和特点，在不远的将来修改时就不太可能会崩溃。&lt;/p&gt;
+
+&lt;p&gt;编码约定有助于减少代码的脆性。&lt;/p&gt;
+
+&lt;p&gt;所有JavaScript代码都是公开发送的。它也应该总是出版物的质量。&lt;/p&gt;
+
+&lt;p&gt;整齐很重要。&lt;/p&gt;
+
+&lt;h2 id=&#34;javascript文件&#34;&gt;JavaScript文件&lt;/h2&gt;
+
+&lt;p&gt;JavaScript程序应该以&lt;code&gt;.js&lt;/code&gt;文件保存和传输。
+JavaScript不应该嵌入在HTML文件中，除非代码是针对一个特定的session。将JS代码嵌入在HTML中，会导致由于不能通过缓存和压缩来减小页面体积而使其显著增加。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;lt;script src=filename.js&lt;/code&gt;标签在&lt;code&gt;&amp;lt;body&amp;gt;&amp;lt;/body&amp;gt;&lt;/code&gt;标签中出现的越晚越好。这减小了其他页面组件的的脚本加载而带来的影响。没有必要用&lt;code&gt;language&lt;/code&gt;或&lt;code&gt;type&lt;/code&gt;属性。决定MIME类型是服务器而不是脚本标签的职责。&lt;/p&gt;
+
+&lt;h2 id=&#34;缩进&#34;&gt;缩进&lt;/h2&gt;
+
+&lt;p&gt;缩进的单位是4个空格。应该避免使用制表符，因为（在21世纪的今天）仍然没有取代制表符的标准。使用空格会产生更大的文件体积，但在内网这个增长不会很明显，而且这个差异会被minification缩小。&lt;/p&gt;
+
+&lt;h2 id=&#34;行长度&#34;&gt;行长度&lt;/h2&gt;
+
+&lt;p&gt;避免长于80个字符的行。当一个语句在一行不合适时，可能需要断行。把断行放在操作符之后，理想情况下放在逗号后面。操作符后面的换行会减少因为插入分号而掩盖的复制粘贴错误的可能性。下一行应该缩进8个空格。&lt;/p&gt;
+
+&lt;h2 id=&#34;注释&#34;&gt;注释&lt;/h2&gt;
+
+&lt;p&gt;写注释时慷慨一些吧。留一些信息给将来可能会读到的人（可能是你自己），他可能会需要理解你做的事情。注释需要写好并写清晰，就像它们要标注的代码一样。偶尔一个幽默的金块儿可能会得到感恩，但挫折和怨恨可不能。&lt;/p&gt;
+
+&lt;p&gt;保持注释的更新很重要。有错误的注释会让代码更难阅读和理解。&lt;/p&gt;
+
+&lt;p&gt;只做有意义的注释。专注于那些不能被立即看到的。不要浪费阅读者的时间去看这些东西：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;i = 0; // Set i to zero
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;通常用行注释。留着块注释做正式的文档。&lt;/p&gt;
+
+&lt;h2 id=&#34;变量声明&#34;&gt;变量声明&lt;/h2&gt;
+
+&lt;p&gt;所有的变量都应该在使用前声明。JavaScript不要求如此，但这样做可以让代码更易读并且容易检测到那些没有声明的隐式的全局变量。隐式的全局变量永远都不要用。全局变量的使用要尽量减少。&lt;/p&gt;
+
+&lt;p&gt;在函数题中，&lt;code&gt;var&lt;/code&gt;语句应该是第一条语句。&lt;/p&gt;
+
+&lt;p&gt;最好给每个变量单独的行和注释。如果可能的话，尽量用字母顺序给它们排序。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var currentEntry, // currently selected table entry
+    level,        // indentation level
+    size;         // size of table
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;JavaScript没有块作用域，所以在代码块中定义变量可能会让经验丰富的C系程序员很困惑。在函数开头定义所有的变量。&lt;/p&gt;
+
+&lt;h2 id=&#34;函数声明&#34;&gt;函数声明&lt;/h2&gt;
+
+&lt;p&gt;所有的函数都应该显定义再使用。内部函数应该位于&lt;code&gt;var&lt;/code&gt;语句之后。这样可以更容易的看出在这个作用域内包含的变量。&lt;/p&gt;
+
+&lt;p&gt;函数名和参数列表左括号之间不应该有空格。右括号和大括号之间应该有一个空格。函数体应该缩进4个空格。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>JavaScript执行总结</title>
+      <link>http://localhost:1313/javascript/2015-04-28-javascriptzhi-xing-zong-jie/</link>
+      <pubDate>Tue, 28 Apr 2015 22:03:47 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/javascript/2015-04-28-javascriptzhi-xing-zong-jie/</guid>
+      <description>&lt;p&gt;在所有的场景下，都有一个&lt;strong&gt;将来某个时刻&lt;/strong&gt;会执行的回调函数，这&lt;strong&gt;将来某个时刻&lt;/strong&gt;就是我们所说的&lt;strong&gt;异步流&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;异步执行会被推出&lt;strong&gt;同步流&lt;/strong&gt;。也就是说，当同步代码正在执行时异步代码就不会执行。这就是JavaScript单线程的意义。&lt;/p&gt;
+
+&lt;p&gt;更具体地说，当JS引擎空闲时——没有在执行同步或者异步代码——它会轮询那些被触发的异步回调事件（例如到期时间(setTimeout)，接收到的网络响应(ajax)）并且一一的执行它们。这就是&lt;strong&gt;事件循环&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;也就是说，回调代码有可能会在&lt;strong&gt;所有同步代码&lt;/strong&gt;在它们各自的代码块中&lt;strong&gt;执行完毕&lt;/strong&gt;之后才会执行。&lt;/p&gt;
+
+&lt;p&gt;简而言之，回调函数是被同步创建但异步执行的。除非你知道这个异步函数&lt;strong&gt;确实&lt;/strong&gt;已经执行了，否则你不可以依赖一个异步函数的执行，如何做到呢？&lt;/p&gt;
+
+&lt;p&gt;这很简单，真的。依赖异步函数执行的逻辑应该在异步函数内部开始或调用。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;
+helloAsyncCat(function (result) {
+    alert(result);
+}
+
+function helloAsyncCat(callback) {
+    setTimeout(function () {
+        callback(&#39;Nya&#39;);
+    }, Math.random() * 2000);
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面的代码是一段简单的例子。
+首先，需要为&lt;code&gt;helloAsyncCat&lt;/code&gt;函数添加一个回调函数，它是在异步执行的内部执行的。
+然后，在调用该函数的时候就可以用回调函数中取到的结果进行操作了。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

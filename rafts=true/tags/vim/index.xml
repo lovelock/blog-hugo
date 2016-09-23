@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Vim on Me &amp; Web</title>
+    <link>http://localhost:1313/tags/vim/</link>
+    <description>Recent content in Vim on Me &amp; Web</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>frostwong@gmail.com (Frost Wong)</managingEditor>
+    <webMaster>frostwong@gmail.com (Frost Wong)</webMaster>
+    <copyright>(c) 2013-2016 Frost Wong. All rights reserved.</copyright>
+    <lastBuildDate>Mon, 07 Mar 2016 12:06:45 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/vim/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>用vimdiff作为svn/git的diff工具</title>
+      <link>http://localhost:1313/vim/vimdiff-as-subversion-diff/</link>
+      <pubDate>Mon, 07 Mar 2016 12:06:45 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/vim/vimdiff-as-subversion-diff/</guid>
+      <description>&lt;p&gt;前后两家公司都是用Subversion做版本控制，虽说程序员自己有喜好，但仍然需要遵守公司的规定。我个人是比较偏好直接登录服务器进行开发的，所以得配置好各种好用的命令行工具。比如svn提交之前需要diff一下所做的修改，默认的diff工具简直没用什么卵用。屏幕那么短，上下显示不直观。&lt;/p&gt;
+
+&lt;p&gt;发现gist.github.com一直上不去，干脆就把它集成到我自己维护的&lt;a href=&#34;https://github.com/lovelock/hackvim&#34;&gt;hackvim&lt;/a&gt;里了，这里先加一个svn的配置，稍后回家把git的也加上。&lt;/p&gt;
+
+&lt;p&gt;用法：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;先切换到你想要放hackvim的目录，我喜欢~/Projects&lt;/li&gt;
+&lt;li&gt;git clone &lt;a href=&#34;https://github.com/lovelock/hackvim&#34;&gt;https://github.com/lovelock/hackvim&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;如果你想用我的vim发行版，就看下项目的说明，否则直接拿出来utils/svnvimdiff.sh，放在你希望的位置&lt;/li&gt;
+&lt;li&gt;进入~/.subversion&lt;/li&gt;
+&lt;li&gt;打开config文件，修改&lt;code&gt;diff-cmd = /path/to/svnvimdiff.sh&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;done&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;注意vimdiff.sh文件必须是可执行的。我在提交之前已经加了755，如果出错，请自行检查一下。&lt;/p&gt;
+
+&lt;p&gt;Git默认的也是用系统预装的diff工具，所以还可以给git加个配置&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git config --global diff.tool vimdiff
+git config --global difftool.prompt false
+git config --global alias.d difftool
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;配置完之后，执行&lt;code&gt;git d&lt;/code&gt;就可以呼出&lt;code&gt;vimdiff&lt;/code&gt;了。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

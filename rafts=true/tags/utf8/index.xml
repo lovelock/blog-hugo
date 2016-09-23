@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Utf8 on Me &amp; Web</title>
+    <link>http://localhost:1313/tags/utf8/</link>
+    <description>Recent content in Utf8 on Me &amp; Web</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>frostwong@gmail.com (Frost Wong)</managingEditor>
+    <webMaster>frostwong@gmail.com (Frost Wong)</webMaster>
+    <copyright>(c) 2013-2016 Frost Wong. All rights reserved.</copyright>
+    <lastBuildDate>Sat, 17 Oct 2015 16:59:58 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/utf8/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>MySQL真·UTF8后遇到的问题</title>
+      <link>http://localhost:1313/mysql/2015-10-17-MySQL%E7%9C%9F%C2%B7UTF8%E5%90%8E%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Sat, 17 Oct 2015 16:59:58 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/mysql/2015-10-17-MySQL%E7%9C%9F%C2%B7UTF8%E5%90%8E%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
+      <description>&lt;p&gt;昨天写了一篇MySQL/MariaDB将字符集从utf8迁移到utf8mb4的总结，今天继续我的最佳实践，想到在设计数据库时要考虑到用户的email是不能重复的，所以想给它加上一个&lt;code&gt;UNI&lt;/code&gt;标记，然后遇到了这样一个问题：
+&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/b_Screen%20Shot%202015-10-17%20at%205.03.08%20PM.png&#34; alt=&#34;MySQL设计UNI报错&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;我当然不能放过这个学习的机会，猜想就是因为昨天的修改引起的。于是找到了&lt;a href=&#34;http://stackoverflow.com/questions/1814532/1071-specified-key-was-too-long-max-key-length-is-767-bytes&#34;&gt;这篇问答&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;MyISAM引擎默认的key的长度是1000 Bytes，而InnoDB引擎相应的是767 Bytes，那么问题来了。当我把&lt;code&gt;email&lt;/code&gt;字段设置为&lt;code&gt;varchar(255)&lt;/code&gt;时，它的最大长度是255个字符，这意味着什么呢？昨天已经说过，utf8mb4引擎对应一个字符长度是4，那么就是&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;255 x 4 = 1020 &amp;gt; 767
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;另一方面，utf8时，&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;255 * 3 = 765 &amp;lt; 767
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;完美！&lt;/p&gt;
+
+&lt;p&gt;现在你知道为什么你公司数据里相当相当多的字符串的字段都是&lt;code&gt;varchar(255)&lt;/code&gt;了吧，因为即使用utf8，使用&lt;code&gt;varchar(256)&lt;/code&gt;的字段在作为索引时也会出错。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

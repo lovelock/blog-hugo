@@ -1,0 +1,1768 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Php on Me &amp; Web</title>
+    <link>http://localhost:1313/categories/php/</link>
+    <description>Recent content in Php on Me &amp; Web</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>frostwong@gmail.com (Frost Wong)</managingEditor>
+    <webMaster>frostwong@gmail.com (Frost Wong)</webMaster>
+    <copyright>(c) 2013-2016 Frost Wong. All rights reserved.</copyright>
+    <lastBuildDate>Sat, 18 Jun 2016 07:04:22 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/php/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>理解PHP的Service Container</title>
+      <link>http://localhost:1313/php/understanding-PHP-container/</link>
+      <pubDate>Sat, 18 Jun 2016 07:04:22 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/php/understanding-PHP-container/</guid>
+      <description>
+
+&lt;p&gt;前段时间一直在花时间研究依赖注入的问题，现在虽然也没有研究的很透彻，但有了一些很模糊的概念，是时间把它总结一下了，既帮助自己理解，也能给现在还没有理解的同学们一点启发。&lt;/p&gt;
+
+&lt;p&gt;本文将从以下几点展开。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;什么是依赖注入？为什么要有依赖注入？&lt;/li&gt;
+&lt;li&gt;什么是Service Container(服务容器）？它和Docker的Container有关系吗？又有什么用？&lt;/li&gt;
+&lt;li&gt;以Pimple为例，通过解读源代码来分析实现一个简单的Service Container。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;什么是依赖注入-为什么要有依赖注入&#34;&gt;什么是依赖注入？为什么要有依赖注入？&lt;/h2&gt;
+
+&lt;p&gt;举个最常见到的例子来讲，比如我们的代码分层中有业务逻辑层(Logic层）和数据库操作层(Dao层），那在L层如何调用D层的代码呢？多数情况下可能会像下面这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;
+&amp;lt;?php
+
+class Sample
+{
+    private $daoSample;
+
+    public function __construct()
+    {
+        $this-&amp;gt;daoSample = new DaoSample();
+    }
+
+    public function setDao(DaoInterface $dao)
+    {
+        $this-&amp;gt;daoSample = $dao;
+    }
+    
+    public function newAccount($params)
+    {
+        $this-&amp;gt;daoSample-&amp;gt;addRecord($params);
+    }
+}
+
+&amp;lt;?php
+
+class Sample
+{
+    const TABLE_NAME = &#39;t_Sample&#39;;
+
+    public function addRecord($params)
+    {
+        echo __METHOD__ . &amp;quot;\n&amp;quot;;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;有了这样的依赖注入，我们在写业务层代码的时候就可以这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;$logicSample = new Logic\Sample();
+$logicSample-&amp;gt;newAccount($params);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;完全不用考虑用的是什么类型的数据库操在类了，只需要保证它能够完成任务即可。&lt;/p&gt;
+
+&lt;p&gt;这是个极端简化的例子，在实际的工作中，可能会遇到一个类依赖很多个类的情况，如果把每个依赖都写到构造函数里，也不是不可以，但维护起来也是挺麻烦的。&lt;br /&gt;
+有一个“看起来”更简单一点的实现：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;&amp;lt;?php
+
+class Sample
+{
+    private $daoSample;
+
+    public function __construct(DaoInterface $dao)
+    {
+        $this-&amp;gt;daoSample = $dao;
+    }
+
+    public function setDao(DaoInterface $dao)
+    {
+        $this-&amp;gt;daoSample = $dao;
+    }
+    
+    public function newAccount($params)
+    {
+        $this-&amp;gt;daoSample-&amp;gt;addRecord($params);
+    }
+}
+
+&amp;lt;?php
+
+class Sample
+{
+    const TABLE_NAME = &#39;t_Sample&#39;;
+
+    public function addRecord($params)
+    {
+        echo __METHOD__ . &amp;quot;\n&amp;quot;;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但这样在调用的时候就需要这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;
+$daoSample = new Dao\Sample();
+$logicSample = new Logic\Sample($daoSample);
+$logicSample-&amp;gt;newAccount($params);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;需要额外维护底层工具类的初始化。看起来更复杂了，但我觉得“依赖注入容器”的思想恰恰是从这样的用法中通过更深层次的思考得到的。&lt;/p&gt;
+
+&lt;h2 id=&#34;什么是service-container-服务容器-它和docker的container有关系吗-又有什么用&#34;&gt;什么是Service Container(服务容器）？它和Docker的Container有关系吗？又有什么用？&lt;/h2&gt;
+
+&lt;p&gt;我们把像&lt;code&gt;Dao\Sample&lt;/code&gt;这样的类叫做“服务”吧，现在在使用这些服务之前需要自己来管理&lt;strong&gt;服务的初始化&lt;/strong&gt;，那么有没有办法把这个工作托管出去呢？&lt;br /&gt;
+最直观的想法可能就是把这些”服务“放在一个容器里，需要的时候直接拿来用就行。那么问题又来了，还是需要先给它初始化，然后才能放在容器里，再多想一步，能不能让容器自己来管理里它的初始化？&lt;/p&gt;
+
+&lt;p&gt;当我需要一个服务时，就取容器里取，如果该服务在容器中定义了，但还没有初始化，那容器就给它初始化，并把这个实例保存下来，下次再有别的地方使用该服务时直接拿来用即可。&lt;/p&gt;
+
+&lt;p&gt;这就是依赖注入容器的理想状态了吧。&lt;/p&gt;
+
+&lt;p&gt;它和Docker的容器当然没有任何关系。&lt;/p&gt;
+
+&lt;p&gt;虽然都叫容器，但它们解决的问题或者说痛点其实是不同的。依赖注入容器解决的是服务随取随用，Docker的容器本质上把一个服务相关的所有东西打包在一起，找到一个宿主机它就能在自己的空间内跑起来，它解决的问题是一次生成，到处运行的问题，从这点上看有点像Java的口号。&lt;/p&gt;
+
+&lt;h2 id=&#34;实现一个简单的service-container&#34;&gt;实现一个简单的Service Container&lt;/h2&gt;
+
+&lt;p&gt;没错，我们是PHP开发者，那我们一定很喜欢数组，对不对？&lt;/p&gt;
+
+&lt;p&gt;好，那我们就来实现一个和数组用起来差不多的依赖注入容器。（主要参考了Pimple的实现）&lt;/p&gt;
+
+&lt;h3 id=&#34;功能设计&#34;&gt;功能设计&lt;/h3&gt;
+
+&lt;h3 id=&#34;api设计&#34;&gt;API设计&lt;/h3&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>使用PHP生成器和迭代器</title>
+      <link>http://localhost:1313/php/php-generator-and-iterator/</link>
+      <pubDate>Tue, 05 Apr 2016 12:05:46 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/php/php-generator-and-iterator/</guid>
+      <description>
+
+&lt;p&gt;从开始写PHP就知道迭代器这个东西，当时师傅告诉我用的挺少的，需要的时候再看也不晚，于是就没有放在意上。但他还说这其实也是区分高手和菜鸟的一个标志，那我还是研究一下好了：）&lt;/p&gt;
+
+&lt;p&gt;PHP程序员都知道我们最经常用的可能就是&lt;code&gt;foreach&lt;/code&gt;这个大杀器了。得益于我们&lt;strong&gt;万能的数组&lt;/strong&gt;，所以这个大杀器在多数场合都是可以直接用的，只要输入元素是数组类型即可——事实上并不是如此，&lt;code&gt;foreach&lt;/code&gt;能遍历数组并不是因为它是数组，而是因为数组&lt;code&gt;implements&lt;/code&gt;了&lt;code&gt;Iterator&lt;/code&gt;接口。说白了就是只要告诉&lt;code&gt;foreach&lt;/code&gt;遍历的规则，它就可以执行遍历，而和是否数组无关。&lt;/p&gt;
+
+&lt;h3 id=&#34;iterator&#34;&gt;Iterator&lt;/h3&gt;
+
+&lt;h4 id=&#34;解析&#34;&gt;解析&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;Iterator&lt;/code&gt;接口定义了5个方法，如果一个类要实现&lt;code&gt;Iterator&lt;/code&gt;接口，当然就要实现这一套方法了。&lt;code&gt;Iterator&lt;/code&gt;的原型如下&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;Interface Iterator
+{
+	abstract public function current() : mixed;
+	abstract public function key() : scalar;
+	abstract public function next() : void;
+	abstract public function rewind() : void;
+	abstract public function valid() : boolean;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;我在方法后面按照PHP7的新语法加了个返回值类型，其实这样写是不对的，但可以表明意思啦：）&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;详细说一下这几个方法要做的事情。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;current()&lt;/p&gt;
+
+&lt;p&gt;返回当前位置的&lt;strong&gt;值&lt;/strong&gt;。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;key()&lt;/p&gt;
+
+&lt;p&gt;返回当前位置的&lt;strong&gt;键&lt;/strong&gt;。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;next()&lt;/p&gt;
+
+&lt;p&gt;当前位置的&lt;strong&gt;键&lt;/strong&gt;加1。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;rewind()&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;键&lt;/strong&gt;回到第一个位置。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;valid()&lt;/p&gt;
+
+&lt;p&gt;返回当前的&lt;strong&gt;键&lt;/strong&gt;是否是有意义的。如是否是&lt;code&gt;false&lt;/code&gt;/&lt;code&gt;NULL&lt;/code&gt;等。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&#34;实例&#34;&gt;实例&lt;/h4&gt;
+
+&lt;p&gt;还是来具体写个例子理解一下吧。通常写这种例子的作者都会举一个类，它的一个属性是个数组，然后实现&lt;code&gt;Iterator&lt;/code&gt;的5个方法，来让这个类可以使用&lt;code&gt;foreach&lt;/code&gt;，这个例子没意思，因为数组本身就带&lt;code&gt;current&lt;/code&gt;、&lt;code&gt;key&lt;/code&gt;这些方法。让我来举一个&lt;code&gt;pdo_mysql&lt;/code&gt;从数据库中取数据的例子吧。&lt;/p&gt;
+
+&lt;p&gt;从数据库取出一一个数组，数组中的元素是&lt;code&gt;User&lt;/code&gt;类的实例，我们需要&lt;code&gt;Users&lt;/code&gt;类的方法，它又要有一些方法。所以，就产生了这样的用法了。这个例子可能有些牵强，但起码描述了一个使用场景，比单纯的迭代一个类的类型为数组的属性要有意义。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://git.coding.net/lovelock/iterator_example.git&#34;&gt;代码地址&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;generator&#34;&gt;Generator&lt;/h3&gt;
+
+&lt;p&gt;只有真正理解了&lt;code&gt;Iterator&lt;/code&gt;才能再来谈&lt;code&gt;Generator&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;还是举例来说，前面已经说了一个比较复杂的例子，这里为了说明二者的区别，举个简单的例子。&lt;/p&gt;
+
+&lt;p&gt;假定有一个日志文件，1000000行吧，很大了？或许吧。现在我们要遍历这个文件，找到我们需要的东西。如果使用&lt;code&gt;Iterator&lt;/code&gt;，可能需要这样&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;&amp;lt;?php
+
+class LinesIterator implements Iterator
+{
+	private $_fp;
+	private $_currentLine;
+	private $_lineNum;
+
+	public function __construct($filename)
+	{
+		$this-&amp;gt;_fp = fopen($filename, &#39;r&#39;);
+		$this-&amp;gt;_lineNum = 0;
+	}
+
+	public function current()
+	{
+		$this-&amp;gt;_currentLine = fgets($this-&amp;gt;_fp);
+		return $this-&amp;gt;_currentLine;
+	}
+
+	public function key()
+	{
+		return $this-&amp;gt;_lineNum;
+	}
+
+	public function valid()
+	{
+		return $this-&amp;gt;_currentLine === false;
+	}
+
+	public function next()
+	{
+		fgets($this-&amp;gt;_fp);
+		$this-&amp;gt;_lineNum++;
+	}
+
+	public function rewind()
+	{
+	}
+
+	public function __destruct()
+	{
+		fclose($this-&amp;gt;_fp);
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;需要遍历文件时，可以这样&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;$file = new LinesIterator(&#39;file&#39;);
+
+foreach ($file-&amp;gt;current() as $line) {
+	echo $line;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这没有问题，但也太复杂了吧！！！重点是即使我实现了这些，但还是无法随便定位到某一行（这需要&lt;code&gt;fseek&lt;/code&gt;）。所以这种场景下，&lt;code&gt;Generator&lt;/code&gt;出现了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;function getLine($fileName)
+{
+	$fp = fopen($fileName, &#39;r&#39;);	
+
+	while ($line = fgets($fp) !== false) {
+		yield $line;
+	}
+
+	fclose($fp);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样就简明多了。&lt;code&gt;Generator&lt;/code&gt;的标志就是&lt;code&gt;yield&lt;/code&gt;，这点在所有编程语言里都一样。&lt;/p&gt;
+
+&lt;p&gt;正常如果在用&lt;code&gt;yield&lt;/code&gt;的地方用了&lt;code&gt;return&lt;/code&gt;，那么代码执行到这里就结束了，下次再执行这个函数时，还是从头开始，我们永远得不到文件的第二行。那么怎么办呢？我的理解是&lt;code&gt;Generator&lt;/code&gt;把这行内容返回的同时，也把文件句柄所在的指针向后移动了一个单位，下次再次执行该函数时，就会从上次的位置继续执行。&lt;/p&gt;
+
+&lt;p&gt;这个函数的功能和上面那个类的效果完全相同。&lt;/p&gt;
+
+&lt;p&gt;还有一点要提一下，&lt;code&gt;Generator&lt;/code&gt;通常用来处理文件特别大的情况，比如上面这样，文件太大，如果直接用&lt;code&gt;file&lt;/code&gt;读进来保存成为一个数组，很可能就会报错。而如果用&lt;code&gt;Generator&lt;/code&gt;就没有这个问题了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>seaslog 和 error_log性能大比拼</title>
+      <link>http://localhost:1313/php/log-bench/</link>
+      <pubDate>Fri, 01 Apr 2016 16:33:19 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/php/log-bench/</guid>
+      <description>
+
+&lt;p&gt;今天花了点时间测试了开源项目&lt;a href=&#34;http://neeke.github.io/SeasLog/&#34;&gt;seaslog&lt;/a&gt;和PHP内置的error_log的性能。本文不涉及该扩展的安装和使用，如果对其不了解，可移步&lt;a href=&#34;http://neeke.github.io/SeasLog/&#34;&gt;官网&lt;/a&gt;。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;项目的描述有语法问题&amp;rdquo;A effective &amp;hellip;&amp;ldquo;，我提醒了原作者，然而并没有被理会。。。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;测试环境&#34;&gt;测试环境&lt;/h2&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;项目&lt;/th&gt;
+&lt;th&gt;属性&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;CPU&lt;/td&gt;
+&lt;td&gt;Intel&amp;reg; Xeon&amp;reg; CPU  E5520  @ 2.27GHz 8核&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;内存&lt;/td&gt;
+&lt;td&gt;48G&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;PHP&lt;/td&gt;
+&lt;td&gt;7.0.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Nginx&lt;/td&gt;
+&lt;td&gt;1.2.7&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&#34;测试代码&#34;&gt;测试代码&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;&amp;lt;?php
+
+error_log(&amp;quot;I am testing performance of error_log&amp;quot; . PHP_EOL, 3, __DIR__ . &#39;/error_log.log&#39;);
+SeasLog::debug(&amp;quot;I am testing performance of seaslog&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;结果数据&#34;&gt;结果数据&lt;/h2&gt;
+
+&lt;p&gt;每种方式测试5次，请求次数1000次，并发量分别是1, 10, 100, 1000。分别记录每次测试的QPS。&lt;/p&gt;
+
+&lt;p&gt;1. error_log&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;并发量&lt;/th&gt;
+&lt;th&gt;1&lt;/th&gt;
+&lt;th&gt;2&lt;/th&gt;
+&lt;th&gt;3&lt;/th&gt;
+&lt;th&gt;4&lt;/th&gt;
+&lt;th&gt;5&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;2430&lt;/td&gt;
+&lt;td&gt;2579&lt;/td&gt;
+&lt;td&gt;2685&lt;/td&gt;
+&lt;td&gt;2484&lt;/td&gt;
+&lt;td&gt;2622&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;td&gt;7303&lt;/td&gt;
+&lt;td&gt;7844&lt;/td&gt;
+&lt;td&gt;5892&lt;/td&gt;
+&lt;td&gt;11739&lt;/td&gt;
+&lt;td&gt;9002&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;11763&lt;/td&gt;
+&lt;td&gt;6107&lt;/td&gt;
+&lt;td&gt;6921&lt;/td&gt;
+&lt;td&gt;9258&lt;/td&gt;
+&lt;td&gt;11999&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;324&lt;/td&gt;
+&lt;td&gt;891&lt;/td&gt;
+&lt;td&gt;324&lt;/td&gt;
+&lt;td&gt;889&lt;/td&gt;
+&lt;td&gt;883&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;2. seaslog&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;并发量&lt;/th&gt;
+&lt;th&gt;1&lt;/th&gt;
+&lt;th&gt;2&lt;/th&gt;
+&lt;th&gt;3&lt;/th&gt;
+&lt;th&gt;4&lt;/th&gt;
+&lt;th&gt;5&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;2147&lt;/td&gt;
+&lt;td&gt;2071&lt;/td&gt;
+&lt;td&gt;2130&lt;/td&gt;
+&lt;td&gt;2123&lt;/td&gt;
+&lt;td&gt;2039&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;td&gt;7415&lt;/td&gt;
+&lt;td&gt;9438&lt;/td&gt;
+&lt;td&gt;6901&lt;/td&gt;
+&lt;td&gt;6445&lt;/td&gt;
+&lt;td&gt;6047&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;7770&lt;/td&gt;
+&lt;td&gt;9389&lt;/td&gt;
+&lt;td&gt;6852&lt;/td&gt;
+&lt;td&gt;5806&lt;/td&gt;
+&lt;td&gt;6483&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;890&lt;/td&gt;
+&lt;td&gt;324&lt;/td&gt;
+&lt;td&gt;891&lt;/td&gt;
+&lt;td&gt;760&lt;/td&gt;
+&lt;td&gt;322&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&#34;测试结果图&#34;&gt;测试结果图&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/errorlog.png&#34; alt=&#34;error_log性能测试结果&#34; /&gt;
+&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/seaslog.png&#34; alt=&#34;seaslog性能测试结果&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;结果分析&#34;&gt;结果分析&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;error_log的性能总体优于seaslog，但并没有压倒性优势&lt;/li&gt;
+&lt;li&gt;在并发较高时二者都出现急剧性能下降，程度相当。怀疑瓶颈已经不在写日志，而在Nginx的处理能力了（待验证）。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;seaslog使用起来更简单，不需要多层封装&lt;/li&gt;
+&lt;li&gt;error_log输出的格式比较单一，如果要加上日期、IP等信息，一定会引入很多PHP函数调用，导致性能损失。但seaslog在这方面就有很大的想象空间，在扩展中计算时间、获取IP、详细的debug信息都是可能的。不过现在并没有加入这些功能。&lt;/li&gt;
+&lt;li&gt;seaslog提供了类似PDO的插值方式，使用起来更方便&lt;/li&gt;
+&lt;li&gt;seaslog可以自定义配置多&lt;/li&gt;
+&lt;li&gt;一个细节，error_log在type=3时并没有在message后面加上换行符，需要自行添加，也就是说每次都要有一个字符串拼接，这在seaslog中得到了改进&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;我之前看到有人说seaslog的日期格式太固定，因此我fork了一份代码加上了配置日期格式的功能，作者到现在都没有合并进主干呢。而且我觉得现在这个功能有些简陋，比如我前面说的第2点，请求的一些基本信息如果从扩展层面直接取到，就不需要再在外层调用PHP函数或通过超全局变量获取了，既简化了外层使用的方式，又提高性能。但作者貌似也没有继续增加功能的意思，可能作者并不想在扩展层面做太复杂的事情，要保持这个项目的简单、纯粹。&lt;/p&gt;
+
+&lt;p&gt;我还是自己再维护一份好了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>又一份Yaf文档——写给正在迷惑的你</title>
+      <link>http://localhost:1313/php/Yaf-yet-another-manual-for-human/</link>
+      <pubDate>Mon, 01 Feb 2016 11:55:20 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/php/Yaf-yet-another-manual-for-human/</guid>
+      <description>
+
+&lt;p&gt;终于把困扰我很久的问题搞定了，好开心。趁着记忆还热乎，一定要把它记下来。&lt;/p&gt;
+
+&lt;p&gt;前几天还和同事抱怨，用Yaf框架的人那么多，但我们身边竟然没有一个人对它的用法很清楚的。真是有些悲哀。几个同事都说鸟哥写的Yaf文档看不明白。&lt;/p&gt;
+
+&lt;p&gt;言归正传，就我自己的学习过程来看，如果你要自己搭建一个Yaf环境，遇到的问题可能主要有以下这些：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;配置Nginx的rewrite规则&lt;/li&gt;
+&lt;li&gt;命名空间怎么用&lt;/li&gt;
+&lt;li&gt;目录结构设置&lt;/li&gt;
+&lt;li&gt;插件的使用&lt;/li&gt;
+&lt;li&gt;单Controller多Action配置&lt;/li&gt;
+&lt;li&gt;多模块配置&lt;/li&gt;
+&lt;li&gt;更多配置文件&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;下面就这些问题一一给出解答。&lt;/p&gt;
+
+&lt;h2 id=&#34;配置nginx的rewrite规则&#34;&gt;配置Nginx的rewrite规则&lt;/h2&gt;
+
+&lt;p&gt;让我们直接忽略Apache和Lighttpd吧，默认大家都用Nginx。&lt;/p&gt;
+
+&lt;h3 id=&#34;yaf路由规则&#34;&gt;Yaf路由规则&lt;/h3&gt;
+
+&lt;p&gt;如果你看过官方文档，那4种路由规则我就不说了，只说最简单也是默认的&lt;code&gt;Yaf_Route_Static&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;读了Yaf源码的同学会发现，其实这个规则就是解析&lt;code&gt;request_uri&lt;/code&gt;，用&lt;code&gt;/&lt;/code&gt;把它分开，然后用每一部分去匹配Module/Controller/Action/Param。举个例子吧，假设PATH=/foo/bar/doge，更通俗一点，如果你的域名是&lt;code&gt;http://yaf.dev&lt;/code&gt;，那么这个例子中的完整URL就是&lt;code&gt;http://yaf.dev/foo/bar/doge&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;路由规则做了以下动作：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;解析URL，得到PATH部分&lt;/li&gt;
+&lt;li&gt;认为&lt;code&gt;foo&lt;/code&gt;是Module，去&lt;code&gt;application.modules&lt;/code&gt;配置中找&lt;code&gt;Foo&lt;/code&gt;（不区分大小写）&lt;/li&gt;
+&lt;li&gt;如果找到了&lt;code&gt;modules/Foo&lt;/code&gt;，则继续认为&lt;code&gt;bar&lt;/code&gt;是Controller，查找&lt;code&gt;modules/Foo/BarController&lt;/code&gt;；没找到则会认为&lt;code&gt;foo&lt;/code&gt;是Controller，下面同4&lt;/li&gt;
+&lt;li&gt;如果找到了&lt;code&gt;modules/Foo/BarController&lt;/code&gt;，则继续认为&lt;code&gt;doge&lt;/code&gt;是Action，查找&lt;code&gt;modules/Foo/BarController/dogeAction&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;这样是不是很清晰了？&lt;/p&gt;
+
+&lt;h2 id=&#34;不要这样配&#34;&gt;不要这样配&lt;/h2&gt;
+
+&lt;p&gt;老湿老湿，你不是要说Nginx的rewrite规则怎么配吗，怎么在这讲起了路由规则？&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;我是要告诉你不要听那些自作聪明的人(没错就是我)把rewrite规则配错!!!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;也就是说&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;rewrite ^/(.*)  /index.php/$1 last;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;是绝对正确的，不要看谁谁谁说这不对而写成&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;rewrite ^/(.*)  /index.php?$1 last;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这才是错误的。&lt;/p&gt;
+
+&lt;p&gt;我的配置:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-nginx&#34;&gt;server {
+    listen 80;
+
+    root /var/www/yaf.ubuntu.com/public;
+
+    index index.php index.html;
+
+    server_name yaf.ubuntu.com;
+
+    location = /favicon.ico {
+        access_log off;
+        error_log off;
+        log_not_found off;
+    }
+
+    if (!-e $request_filename) {
+        rewrite ^/(.*\.(js|ico|gif|jpg|png|css|bmp|html|xls)$) /public/$1 last;
+        rewrite ^/(.*)  /index.php/$1 last;
+    }
+
+    location ~ \.php {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/usr/local/var/run/php-fpm-www.sock;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面这个配置主要是加上了对静态文件的支持，如果没有多出来的配置，你会经常在日志中看到找不到Favicon.ico.php找不到的500报错。&lt;/p&gt;
+
+&lt;h2 id=&#34;fpm配置&#34;&gt;FPM配置&lt;/h2&gt;
+
+&lt;p&gt;那好，路由规则明白了，rewrite规则好了，毕竟我是PHP脚本啊，得有FPM吧。通常来说，Nginx会给你一个默认的配置，以Debian为例，用apt安装的Nginx自带的default配置&lt;code&gt;location ~ \.php$&lt;/code&gt;段如下（已删除注释，我喜欢用unix socket，不服来打我啊）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;location ~ \.php$ {
+	include snippets/fastcgi-php.conf;
+	fastcgi_pass unix:/var/run/php7.0-fpm.sock;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样没问题，但也仅限于&lt;code&gt;http://yaf.dev/xxxx.php&lt;/code&gt;这种请求。别的都匹配不到啊，别忘了，你请求URL可不是这样的。&lt;/p&gt;
+
+&lt;p&gt;所以，只要它是个请求，都要让它可以经过FPM。改成这样&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;location / {
+	include snippets/fastcgi-php.conf;
+	fastcgi_pass unix:/var/run/php7.0-fpm.sock;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;好了，把这两部分保存一下，重启一下Nginx服务&lt;code&gt;sudo systemctl restart nginx&lt;/code&gt;，访问一下，哈，爽。&lt;/p&gt;
+
+&lt;h3 id=&#34;静态文件怎么办&#34;&gt;静态文件怎么办？&lt;/h3&gt;
+
+&lt;p&gt;这样配置，访问Action什么的是没问题了，但如果要访问这个域名下的静态文件，css/js啥的，就有问题了，这就需要在上面的&lt;code&gt;location /&lt;/code&gt;段前面再添加一些匹配到这些静态文件的段，让它找到对应的文件。这里就不再赘述。&lt;/p&gt;
+
+&lt;h2 id=&#34;命名空间怎么办&#34;&gt;命名空间怎么办？&lt;/h2&gt;
+
+&lt;h3 id=&#34;配置&#34;&gt;配置&lt;/h3&gt;
+
+&lt;p&gt;新时代的我们当然想用命名空间了，起码我是不想写那么长的类名。&lt;/p&gt;
+
+&lt;p&gt;可喜的是Yaf只需要一条配置就可以爽快的支持PSR-4规范的命名空间。
+可惜的是Yaf的这条配置是全局的，如果你的应用和别的应用公用PHP配置，而别人不用，那就没办法了。&lt;/p&gt;
+
+&lt;p&gt;这条配置就是&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ini&#34;&gt;;php.ini
+yaf.use_namespace=1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;举例&#34;&gt;举例&lt;/h3&gt;
+
+&lt;p&gt;我们都需要Http类吧，假设我写个HttpFoundation\Request类，可以在&lt;code&gt;library&lt;/code&gt;下新建&lt;code&gt;HttpFoundation&lt;/code&gt;目录，在其中新建&lt;code&gt;Request.php&lt;/code&gt;。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;// HttpFoundation/Request.php
+namespace HttpFoundation;
+
+class Request
+{
+	public function get()
+	{
+		echo &amp;quot;I am going to send a GET request&amp;quot;;
+		exit;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样就注册了一个&lt;code&gt;HttpFoundation\Request&lt;/code&gt;类，在Controller中使用它只需要这样&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;use Yaf\Controller_Abstract;
+use HttpFoundation\Request;
+
+class FooController extends Controller_Abstract
+{
+	public function barAction()
+	{
+		$request = new Request();
+		$request-&amp;gt;get();
+		exit;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;再远一点&#34;&gt;再远一点？&lt;/h3&gt;
+
+&lt;p&gt;是不是感受到了鸟哥的高瞻远瞩？其实我们还可以想的更多一点，既然可以自己写个HttpFoundation包了，你有没有想到Composer？因为多数时候这些基础类库都有现成的，用Composer安装就好，既然Yaf已经提供了性能好于autoloader的Yaf_Loader，何乐而不用呢？你甚至都可以引入第三方的ORM，比如Doctrine，第三方模板引擎Twig——对，没错，我就是Symfony的粉丝。&lt;/p&gt;
+
+&lt;h2 id=&#34;目录结构设置&#34;&gt;目录结构设置&lt;/h2&gt;
+
+&lt;p&gt;读一下Yaf源代码就特别清晰的看到默认的目录设置了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;├── application
+│   ├── Bootstrap.php
+│   ├── controllers
+│   │   ├── Another.php
+│   │   └── Index.php
+│   ├── library
+│   │   ├── Helper
+│   │   └── HttpFoundation
+│   │       └── Request.php
+│   ├── models
+│   ├── modules
+│   │   └── Foo
+│   │       └── controllers
+│   │           └── Foo.php
+│   ├── plugins
+│   └── views
+├── conf
+│   ├── app.ini
+│   └── db.ini
+└── public
+    └── index.php
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;application&lt;/p&gt;
+
+&lt;p&gt;这是应用的主目录。&lt;/p&gt;
+
+&lt;p&gt;想让应用能最简单的跑起来，得有Controller，也就是controllers目录，这里面放的是IndexModule的东西。&lt;/p&gt;
+
+&lt;p&gt;底层用到的一些类库，放在library里。&lt;/p&gt;
+
+&lt;p&gt;数据库操作放在models里。&lt;/p&gt;
+
+&lt;p&gt;多模块放在modules里。像上面的树图里一样，每个module里还有相应的Controller。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;conf&lt;/p&gt;
+
+&lt;p&gt;存放配置文件。&lt;/p&gt;
+
+&lt;p&gt;我看多数时候是把它放在application里的，但我更倾向于把它放在和application同级目录下。其中的app.ini是Yaf框架的基础配置，里面需要包含Yaf的『唯一一个』必选配置项&lt;code&gt;application.directory&lt;/code&gt;。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;public&lt;/p&gt;
+
+&lt;p&gt;存放index.php和静态文件。&lt;/p&gt;
+
+&lt;p&gt;这里是用户可以直接访问的文件。静态文件放在这里最合适不过了。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;插件的使用&#34;&gt;插件的使用&lt;/h2&gt;
+
+&lt;p&gt;应用上线后Nginx的配置就不太好改了，但我们可以随意修改代码啊，所以如果需要对路由规则做一些修改，可以写个插件。下面以Route插件为例，介绍插件的使用。&lt;/p&gt;
+
+&lt;h3 id=&#34;新建插件&#34;&gt;新建插件&lt;/h3&gt;
+
+&lt;p&gt;在&lt;code&gt;application/plugins&lt;/code&gt;目录里新建&lt;code&gt;Route.php&lt;/code&gt;。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;use Yaf\Plugin_Abstract;
+use Yaf\Request_Abstract;
+use Yaf\Response_Abstract;
+
+class RoutePlugin extends Plugin_Abstract
+{
+	public function routerStartup(Request_Abstract $request, Response_Abstract $response)
+	{
+		// some logic here
+		$request-&amp;gt;setModule(&#39;foo&#39;);
+		$request-&amp;gt;setController(&#39;bar&#39;);
+		$request-&amp;gt;setAction(&#39;doge&#39;);
+	}
+	....
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;注册插件&#34;&gt;注册插件&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;// Bootstrap.php
+
+use Yaf\Bootstrap_Abstract;
+use Yaf\Dispatcher;
+
+class Bootstrap extends Bootstrap_Abstract
+{
+	public function _initPlugin(Dispatcher $dispatcher)
+	{
+		$dispatcher-&amp;gt;regiserPlugin(new RouterPlugin());
+	}
+	...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这时候你可以试一下，所有请求都会被路由到FooModule/BarController/dogeAction了。&lt;/p&gt;
+
+&lt;h2 id=&#34;单controller多action配置&#34;&gt;单Controller多Action配置&lt;/h2&gt;
+
+&lt;p&gt;这个问题困扰我最久，最不理解的就是为什么要一个Controller里面只有一个indexAction，然后其他的路由还需要传一个action参数来自己做路由。其实默认的Yaf_Route_Static自己就支持这种写法的。只要保证&lt;code&gt;application.dispatcher.defaultRoute&lt;/code&gt;的值为空或&lt;code&gt;static&lt;/code&gt;即可。&lt;/p&gt;
+
+&lt;h2 id=&#34;多模块配置&#34;&gt;多模块配置&lt;/h2&gt;
+
+&lt;p&gt;在目录结构设置一节中已经说过怎么创建多模块。那么多模块有什么用呢？&lt;/p&gt;
+
+&lt;p&gt;假设我们要做一个后台，不同模块是需要不同的访问权限的，该怎么办？我的想法是这样，做一个权限控制的plugin，先检查用户身份，然后&lt;code&gt;$request-&amp;gt;getModule()&lt;/code&gt;，如果要访问的是该用户不具有权限的模块，就给跳到一个403页。&lt;/p&gt;
+
+&lt;h2 id=&#34;配置分节&#34;&gt;配置分节&lt;/h2&gt;
+
+&lt;p&gt;假设这样一个场景，你线上和线下资源配置肯定是不一样的，但又有些是一样的，怎么办？还以&lt;code&gt;db.ini&lt;/code&gt;为例&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ini&#34;&gt;[db]
+adapter=pdo_mysql
+
+[prod:db]
+host=&amp;quot;DB_HOST&amp;quot;
+port=&amp;quot;DB_PORT&amp;quot;
+
+[dev:prod]
+host=&amp;quot;DB_HOST_DEV&amp;quot;
+port=&amp;quot;DB_PORT_DEV&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这种情况下可以写一个工具类，因为我觉得这个Yaf\Config\Ini提供的API并不太好用，先要初始化才能用。我做一层封装，不成想竟然发现了很方便的从生产环境/开发环境/测试环境的方法。工具类如下:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;
+namespace Your\Name\Space;
+use Yaf\Config\Ini;
+
+class Conf
+{
+    public static function get($key)
+    {
+        $filename = PATH/TO/CONF . &#39;/&#39; . explode(&#39;.&#39;, $key) . &#39;.ini&#39;;
+
+        if (is_file($filename) &amp;amp;&amp;amp; is_readable($filename)) {
+            $config = (new Ini($filename, ENV))-&amp;gt;get($key);
+            if (is_a($config, &#39;Yaf\Config\Ini&#39;)) {
+                $config = $config-&amp;gt;toArray();
+            }
+        } else {
+            $config = null;
+        }
+
+        return $config;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面这个工具类的作用是支持&lt;code&gt;Your\Name\Space\Conf::get(&#39;foo.bar.good&#39;);&lt;/code&gt;的方式取值。如果配置文件是这样的&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ini&#34;&gt;[test]
+foo.bar.good = &#39;good foo&#39;
+foo.bar.better = &#39;better foo&#39;
+
+[prod:test]
+foo.bar.better = &#39;best foo&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;那用&lt;code&gt;Your\Name\Space\Conf::get(&#39;foo.bar&#39;);&lt;/code&gt;取出的就是包含&lt;code&gt;good&lt;/code&gt;和&lt;code&gt;better&lt;/code&gt;的一个数组，如果是&lt;code&gt;Your\Name\Space\Conf::get(&#39;foo.bar.good&#39;);&lt;/code&gt;这样，就是&lt;code&gt;good foo&lt;/code&gt;这个字符串。&lt;/p&gt;
+
+&lt;p&gt;重点是对生产环境的切换。注意实例化&lt;code&gt;Ini&lt;/code&gt;类的时候的那个&lt;code&gt;ENV&lt;/code&gt;变量，你可以在&lt;code&gt;/public/index.php&lt;/code&gt;中&lt;code&gt;define&lt;/code&gt;这个常量，然后又从一个公共的工具类中取出配置，所以只需要在修改&lt;code&gt;index.php&lt;/code&gt;里面的&lt;code&gt;ENV&lt;/code&gt;的定义，就可以方便的在各种环境之间切换了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>创建一个PSR-4规范的composer包</title>
+      <link>http://localhost:1313/php/2016-01-14-create-a-composer-package/</link>
+      <pubDate>Sat, 09 Jan 2016 21:11:33 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/php/2016-01-14-create-a-composer-package/</guid>
+      <description>
+
+&lt;h3 id=&#34;下载安装composer&#34;&gt;下载安装Composer&lt;/h3&gt;
+
+&lt;p&gt;到&lt;a href=&#34;https://getcomposer.org/download/&#34;&gt;composer官网&lt;/a&gt;按照指示下载。官方建议的是用&lt;code&gt;curl -sS https://getcomposer.org/installer | php&lt;/code&gt;这条命令。可能有些同学会迷惑这是在干什么，这其实是为了保证你下载到的总是最新的composer。分析一下，首先看到了管道，把前面curl获取的结果交给php执行，执行的结果就是下载了一个最新的&lt;code&gt;composer.phar&lt;/code&gt;到当前目录下。这时虽然也可以说已经能用了，但通常我还会把它链接到&lt;code&gt;/usr/local/bin&lt;/code&gt;目录下，方便使用。
+&lt;code&gt;sudo ln -s /home/frost/packages/composer.phar /usr/local/bin/composer&lt;/code&gt;
+这时在终端输入&lt;code&gt;composer&lt;/code&gt;就应该能看到它的帮助信息了。&lt;/p&gt;
+
+&lt;h3 id=&#34;配置packagist&#34;&gt;配置Packagist&lt;/h3&gt;
+
+&lt;p&gt;原本这不是必需的，但由于众所周知的原因，我还是建议配置一下。具体见&lt;a href=&#34;http://pkg.phpcomposer.com/&#34;&gt;这里&lt;/a&gt;。
+&lt;code&gt;composer config -g repositories.packagist composer http://packagist.phpcomposer.com&lt;/code&gt;就可以了。&lt;/p&gt;
+
+&lt;h2 id=&#34;composer-json&#34;&gt;composer.json&lt;/h2&gt;
+
+&lt;p&gt;简单起见，这里使用monolog/monolog为例。
+要使用composer，首先需要一个&lt;code&gt;composer.json&lt;/code&gt;文件，它描述了项目依赖关系及其他一些元信息。&lt;/p&gt;
+
+&lt;h3 id=&#34;require-关键字&#34;&gt;&lt;code&gt;require&lt;/code&gt;关键字&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;require&lt;/code&gt;可能是你第一个也是唯一需要制定的东西。它用来告诉Composer你的项目需要依赖哪些包。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;{
+	&amp;quot;require&amp;quot;: {
+		&amp;quot;monolog/monolog&amp;quot;: &amp;quot;1.0.*&amp;quot;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如你所见，&lt;code&gt;require&lt;/code&gt;接受一个包含包名(monolog/monolog)和版本限制(1.0.*)的映射的对象。&lt;/p&gt;
+
+&lt;h3 id=&#34;包名&#34;&gt;包名&lt;/h3&gt;
+
+&lt;p&gt;包名由vendor名和项目名组成。两者经常会是相同的——vendor名的存在只是为了避免名称冲突。它可以允许两个人创建同一个名称的库&lt;code&gt;json&lt;/code&gt;，这样两个包名就可能是&lt;code&gt;igorw/json&lt;/code&gt;和&lt;code&gt;seldaek/json&lt;/code&gt;了。
+这里我们“需要”&lt;code&gt;monolog/monolog&lt;/code&gt;，所以vendor名和项目名一样。建议对项目使用唯一的名字。稍后还允许同一个命名空间下的多个项目。如果你在维护一个库，这可以让你很容易的把它分成多个解耦的小部分。&lt;/p&gt;
+
+&lt;h3 id=&#34;包版本&#34;&gt;包版本&lt;/h3&gt;
+
+&lt;p&gt;上面的例子中我们“需要”版本&lt;code&gt;1.0.*&lt;/code&gt;，这表示&lt;code&gt;1.0&lt;/code&gt;版本的所有分支。
+版本限制可以用多种不同的方式，&lt;a href=&#34;https://getcomposer.org/doc/articles/versions.md&#34;&gt;这里&lt;/a&gt;给出了详细的解释。&lt;/p&gt;
+
+&lt;h3 id=&#34;稳定性&#34;&gt;稳定性&lt;/h3&gt;
+
+&lt;p&gt;默认情况下只考虑稳定版本。如果你也希望用RC, beta, alpha或者开发版，可以用&lt;a href=&#34;https://getcomposer.org/doc/04-schema.md#package-links&#34;&gt;稳定性标识&lt;/a&gt;。为了不用为每个包单独设置稳定性标识，还可以用&lt;a href=&#34;https://getcomposer.org/doc/04-schema.md#minimum-stability&#34;&gt;最小稳定性&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;安装依赖&#34;&gt;安装依赖&lt;/h3&gt;
+
+&lt;p&gt;要安装依赖，只需要执行&lt;code&gt;composer install&lt;/code&gt;即可。
+这会找到符合版本限制的最新版本的&lt;code&gt;monolog/monolog&lt;/code&gt;，并且把它下载到&lt;code&gt;vendor&lt;/code&gt;目录。把第三方的代码放在一个名为&lt;code&gt;vendor&lt;/code&gt;的目录是一个规范。在本例中，会把它放在&lt;code&gt;vendor/monolog/monolog&lt;/code&gt;。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;如果你使用git，通常会把&lt;code&gt;vendor&lt;/code&gt;目录放在&lt;code&gt;.gitignore&lt;/code&gt;中。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;你会注意到&lt;code&gt;composer install&lt;/code&gt;命令还会在当前目录下生成一个&lt;code&gt;composer.lock&lt;/code&gt;文件。&lt;/p&gt;
+
+&lt;h3 id=&#34;composer-lock-锁文件&#34;&gt;&lt;code&gt;composer.lock&lt;/code&gt;锁文件&lt;/h3&gt;
+
+&lt;p&gt;安装完依赖后，Composer会把它安装的精确版本号写入&lt;code&gt;composer.lock&lt;/code&gt;文件中。它把项目锁定在某个特定的版本号。
+把&lt;code&gt;composer.lock&lt;/code&gt;文件和&lt;code&gt;composer.json&lt;/code&gt;一起提交到版本控制中。这很重要，因为&lt;code&gt;install&lt;/code&gt;命令会检查锁文件是否存在，如果存在，它就会下载指定的精确版本，否则就会按照&lt;code&gt;composer.json&lt;/code&gt;的描述下载符合约束的最新版本。
+这意味着每个下载了你的项目的人看到的都是&lt;strong&gt;完全&lt;/strong&gt;相同的代码，不会因为依赖更新了就自动更新依赖。&lt;code&gt;update&lt;/code&gt;命令会将依赖更新到符合要求的最新版本，然后更新锁文件。
+&lt;code&gt;update&lt;/code&gt;命令也可以指定单独的包名来更新指定的包。&lt;/p&gt;
+
+&lt;h3 id=&#34;packagist&#34;&gt;Packagist&lt;/h3&gt;
+
+&lt;p&gt;Packagist是Composer的信息库。一个Composer信息库本质上是一个包的源——从这里你可以获取包。Packagist希望成为每个人用的中心信息库。这意味着你可以自动&lt;code&gt;require&lt;/code&gt;任何这里存在的包。&lt;/p&gt;
+
+&lt;h3 id=&#34;自动加载&#34;&gt;自动加载&lt;/h3&gt;
+
+&lt;p&gt;对于指定了自动加载信息的库，Composer会生成一个&lt;code&gt;vendor/autoload.php&lt;/code&gt;文件。你可以放心的&lt;code&gt;include&lt;/code&gt;这个文件而Composer会完成剩下的工作。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;require __DIR__ . &#39;/vendor/autoload.php&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这让使用第三方代码很方便。比如，如果你的项目依赖Monolog，你可以马上开始使用它的类，它会被自动加载。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;$log = new Monolog\Logger(&#39;name&#39;);
+$log-&amp;gt;pushHandler(new Monolog\Handler\StreamHandler(&#39;app.log&#39;, Monolog\Logger::WARNING));
+$log-&amp;gt;addWarning(&#39;FOO&#39;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;你还可以把自己的代码添加到&lt;code&gt;composer.json&lt;/code&gt;的&lt;code&gt;autoload&lt;/code&gt;字段。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;{
+	&amp;quot;autoload&amp;quot;: {
+		&amp;quot;psr-4&amp;quot;: {&amp;quot;Acme\\&amp;quot;: &amp;quot;src/&amp;quot;}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Composer就会为Acme命名空间注册一个PSR-4的自动加载器。
+这里你定义の一个命名空间到目录的映射。&lt;code&gt;src&lt;/code&gt;目录会是你的项目的根目录，和&lt;code&gt;vendor&lt;/code&gt;在同级目录。比如文件&lt;code&gt;src/Foo.php&lt;/code&gt;包含&lt;code&gt;Acme\Foo&lt;/code&gt;类。
+在添加了&lt;code&gt;autoload&lt;/code&gt;字段之后，需要重新运行&lt;code&gt;dump-autoload&lt;/code&gt;来重新生成&lt;code&gt;vendor/autoload.php&lt;/code&gt;文件。包含这个文件还会返回一个自动加载器的实例，你可以把返回值存储下来并且添加更多的命名空间。这在测试时会很有用。比如&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;$loader = require __DIR__ . &#39;/vender/autoload.php&#39;;
+$loader-&amp;gt;add(&#39;Acme\\Test\\&#39;, __DIR__);
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>xhprof方便的插入要检测的代码</title>
+      <link>http://localhost:1313/php/2015-11-25-xhprof-usage/</link>
+      <pubDate>Wed, 25 Nov 2015 22:10:51 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/php/2015-11-25-xhprof-usage/</guid>
+      <description>&lt;p&gt;本文只是给自己搞的一个小封装做个入口。&lt;/p&gt;
+
+&lt;p&gt;一次给同事写的一个接口做重构，上线以后发现性能恶化严重，导致了线上的严重问题，我马上想到用xhprof查一下问题，结果由于用的是Yaf框架，里面对一些目录结构做了错误的判断，导致用起来很不方便。所以在问题解决之后我想着把这个xhprof的web目录做成一个独立的vhost，这样用起来就方便了，由于和主体项目所使用的框架无关，也不会受到不良影响。&lt;/p&gt;
+
+&lt;p&gt;这里只留个地址，看项目的README吧。有希望能继续改进的小伙伴可以联系我。
+&lt;a href=&#34;https://github.com/lovelock/xhprof-web.git&#34;&gt;github&lt;/a&gt;
+&lt;a href=&#34;https://git.coding.net/lovelock/xhprof-web.git&#34;&gt;coding.net&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>PHP单元测试-02</title>
+      <link>http://localhost:1313/php/2015-09-26-PHP%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-02/</link>
+      <pubDate>Sat, 26 Sep 2015 10:41:42 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/php/2015-09-26-PHP%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-02/</guid>
+      <description>
+
+&lt;p&gt;上一篇中讲了PHP单元测试的一些简单概念，这里详细说一下会用到的各种&lt;code&gt;assert*&lt;/code&gt;函数。官方文档按照字母顺序逐一讲述了这些方法，但我觉得那很不合适，至少应该大概按照类别来分类。&lt;/p&gt;
+
+&lt;h2 id=&#34;数组相关&#34;&gt;数组相关&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertArrayHasKey($expected_key, $actual_array)&lt;/code&gt;
+如果&lt;code&gt;$expected_key&lt;/code&gt;是&lt;code&gt;$actual_array&lt;/code&gt;中元素的一个键值，则通过，否则不通过。也即&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;foreach ($actual_array as $k =&amp;gt; $v) {
+    if ($k === $expected_key) {
+        // 测试通过
+        return true;
+    }
+    // 测试不通过
+    return false;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertArraySubset($subset_array, $actual_array)&lt;/code&gt;
+如果&lt;code&gt;$subset_array&lt;/code&gt;是&lt;code&gt;$actual_array&lt;/code&gt;的一个子数组，则通过，否则不通过。也即前者是后者的&lt;strong&gt;子集&lt;/strong&gt;，这点很重要，其实由于在PHP中数组是作为HashTable存储的，所以是一般并不存在顺序的问题。因此这里只要求前者是后者的子集，而至于顺序则不要求。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertCount($count, $array)&lt;/code&gt;
+如果&lt;code&gt;count($array) === $count)&lt;/code&gt;则通过。注意这里&lt;code&gt;$count&lt;/code&gt;的类型必须是整数。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;类属性相关&#34;&gt;类属性相关&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertClassHasAttribute($attributeName, $className)&lt;/code&gt;
+如果类名为&lt;code&gt;$className&lt;/code&gt;的类拥有一个名为&lt;code&gt;$attributeName&lt;/code&gt;的属性，则通过，否则不通过。值得注意的是，这个测试通过与否与属性的值是否设置没有关系，即使是只声明了名为&lt;code&gt;$attributeName&lt;/code&gt;的属性，这个测试也是通过的，但实例化该类之后&lt;code&gt;var_dump(new ClassAttr()-&amp;gt;attr)&lt;/code&gt;的结果却是&lt;code&gt;false&lt;/code&gt;。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assetClassHasStaticAttribute($staticAttributeName, $className)&lt;/code&gt;
+这个自不必多说，和上面类似。只是用来判断静态属性。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;对象关系&#34;&gt;对象关系&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;assertObjectHasAttribute($attributeName, $object)&lt;/code&gt;
+如果对象&lt;code&gt;$object&lt;/code&gt;拥有属性&lt;code&gt;$attributeName&lt;/code&gt;，则通过。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;包含关系&#34;&gt;包含关系&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertContains($needle, $haystack)&lt;/code&gt;
+如果&lt;code&gt;$haystack&lt;/code&gt;中包含&lt;code&gt;$needle&lt;/code&gt;，则通过，否则不通过。这个包含可以是数组的包含，也可以是字符串的包含，注意，默认是区分大小写的，即&lt;code&gt;assertContains(&#39;foo&#39;, &#39;FooBar&#39;)&lt;/code&gt;是不能通过测试的。但&lt;code&gt;assertContains(&#39;foo&#39;, &#39;FooBar&#39;, &#39;&#39;, true)&lt;/code&gt;则可以通过测试，也就是说第四个参数表示不区分大小写。至于第三个参数，其实是&lt;code&gt;$message&lt;/code&gt;，也就是在测试不通过时报告
+详细信息的，我个人理解和&lt;code&gt;try/cache&lt;/code&gt;里面的&lt;code&gt;Exception $e&lt;/code&gt;里面的&lt;code&gt;getMessage()&lt;/code&gt;可能有点类似，没有深究。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertContainsOnly($type, $array)&lt;/code&gt;
+如果&lt;code&gt;$array&lt;/code&gt;中只包含由&lt;code&gt;$type&lt;/code&gt;指定的一种类型的变量，则通过，否则不通过。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertContainsOnlyInstanceOf($className, $instance_array)&lt;/code&gt;
+如果&lt;code&gt;$instance_array&lt;/code&gt;中的&lt;strong&gt;所有&lt;/strong&gt;元素都是名为&lt;code&gt;$className&lt;/code&gt;的类的实例，则通过，否则不通过。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertInstanceOf($className, $instance)&lt;/code&gt;
+如果&lt;code&gt;$instance&lt;/code&gt;是&lt;code&gt;$className&lt;/code&gt;的实例，则通过。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;相等相关&#34;&gt;相等相关&lt;/h2&gt;
+
+&lt;h3 id=&#34;是非问题&#34;&gt;是非问题&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;assertTrue($actual)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;assertFalse($actual)&lt;/code&gt;
+上面两个判断的就是&lt;code&gt;true&lt;/code&gt;和&lt;code&gt;false&lt;/code&gt;，是&lt;code&gt;boolean&lt;/code&gt;类型的，而不是我们平时理解的存在或者值不为空等等。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;assertNull($actual)&lt;/code&gt;
+和上面两个一样，这个判断也是精确的，只有当&lt;code&gt;$actual === null&lt;/code&gt;时才通过。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;简单类型&#34;&gt;简单类型&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertEquals($expected, $actual)&lt;/code&gt;
+如果&lt;code&gt;$expectec == $actual&lt;/code&gt;，则通过。注意这里的相等是和类型无关的，例如&lt;code&gt;assertEquals(1, &#39;1&#39;)&lt;/code&gt;是通过的。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertSame($expected, $actual)&lt;/code&gt;
+如果&lt;code&gt;$expected === $actual&lt;/code&gt;，则通过。注意这里的相等是需要类型也相同的，例如&lt;code&gt;assertSame(1, &#39;1&#39;)&lt;/code&gt;是不通过的。
+当然以上两个都是可以判断数组的。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertGreaterThan($expected, $actual)&lt;/code&gt; 和 &lt;code&gt;assertGreaterThanOrEqual($expected, $actual)&lt;/code&gt;
+如果&lt;code&gt;$expected &amp;gt; $actual&lt;/code&gt;则通过。后者比前者多包含了一个相等的情况。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertLessThan($expected, $actual)&lt;/code&gt; 和 &lt;code&gt;assertLessThanOrEqual($expected, $actual)&lt;/code&gt;
+如果&lt;code&gt;$expected &amp;lt; $actual&lt;/code&gt;则通过。后者比前者多包含了一个相等的情况。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertInternalType($type, $actual)&lt;/code&gt;
+如果&lt;code&gt;gettype($actual) === $type&lt;/code&gt;，则通过。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;xml类型&#34;&gt;XML类型&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;assertEqualXmlStructure&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;assertXmlFileEqualsXmlFile&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;assertXmlStringEqualsXmlFile&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;assertXmlStringEqualsXmlString&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;就我个人工作的经验来看，貌似XML在接口设计中已经很少见了，所以这里直接忽略吧，不喜欢XML。&lt;/p&gt;
+
+&lt;h3 id=&#34;json类型&#34;&gt;JSON类型&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertJsonFileEqualsJsonFile($json_file1, $json_file2)&lt;/code&gt;
+如果两个json内容相同，或者说包含的json格式可能不同(指空格、缩进等)，但值是相同的，则测试通过。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertJsonStringEqualsJsonFile($json_file, $json_encoded_string)&lt;/code&gt;
+如果&lt;code&gt;$json_file&lt;/code&gt;中包含的JSON的内容和&lt;code&gt;$json_encoded_string&lt;/code&gt;一样，则通过。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertJsonStringEquaslJsonString($json_string1, $json_string2)&lt;/code&gt;
+同上。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;文件相关&#34;&gt;文件相关&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertFileExists($file)&lt;/code&gt;
+如果&lt;code&gt;$file&lt;/code&gt;存在，则通过。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertStringMatchesFormat($format, $string)&lt;/code&gt;
+如果&lt;code&gt;$string&lt;/code&gt;的内容符合&lt;code&gt;$format&lt;/code&gt;的格式，如&lt;code&gt;%s&lt;/code&gt;、&lt;code&gt;%i&lt;/code&gt;等，则通过。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertStringMatchesFormatFile(&#39;path/to/file&#39;, $string)&lt;/code&gt;
+如果&lt;code&gt;$string&lt;/code&gt;的内容符合&lt;code&gt;path/to/file&lt;/code&gt;的文件中定义的格式，则通过。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;正则表达式&#34;&gt;正则表达式&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;assertRegExp($pattern, $string)&lt;/code&gt;
+如果&lt;code&gt;$string&lt;/code&gt;符合&lt;code&gt;$pattern&lt;/code&gt;的模式，则通过。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;字符串相关&#34;&gt;字符串相关&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertStringStartsWith($start, $string)&lt;/code&gt;
+如果&lt;code&gt;$string&lt;/code&gt;以&lt;code&gt;$start&lt;/code&gt;开头，则通过。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;assertStringEndsWith($end, $string)&lt;/code&gt;
+如果&lt;code&gt;$string&lt;/code&gt;以&lt;code&gt;$start&lt;/code&gt;结尾，则通过。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;本文就介绍这么多，主要参考了&lt;a href=&#34;https://phpunit.de/manual/current/en/appendixes.assertions.html&#34;&gt;phpunit.de&lt;/a&gt;，加上自己的理解，当然这远远不够全，最起码的是几乎每个方法都有相反的实现，例如&lt;code&gt;assertStringStartWidth&lt;/code&gt;，同时也有&lt;code&gt;assertStringNotStartWith&lt;/code&gt;， 但知道了一面的判断原则，另一面一定也可以触类旁通了。写了那么多，其实还是建议读者每条都自己写出来尝试下，多试试不同的
+条件，自然就理解了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>PHP单元测试-01</title>
+      <link>http://localhost:1313/php/2015-09-22-PHP%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-01/</link>
+      <pubDate>Tue, 22 Sep 2015 15:49:52 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/php/2015-09-22-PHP%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-01/</guid>
+      <description>
+
+&lt;p&gt;我自认对这种比较系统的知识总是比较欠缺，所以还是花点时间补充上比较好。&lt;/p&gt;
+
+&lt;p&gt;这里说一下PHP的单元测试。&lt;/p&gt;
+
+&lt;p&gt;首先是搭建可以进行单元测试的环境，这里我首选的还是Debian Sid。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo apt-get install phpunit
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;一条命令就可以安装单元测试所需要的各种依赖了，之所以选择这种可能不是最新的包的安装方式是因为pear(pecl)在国内的访问速度毕竟不怎么理想，既然我们有一个优秀的&lt;code&gt;apt&lt;/code&gt;了，何必还要费那劲呢？&lt;/p&gt;
+
+&lt;h2 id=&#34;初识单元测试&#34;&gt;初识单元测试&lt;/h2&gt;
+
+&lt;p&gt;首先，一个类对应一个测试类。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;.
+├── FrostWong.php
+└── FrostWongTest.php
+
+0 directories, 2 files
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;// FrostWong.php
+
+&amp;lt;?php
+
+class FrostWong
+{
+    public function sayHi()
+    {
+        return &amp;quot;Hi, UnitTest.\n&amp;quot;;
+    }
+
+    public function altb($a, $b)
+    {
+        return $a &amp;gt; $b;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;// FrostWongTest.php
+
+&amp;lt;?php
+
+require &#39;PHPUnit/Autoload.php&#39;;
+require &#39;FrostWong.php&#39;;
+
+class FrostWongTest extends PHPUnit_Framework_TestCase
+{
+    public function testSayHi()
+    {
+        $fw = new FrostWong();
+        $this-&amp;gt;assertEquals(&amp;quot;Hi, UnitTest.\n&amp;quot;, $fw-&amp;gt;sayHi());
+    }
+
+    public function testAltb()
+    {
+        $fw = new FrostWong();
+        $this-&amp;gt;assertTrue($fw-&amp;gt;altb(4, 3));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后，就可以执行单元测试了。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;phpunit FrostWongTest&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;这个命令有几个需要注意的问题：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;命令行参数是&lt;code&gt;FrostWongTest&lt;/code&gt;而不是&lt;code&gt;FrostWongTest.php&lt;/code&gt;，这一点和命令行用&lt;code&gt;java&lt;/code&gt;执行&lt;code&gt;class&lt;/code&gt;文件时有异曲同工之妙：）。&lt;/li&gt;
+&lt;li&gt;PHP执行包含路径的问题，检查你的&lt;code&gt;php.ini&lt;/code&gt;文件，看其中&lt;code&gt;include_path&lt;/code&gt;一行，看其中有没有包含&lt;code&gt;.&lt;/code&gt;，也就是当前路径。如果不包含，那么执行上面的语句时就会出现&lt;code&gt;Cannot open file FrostWongTest.php&lt;/code&gt;的错误，然后什么都不会发生。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;setup&#34;&gt;setUp&lt;/h2&gt;
+
+&lt;p&gt;你一定也注意到了，因为被测试的类中有两个方法，所以就初始化了两次&lt;code&gt;FrostWong&lt;/code&gt;类，PHPUnit当然给我们提供了更好的方式，那就是&lt;code&gt;setUp&lt;/code&gt;，我理解的&lt;code&gt;setUp&lt;/code&gt;就是一个用来初始化需要的变量的模板方法。同样的还有&lt;code&gt;tearDown&lt;/code&gt;方法。&lt;/p&gt;
+
+&lt;p&gt;所以上面测试用例的第二版就是&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;&amp;lt;?php
+
+require &#39;PHPUnit/Autoload.php&#39;;
+require &#39;FrostWong.php&#39;;
+
+class FrostWongTest extends PHPUnit_Framework_TestCase
+{
+    function setUp()
+    {
+        $this-&amp;gt;fw = new FrostWong();
+    }
+
+    public function testSayHi()
+    {
+        $this-&amp;gt;assertEquals(&amp;quot;Hi, UnitTest.\n&amp;quot;, $this-&amp;gt;fw-&amp;gt;sayHi());
+    }
+
+    public function testAltb()
+    {
+        $this-&amp;gt;assertTrue($this-&amp;gt;fw-&amp;gt;altb(4, 3));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;好了，现在你一定已经对PHP端单元测试有了大致的印象了，下一篇会讲一些常用的&lt;code&gt;assert&lt;/code&gt;方法，来进行实际的操练。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Laravel学习笔记-01</title>
+      <link>http://localhost:1313/php/2015-09-20-Laravel%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-01/</link>
+      <pubDate>Sun, 20 Sep 2015 23:31:11 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/php/2015-09-20-Laravel%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-01/</guid>
+      <description>
+
+&lt;p&gt;总是看到网上讨论一些应用开发框架，什么国内用的最多的ThinkPHP了，还有国外的Symphony/CodeIgnite/Yii等等，我就想着我也应该接触一下其中的一个，别到下一次找工作的时候面试官一问我就说我只用过Yaf这种高性能的PHP框架，小公司估计也不会用。然后就是选择了，看了一些评价，最终认为Laravel应该是最全面，功能最强大的，于是开始了框架学习之旅。&lt;/p&gt;
+
+&lt;p&gt;本篇记录一下安装过程。&lt;/p&gt;
+
+&lt;p&gt;我在安装的过程中也遇到了不少困难，其实主要是因为GFW的干扰，本来如果正常的网络环境这些问题都是不应该出现的。&lt;/p&gt;
+
+&lt;h2 id=&#34;安装操作系统&#34;&gt;安装操作系统&lt;/h2&gt;
+
+&lt;p&gt;操作系统当然需要Linux，不过如果非要在Windows也不是不可以，只是麻烦一点，我没有尝试。至于发行版，我的观点是个人的开发或者测试环境Debian是最合适的，我的习惯是用Debian的Sid也就是unstable版，软件足够新也足够多，能够很方便的满足各种需求。不建议在实体机上安装，最好用VirtualBox等虚拟机软件安装，如果是用VirtualBox则需要选择桥接的网络模式，如果用VMware Workdstation的话就不必了，Nat就可以了。安装过程这里不再详述，最小化安装即可。&lt;/p&gt;
+
+&lt;h2 id=&#34;安装php&#34;&gt;安装PHP&lt;/h2&gt;
+
+&lt;p&gt;我们的目的是学习Laravel，所以不必为了它再手动安装扩展，使用&lt;code&gt;apt-get&lt;/code&gt;安装二进制包即可。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo apt-get install php5
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;安装php扩展&#34;&gt;安装PHP扩展&lt;/h2&gt;
+
+&lt;p&gt;按照官方文档，是需要安装openssl/tokenizer/mbstring扩展的，但Debian貌似已经在默认的PHP5的包里打包了这几个扩展，至于PDO，只需要安装&lt;code&gt;php5-mysqlnd&lt;/code&gt;即可。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo apt-get install php5-mysqlnd
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;安装composer&#34;&gt;安装composer&lt;/h2&gt;
+
+&lt;p&gt;又到了问候GFW的时候了，不要考虑用官方的安装脚本了，最简单粗暴的方式就是直接&lt;a href=&#34;https://getcomposer.org/composer.phar&#34;&gt;下载&lt;/a&gt;下来&lt;code&gt;composer.phar&lt;/code&gt;这个包。然后&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd ~/Downloads
+sudo chmod +x composer.phar
+sudo ln -s /home/frost/Downloads/composer.phar /usr/local/bin/composer
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;最关键的，要配置上&lt;a href=&#34;http://pkg.phpcomposer.com&#34;&gt;Packagist/Composer中国全量镜像&lt;/a&gt;提供的镜像地址，建议直接&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;composer config -g repositories.packagist composer http://packagist.phpcomposer.com
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;即可。&lt;/p&gt;
+
+&lt;h2 id=&#34;安装laravel-5-1&#34;&gt;安装Laravel 5.1&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;composer config -g repositories.packagist composer http://packagist.phpcomposer.com
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面这条命令会在你当前用户的家目录创建&lt;code&gt;.composer/vendor/bin&lt;/code&gt;这个目录，&lt;code&gt;laravel&lt;/code&gt;的可执行文件就被安装在这里了。在你的&lt;code&gt;.bashrc&lt;/code&gt;或者&lt;code&gt;.zshrc&lt;/code&gt;最后面添加下面一行&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;export PATH=$PATH:$HOME/.composer/vendor/bin
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后，&lt;code&gt;source ~/.bashrc&lt;/code&gt;或者&lt;code&gt;source ~/.zshrc&lt;/code&gt;，执行&lt;code&gt;laravel&lt;/code&gt;就可以看到一堆的帮助信息了。&lt;/p&gt;
+
+&lt;p&gt;然并卵。如果不能翻墙，是用不了&lt;code&gt;laravel&lt;/code&gt;的安装命令的，只能用&lt;code&gt;composer create-project&lt;/code&gt;命令。
+下一节开始谈谈Laravel5的使用。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>缓存使用小记</title>
+      <link>http://localhost:1313/php/2015-06-26-huan-cun-shi-yong-xiao-ji/</link>
+      <pubDate>Fri, 26 Jun 2015 10:24:03 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/php/2015-06-26-huan-cun-shi-yong-xiao-ji/</guid>
+      <description>&lt;p&gt;在请求次数多的业务系统中，通常会加入缓存系统。这里用的较多的就是Memcached和Redis。我写这篇笔记不是要说这两个缓存的使用细节，而是缓存使用的注意事项。&lt;/p&gt;
+
+&lt;p&gt;首先要清楚，这两个缓存数据库不是安装上就万事大吉了，它是不会主动地帮你解决任何问题的。那么何时把数据存入(更新)缓存，何时取出缓存中的数据？&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;存入数据
+假设原来的系统中有一条插入或者更新数据库的操作，缓存的操作就应该放在数据库操作完成之后，并且要确定数据库的更新成功了，&lt;strong&gt;然后再写入缓存&lt;/strong&gt;。这里是为了保证数据的一致性，即防止虽然发送了写入数据库的请求，但请求没有成功，结果缓存却成功的写入了，那么这时缓存和数据库的数据就不一致了。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;读取缓存
+同样的原理，假设原来的系统中有一条查询数据库的操作，缓存的操作就应该放在数据库操作之前，并且如果缓存的数据存在，就&lt;strong&gt;直接返回不再操作数据库&lt;/strong&gt;了。如果缓存的数据不存在，就去查询数据库，&lt;strong&gt;然后将结果存入缓存&lt;/strong&gt;。所谓缓存能提升性能的根本就在这里，我们知道数据库之所以经常是性能瓶颈就是因为它的IO操作占用大量时间，如果频繁地请求是发给了缓存，那么就能大量的减少数据库请求，有效提升系统性能。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;总结一下，有两处进行了更新缓存的操作&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1. 更新数据库后
+2. 查询缓存如果不存在，将从数据库中取出的结果存入缓存
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;那么为什么在查询数据库后要更新缓存呢？这就要想一下缓存为什么会不存在，通常我们会为缓存设置一个有效期，超过有效期缓存就会失效，也就是被删除了，所以如果缓存不存在，多半是过期的，这时如果不再设置一个缓存，那以后的每次请求又都会到数据库了。因此可以说，整个缓存系统有序的运行的初始化就是数据库的更新操作，而之后的每次更新其实是对数据库的查询请求发起的。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>PHP设置cookie</title>
+      <link>http://localhost:1313/php/2015-06-19-phpshe-zhi-cookie/</link>
+      <pubDate>Fri, 19 Jun 2015 12:30:13 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/php/2015-06-19-phpshe-zhi-cookie/</guid>
+      <description>&lt;p&gt;之前一直没有处理过cookie，刚才小小的看了一下，貌似很简单，大概记一下。&lt;/p&gt;
+
+&lt;p&gt;首先，客户端要向服务端发送一个请求，服务端接收到请求之后做一下身份校验什么的，然后就可以给客户端种cookie了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;setcookie(&amp;quot;key&amp;quot;, &amp;quot;value&amp;quot;, time()+expire);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;expire&lt;/code&gt;是cookie的过期时间，上面的例子用了两部分来说明它，time()获取当前的时间戳，那么&lt;code&gt;expire&lt;/code&gt;就是你希望这个cookie在当前时刻之后再存活的时间长短。&lt;/p&gt;
+
+&lt;p&gt;那么如何手动删除cookie呢？答案是无法直接删除cookie。但可以设置其过期，这样就间接的把它删除了。那怎样设置过期呢？&lt;code&gt;setcookie&lt;/code&gt;的第三个参数设置的小于当前时间就可以了。&lt;/p&gt;
+
+&lt;p&gt;那怎么用cookie呢？&lt;/p&gt;
+
+&lt;p&gt;当你把cookie种到了客户端的机器上，它会保存在默认的域下，当客户端访问这个域下的资源时，发送的请求中会带着所有的cookie，然后在服务端用超全局变量&lt;code&gt;$_COOKIE[&#39;key&#39;]&lt;/code&gt;就可以直接访问它了。&lt;/p&gt;
+
+&lt;p&gt;demo代码如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;&amp;lt;?php
+$username = $_GET[&#39;username&#39;];
+$passwd = $_GET[&#39;passwd&#39;];
+
+if (/* 身份校验成功 */) {
+    setcookie(&amp;quot;username&amp;quot;, $username, time() + 3600);
+    echo &amp;quot;cookie set&amp;quot;;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;&amp;lt;?php
+$username = $_COOKIE[&amp;quot;username&amp;quot;];
+echo &amp;quot;username: &amp;quot; . $username;
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>PHP延迟绑定</title>
+      <link>http://localhost:1313/php/2015-06-17-phpyan-chi-bang-ding/</link>
+      <pubDate>Wed, 17 Jun 2015 23:37:38 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/php/2015-06-17-phpyan-chi-bang-ding/</guid>
+      <description>&lt;p&gt;在公司的代码里看到很多重复代码，每张表对应的类都有一个一样的静态方法，作用是获得数据库的连接。但显然这并不是一个好的解决方案，而应该充分利用面向对象的思想，利用继承的方式来更优雅的解决。&lt;/p&gt;
+
+&lt;p&gt;我想，当初作者在写这部分代码的时候可能也已经考虑到了这个问题，但很可能是对PHP的延后绑定（LSB）不了解，因此没有实施。&lt;/p&gt;
+
+&lt;p&gt;得到数据库连接的实例有多种方式，这里我们假设有一个方法&lt;code&gt;DB::mysqlConn($tableName);&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;举个例子来说，假设我们设计一个基类&lt;code&gt;BaseConn&lt;/code&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;class BaseConn
+{
+    protected static $conn;
+    protected static $tableName;
+    
+    public function getInstance()
+    {
+        self::$conn = DB::mysqlConn($tableName);
+        return self::$conn;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;按照计划，我们就可以写子类了：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;class ATableConn extends BaseConn
+{
+    protected static $tableName = &#39;atable&#39;;
+    
+    public static findById($id)
+    {
+        $query = &amp;quot;select * from &amp;quot; . self::$tableName . &amp;quot; where id = {$id}&amp;quot;;
+        return $this-&amp;gt;getInstance()-&amp;gt;exec($sql);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这时一般都会认为没有什么问题了，因为我们已经在子类里设定了&lt;code&gt;$tableName&lt;/code&gt;的值，这样在创建数据库连接的时候一定就是&lt;code&gt;atable&lt;/code&gt;的连接了。&lt;/p&gt;
+
+&lt;p&gt;错！&lt;/p&gt;
+
+&lt;p&gt;因为用&lt;code&gt;self&lt;/code&gt;关键字绑定到了编译时引用的属性或方法。&lt;code&gt;self&lt;/code&gt;关键字指向的是父类，而且不会意识到子类，基本上，编译器会用所绑定的名称替换&lt;code&gt;self&lt;/code&gt;关键字。&lt;/p&gt;
+
+&lt;p&gt;那么怎么解决呢？PHP5.3为一个本来就存在的关键字赋予了新的含义——&lt;code&gt;static&lt;/code&gt;，它会在可能的最近时刻强迫PHP绑定到实现代码。&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:static&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:static&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;因此，把上面代码中&lt;code&gt;getInstance&lt;/code&gt;方法中的&lt;code&gt;self&lt;/code&gt;替换成&lt;code&gt;static&lt;/code&gt;就可以了。&lt;/p&gt;
+
+&lt;p&gt;这个特性也就可以实现ActiveRecord了，不过这就是另外一个话题了。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:static&#34;&gt;&lt;a href=&#34;http://www.ibm.com/developerworks/cn/opensource/os-php-53static/&#34;&gt;PHP V5.3 用延后静态绑定搞活面向对象编程&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:static&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>PHP系统调用</title>
+      <link>http://localhost:1313/php/2015-04-28-phpxi-tong-diao-yong/</link>
+      <pubDate>Tue, 28 Apr 2015 23:30:54 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/php/2015-04-28-phpxi-tong-diao-yong/</guid>
+      <description>&lt;p&gt;通常认为PHP的系统调用有以下几种方式：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;system()&lt;/code&gt;输出并返回最后一行Shell结果。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;exec()&lt;/code&gt;不输出结果，返回最后一行Shell结果，所有结果可以保存到一个返回的数组。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;passthru()&lt;/code&gt;只调用命令，把命令的运行结果原样的标准输出到标准输出设备上。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;上面三种我目前还没有用到过，下面简单介绍一下另外一种方式&lt;code&gt;shell_exec&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;应用背景：有大量数据需要处理，对一个大数组中的所有元素进行复杂的操作，这个任务其实是不适合交给PHP来做的。这也是我第一次意识到带垃圾回收机制的语言和C语言的差别。
+由于对这种特性的不了解，刚开始尝试在进行完一次任务之后将生成的变量&lt;code&gt;unset&lt;/code&gt;掉，但发现其实不起作用，仍然会引起内存不足从而退出的错误信息。查看了&lt;a href=&#34;http://www.laruence.com&#34;&gt;风雪之隅&lt;/a&gt;的
+文章&lt;a href=&#34;http://www.laruence.com/2011/03/04/1894.html&#34;&gt;深入理解PHP内存管理之谁动了我的内存&lt;/a&gt;之后知道了原来&lt;code&gt;unset&lt;/code&gt;确实会释放内存，但释放的内存并没有像C语言那样交回给操作系统，而是用PHP
+自己的内存管理API进行的。PHP并不是简单的向操作系统要内存，而是会要一个大块的内存，然后把其中一块分配给申请者，这样当再有逻辑来申请内存的时候就不需要再向操作系统申请了，避免了频繁
+的系统调用。当然带来的问题就是占用的内存总量只会增加不会减少，因此&lt;code&gt;unset&lt;/code&gt;在此没有实际的意义。
+理想的情况是这样的，对数组的一个元素执行完所有操作，将与该元素相关的内存释放，再进行下一个操作，由于所有的元素的操作是几乎一样的，所以占有的内存应该不会有大的增加，问题是前面已经
+说了，PHP不会真正意义上释放内存，那么就没有解决办法了吗？
+当然有。
+大致的思路是这样的，先处理第一个元素，然后用&lt;code&gt;shell_exec&lt;/code&gt;执行这个文件本身。结果就是&lt;code&gt;shell_exec&lt;/code&gt;这个命令已经发出，已经成功的fork了一个进程，脚本执行退出之后将会反复进行这步操作，直
+至数组中的最后一个元素。这样的好处就是将处理过程串联起来，只有上一个任务结束之后才会触发下一个任务执行，不会造成CPU和内存占用过高的情况，完美的解决了我的问题。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;中间遇到了一个另外一个问题，那就是怎样将参数传进去。比如要处理的数组是&lt;code&gt;$array = array($elem1, $elem2, $elem3)&lt;/code&gt;，第一次执行时难道要将数组的元素作为命令行参数传进去？这样做显得也
+太没有水平了，经过深入思考，解决方案应该是这样的（如果有更好的方法，也期待您能提出）&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-PHP&#34;&gt;&amp;lt;?php
+$file = __FILE__;
+$array = array($elem1, $elem2, $elem3);
+
+if (!isset($argv[1])) {
+    $id = $array[1];
+} else {
+    $id = /* 数组中$argv[1]元素之后的第一个元素 */
+}
+
+/* 对$id进行操作的代码 */
+
+shell_exec(&amp;quot;/usr/bin/env php &amp;quot; . $file . &amp;quot; &amp;quot; . $id . &amp;quot;&amp;gt;&amp;gt; /dev/null &amp;amp;&amp;quot;);
+?&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;最后一步很关键，一定要把执行操作的代码放在执行文件的语句前面，这样只有在上一次操作完成之后才会继续执行该文件，进入下一个周期。&lt;/p&gt;
+
+&lt;p&gt;看来语言功底真是不行啊，组织的不够清晰。而且在实际项目的代码里由于用到的是数据库中查出的值，根据当前的输入查找比当前值大的下一个值是很方便的，所以用数组不是很容易表达。这也引出的另外
+一个问题，就我实际项目而言，如果采用这种方法会增加很多查询数据库的次数，但由此增加的每次执行任务的开销相比完全无法完成而言，还是很值得的。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>PHP单入口模式</title>
+      <link>http://localhost:1313/php/2015-04-25-phpdan-ru-kou-mo-shi/</link>
+      <pubDate>Sat, 25 Apr 2015 17:07:18 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/php/2015-04-25-phpdan-ru-kou-mo-shi/</guid>
+      <description>
+
+&lt;p&gt;单入口模式是现在很多项目遵循的模式，如WordPress等。
+下面描述一下我对单入口模式的理解和一些简单的代码，一步一步构建一个完整的单入口模式的简单框架。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;文中的代码只需要用PHP内建Web Server测试即可，没必要先搭建Nginx环境。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;初见&#34;&gt;初见&lt;/h2&gt;
+
+&lt;p&gt;首先，所谓单入口，即是所有的访问都要经过同一个入口，当然不可能所有的功能(方法)都写在这个文件中，那么这个文件最可能的作用其实是转发请求。根据传过来的参数的不同，去调用不同的类中不同的方法。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;
+/* filename index.php */
+&amp;lt;?php
+require_once __DIR__ . &#39;/TestClass.php&#39;;
+$op = $_GET[&#39;op&#39;];
+if ($op == &#39;echoparam&#39;) {
+    TestClass::echoParam();
+} else if ($op == &#39;addparams&#39;) {
+    TestClass::addParams();
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;
+/* filename TestClass.php */
+&amp;lt;?php
+class TestClass
+{
+    public static function echoParam()
+    {
+        $param = $_GET[&#39;param&#39;];
+        echo $param;
+    }
+
+    public static function addParams()
+    {
+        $param1 = $_GET[&#39;param1&#39;];
+        $param2 = $_GET[&#39;param2&#39;];
+        echo $param1 + $param2;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;请自行忽略上面代码中没有作参数验证，线上代码肯定是需要的。后面出现代码的地方请参考这句话。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这样已经可以简单的对外提供服务了，当然如果你想提供Restful风格的API的话，也可以利用Nginx的rewrite来实现。这个后面会做详细的解释。&lt;/p&gt;
+
+&lt;p&gt;这样简单的服务肯定是没有用的，近从这段代码出发，我们可以发现很多需要做的工作。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;如果提供的API增加，会导致&lt;code&gt;if else&lt;/code&gt; 判断的数量极速增加，不要说用&lt;code&gt;switch case&lt;/code&gt; 做代替，那治标不治本，问题没有出在这里。根本的解决方案有两种，要么a) 用配置文件， b) 自适应（会有很多字符串的处理）。多数人可能会选择第一种方案，因为配置文件嘛，多简单，写个xml再解析一下就好了嘛，干嘛要做那么高端的自适应呢？再留个坑后面填。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;这里获取参数的方法写成了&lt;code&gt;GET&lt;/code&gt; ，那么如果是&lt;code&gt;POST&lt;/code&gt; 了怎么办？很简单，挂掉了，也就是说这个API接口只支持&lt;code&gt;GET&lt;/code&gt;请求，要让它支持&lt;code&gt;POST&lt;/code&gt; 等其他方法就要让获取参数的方法透明，不管客户端用什么方法传过来参数我服务端都能正确的解析并给出正确的响应。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;可能很多人首先想到的就是这个了，对，&lt;code&gt;spl_autoloader&lt;/code&gt; ，作为一个现代化的应用程序，PSR-4当然是要支持的。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;可能有人看到了，我在写&lt;code&gt;require_once&lt;/code&gt; 语句时用的是&lt;code&gt;__DIR__&lt;/code&gt; 而不是通常会见到的&lt;code&gt;dirname(__FILE__)&lt;/code&gt; ，这是考虑到PHP 5.3也发布了多年了，是时候在利用它之后添加的新特性了。具体有哪些可以参考&lt;a href=&#34;http://koda.iteye.com/blog/490515&#34;&gt;PHP 5.3的新特性&lt;/a&gt;。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;项目复杂时，当然要用Unit Test了。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;关系到数据库时可能又会关系到ORM了。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;下面将对上面的提出的问题逐步解决。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;if-else&lt;/code&gt; 过度复杂的问题，就像前面说的，写个xml就解决了，看代码&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;
+/* filename config.xml */
+&amp;lt;?xml version=&#39;1.0&#39;?&amp;gt;
+&amp;lt;classmap&amp;gt;
+    &amp;lt;action name=&amp;quot;echoparam&amp;quot; class=&amp;quot;TestClass&amp;quot; method=&amp;quot;echoParam&amp;quot;&amp;gt;&amp;lt;/action&amp;gt;
+    &amp;lt;action name=&amp;quot;addparams&amp;quot; class=&amp;quot;TestClass&amp;quot; method=&amp;quot;addParams&amp;quot;&amp;gt;&amp;lt;/action&amp;gt;
+&amp;lt;/classmap&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;name 是对外暴露的接口名称，class 是该接口所属的类，而method是实际调用的方法，也就是说name是method的别名。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;有了xml就需要解析它，要解析就要先获取它，那当然是&lt;code&gt;simplexml_load_file&lt;/code&gt; 方法了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;
+/* filename ActionMapLoader.php */
+&amp;lt;?php
+
+class ActionMapLoader
+{
+    protected $map;
+
+    public function __construct($mapFile)
+    {
+        $this-&amp;gt;map = simplexml_load_file($mapFile);
+    }
+
+    public function getMap()
+    {
+        return $this-&amp;gt;map;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;只需要把xml文件作为&lt;code&gt;ActionMapLoader.php&lt;/code&gt; 构造函数的参数传进去，实例化后调用&lt;code&gt;getMap()&lt;/code&gt; 方法获得的就是xml表示的关系的对象了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+SimpleXMLElement Object
+(
+    [action] =&amp;gt; Array
+        (
+            [0] =&amp;gt; SimpleXMLElement Object
+                (
+                    [@attributes] =&amp;gt; Array
+                        (
+                            [name] =&amp;gt; echoparam
+                            [class] =&amp;gt; TestClass
+                            [method] =&amp;gt; echoParam
+                        )
+
+                )
+
+            [1] =&amp;gt; SimpleXMLElement Object
+                (
+                    [@attributes] =&amp;gt; Array
+                        (
+                            [name] =&amp;gt; addparams
+                            [class] =&amp;gt; TestClass
+                            [method] =&amp;gt; addParams
+                        )
+
+                )
+
+        )
+
+)
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以看到，最外层的标签&lt;code&gt;&amp;lt;classmap&amp;gt;&amp;lt;/classmap&amp;gt;&lt;/code&gt; 是作为一个容器存在的，它的每一个子标签都是这个容器的子元素。取得了传入的&lt;code&gt;op&lt;/code&gt; 参数之后就可以根据这个关系取得类名和方法名了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;
+/* filename Controller.php */
+&amp;lt;?php
+
+class Controller
+{
+    protected $mapFile;
+
+    public function __construct($mapFile)
+    {
+        $this-&amp;gt;mapFile = $mapFile;
+    }
+
+    public function getActionInfo ($actionName)
+    {
+        $map = new ActionMapLoader($this-&amp;gt;mapFile);
+        foreach ($map-&amp;gt;getMap()-&amp;gt;action as $action) {
+            if (strcasecmp($actionName, $action[&#39;name&#39;]) == 0) {
+                return new ActionInfo($actionName, $action);
+            }
+        }
+    }
+
+    public function process()
+    {
+        $actionName = $_GET[&#39;op&#39;];
+        $actionInfo = $this-&amp;gt;getActionInfo($actionName);
+
+        $class = $actionInfo-&amp;gt;class;
+        $method = $actionInfo-&amp;gt;method;
+
+        (new $class())-&amp;gt;$method();
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;Controller&lt;/code&gt; 类是整个转发过程的核心，它根据传入的&lt;code&gt;op&lt;/code&gt; 调用相应的类中的方法，然后调用该方法。那么它是如何获取到这个类的属性和方法的呢？&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;
+/* filename ActionInfo.php */
+&amp;lt;?php
+
+class ActionInfo
+{
+    public $name;
+    public $class;
+    public $method;
+
+    public function __construct($actionName, $action)
+    {
+        $attrs = reset($action);
+
+        $this-&amp;gt;name = $actionName;
+        $this-&amp;gt;class = $attrs[&#39;class&#39;];
+        $this-&amp;gt;method = $attrs[&#39;method&#39;];
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个类用于从&lt;code&gt;ActionMapLoader&lt;/code&gt; 类中获取某个类的所有属性和方法。
+这样整个流程就走通了。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;index.php&lt;/code&gt; 就只需要将xml文件传给&lt;code&gt;Controller&lt;/code&gt; 类，剩下的事情就交给&lt;code&gt;Controller&lt;/code&gt; 类去处理了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;
+&amp;lt;?php
+require_once __DIR__ . &#39;/TestClass.php&#39;;
+require_once __DIR__ . &#39;/ActionMapLoader.php&#39;;
+require_once __DIR__ . &#39;/ActionInfo.php&#39;;
+require_once __DIR__ . &#39;/Controller.php&#39;;
+require_once __DIR__ . &#39;/config.xml&#39;;
+
+$mapFile = &#39;config.xml&#39;;
+
+(new Controller($mapFile))-&amp;gt;process();
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面的代码中值得注意的一点是&lt;code&gt;if (strcasecmp($actionName, (string)$action[&#39;name&#39;]) == 0)&lt;/code&gt; ，这里没有用&lt;code&gt;if ($actionName == $action[&#39;name&#39;])&lt;/code&gt; 这样的写法，是为了忽略调用方法的大小写。&lt;/p&gt;
+
+&lt;p&gt;这下对这个过程可是很清晰了。下面就到了第二点，请求方法写死了。那么有什么方法可以既支持&lt;code&gt;POST&lt;/code&gt; 方法又支持&lt;code&gt;GET&lt;/code&gt; 方法呢？当然是让程序自己去判断而不要我们我们人为的判断了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;
+/* filename Request.php */
+&amp;lt;?php
+class Request
+{
+    public function getValue($key)
+    {
+        switch ($_SERVER[&#39;REQUEST_METHOD&#39;]) {
+        case &#39;GET&#39;:
+            $request = $_GET;
+            break;
+        case &#39;POST&#39;:
+            $request = $_POST;
+            break;
+        }
+
+        return $request[$key];
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个方法自动适应请求方式，返回正确的结果。&lt;/p&gt;
+
+&lt;p&gt;你一定也看到了，每添加一个类，都需要在入口文件中添加一条&lt;code&gt;require_once&lt;/code&gt; 语句，这样的操作现在看来当然是不可接受的。
+这就需要命名空间和&lt;code&gt;autoloader&lt;/code&gt; 了。现在的这个复杂度还没有到要分目录的时候，所以只需要用根命名空间去引用类就可以了。&lt;/p&gt;
+
+&lt;p&gt;单元测试和ORM的话题太大了就不放在这里说了。代码可以到&lt;a href=&#34;https://github.com/lovelock/PHPSingleEntryDemo&#34;&gt;PHPSingleEntryDemo&lt;/a&gt;去查看。&lt;/p&gt;
+
+&lt;p&gt;另外说一点，文中提到了用Nginx的rewrite方法，其实很简单，但我还是希望再开一个专题来说这个，所以本文中代码的测试只需要用PHP内建的Web Server就可以测试了。
+简单的使用方法是&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;
+cd PHPSingleEntryMode
+php -S localhost:8080 -t .
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后就可以用&lt;code&gt;curl &#39;localhost:8080/index.php?op=echoparam&amp;amp;param=teststring&lt;/code&gt; 进行测试了，当然如果你愿意用浏览器也是没有问题的。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

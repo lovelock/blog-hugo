@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.16" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Open+Sans|Marcellus+SC'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <link rel="stylesheet" href="http://localhost:1313/css/styles.css">
+    <link rel="stylesheet" href="http://localhost:1313/css/custom.css">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://localhost:1313//index.xml">
+
+    
+    <title>我的编程心得——第一篇章 - Me &amp; Web</title>
+    <meta property='og:title' content="我的编程心得——第一篇章 - Me &amp; Web">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://localhost:1313/miscs/2015-11-28-my-thoughts-about-programming/">
+    <meta name="description" content="这一年多编程体验的简单总结">
+    
+
+  </head>
+
+  <body>
+
+    <header class="site">
+      <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://localhost:1313/">Me &amp; Web&nbsp;&nbsp;致力于创作可操作性更好的文章</a>
+          </div>
+
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://localhost:1313/">Home</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/about">About</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/categories/">Categories</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/tags/">Tags</a></li>
+              
+              
+            </ul>
+            
+          </div>
+
+        </div>
+      </nav>
+    </header>
+
+    <div class="site">
+      <div class="container">
+
+
+
+<div class="single">
+
+    <div class="row">
+        <div class="col-md-8">
+
+            <article class="single" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+                <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://localhost:1313/"/>
+                <meta itemprop="dateModified" content="2016-01-13T23:32:28&#43;00:00">
+                <meta itemprop="headline" content="我的编程心得——第一篇章">
+                <meta itemprop="description" content="可见性 Visibility 关于变量和函数等的可见性我真是无语了。 作为PHP程序员，我们知道所有PHP类都是public的，也就是说一个类对其他任何类都是可见的">
+                <meta itemprop="url" content="http://localhost:1313/miscs/2015-11-28-my-thoughts-about-programming/">
+                <div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+                    <meta itemprop="url" content="http://localhost:1313/images/default.jpg" />
+                    <meta itemprop="width" content="800">
+                    <meta itemprop="height" content="800">
+                </div>
+                <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+                    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+                        <meta itemprop="url" content="http://localhost:1313/images/logo.jpg">
+                        <meta itemprop="width" content="100">
+                        <meta itemprop="height" content="100">
+                    </div>
+                    <meta itemprop="name" content="Me &amp; Web">
+                </div>
+                <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <meta itemprop="name" content="">
+                </div>
+
+                <header class="article-header">
+                    <time itemprop="datePublished" pubdate="pubdate" datetime="2016-01-13T23:32:28&#43;00:00">Wed, Jan 13, 2016</time>
+                    <h1 class="article-title">我的编程心得——第一篇章</h1>
+                </header>
+
+                <div class="article-body" itemprop="articleBody">
+                    
+
+<h2 id="可见性-visibility">可见性 Visibility</h2>
+
+<p>关于变量和函数等的可见性我真是无语了。</p>
+
+<p>作为PHP程序员，我们知道所有PHP类都是<code>public</code>的，也就是说一个类对其他任何类都是可见的。这其实也很好理解，Java中有私有类的概念，是因为Java的类里面还可以定义类，而这个『子类』仅仅它的『父类』可见，所以私有类就有了它存在的意义。但PHP是不能在类中定义类的，所以，如果存在私有的类，那任何别的类都访问不了它，它也就没有存在的意义了。</p>
+
+<p>所以这里说的可见性指变量和函数的可见性。</p>
+
+<p><strong>是的，你可以把所有的变量和方法都声明为<code>public</code>，或者直接省略，它默认就是<code>public</code>，通常这不会有任何问题。</strong></p>
+
+<p>对于一个『注重实效』的程序员来说，这些细节是不可接受的。</p>
+
+<p>我的理解是，如果是写API，非接口函数一律不用<code>public</code>。这时，会有同学说，那如果别的类要用到这个类的某些方法呢？那我只能呵呵了，你为什么会把一个可以复用给其他类的方法写在接口类里面呢？</p>
+
+<p>坚持三个原则：</p>
+
+<ul>
+<li>对外提供服务的，用<code>public</code></li>
+<li>可以让子类使用的，用<code>protected</code></li>
+<li>只有自己使用的，用<code>private</code>。</li>
+</ul>
+
+<p>具体到实际编码中有这些操作：</p>
+
+<ol>
+<li>接口类、工具类、数据库或缓存操作这些类中需要让外部类调用的方法用<code>public</code>。</li>
+<li>如果确定某个类不会被别的类继承，那就给它一个<code>final</code>限制吧，它的所有变量都用<code>private</code>，如果外部要访问，就提供<code>accessor</code>，也就是相应的<code>getter</code>函数，当然，如果是私有的变量，应该就不需要被从外部修改了，也就不需要<code>setter</code>。</li>
+<li>如果一个类被设计成其他类的基类，先要判定它的哪些变量和方法是要给它的衍生类用的，哪些是它自己用的，分别给<code>protected</code>和<code>private</code>，当然提供给外部的还是要<code>public</code>。</li>
+</ol>
+
+<h2 id="隔离变化">隔离变化</h2>
+
+<p>这四个字简直就是软件设计的万物之源。</p>
+
+<p>每当提到设计模式，总会说到六大原则：</p>
+
+<ul>
+<li><em>单一职责原则</em></li>
+<li><em>里氏替换原则</em></li>
+<li>依赖倒置原则</li>
+<li><em>接口隔离原则</em></li>
+<li><em>迪米特法则</em></li>
+<li><em>开闭原则</em></li>
+</ul>
+
+<p>看看这6大原则中有几个是和『隔离变化』有关的？</p>
+
+<p>这些『总纲』性质的东西离实际的编码其实还是有些距离的，但并不妨碍我践行它们。比如：</p>
+
+<ol>
+<li><p>编写职责单一的小方法，而不要写大方法</p>
+
+<p>目前我在公司维护的代码这个问题非常严重，动辄几百行上千行的方法你服不服？如果真是业务逻辑复杂，难以解耦也就算了，你知道这里面有多少行是记日志用的？少说有1/4。为什么？因为记日志没有列出单独的方法，每次记日志前先要读配置文件，指定日志要写到什么地方，然后给要记录的内容数组的每个字段赋值，最后调用封装的write_log方法记日志。这一套拳打下来至少有8行了。
+还有就是要通过<code>echo</code>把数据返回给接口调用方，每个接口最后都要有6行的<code>if/else</code>，因为首先要判断是否数组，然后决定是否<code>json_encode</code>，<code>echo</code>完结果再防止Yaf模板引擎渲染还要<code>exit</code>。何况不只是每个方法最后要这样，中间可能会因为出错而提前退出，也要再打这一套拳。想象一下这里面有多少重复代码了！
+如果是我自己的项目，我肯定会考虑引入<code>monolog/monolog</code>，让处理日志的繁杂工作都留给专业的Component去做多好？而返回值呢，我会选择<code>symfony/httpfoundation</code>。
+但是，这不是我自己的项目。所以我只好仿照<code>monolog/monolog</code>的语法，写了个简单的工具类用来实现一行代码记日志，避免业务代码被记日志的代码淹没。然后我在接口的基类中添加了一个<code>sendResponse</code>方法，把上面提到的一系列判断、退出都封装起来，我知道这样其实是不合理的，因为接口类不应该承担如何设置<code>Response</code>的职责，最好的方法是也许是搞一个Service Container，优雅是优雅了，但代码量也大啊，业务需求那么多。。。。
+说这么多，宗旨就是多写一些实用的小方法，不写长方法，这样就可以很放心的修改一个小方法从而起到影响全局的作用了。</p></li>
+
+<li><p>面向接口而不是面向实现</p>
+
+<p>这一点其实还可以接着上面的谈，比如在第一版实现中，由于业务简单，我写了一个方法<code>composeObjectWidthAndLength</code>，用来把从前端传来的长和宽放在扩展字段中，然后返回一个不带长宽字段而增加了扩展字段的数组，但后面发现需要在存储对象之前修改的东西越来越多，那么我就可以很方便的在这个函数内部做修改，然后把这个方法重命名一下。多么美好！
+还有一点是让我觉得我的坚持很值得。
+有一次说要替换发私信服务的接口，很显然新接口的函数签名和老的不一样，那怎么办呢？幸好我之前的发私信功能就把这个功能抽出来了，需要替换时只需要修改<code>adapter</code>方法就可以了。</p></li>
+</ol>
+
+<h2 id="数据一致性">数据一致性</h2>
+
+<ol>
+<li><p>不要让一个变量在多处被修改</p>
+
+<p>这个问题挺难解决的。尤其是『更新』缓存数据的时候。为了性能，我们把数据存在缓存里，但缓存并没有提供给我们『更新』功能，而只能先读取，改了数据之后再写回。很显然这个操作不是原子的，但好在对单个key的读取并不频繁。即便这样也会出现先读取了某个值，然后调用某个方法，在这个方法内部又读了它的值并且修改后回写到了，方法执行完，我们以为缓存中的值还是我第一次取的，再按当前的逻辑修改，写回。好，上一次的修改就被覆盖了。</p></li>
+</ol>
+
+<h2 id="时效性">时效性</h2>
+
+<p>这就是时间管理的问题了。我在写了一段时间代码之后，发现拿到需求以后自己再梳理一遍，最好能落实到书面上，或者写在GTD工具里（不需要太复杂的，我觉得奇妙清单这种就足够了），实施的时候对照着一项一项的完成，其实效果要比拿到需求就埋头写要高得多。</p>
+
+<p>联想到我刚入行的时候，我师父总是不厌其烦的跟我强调一定要弄清楚需求，不然老是做无用功。后来的职场让我深刻的体会了这个方针。</p>
+
+<p>还记得师父对我最严重的一次鄙视：</p>
+
+<p>我终于把Vim配置好了，这样效率就高多了。
+师父回了一句，你有什么效率啊。</p>
+
+                </div>
+
+
+                <aside>
+                    <div class="section"><a href="http://localhost:1313/tags/%E6%96%B9%E6%B3%95%E8%AE%BA/" class="tag">方法论</a> <a href="http://localhost:1313/tags/%E6%80%BB%E7%BB%93/" class="tag">总结</a> </div>
+
+                    <div class="section share">
+                        <a href="http://v.t.sina.com.cn/share/share.php?src=bm&url=http%3a%2f%2flocalhost%3a1313%2fmiscs%2f2015-11-28-my-thoughts-about-programming%2f&title=%e6%88%91%e7%9a%84%e7%bc%96%e7%a8%8b%e5%bf%83%e5%be%97%e2%80%94%e2%80%94%e7%ac%ac%e4%b8%80%e7%af%87%e7%ab%a0" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-weibo"></i></a>
+                    </div>
+
+                    
+                    <div class="section">
+                        
+                        <div class="ds-thread" data-thread-key="" data-title="我的编程心得——第一篇章" data-url="http://localhost:1313/miscs/2015-11-28-my-thoughts-about-programming/"></div>
+                        
+
+                        
+                        <script type="text/javascript">
+                            var duoshuoQuery = {short_name:"UnixAgain"};
+                        (function() {
+                            var ds = document.createElement('script');
+                            ds.type = 'text/javascript';ds.async = true;
+                            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                            ds.charset = 'UTF-8';
+                            (document.getElementsByTagName('head')[0]
+                             || document.getElementsByTagName('body')[0]).appendChild(ds);
+                        })();
+                        </script>
+                    </div>
+                    
+                    
+                </aside>
+
+            </article>
+
+        </div>
+        <div class="col-md-4">
+            
+<aside class="site">
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">LatestPosts</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/java/use-slf4j-and-log4j-to-log-your-applications/" class="list-group-item">slf4j配合log4j来给你的应用打log</a>
+      
+      <a href="http://localhost:1313/java/create-and-run-java-application-with-maven/" class="list-group-item">使用maven创建和运行Java应用</a>
+      
+      <a href="http://localhost:1313/linux/deepin-linux-experience/" class="list-group-item">DeepinLinux体验报告</a>
+      
+      <a href="http://localhost:1313/java/mvn-tutorial-for-novice/" class="list-group-item">给Java新手看的mvn指南</a>
+      
+      <a href="http://localhost:1313/mac/use-ssh-config-to-tune-your-productivity-up/" class="list-group-item">使用ssh-config提升你的生产力</a>
+      
+      <a href="http://localhost:1313/miscs/talk-about-transgene-foods/" class="list-group-item">谈谈转基因食物</a>
+      
+      <a href="http://localhost:1313/php/understanding-PHP-container/" class="list-group-item">理解PHP的Service Container</a>
+      
+      <a href="http://localhost:1313/git/git-in-practice/" class="list-group-item">多人协作场景下的git</a>
+      
+      <a href="http://localhost:1313/php/internals/create-functions/" class="list-group-item">为PHP添加全局函数</a>
+      
+      <a href="http://localhost:1313/php/internals/create-skeleton-of-extension/" class="list-group-item">PHP扩展实战——扩展的骨架</a>
+      
+    </div>
+  </div>
+
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">category</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/categories/php" class="list-group-item">php</a>
+      
+      <a href="http://localhost:1313/categories/javascript" class="list-group-item">javascript</a>
+      
+      <a href="http://localhost:1313/categories/miscs" class="list-group-item">miscs</a>
+      
+      <a href="http://localhost:1313/categories/mac" class="list-group-item">mac</a>
+      
+      <a href="http://localhost:1313/categories/linux" class="list-group-item">linux</a>
+      
+      <a href="http://localhost:1313/categories/symfony" class="list-group-item">symfony</a>
+      
+      <a href="http://localhost:1313/categories/git" class="list-group-item">git</a>
+      
+      <a href="http://localhost:1313/categories/blog" class="list-group-item">blog</a>
+      
+      <a href="http://localhost:1313/categories/java" class="list-group-item">java</a>
+      
+      <a href="http://localhost:1313/categories/python" class="list-group-item">python</a>
+      
+    </div>
+  </div>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">tag</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/tags/php" class="list-group-item">php</a>
+      
+      <a href="http://localhost:1313/tags/miscs" class="list-group-item">miscs</a>
+      
+      <a href="http://localhost:1313/tags/mac" class="list-group-item">mac</a>
+      
+      <a href="http://localhost:1313/tags/javascript" class="list-group-item">javascript</a>
+      
+      <a href="http://localhost:1313/tags/linux" class="list-group-item">linux</a>
+      
+      <a href="http://localhost:1313/tags/%E6%89%A9%E5%B1%95" class="list-group-item">扩展</a>
+      
+      <a href="http://localhost:1313/tags/git" class="list-group-item">git</a>
+      
+      <a href="http://localhost:1313/tags/java" class="list-group-item">java</a>
+      
+      <a href="http://localhost:1313/tags/bootstrap" class="list-group-item">bootstrap</a>
+      
+      <a href="http://localhost:1313/tags/ios" class="list-group-item">ios</a>
+      
+    </div>
+  </div>
+  
+
+</aside>
+
+
+        </div>
+    </div>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site">
+      <div class="container">
+        <p>(c) 2013-2016 Frost Wong. All rights reserved.</p>
+        <p>Powered by <a href="http://gohugo.io" target="_blank" rel="nofollow">Hugo</a>, Theme <a href="https://github.com/dim0627/hugo_theme_beg" target="_blank" rel="nofollow">beg</a> designed by <a href="http://yet.unresolved.xyz" target="_blank" rel="nofollow">Daisuke Tsuji</a></p>
+      </div>
+    </footer>
+
+    <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+
+  <script data-no-instant>document.write('<script src="/livereload.js?mindelay=10"></' + 'script>')</script></body>
+</html>
+

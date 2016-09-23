@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Vims on Me &amp; Web</title>
+    <link>http://localhost:1313/vim/</link>
+    <description>Recent content in Vims on Me &amp; Web</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>frostwong@gmail.com (Frost Wong)</managingEditor>
+    <webMaster>frostwong@gmail.com (Frost Wong)</webMaster>
+    <copyright>(c) 2013-2016 Frost Wong. All rights reserved.</copyright>
+    <lastBuildDate>Mon, 07 Mar 2016 12:06:45 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/vim/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>用vimdiff作为svn/git的diff工具</title>
+      <link>http://localhost:1313/vim/vimdiff-as-subversion-diff/</link>
+      <pubDate>Mon, 07 Mar 2016 12:06:45 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/vim/vimdiff-as-subversion-diff/</guid>
+      <description>&lt;p&gt;前后两家公司都是用Subversion做版本控制，虽说程序员自己有喜好，但仍然需要遵守公司的规定。我个人是比较偏好直接登录服务器进行开发的，所以得配置好各种好用的命令行工具。比如svn提交之前需要diff一下所做的修改，默认的diff工具简直没用什么卵用。屏幕那么短，上下显示不直观。&lt;/p&gt;
+
+&lt;p&gt;发现gist.github.com一直上不去，干脆就把它集成到我自己维护的&lt;a href=&#34;https://github.com/lovelock/hackvim&#34;&gt;hackvim&lt;/a&gt;里了，这里先加一个svn的配置，稍后回家把git的也加上。&lt;/p&gt;
+
+&lt;p&gt;用法：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;先切换到你想要放hackvim的目录，我喜欢~/Projects&lt;/li&gt;
+&lt;li&gt;git clone &lt;a href=&#34;https://github.com/lovelock/hackvim&#34;&gt;https://github.com/lovelock/hackvim&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;如果你想用我的vim发行版，就看下项目的说明，否则直接拿出来utils/svnvimdiff.sh，放在你希望的位置&lt;/li&gt;
+&lt;li&gt;进入~/.subversion&lt;/li&gt;
+&lt;li&gt;打开config文件，修改&lt;code&gt;diff-cmd = /path/to/svnvimdiff.sh&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;done&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;注意vimdiff.sh文件必须是可执行的。我在提交之前已经加了755，如果出错，请自行检查一下。&lt;/p&gt;
+
+&lt;p&gt;Git默认的也是用系统预装的diff工具，所以还可以给git加个配置&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git config --global diff.tool vimdiff
+git config --global difftool.prompt false
+git config --global alias.d difftool
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;配置完之后，执行&lt;code&gt;git d&lt;/code&gt;就可以呼出&lt;code&gt;vimdiff&lt;/code&gt;了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>vim常用插件收藏及简单说明</title>
+      <link>http://localhost:1313/vim/2015-04-26-vimchang-yong-cha-jian-shou-cang-ji-jian-dan-shuo-ming/</link>
+      <pubDate>Sun, 26 Apr 2015 01:18:12 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/vim/2015-04-26-vimchang-yong-cha-jian-shou-cang-ji-jian-dan-shuo-ming/</guid>
+      <description>&lt;p&gt;使用VIM也有四五年的时间了，期间自己搞过配置也用过不少别人的配置，但总是觉得哪里不对，很多配置我永远都用不到，但它的存在导致了VIM启动缓慢，也有速度很快，声称awesome的配置文件，实际使用起来
+离自己的需求还差的很远，因此我想先在此把自己需要的功能整理规划一下，然后自己搞一套既能适应现在的习惯又能不浪费性能的配置。&lt;/p&gt;
+
+&lt;p&gt;下面是有需要的插件列表：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;插件管理工具 &lt;a href=&#34;https://github.com/gmarik/Vundle.vim&#34;&gt;gmarik/Vundle.vim&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;查找工具&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/scrooloose/nerdtree&#34;&gt;scrooloose/nerdtree&lt;/a&gt; + &lt;a href=&#34;https://github.com/jistr/vim-nerdtree-tabs&#34;&gt;vim-nerdtree-tabs&lt;/a&gt; 像Project一样展示目录树&lt;/li&gt;
+&lt;li&gt;ag 快速搜索目录中的文件&lt;/li&gt;
+&lt;li&gt;ctrlp + ctrlp-funky 搜索文件 + 搜索当前文件中的函数&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/amix/open_file_under_cursor.vim&#34;&gt;open_file_under_cursor&lt;/a&gt; 打开位于光标下方的文件&lt;/li&gt;
+&lt;li&gt;Tagbar 显示tag列表&lt;/li&gt;
+&lt;li&gt;taglist 函数跳转（可以跨文件）&lt;/li&gt;
+&lt;li&gt;vim-multiple-cursors 多光标编辑&lt;/li&gt;
+&lt;li&gt;EasyMotion 快速查找&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;语言相关&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Python klen/php-mode 可认为是个Python IDE，功能强大，以一当十&lt;/li&gt;
+&lt;li&gt;PHP StanAngeloff/php.vim 语法高亮&lt;/li&gt;
+&lt;li&gt;JavaScript
+
+&lt;ul&gt;
+&lt;li&gt;jslint/jshint JS语法检查&lt;/li&gt;
+&lt;li&gt;pangloss/vim-javascript&lt;/li&gt;
+&lt;li&gt;jelera/vim-javascript-syntax&lt;/li&gt;
+&lt;li&gt;vim-coffe-script&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;html
+
+&lt;ul&gt;
+&lt;li&gt;Emmet.vim 神器，不怎么用，但还是留着吧，尝试着用一下&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;css
+
+&lt;ul&gt;
+&lt;li&gt;Better CSS Syntax for Vim&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Markdown
+
+&lt;ul&gt;
+&lt;li&gt;vim-markdown 这个不能没有&lt;/li&gt;
+&lt;li&gt;Markdown syntax&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;JSON
+
+&lt;ul&gt;
+&lt;li&gt;JSON.vim&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;补全工具&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;YouCompleteMe 补全神器，就是编译起来挺麻烦的&lt;/li&gt;
+&lt;li&gt;SuperTab 不用Tab的补全就不是真正的补全&lt;/li&gt;
+&lt;li&gt;ultisnips 代码片段，需要学习&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;语法检查&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;syntastic&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;代码整洁&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;vim-surround 方便的为选中的部分添加成对的符号&lt;/li&gt;
+&lt;li&gt;vim-comentary 方便的注释/取消注释&lt;/li&gt;
+&lt;li&gt;Tabular 符号对齐&lt;/li&gt;
+&lt;li&gt;EasyAlign&lt;/li&gt;
+&lt;li&gt;Indent Guides 代码缩进&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;版本控制&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;fugitive.vim git wrapper&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;系统工具&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;vimproc.vim vim内的交互式shell&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;quickrun 在vim内执行脚本 用的时候一直觉得很不方便，因为执行结果会在一个新的window打开，还要再关闭现在已经配置好了一个快捷键，执行完回车即可关闭结果&lt;/del&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;杂项&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;airline 漂亮的状态栏&lt;/li&gt;
+&lt;li&gt;kien/rainbow_parentheses.vim 给成对的符号显示不同的颜色&lt;/li&gt;
+&lt;li&gt;Gundo 显示历史改动&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;能想到的插件就是这些，除了这些还需要加上一些我个人比较喜欢的定制&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;相对行号，因为之前用NertCommenter，如果要注释掉下面的几行，就直接看左边的行号而不需要再像绝对行号的时候那么数了。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;把&amp;rdquo;;&amp;ldquo;映射给&amp;rdquo;:&amp;ldquo;，因为Normal模式下&amp;rdquo;;&amp;ldquo;很不常用，而&amp;rdquo;:&amp;ldquo;很常用，两个应该换一换。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Leader键用&amp;rdquo;,&amp;ldquo;，不知道当初是哪个配置把我带到这个沟里的，现在适应了就很难改了。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

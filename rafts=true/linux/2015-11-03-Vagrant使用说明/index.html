@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.16" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Open+Sans|Marcellus+SC'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <link rel="stylesheet" href="http://localhost:1313/css/styles.css">
+    <link rel="stylesheet" href="http://localhost:1313/css/custom.css">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://localhost:1313//index.xml">
+
+    
+    <title>Vagrant使用说明 - Me &amp; Web</title>
+    <meta property='og:title' content="Vagrant使用说明 - Me &amp; Web">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://localhost:1313/linux/2015-11-03-Vagrant%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/">
+    
+    
+
+  </head>
+
+  <body>
+
+    <header class="site">
+      <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://localhost:1313/">Me &amp; Web&nbsp;&nbsp;致力于创作可操作性更好的文章</a>
+          </div>
+
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://localhost:1313/">Home</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/about">About</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/categories/">Categories</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/tags/">Tags</a></li>
+              
+              
+            </ul>
+            
+          </div>
+
+        </div>
+      </nav>
+    </header>
+
+    <div class="site">
+      <div class="container">
+
+
+
+<div class="single">
+
+    <div class="row">
+        <div class="col-md-8">
+
+            <article class="single" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+                <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://localhost:1313/"/>
+                <meta itemprop="dateModified" content="2015-11-03T15:43:55&#43;00:00">
+                <meta itemprop="headline" content="Vagrant使用说明">
+                <meta itemprop="description" content="创建自己的box 安装 最小化安装 用户vagrant，密码vagrant 这个安装的时候设置就好了，如果是CentOS会让你选择是否让这个用户做管">
+                <meta itemprop="url" content="http://localhost:1313/linux/2015-11-03-Vagrant%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/">
+                <div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+                    <meta itemprop="url" content="http://localhost:1313/images/default.jpg" />
+                    <meta itemprop="width" content="800">
+                    <meta itemprop="height" content="800">
+                </div>
+                <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+                    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+                        <meta itemprop="url" content="http://localhost:1313/images/logo.jpg">
+                        <meta itemprop="width" content="100">
+                        <meta itemprop="height" content="100">
+                    </div>
+                    <meta itemprop="name" content="Me &amp; Web">
+                </div>
+                <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <meta itemprop="name" content="">
+                </div>
+
+                <header class="article-header">
+                    <time itemprop="datePublished" pubdate="pubdate" datetime="2015-11-03T15:43:55&#43;00:00">Tue, Nov 3, 2015</time>
+                    <h1 class="article-title">Vagrant使用说明</h1>
+                </header>
+
+                <div class="article-body" itemprop="articleBody">
+                    
+
+<h1 id="创建自己的box">创建自己的box</h1>
+
+<h2 id="安装">安装</h2>
+
+<h3 id="最小化安装">最小化安装</h3>
+
+<ol>
+<li>用户vagrant，密码vagrant</li>
+</ol>
+
+<p>这个安装的时候设置就好了，如果是CentOS会让你选择是否让这个用户做管理员，勾选就好了。其他的后面再设置。
+2. 设置.ssh/authorized_keys</p>
+
+<pre><code>mkdir -p $HOME/.ssh
+wget --no-check-certificate https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub -O $HOME/.ssh/authorized_keys
+chmod 0700 $HOME/.ssh
+chmod 0600 $HOME/.ssh/authorized_keys
+chown -R vagrant $HOME/.ssh
+</code></pre>
+
+<blockquote>
+<p>这里原来就是以vagrant@vagrant为例，后来觉得vagrant这个单词不好拼，索性改用户名吧，为了方便不同用户名的读者复制代码，把里面的绝对路径都改成了带环境变量的。改了用户名以后用<code>vagrant ssh</code>就没法直接登录了，需要在Vagrantfile里面指定
+`config.ssh.username = &ldquo;frost&rdquo;</p>
+</blockquote>
+
+<h3 id="更新系统">更新系统</h3>
+
+<p>Debian:
+<code>sudo apt-get update &amp;&amp; sudo apt-get dist-upgrade</code></p>
+
+<p>CentOS:
+<code>sudo yum update</code></p>
+
+<h3 id="安装virtualbox-guest-additions">安装VirtualBox Guest Additions</h3>
+
+<p>设备-&gt;安装VirtualBox Guest Additions，就可以把相应的iso『放在』虚拟机的光驱里。只有安装了这些附加功能才能正常用端口映射和目录同步功能。</p>
+
+<p>Debian</p>
+
+<pre><code>apt-get install build-essential module-assistant
+m-a prepare
+cd /media/cdrom
+sh VBoxLinuxAdditions-x86.run
+</code></pre>
+
+<p>CentOS</p>
+
+<pre><code>sudo yum groupinstall &quot;Development Tools&quot;
+sudo yum install kernel-devel
+sudo mkdir /media/cdrom/
+sudo mount /dev/cdrom /media/cdrom/
+sudo ./VBoxLinuxAdditions.run
+</code></pre>
+
+<h3 id="配置用户权限">配置用户权限</h3>
+
+<ol>
+<li><p>设置vagrant用户的sudo权限
+Debian:
+<code>root@debian:~# gpasswd -a vagrant sudo</code></p></li>
+
+<li><p>设置vagrant用户的sudo权限无需密码</p></li>
+</ol>
+
+<p><code>root@debian:~# visudo</code>
+把下面这行</p>
+
+<pre><code>%sudo	ALL=(ALL:ALL) ALL
+</code></pre>
+
+<p>改成</p>
+
+<pre><code>%sudo	ALL=(ALL:ALL) NOPASSWD:ALL
+</code></pre>
+
+<p>这是Debian的习惯，CentOS系的用的组是wheel，所以也是一样把相应的wheel组的设置改一下。</p>
+
+<h3 id="其他">其他</h3>
+
+<p>如果还要安装其他的包，这时候可以开始了，当然也可以之后用vagrant登陆再安装。</p>
+
+<h2 id="打包">打包</h2>
+
+<p><code>vagrant package --base Debian --output Debian.box</code></p>
+
+<h2 id="添加">添加</h2>
+
+<p><code>vagrant box add --name Debian Debian.box</code></p>
+
+<h1 id="设置自己的box">设置自己的box</h1>
+
+<h2 id="生成配置">生成配置</h2>
+
+<p>到你喜欢的目录执行<code>vagrant init</code>，会生成一个Vagrantfile的文件，按下面的说明做一些修改。</p>
+
+<h2 id="基本配置">基本配置</h2>
+
+<pre><code>config.ssh.insert_key = false
+config.vm.box = &quot;Debian&quot;
+</code></pre>
+
+<h2 id="同步目录">同步目录</h2>
+
+<p><code>config.vm.synced_folder &quot;./Code&quot;, &quot;/home/vagrant/Code&quot;</code></p>
+
+<h2 id="端口映射">端口映射</h2>
+
+<p>这里只添加一条HTTP用的80端口，需要其他的可以再添加。
+<code>config.vm.network &quot;forwarded_port&quot;, guest: 80, host: 8000</code></p>
+
+<h1 id="使用自己的box">使用自己的box</h1>
+
+<h2 id="开机">开机</h2>
+
+<p>正常开机<code>vagrant up</code></p>
+
+<h2 id="关机">关机</h2>
+
+<p>优雅的关机<code>vagrant halt</code></p>
+
+<h2 id="登陆">登陆</h2>
+
+<p><code>vagrant ssh</code>因为前面已经设置了免密码登陆，所以这时候就可以很任性的随意登陆了。</p>
+
+<h1 id="后记">后记</h1>
+
+<p>所以现在我们安装完一个完整的方便分发的开发环境了，然而有什么用呢？</p>
+
+<p>想象一下这样的场景，你有一台配置还可以的Windows电脑，然后你需要Linux下的开发环境。这时问题来了，如果你装个虚拟机，在虚拟机里开发，那你就和你喜欢的IDE无缘了—-这么说有点绝对，你还是可以用sftp之类的协议实现文件同步的，但明显没有我们现在这种方式优雅。</p>
+
+<p>设置一个同步目录，你在本地任性的用你喜欢的任何IDE写代码，写完之后访问127.0.0.1:8080就可以访问，这是一种什么样的体验啊？（当然，如果你有多个域名要用，还是配个本地域名比较好）</p>
+
+<p>还有，你说我是Mac，什么服务器，开发语言都可以安装在本地，和Linux也没有什么差别。这个问题我也考虑过，但我个人的爱好是把他们隔离开。你的Mac上安装个Apache了，Nginx了总感觉怪怪的，而且搞不好这些东西哪里配置不好你的宿主机都无法工作了。所以，用虚拟机是成本最低的一种方式了。</p>
+
+<p>我上面总结的这些仅限于<strong>个人</strong>使用，团队用的话还需要更多的配置，例如前面使用了insecure key，这就是不适合团队用的——但我还没有见过有团队用这个东西，至于puppet/chef更是没见过了。需要用到的时候再了解也不晚。</p>
+
+                </div>
+
+
+                <aside>
+                    <div class="section"><a href="http://localhost:1313/tags/linux/" class="tag">Linux</a> </div>
+
+                    <div class="section share">
+                        <a href="http://v.t.sina.com.cn/share/share.php?src=bm&url=http%3a%2f%2flocalhost%3a1313%2flinux%2f2015-11-03-Vagrant%25E4%25BD%25BF%25E7%2594%25A8%25E8%25AF%25B4%25E6%2598%258E%2f&title=Vagrant%e4%bd%bf%e7%94%a8%e8%af%b4%e6%98%8e" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-weibo"></i></a>
+                    </div>
+
+                    
+                    <div class="section">
+                        
+                        <div class="ds-thread" data-thread-key="" data-title="Vagrant使用说明" data-url="http://localhost:1313/linux/2015-11-03-Vagrant%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/"></div>
+                        
+
+                        
+                        <script type="text/javascript">
+                            var duoshuoQuery = {short_name:"UnixAgain"};
+                        (function() {
+                            var ds = document.createElement('script');
+                            ds.type = 'text/javascript';ds.async = true;
+                            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                            ds.charset = 'UTF-8';
+                            (document.getElementsByTagName('head')[0]
+                             || document.getElementsByTagName('body')[0]).appendChild(ds);
+                        })();
+                        </script>
+                    </div>
+                    
+                    
+                </aside>
+
+            </article>
+
+        </div>
+        <div class="col-md-4">
+            
+<aside class="site">
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">LatestPosts</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/java/use-slf4j-and-log4j-to-log-your-applications/" class="list-group-item">slf4j配合log4j来给你的应用打log</a>
+      
+      <a href="http://localhost:1313/java/create-and-run-java-application-with-maven/" class="list-group-item">使用maven创建和运行Java应用</a>
+      
+      <a href="http://localhost:1313/linux/deepin-linux-experience/" class="list-group-item">DeepinLinux体验报告</a>
+      
+      <a href="http://localhost:1313/java/mvn-tutorial-for-novice/" class="list-group-item">给Java新手看的mvn指南</a>
+      
+      <a href="http://localhost:1313/mac/use-ssh-config-to-tune-your-productivity-up/" class="list-group-item">使用ssh-config提升你的生产力</a>
+      
+      <a href="http://localhost:1313/miscs/talk-about-transgene-foods/" class="list-group-item">谈谈转基因食物</a>
+      
+      <a href="http://localhost:1313/php/understanding-PHP-container/" class="list-group-item">理解PHP的Service Container</a>
+      
+      <a href="http://localhost:1313/git/git-in-practice/" class="list-group-item">多人协作场景下的git</a>
+      
+      <a href="http://localhost:1313/php/internals/create-functions/" class="list-group-item">为PHP添加全局函数</a>
+      
+      <a href="http://localhost:1313/php/internals/create-skeleton-of-extension/" class="list-group-item">PHP扩展实战——扩展的骨架</a>
+      
+    </div>
+  </div>
+
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">category</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/categories/php" class="list-group-item">php</a>
+      
+      <a href="http://localhost:1313/categories/javascript" class="list-group-item">javascript</a>
+      
+      <a href="http://localhost:1313/categories/miscs" class="list-group-item">miscs</a>
+      
+      <a href="http://localhost:1313/categories/mac" class="list-group-item">mac</a>
+      
+      <a href="http://localhost:1313/categories/linux" class="list-group-item">linux</a>
+      
+      <a href="http://localhost:1313/categories/symfony" class="list-group-item">symfony</a>
+      
+      <a href="http://localhost:1313/categories/git" class="list-group-item">git</a>
+      
+      <a href="http://localhost:1313/categories/blog" class="list-group-item">blog</a>
+      
+      <a href="http://localhost:1313/categories/java" class="list-group-item">java</a>
+      
+      <a href="http://localhost:1313/categories/python" class="list-group-item">python</a>
+      
+    </div>
+  </div>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">tag</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/tags/php" class="list-group-item">php</a>
+      
+      <a href="http://localhost:1313/tags/miscs" class="list-group-item">miscs</a>
+      
+      <a href="http://localhost:1313/tags/mac" class="list-group-item">mac</a>
+      
+      <a href="http://localhost:1313/tags/javascript" class="list-group-item">javascript</a>
+      
+      <a href="http://localhost:1313/tags/linux" class="list-group-item">linux</a>
+      
+      <a href="http://localhost:1313/tags/%E6%89%A9%E5%B1%95" class="list-group-item">扩展</a>
+      
+      <a href="http://localhost:1313/tags/git" class="list-group-item">git</a>
+      
+      <a href="http://localhost:1313/tags/java" class="list-group-item">java</a>
+      
+      <a href="http://localhost:1313/tags/bootstrap" class="list-group-item">bootstrap</a>
+      
+      <a href="http://localhost:1313/tags/ios" class="list-group-item">ios</a>
+      
+    </div>
+  </div>
+  
+
+</aside>
+
+
+        </div>
+    </div>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site">
+      <div class="container">
+        <p>(c) 2013-2016 Frost Wong. All rights reserved.</p>
+        <p>Powered by <a href="http://gohugo.io" target="_blank" rel="nofollow">Hugo</a>, Theme <a href="https://github.com/dim0627/hugo_theme_beg" target="_blank" rel="nofollow">beg</a> designed by <a href="http://yet.unresolved.xyz" target="_blank" rel="nofollow">Daisuke Tsuji</a></p>
+      </div>
+    </footer>
+
+    <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+
+  <script data-no-instant>document.write('<script src="/livereload.js?mindelay=10"></' + 'script>')</script></body>
+</html>
+

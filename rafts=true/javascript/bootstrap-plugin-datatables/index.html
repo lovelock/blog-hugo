@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.16" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Open+Sans|Marcellus+SC'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <link rel="stylesheet" href="http://localhost:1313/css/styles.css">
+    <link rel="stylesheet" href="http://localhost:1313/css/custom.css">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://localhost:1313//index.xml">
+
+    
+    <title>Bootstrap插件DataTables实现服务器端分页 - Me &amp; Web</title>
+    <meta property='og:title' content="Bootstrap插件DataTables实现服务器端分页 - Me &amp; Web">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://localhost:1313/javascript/bootstrap-plugin-datatables/">
+    <meta name="description" content="教你如何使用Bootstrap插件DataTables">
+    
+
+  </head>
+
+  <body>
+
+    <header class="site">
+      <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://localhost:1313/">Me &amp; Web&nbsp;&nbsp;致力于创作可操作性更好的文章</a>
+          </div>
+
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://localhost:1313/">Home</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/about">About</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/categories/">Categories</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/tags/">Tags</a></li>
+              
+              
+            </ul>
+            
+          </div>
+
+        </div>
+      </nav>
+    </header>
+
+    <div class="site">
+      <div class="container">
+
+
+
+<div class="single">
+
+    <div class="row">
+        <div class="col-md-8">
+
+            <article class="single" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+                <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://localhost:1313/"/>
+                <meta itemprop="dateModified" content="2016-02-28T21:40:04&#43;08:00">
+                <meta itemprop="headline" content="Bootstrap插件DataTables实现服务器端分页">
+                <meta itemprop="description" content="我们知道，PHP和MySQL实现分页的基本思路是limit，页面上有个page(第几页）和count(每次取出几个），PHP把它传递给后端M">
+                <meta itemprop="url" content="http://localhost:1313/javascript/bootstrap-plugin-datatables/">
+                <div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+                    <meta itemprop="url" content="http://localhost:1313/images/default.jpg" />
+                    <meta itemprop="width" content="800">
+                    <meta itemprop="height" content="800">
+                </div>
+                <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+                    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+                        <meta itemprop="url" content="http://localhost:1313/images/logo.jpg">
+                        <meta itemprop="width" content="100">
+                        <meta itemprop="height" content="100">
+                    </div>
+                    <meta itemprop="name" content="Me &amp; Web">
+                </div>
+                <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <meta itemprop="name" content="">
+                </div>
+
+                <header class="article-header">
+                    <time itemprop="datePublished" pubdate="pubdate" datetime="2016-02-28T21:40:04&#43;08:00">Sun, Feb 28, 2016</time>
+                    <h1 class="article-title">Bootstrap插件DataTables实现服务器端分页</h1>
+                </header>
+
+                <div class="article-body" itemprop="articleBody">
+                    
+
+<p>我们知道，PHP和MySQL实现分页的基本思路是limit，页面上有个page(第几页）和count(每次取出几个），PHP把它传递给后端MySQL，查询时在条件查询的基础上加上<code>limit {($page - 1) * $count, $count}</code>。</p>
+
+<p>但是，自己实现PHP分页也是有不少繁琐的问题需要解决的，比如分页要最多显示几个，两头如何处理，样式设计等等，既然有了Bootstrap这个大框架，各种解决方案就层出不穷了。</p>
+
+<p>废话不多说，今天要讲一下用Bootstrap的插件DataTables做一个带分页的表格。</p>
+
+<p>DataTables官方文档给的例子是一次把数据取出，然后在前端做分页处理。这样的好处是减少了每次查询都要请求网络，坏处则是如果数据太多，前端肯定就扛不住了。文档也说了，如果数据量在10000以内，可以在前端做分页，100000以上就在服务端做，中间的量就衡量自己的数据和服务器的处理能力做决定了。</p>
+
+<p>本文的基础是PHP内置Web Server和Bootstrap的模板SB-Admin2。</p>
+
+<h2 id="前端处理分页">前端处理分页</h2>
+
+<p>最直观的方法就是把所有的数据自己组织好，用foreach组织<code>&lt;tr&gt;&lt;td&gt;</code>，再加上一个</p>
+
+<pre><code class="language-javascript">$(document).ready(function () {
+    $('#datatable-example').DataTable({
+        responsive: true
+    });
+});
+</code></pre>
+
+<p>这样，插件就会帮你把你想要的效果展示出来了，再加上实时搜索，效果简直不能更赞。</p>
+
+<p>但这在实际应用中用的应该还是比较少，毕竟稍微上点规模的公司需要处理的内容就不止10000那么少了。</p>
+
+<h2 id="后端处理分页">后端处理分页</h2>
+
+<p>先要理解几个概念。</p>
+
+<ol>
+<li>draw 请求的当前次数</li>
+<li>start 返回结果的开始位置</li>
+<li>length 返回结果的长度</li>
+</ol>
+
+<p>我这里为了简单起见，把数组当做数据源了，根据传入的参数不同，返回数组的不同部分。</p>
+
+<p>一般来说，返回的数据里需要这些字段</p>
+
+<pre><code class="language-json">{
+  &quot;draw&quot;: 1,
+  &quot;recordsTotal&quot;: 57,
+  &quot;recordsFiltered&quot;: 57,
+  &quot;data&quot;: [
+    [
+      &quot;Airi&quot;,
+      &quot;Satou&quot;,
+      &quot;Accountant&quot;,
+      &quot;Tokyo&quot;,
+      &quot;28th Nov 08&quot;,
+      &quot;$162,700&quot;
+    ],
+    ...
+}
+</code></pre>
+
+<p>在页面上需要有</p>
+
+<pre><code class="language-html">&lt;table class=&quot;table table-striped table-bordered table-hover&quot; id=&quot;datatable-example&quot;&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Column1&lt;/th&gt;
+            &lt;th&gt;Column2&lt;/th&gt;
+            &lt;th&gt;Column3&lt;/th&gt;
+            &lt;th&gt;Column4&lt;/th&gt;
+            &lt;th&gt;Column5&lt;/th&gt;
+            &lt;th&gt;Column6&lt;/th&gt;
+        &lt;tr&gt;
+    &lt;/thead&gt;
+&lt;/table&gt;
+</code></pre>
+
+<p>然后把</p>
+
+<pre><code class="language-javascript">$(document).ready(function () {
+    $('#datatable-example').DataTable({
+        responsive: true
+    });
+});
+</code></pre>
+
+<p>替换成</p>
+
+<pre><code class="language-javascript">$(document).ready(function () {
+    $('#datatable-example').DataTable({
+        responsive: true,
+        serverSide: true,
+        processing: true,
+        ajax: &quot;ajax.php&quot;
+    });
+});
+</code></pre>
+
+<p>其中，serverSide选项表示使用服务端分页，processing表示加载表格的时候会在表格上覆盖一个『加载中』的类似弹层，而ajax就是数据的来源了。具体代码见。。</p>
+
+<p>那你可能要说了，我的数据返回的可是正宗的HashTable，我指明是HashTable是因为PHP中数组也是HashTable，指的是Python里的字典。该怎么办呢？</p>
+
+<p>相应的，如果返回的每列数据是这样的(其实这才是从数据库中取出来的样子)</p>
+
+<pre><code class="language-json">{
+      &quot;first_name&quot;: &quot;Jennifer&quot;,
+      &quot;last_name&quot;: &quot;Chang&quot;,
+      &quot;position&quot;: &quot;Regional Director&quot;,
+      &quot;office&quot;: &quot;Singapore&quot;,
+      &quot;start_date&quot;: &quot;14th Nov 10&quot;,
+      &quot;salary&quot;: &quot;$357,650&quot;
+}
+</code></pre>
+
+<p>那只需要把</p>
+
+<pre><code class="language-javascript">$(document).ready(function () {
+    $('#datatable-example').DataTable({
+        responsive: true,
+        serverSide: true,
+        processing: true,
+        ajax: &quot;ajax.php&quot;
+    });
+});
+</code></pre>
+
+<p>替换成</p>
+
+<pre><code class="language-javascript">$(document).ready(function () {
+    $('#datatable-example').DataTable({
+        responsive: true,
+        serverSide: true,
+        processing: true,
+        ajax: &quot;ajax.php&quot;,
+        columns: [
+            { &quot;data&quot;: &quot;first_name&quot; },
+            { &quot;data&quot;: &quot;last_name&quot; },
+            { &quot;data&quot;: &quot;position&quot; },
+            { &quot;data&quot;: &quot;office&quot; },
+            { &quot;data&quot;: &quot;start_date&quot; },
+            { &quot;data&quot;: &quot;salary&quot; }
+        ]
+    });
+});
+</code></pre>
+
+<p>就可以了。</p>
+
+<p>这是数据库的最简单的情况，那如果我用了ORM，取出来的就是对象了，这就免不了『嵌套对象』了。不管是Python的数组（PHP中key是数组的）还是字典（PHP中key是字符串的），都是一样的处理方式，都是最直观的表示法，把</p>
+
+<pre><code class="language-javascript">$(document).ready(function () {
+    $('#datatable-example').DataTable({
+        responsive: true,
+        serverSide: true,
+        processing: true,
+        ajax: &quot;ajax.php&quot;,
+        columns: [
+            { &quot;data&quot;: &quot;first_name&quot; },
+            { &quot;data&quot;: &quot;last_name&quot; },
+            { &quot;data&quot;: &quot;position&quot; },
+            { &quot;data&quot;: &quot;office&quot; },
+            { &quot;data&quot;: &quot;start_date&quot; },
+            { &quot;data&quot;: &quot;salary&quot; }
+        ]
+    });
+});
+</code></pre>
+
+<p>替换成</p>
+
+<pre><code class="language-javascript">$(document).ready(function () {
+    $('#datatable-example').DataTable({
+        responsive: true,
+        serverSide: true,
+        processing: true,
+        ajax: &quot;ajax.php&quot;,
+        columns: [
+            { &quot;data&quot;: &quot;first_name&quot; },
+            { &quot;data&quot;: &quot;last_name.other&quot; },
+            { &quot;data&quot;: &quot;position.2&quot; },
+            { &quot;data&quot;: &quot;office&quot; },
+            { &quot;data&quot;: &quot;start_date&quot; },
+            { &quot;data&quot;: &quot;salary&quot; }
+        ]
+    });
+});
+</code></pre>
+
+<p>即可。</p>
+
+                </div>
+
+
+                <aside>
+                    <div class="section"><a href="http://localhost:1313/tags/bootstrap/" class="tag">Bootstrap</a> <a href="http://localhost:1313/tags/datatables/" class="tag">DataTables</a> </div>
+
+                    <div class="section share">
+                        <a href="http://v.t.sina.com.cn/share/share.php?src=bm&url=http%3a%2f%2flocalhost%3a1313%2fjavascript%2fbootstrap-plugin-datatables%2f&title=Bootstrap%e6%8f%92%e4%bb%b6DataTables%e5%ae%9e%e7%8e%b0%e6%9c%8d%e5%8a%a1%e5%99%a8%e7%ab%af%e5%88%86%e9%a1%b5" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-weibo"></i></a>
+                    </div>
+
+                    
+                    <div class="section">
+                        
+                        <div class="ds-thread" data-thread-key="" data-title="Bootstrap插件DataTables实现服务器端分页" data-url="http://localhost:1313/javascript/bootstrap-plugin-datatables/"></div>
+                        
+
+                        
+                        <script type="text/javascript">
+                            var duoshuoQuery = {short_name:"UnixAgain"};
+                        (function() {
+                            var ds = document.createElement('script');
+                            ds.type = 'text/javascript';ds.async = true;
+                            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                            ds.charset = 'UTF-8';
+                            (document.getElementsByTagName('head')[0]
+                             || document.getElementsByTagName('body')[0]).appendChild(ds);
+                        })();
+                        </script>
+                    </div>
+                    
+                    
+                </aside>
+
+            </article>
+
+        </div>
+        <div class="col-md-4">
+            
+<aside class="site">
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">LatestPosts</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/java/use-slf4j-and-log4j-to-log-your-applications/" class="list-group-item">slf4j配合log4j来给你的应用打log</a>
+      
+      <a href="http://localhost:1313/java/create-and-run-java-application-with-maven/" class="list-group-item">使用maven创建和运行Java应用</a>
+      
+      <a href="http://localhost:1313/linux/deepin-linux-experience/" class="list-group-item">DeepinLinux体验报告</a>
+      
+      <a href="http://localhost:1313/java/mvn-tutorial-for-novice/" class="list-group-item">给Java新手看的mvn指南</a>
+      
+      <a href="http://localhost:1313/mac/use-ssh-config-to-tune-your-productivity-up/" class="list-group-item">使用ssh-config提升你的生产力</a>
+      
+      <a href="http://localhost:1313/miscs/talk-about-transgene-foods/" class="list-group-item">谈谈转基因食物</a>
+      
+      <a href="http://localhost:1313/php/understanding-PHP-container/" class="list-group-item">理解PHP的Service Container</a>
+      
+      <a href="http://localhost:1313/git/git-in-practice/" class="list-group-item">多人协作场景下的git</a>
+      
+      <a href="http://localhost:1313/php/internals/create-functions/" class="list-group-item">为PHP添加全局函数</a>
+      
+      <a href="http://localhost:1313/php/internals/create-skeleton-of-extension/" class="list-group-item">PHP扩展实战——扩展的骨架</a>
+      
+    </div>
+  </div>
+
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">category</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/categories/php" class="list-group-item">php</a>
+      
+      <a href="http://localhost:1313/categories/javascript" class="list-group-item">javascript</a>
+      
+      <a href="http://localhost:1313/categories/miscs" class="list-group-item">miscs</a>
+      
+      <a href="http://localhost:1313/categories/mac" class="list-group-item">mac</a>
+      
+      <a href="http://localhost:1313/categories/linux" class="list-group-item">linux</a>
+      
+      <a href="http://localhost:1313/categories/symfony" class="list-group-item">symfony</a>
+      
+      <a href="http://localhost:1313/categories/git" class="list-group-item">git</a>
+      
+      <a href="http://localhost:1313/categories/blog" class="list-group-item">blog</a>
+      
+      <a href="http://localhost:1313/categories/java" class="list-group-item">java</a>
+      
+      <a href="http://localhost:1313/categories/python" class="list-group-item">python</a>
+      
+    </div>
+  </div>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">tag</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/tags/php" class="list-group-item">php</a>
+      
+      <a href="http://localhost:1313/tags/miscs" class="list-group-item">miscs</a>
+      
+      <a href="http://localhost:1313/tags/mac" class="list-group-item">mac</a>
+      
+      <a href="http://localhost:1313/tags/javascript" class="list-group-item">javascript</a>
+      
+      <a href="http://localhost:1313/tags/linux" class="list-group-item">linux</a>
+      
+      <a href="http://localhost:1313/tags/%E6%89%A9%E5%B1%95" class="list-group-item">扩展</a>
+      
+      <a href="http://localhost:1313/tags/git" class="list-group-item">git</a>
+      
+      <a href="http://localhost:1313/tags/java" class="list-group-item">java</a>
+      
+      <a href="http://localhost:1313/tags/bootstrap" class="list-group-item">bootstrap</a>
+      
+      <a href="http://localhost:1313/tags/ios" class="list-group-item">ios</a>
+      
+    </div>
+  </div>
+  
+
+</aside>
+
+
+        </div>
+    </div>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site">
+      <div class="container">
+        <p>(c) 2013-2016 Frost Wong. All rights reserved.</p>
+        <p>Powered by <a href="http://gohugo.io" target="_blank" rel="nofollow">Hugo</a>, Theme <a href="https://github.com/dim0627/hugo_theme_beg" target="_blank" rel="nofollow">beg</a> designed by <a href="http://yet.unresolved.xyz" target="_blank" rel="nofollow">Daisuke Tsuji</a></p>
+      </div>
+    </footer>
+
+    <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+
+  <script data-no-instant>document.write('<script src="/livereload.js?mindelay=10"></' + 'script>')</script></body>
+</html>
+

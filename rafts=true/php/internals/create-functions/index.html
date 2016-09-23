@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.16" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Open+Sans|Marcellus+SC'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <link rel="stylesheet" href="http://localhost:1313/css/styles.css">
+    <link rel="stylesheet" href="http://localhost:1313/css/custom.css">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://localhost:1313//index.xml">
+
+    
+    <title>为PHP添加全局函数 - Me &amp; Web</title>
+    <meta property='og:title' content="为PHP添加全局函数 - Me &amp; Web">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://localhost:1313/php/internals/create-functions/">
+    <meta name="description" content="PHP扩展实战">
+    
+
+  </head>
+
+  <body>
+
+    <header class="site">
+      <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://localhost:1313/">Me &amp; Web&nbsp;&nbsp;致力于创作可操作性更好的文章</a>
+          </div>
+
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://localhost:1313/">Home</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/about">About</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/categories/">Categories</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/tags/">Tags</a></li>
+              
+              
+            </ul>
+            
+          </div>
+
+        </div>
+      </nav>
+    </header>
+
+    <div class="site">
+      <div class="container">
+
+
+
+<div class="single">
+
+    <div class="row">
+        <div class="col-md-8">
+
+            <article class="single" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+                <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://localhost:1313/"/>
+                <meta itemprop="dateModified" content="2016-04-14T22:12:56&#43;08:00">
+                <meta itemprop="headline" content="为PHP添加全局函数">
+                <meta itemprop="description" content="这几天一直没有抽出空来写，都快忘了。 下面开始写第一个函数。注意这里我说函数而不是方法，是有意要和类的方法做区分。因为这里的函数是全局的。 不能">
+                <meta itemprop="url" content="http://localhost:1313/php/internals/create-functions/">
+                <div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+                    <meta itemprop="url" content="http://localhost:1313/images/default.jpg" />
+                    <meta itemprop="width" content="800">
+                    <meta itemprop="height" content="800">
+                </div>
+                <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+                    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+                        <meta itemprop="url" content="http://localhost:1313/images/logo.jpg">
+                        <meta itemprop="width" content="100">
+                        <meta itemprop="height" content="100">
+                    </div>
+                    <meta itemprop="name" content="Me &amp; Web">
+                </div>
+                <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <meta itemprop="name" content="">
+                </div>
+
+                <header class="article-header">
+                    <time itemprop="datePublished" pubdate="pubdate" datetime="2016-04-14T22:12:56&#43;08:00">Thu, Apr 14, 2016</time>
+                    <h1 class="article-title">为PHP添加全局函数</h1>
+                </header>
+
+                <div class="article-body" itemprop="articleBody">
+                    
+
+<p>这几天一直没有抽出空来写，都快忘了。</p>
+
+<p>下面开始写第一个函数。注意这里我说<strong>函数</strong>而不是<strong>方法</strong>，是有意要和<strong>类的方法</strong>做区分。因为这里的<strong>函数</strong>是全局的。</p>
+
+<p>不能忘了咱们的功能设计，这里我需要一个这样的名叫<code>format_log</code>函数：</p>
+
+<ol>
+<li>接收一个字符串，用<code>sprintf</code>格式化以后传递给<code>str</code></li>
+<li>接收若干个字符串</li>
+</ol>
+
+<p>首先要思考几个问题：</p>
+
+<ol>
+<li>怎么在PHP的命名空间中注册这个函数？</li>
+<li>怎么接收参数？</li>
+</ol>
+
+<h2 id="在php命名空间中注册一个函数">在PHP命名空间中注册一个函数</h2>
+
+<p>找到这里</p>
+
+<pre><code class="language-c">/* {{{ hylog_functions[]
+ *
+ * Every user visible function must have an entry in hylog_functions[].
+ */
+const zend_function_entry hylog_functions[] = {
+    PHP_FE(confirm_hylog_compiled,  NULL)       /* For testing, remove later. */
+    PHP_FE_END  /* Must be the last line in hylog_functions[] */
+};
+/* }}} */
+</code></pre>
+
+<p>注意注释，“所有用户可见的函数都需要在<code>hylog_functions[]</code>中有一个入口”。所以，我在里面添加一行，变成这样</p>
+
+<pre><code class="language-c">/* {{{ hylog_functions[]
+ *
+ * Every user visible function must have an entry in hylog_functions[].
+ */
+const zend_function_entry hylog_functions[] = {
+    PHP_FE(confirm_hylog_compiled,  NULL)       /* For testing, remove later. */
+    PHP_FE(format_log, NULL)
+    PHP_FE_END  /* Must be the last line in hylog_functions[] */
+};
+/* }}} */
+</code></pre>
+
+<p>先不用管第二个参数<code>NULL</code>，现在只需要知道它和目标函数要接收的参数有关即可，后面会详细讲述。现在函数<code>format_log</code>已经注册进了PHP了，但入口又在哪里呢？顺着<code>hylog_functions</code>找，</p>
+
+<pre><code class="language-c">/* {{{ hylog_module_entry
+ */
+zend_module_entry hylog_module_entry = {
+	STANDARD_MODULE_HEADER,
+	&quot;hylog&quot;,
+	hylog_functions,
+	PHP_MINIT(hylog),
+	PHP_MSHUTDOWN(hylog),
+	PHP_RINIT(hylog),		/* Replace with NULL if there's nothing to do at request start */
+	PHP_RSHUTDOWN(hylog),	/* Replace with NULL if there's nothing to do at request end */
+	PHP_MINFO(hylog),
+	PHP_HYLOG_VERSION,
+	STANDARD_MODULE_PROPERTIES
+};
+/* }}} */
+</code></pre>
+
+<p>看到花括号中的第三个变量。刚才我们说了，所有用户可见的函数需要写在<code>hylog_functions</code>里，现在又把它打包传给<code>zend_module_entry</code>类型的变量了。至于后面的几个宏，其中<code>PHP_MINIT</code>和<code>PHP_MSHUTDOWN</code>是一对，表示<strong>模块</strong>的启动和关闭，所谓模块，其实就是扩展了；<code>PHP_RINIT</code>和<code>PHP_RSHUTDOWN</code>是一对，表示<strong>请求</strong>的开始和关闭；<code>PHP_MINFO</code>用来控制<code>phpinfo()</code>或<code>php -i</code>的输出中关于本扩展的信息；<code>PHP_HYLOG_VERSION</code>就是本扩展的版本号了。这些后面会详述(TODO)。至于<code>STANDARD_MODULE_PROPERTIES</code>，就是一个内置了宏了，暂时也不用管它。(TODO问问鸟哥）</p>
+
+<p>那最关键的一步还没做呢，实现该方法。</p>
+
+<p>PHP为我们提供了一个宏来定义函数，<code>ZEND_FUNCTION</code>或<code>PHP_FUNCTION</code>，它两个本质上是一样的，不过既然到现在生成的骨架里面还在用<code>PHP_FUNCTION</code>，那我们姑且就保持一致吧。</p>
+
+<pre><code class="language-c">PHP_FUNCTION(format_log)
+{
+	char str[] = &quot;hylog&quot;;
+	
+	php_printf(&quot;Hello, %s\n&quot;, str);
+}
+</code></pre>
+
+<p>把它写在和<code>confirm_hylog_compiled</code>相同的那块区域。现在执行<code>rebuild.sh</code>，然后<code>php -r 'format_log();</code>应该就能看到<code>Hello, extenstion</code>了。</p>
+
+<p>等等，我们说好的是要接收输入参数的，怎么现在又是一个没有参数的函数？没关系，刚才只是为了验证一下方法是否走的通，现在我们来考虑接收参数。</p>
+
+<h2 id="接收参数的函数">接收参数的函数</h2>
+
+                </div>
+
+
+                <aside>
+                    <div class="section"><a href="http://localhost:1313/tags/php/" class="tag">PHP</a> <a href="http://localhost:1313/tags/%E6%89%A9%E5%B1%95/" class="tag">扩展</a> </div>
+
+                    <div class="section share">
+                        <a href="http://v.t.sina.com.cn/share/share.php?src=bm&url=http%3a%2f%2flocalhost%3a1313%2fphp%2finternals%2fcreate-functions%2f&title=%e4%b8%baPHP%e6%b7%bb%e5%8a%a0%e5%85%a8%e5%b1%80%e5%87%bd%e6%95%b0" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-weibo"></i></a>
+                    </div>
+
+                    
+                    <div class="section">
+                        
+                        <div class="ds-thread" data-thread-key="" data-title="为PHP添加全局函数" data-url="http://localhost:1313/php/internals/create-functions/"></div>
+                        
+
+                        
+                        <script type="text/javascript">
+                            var duoshuoQuery = {short_name:"UnixAgain"};
+                        (function() {
+                            var ds = document.createElement('script');
+                            ds.type = 'text/javascript';ds.async = true;
+                            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                            ds.charset = 'UTF-8';
+                            (document.getElementsByTagName('head')[0]
+                             || document.getElementsByTagName('body')[0]).appendChild(ds);
+                        })();
+                        </script>
+                    </div>
+                    
+                    
+                </aside>
+
+            </article>
+
+        </div>
+        <div class="col-md-4">
+            
+<aside class="site">
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">LatestPosts</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/java/use-slf4j-and-log4j-to-log-your-applications/" class="list-group-item">slf4j配合log4j来给你的应用打log</a>
+      
+      <a href="http://localhost:1313/java/create-and-run-java-application-with-maven/" class="list-group-item">使用maven创建和运行Java应用</a>
+      
+      <a href="http://localhost:1313/linux/deepin-linux-experience/" class="list-group-item">DeepinLinux体验报告</a>
+      
+      <a href="http://localhost:1313/java/mvn-tutorial-for-novice/" class="list-group-item">给Java新手看的mvn指南</a>
+      
+      <a href="http://localhost:1313/mac/use-ssh-config-to-tune-your-productivity-up/" class="list-group-item">使用ssh-config提升你的生产力</a>
+      
+      <a href="http://localhost:1313/miscs/talk-about-transgene-foods/" class="list-group-item">谈谈转基因食物</a>
+      
+      <a href="http://localhost:1313/php/understanding-PHP-container/" class="list-group-item">理解PHP的Service Container</a>
+      
+      <a href="http://localhost:1313/git/git-in-practice/" class="list-group-item">多人协作场景下的git</a>
+      
+      <a href="http://localhost:1313/php/internals/create-functions/" class="list-group-item">为PHP添加全局函数</a>
+      
+      <a href="http://localhost:1313/php/internals/create-skeleton-of-extension/" class="list-group-item">PHP扩展实战——扩展的骨架</a>
+      
+    </div>
+  </div>
+
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">category</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/categories/php" class="list-group-item">php</a>
+      
+      <a href="http://localhost:1313/categories/javascript" class="list-group-item">javascript</a>
+      
+      <a href="http://localhost:1313/categories/miscs" class="list-group-item">miscs</a>
+      
+      <a href="http://localhost:1313/categories/mac" class="list-group-item">mac</a>
+      
+      <a href="http://localhost:1313/categories/linux" class="list-group-item">linux</a>
+      
+      <a href="http://localhost:1313/categories/symfony" class="list-group-item">symfony</a>
+      
+      <a href="http://localhost:1313/categories/git" class="list-group-item">git</a>
+      
+      <a href="http://localhost:1313/categories/blog" class="list-group-item">blog</a>
+      
+      <a href="http://localhost:1313/categories/java" class="list-group-item">java</a>
+      
+      <a href="http://localhost:1313/categories/python" class="list-group-item">python</a>
+      
+    </div>
+  </div>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">tag</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/tags/php" class="list-group-item">php</a>
+      
+      <a href="http://localhost:1313/tags/miscs" class="list-group-item">miscs</a>
+      
+      <a href="http://localhost:1313/tags/mac" class="list-group-item">mac</a>
+      
+      <a href="http://localhost:1313/tags/javascript" class="list-group-item">javascript</a>
+      
+      <a href="http://localhost:1313/tags/linux" class="list-group-item">linux</a>
+      
+      <a href="http://localhost:1313/tags/%E6%89%A9%E5%B1%95" class="list-group-item">扩展</a>
+      
+      <a href="http://localhost:1313/tags/git" class="list-group-item">git</a>
+      
+      <a href="http://localhost:1313/tags/java" class="list-group-item">java</a>
+      
+      <a href="http://localhost:1313/tags/bootstrap" class="list-group-item">bootstrap</a>
+      
+      <a href="http://localhost:1313/tags/ios" class="list-group-item">ios</a>
+      
+    </div>
+  </div>
+  
+
+</aside>
+
+
+        </div>
+    </div>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site">
+      <div class="container">
+        <p>(c) 2013-2016 Frost Wong. All rights reserved.</p>
+        <p>Powered by <a href="http://gohugo.io" target="_blank" rel="nofollow">Hugo</a>, Theme <a href="https://github.com/dim0627/hugo_theme_beg" target="_blank" rel="nofollow">beg</a> designed by <a href="http://yet.unresolved.xyz" target="_blank" rel="nofollow">Daisuke Tsuji</a></p>
+      </div>
+    </footer>
+
+    <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+
+  <script data-no-instant>document.write('<script src="/livereload.js?mindelay=10"></' + 'script>')</script></body>
+</html>
+

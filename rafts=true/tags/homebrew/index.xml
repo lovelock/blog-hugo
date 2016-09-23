@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Homebrew on Me &amp; Web</title>
+    <link>http://localhost:1313/tags/homebrew/</link>
+    <description>Recent content in Homebrew on Me &amp; Web</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>frostwong@gmail.com (Frost Wong)</managingEditor>
+    <webMaster>frostwong@gmail.com (Frost Wong)</webMaster>
+    <copyright>(c) 2013-2016 Frost Wong. All rights reserved.</copyright>
+    <lastBuildDate>Fri, 26 Jun 2015 10:25:07 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/homebrew/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>使用homebrew提升使用Mac的幸福感</title>
+      <link>http://localhost:1313/mac/2015-06-26-homebrewshi-yong-xin-de/</link>
+      <pubDate>Fri, 26 Jun 2015 10:25:07 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/mac/2015-06-26-homebrewshi-yong-xin-de/</guid>
+      <description>&lt;p&gt;作为Linux派系的程序员，我喜欢Linux的原因很大程度上是它的包管理工具，RedHat系的rpm/yum/dnf/zypper，Debian系的dpkg/apt-get/aptitude，还有小众点的pacman/emerge/port，这些东西最大的用途就是&lt;strong&gt;让用户可以方便的安装软件&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;Windows没有，Mac有AppStore，但在我大天朝，并没有什么卵用，经常连不上，连上下载慢。&lt;/p&gt;
+
+&lt;p&gt;所以我们可以用&lt;a href=&#34;https://brew.sh&#34;&gt;Homebrew&lt;/a&gt;了。&lt;/p&gt;
+
+&lt;p&gt;它的作用其实就是为Mac提供本应该是苹果提供的包管理工具。&lt;/p&gt;
+
+&lt;p&gt;同事问我在Mac 上安装软件的问题，我看到是下载的过程出了问题，并且出在证书上，想起来之前看到说curl在某个版本之后就把证书和二进制文件打包在一起了，就想着让她更新一下curl试试看。我之前在自己的机器上也用brew安装过curl，但并没有注意到其实安装的版本默认并没有生效。&lt;/p&gt;
+
+&lt;p&gt;这里要引出的一种安装方式就是&lt;code&gt;keg-only&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;看到这我就想插一句，国外的程序员们可真会玩儿，能给软件起很有意思的名字，连其中的组件都很有意思。比如这里，homehrew默认是把软件安装在&lt;code&gt;/usr/local/Cellar&lt;/code&gt;目录中的，而&lt;code&gt;Cellar&lt;/code&gt;的意思是&lt;strong&gt;酒窖&lt;/strong&gt;。如果你了解过&lt;code&gt;FreeBSD&lt;/code&gt;的目录树结构，就知道它这么做的意义了，是要把同一个来源的文件组织在一起，不扰乱整个目录树。相应的，&lt;code&gt;keg-only&lt;/code&gt;中的&lt;code&gt;keg&lt;/code&gt;的意思是&lt;strong&gt;酒桶&lt;/strong&gt;。就让我试着用平实的语言来解释一下：&lt;/p&gt;
+
+&lt;p&gt;Homebrew安装软件分为&lt;a href=&#34;http://stackoverflow.com/questions/4691403/keg-only-homebrew-formulas&#34;&gt;两种情况&lt;/a&gt;。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;系统没有自带的&lt;br /&gt;
+这个没什么好说的，因为如果系统没有带，我们安装完相应的软件之后就自动的将编译好的二进制文件软链接到&lt;code&gt;PATH&lt;/code&gt;中，这样才会生效。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;系统自带的&lt;br /&gt;
+如果系统自带的有这个软件，那么问题就不好办了，是直接覆盖呢，还是应该给用户一些选择？本着上面说过的原则，尽量少的影响原来的目录树，那么它在安装完二进制文件之后并没有做建软链的那一步操作，这就是所谓的&lt;code&gt;keg-only&lt;/code&gt;的意思了。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;那么，如果我要更新curl，而OS X发行时本就是带着curl的，应该怎么办呢？当然作者已经替我们想到了这一点，&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;brew link curl --force
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样，它就会把需要的二进制链接到&lt;code&gt;PATH&lt;/code&gt;中，要注意这时这些路径中是存在相应的二进制文件的，正是homebrew不敢确定是不是要直接帮我们做这些操作，才给我们提供了这个命令。&lt;/p&gt;
+
+&lt;p&gt;那么如果你之前已经安装了不少软件了，发现有好几个没有建软链，难道要手工的一个一个执行？当然不用，可以参考下面的&lt;a href=&#34;http://apple.stackexchange.com/questions/123900/is-there-a-quick-way-to-relink-my-homebrew-kegs&#34;&gt;脚本&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;ls -1 /usr/local/Library/LinkedKegs | while read line; do
+    echo $LINE
+    brew unlink $LINE
+    brew link $LINE --force
+done
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面的脚本是利用了homebrew将&lt;code&gt;LinkedKegs&lt;/code&gt;目录设置成了存放所有二进制文件的路径的特点，将其全部取出，删除全部软链，而后重新建立软链。&lt;/p&gt;
+
+&lt;p&gt;其实也可以将&lt;code&gt;ls -1 /usr/local/Library/LinkedKegs&lt;/code&gt;替换成&lt;code&gt;brew list -1&lt;/code&gt;也可。&lt;/p&gt;
+
+&lt;p&gt;另外别的诸如&lt;code&gt;brew install&lt;/code&gt;，&lt;code&gt;brew uninstall&lt;/code&gt;的方法就不说了。&lt;/p&gt;
+
+&lt;p&gt;我不是一个Python爱好者，只是一个用户，偶尔写点Python，但即便这样也会遭遇版本问题，&lt;code&gt;brew install python3 python2&lt;/code&gt;一站式解决所有问题。&lt;/p&gt;
+
+&lt;p&gt;多说一点，现在很多语言都开发了包管理工具，我知道的有pip、npm、composer、gem，甚至我最不了解的Java，像Maven估计也是用来做这种事情的。&lt;/p&gt;
+
+&lt;p&gt;这其实就是在帮&lt;strong&gt;操作系统或者说发行版减负&lt;/strong&gt;。之前没有这些语言的包管理器的时候都是需要系统给打包，比如各种pip的包，那现在，它就成了跨平台的，每个发行版只需要维护Python的包，只要用户有了Python就有了pip，有了pip就有了无限的可能。&lt;/p&gt;
+
+&lt;p&gt;但我发现周围根本没有人用这些东西，虽然Mac的普及率很高，但大部分人都没有听过这些东西，我们的PHP程序员本来也不必关心别的语言的东西，但了解一些提高效率的东西还是很有必要的。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

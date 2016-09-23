@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gitcafe on Me &amp; Web</title>
+    <link>http://localhost:1313/tags/gitcafe/</link>
+    <description>Recent content in Gitcafe on Me &amp; Web</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>frostwong@gmail.com (Frost Wong)</managingEditor>
+    <webMaster>frostwong@gmail.com (Frost Wong)</webMaster>
+    <copyright>(c) 2013-2016 Frost Wong. All rights reserved.</copyright>
+    <lastBuildDate>Sat, 26 Sep 2015 21:17:35 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/gitcafe/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>终于下决心把博客空间迁移到国内了</title>
+      <link>http://localhost:1313/blog/2015-09-26-%E7%BB%88%E4%BA%8E%E4%B8%8B%E5%86%B3%E5%BF%83%E6%8A%8A%E5%8D%9A%E5%AE%A2%E7%A9%BA%E9%97%B4%E8%BF%81%E7%A7%BB%E5%88%B0%E5%9B%BD%E5%86%85%E4%BA%86/</link>
+      <pubDate>Sat, 26 Sep 2015 21:17:35 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/blog/2015-09-26-%E7%BB%88%E4%BA%8E%E4%B8%8B%E5%86%B3%E5%BF%83%E6%8A%8A%E5%8D%9A%E5%AE%A2%E7%A9%BA%E9%97%B4%E8%BF%81%E7%A7%BB%E5%88%B0%E5%9B%BD%E5%86%85%E4%BA%86/</guid>
+      <description>&lt;p&gt;写博客也有一段时间了，但产出并不是很多，最重要的是没有读者。
+因为百度是无法爬到&lt;a href=&#34;https://github.com&#34;&gt;GitHub&lt;/a&gt;的内容的，因此用GitHub Pages搭建的博客网站往往是不能在百度里面搜到的，但我写的又是中文的文章，所以。。。。
+当然其实最主要的原因是文章的质量不高。
+看到&lt;a href=&#34;https://gitcafe.com&#34;&gt;GitCafe&lt;/a&gt;的网站感觉很不错，几乎提供了GitHub提供的所有功能，最重要的是国内的访问速度快，于是干脆就迁移到国内了，同时把disqus迁移到多说——说是迁移，其实完全没有负担——因为并没有历史评论，哈哈。&lt;/p&gt;
+
+&lt;p&gt;接下来还会写很多东西，希望我写的东西能给需要的人一些帮助吧。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

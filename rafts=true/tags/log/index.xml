@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Log on Me &amp; Web</title>
+    <link>http://localhost:1313/tags/log/</link>
+    <description>Recent content in Log on Me &amp; Web</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>frostwong@gmail.com (Frost Wong)</managingEditor>
+    <webMaster>frostwong@gmail.com (Frost Wong)</webMaster>
+    <copyright>(c) 2013-2016 Frost Wong. All rights reserved.</copyright>
+    <lastBuildDate>Thu, 22 Sep 2016 14:16:06 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/log/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>slf4j配合log4j来给你的应用打log</title>
+      <link>http://localhost:1313/java/use-slf4j-and-log4j-to-log-your-applications/</link>
+      <pubDate>Thu, 22 Sep 2016 14:16:06 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/java/use-slf4j-and-log4j-to-log-your-applications/</guid>
+      <description>&lt;p&gt;需要添加的dependencies&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-xml&#34;&gt;&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;org.slf4j&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;slf4j-log4j12&amp;lt;/artifactId&amp;gt;
+    &amp;lt;version&amp;gt;1.7.21&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;org.slf4j&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;slf4j-api&amp;lt;/artifactId&amp;gt;
+    &amp;lt;version&amp;gt;1.7.21&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;log4j&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;log4j&amp;lt;/artifactId&amp;gt;
+    &amp;lt;version&amp;gt;1.2.17&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;后面两个依赖并不是必需的，只需要第一个即可
+这时候会发现无穷无尽的warn&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;log4j:WARN No appenders could be found for logger (HelloWorld).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但可惜的是即使看了这篇FAQ，也还是不知道是怎么回事&lt;/p&gt;
+
+&lt;p&gt;最简单的办法是需要在main里面新建一个目录&lt;code&gt;resources&lt;/code&gt;，新建文件log4j.properties，写入&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;log4j.rootLogger=TRACE, file, stdout
+
+
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.Target=System.out
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSS} %-5p [%c] - %m%n
+
+
+log4j.appender.file=org.apache.log4j.RollingFileAppender
+log4j.appender.file.File=./log/javavillage.log
+log4j.appender.file.MaxFileSize=10000KB
+log4j.appender.file.MaxBackupIndex=10
+log4j.appender.file.layout=org.apache.log4j.PatternLayout
+log4j.appender.file.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} [%t] %-5p:: %m%n
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;todo 需要研究一下&lt;code&gt;log4j.appender.file.File&lt;/code&gt;的根目录是哪里，看起来好像是classpath，但写一个点就会变成当前目录（项目根目录）
+再重新编译，happy coding&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>seaslog 和 error_log性能大比拼</title>
+      <link>http://localhost:1313/php/log-bench/</link>
+      <pubDate>Fri, 01 Apr 2016 16:33:19 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/php/log-bench/</guid>
+      <description>
+
+&lt;p&gt;今天花了点时间测试了开源项目&lt;a href=&#34;http://neeke.github.io/SeasLog/&#34;&gt;seaslog&lt;/a&gt;和PHP内置的error_log的性能。本文不涉及该扩展的安装和使用，如果对其不了解，可移步&lt;a href=&#34;http://neeke.github.io/SeasLog/&#34;&gt;官网&lt;/a&gt;。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;项目的描述有语法问题&amp;rdquo;A effective &amp;hellip;&amp;ldquo;，我提醒了原作者，然而并没有被理会。。。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;测试环境&#34;&gt;测试环境&lt;/h2&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;项目&lt;/th&gt;
+&lt;th&gt;属性&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;CPU&lt;/td&gt;
+&lt;td&gt;Intel&amp;reg; Xeon&amp;reg; CPU  E5520  @ 2.27GHz 8核&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;内存&lt;/td&gt;
+&lt;td&gt;48G&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;PHP&lt;/td&gt;
+&lt;td&gt;7.0.1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Nginx&lt;/td&gt;
+&lt;td&gt;1.2.7&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&#34;测试代码&#34;&gt;测试代码&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;&amp;lt;?php
+
+error_log(&amp;quot;I am testing performance of error_log&amp;quot; . PHP_EOL, 3, __DIR__ . &#39;/error_log.log&#39;);
+SeasLog::debug(&amp;quot;I am testing performance of seaslog&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;结果数据&#34;&gt;结果数据&lt;/h2&gt;
+
+&lt;p&gt;每种方式测试5次，请求次数1000次，并发量分别是1, 10, 100, 1000。分别记录每次测试的QPS。&lt;/p&gt;
+
+&lt;p&gt;1. error_log&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;并发量&lt;/th&gt;
+&lt;th&gt;1&lt;/th&gt;
+&lt;th&gt;2&lt;/th&gt;
+&lt;th&gt;3&lt;/th&gt;
+&lt;th&gt;4&lt;/th&gt;
+&lt;th&gt;5&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;2430&lt;/td&gt;
+&lt;td&gt;2579&lt;/td&gt;
+&lt;td&gt;2685&lt;/td&gt;
+&lt;td&gt;2484&lt;/td&gt;
+&lt;td&gt;2622&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;td&gt;7303&lt;/td&gt;
+&lt;td&gt;7844&lt;/td&gt;
+&lt;td&gt;5892&lt;/td&gt;
+&lt;td&gt;11739&lt;/td&gt;
+&lt;td&gt;9002&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;11763&lt;/td&gt;
+&lt;td&gt;6107&lt;/td&gt;
+&lt;td&gt;6921&lt;/td&gt;
+&lt;td&gt;9258&lt;/td&gt;
+&lt;td&gt;11999&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;324&lt;/td&gt;
+&lt;td&gt;891&lt;/td&gt;
+&lt;td&gt;324&lt;/td&gt;
+&lt;td&gt;889&lt;/td&gt;
+&lt;td&gt;883&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;2. seaslog&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;并发量&lt;/th&gt;
+&lt;th&gt;1&lt;/th&gt;
+&lt;th&gt;2&lt;/th&gt;
+&lt;th&gt;3&lt;/th&gt;
+&lt;th&gt;4&lt;/th&gt;
+&lt;th&gt;5&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;2147&lt;/td&gt;
+&lt;td&gt;2071&lt;/td&gt;
+&lt;td&gt;2130&lt;/td&gt;
+&lt;td&gt;2123&lt;/td&gt;
+&lt;td&gt;2039&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;td&gt;7415&lt;/td&gt;
+&lt;td&gt;9438&lt;/td&gt;
+&lt;td&gt;6901&lt;/td&gt;
+&lt;td&gt;6445&lt;/td&gt;
+&lt;td&gt;6047&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;7770&lt;/td&gt;
+&lt;td&gt;9389&lt;/td&gt;
+&lt;td&gt;6852&lt;/td&gt;
+&lt;td&gt;5806&lt;/td&gt;
+&lt;td&gt;6483&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1000&lt;/td&gt;
+&lt;td&gt;890&lt;/td&gt;
+&lt;td&gt;324&lt;/td&gt;
+&lt;td&gt;891&lt;/td&gt;
+&lt;td&gt;760&lt;/td&gt;
+&lt;td&gt;322&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&#34;测试结果图&#34;&gt;测试结果图&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/errorlog.png&#34; alt=&#34;error_log性能测试结果&#34; /&gt;
+&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/seaslog.png&#34; alt=&#34;seaslog性能测试结果&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;结果分析&#34;&gt;结果分析&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;error_log的性能总体优于seaslog，但并没有压倒性优势&lt;/li&gt;
+&lt;li&gt;在并发较高时二者都出现急剧性能下降，程度相当。怀疑瓶颈已经不在写日志，而在Nginx的处理能力了（待验证）。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;seaslog使用起来更简单，不需要多层封装&lt;/li&gt;
+&lt;li&gt;error_log输出的格式比较单一，如果要加上日期、IP等信息，一定会引入很多PHP函数调用，导致性能损失。但seaslog在这方面就有很大的想象空间，在扩展中计算时间、获取IP、详细的debug信息都是可能的。不过现在并没有加入这些功能。&lt;/li&gt;
+&lt;li&gt;seaslog提供了类似PDO的插值方式，使用起来更方便&lt;/li&gt;
+&lt;li&gt;seaslog可以自定义配置多&lt;/li&gt;
+&lt;li&gt;一个细节，error_log在type=3时并没有在message后面加上换行符，需要自行添加，也就是说每次都要有一个字符串拼接，这在seaslog中得到了改进&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;我之前看到有人说seaslog的日期格式太固定，因此我fork了一份代码加上了配置日期格式的功能，作者到现在都没有合并进主干呢。而且我觉得现在这个功能有些简陋，比如我前面说的第2点，请求的一些基本信息如果从扩展层面直接取到，就不需要再在外层调用PHP函数或通过超全局变量获取了，既简化了外层使用的方式，又提高性能。但作者貌似也没有继续增加功能的意思，可能作者并不想在扩展层面做太复杂的事情，要保持这个项目的简单、纯粹。&lt;/p&gt;
+
+&lt;p&gt;我还是自己再维护一份好了。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

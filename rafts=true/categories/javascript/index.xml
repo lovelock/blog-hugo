@@ -1,0 +1,1340 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Javascript on Me &amp; Web</title>
+    <link>http://localhost:1313/categories/javascript/</link>
+    <description>Recent content in Javascript on Me &amp; Web</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>frostwong@gmail.com (Frost Wong)</managingEditor>
+    <webMaster>frostwong@gmail.com (Frost Wong)</webMaster>
+    <copyright>(c) 2013-2016 Frost Wong. All rights reserved.</copyright>
+    <lastBuildDate>Wed, 30 Mar 2016 16:08:03 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/javascript/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>检测浏览器是否安装了Flash</title>
+      <link>http://localhost:1313/javascript/detect-flash/</link>
+      <pubDate>Wed, 30 Mar 2016 16:08:03 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/javascript/detect-flash/</guid>
+      <description>&lt;p&gt;现在国内竟然那么多的视频网站都还不支持HTML5的视频播放，无外乎几个原因：&lt;/p&gt;
+
+&lt;p&gt;现在我们的浏览器也只是对Safari开启了默认HTML5，而其他浏览器都是&lt;strong&gt;鼓励&lt;/strong&gt;用户使用Flash的，但我觉得这样不好。&lt;/p&gt;
+
+&lt;p&gt;下面的代码可以用来检测用户是否装了Flash。其实我不需要知道Flash的版本，因为任何的版本都应该是支持视频播放的。如果有些其他功能需要高版本的Flash，那也是用户安装了之后的事情了，API受限的或者有安全漏洞的话，浏览器会提示用户更新。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;
+function detectFlash() {
+    if (navigator.mimeTypes.length &amp;gt; 0) {
+        var flashAct = navigator.mimeTypes[&amp;quot;application/x-shockwave-flash&amp;quot;];
+        return flashAct != null ? flashAct.enabledPlugin != null : false;
+    } else if (self.ActiveXObject) {
+        try {
+            new ActiveXObject(&#39;ShockwaveFlash.ShockwaveFlash&#39;);
+            return true;
+        } catch (oError) {
+            return false;
+        }
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Bootstrap插件DataTables实现服务器端分页</title>
+      <link>http://localhost:1313/javascript/bootstrap-plugin-datatables/</link>
+      <pubDate>Sun, 28 Feb 2016 21:40:04 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/javascript/bootstrap-plugin-datatables/</guid>
+      <description>
+
+&lt;p&gt;我们知道，PHP和MySQL实现分页的基本思路是limit，页面上有个page(第几页）和count(每次取出几个），PHP把它传递给后端MySQL，查询时在条件查询的基础上加上&lt;code&gt;limit {($page - 1) * $count, $count}&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;但是，自己实现PHP分页也是有不少繁琐的问题需要解决的，比如分页要最多显示几个，两头如何处理，样式设计等等，既然有了Bootstrap这个大框架，各种解决方案就层出不穷了。&lt;/p&gt;
+
+&lt;p&gt;废话不多说，今天要讲一下用Bootstrap的插件DataTables做一个带分页的表格。&lt;/p&gt;
+
+&lt;p&gt;DataTables官方文档给的例子是一次把数据取出，然后在前端做分页处理。这样的好处是减少了每次查询都要请求网络，坏处则是如果数据太多，前端肯定就扛不住了。文档也说了，如果数据量在10000以内，可以在前端做分页，100000以上就在服务端做，中间的量就衡量自己的数据和服务器的处理能力做决定了。&lt;/p&gt;
+
+&lt;p&gt;本文的基础是PHP内置Web Server和Bootstrap的模板SB-Admin2。&lt;/p&gt;
+
+&lt;h2 id=&#34;前端处理分页&#34;&gt;前端处理分页&lt;/h2&gt;
+
+&lt;p&gt;最直观的方法就是把所有的数据自己组织好，用foreach组织&lt;code&gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&lt;/code&gt;，再加上一个&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;$(document).ready(function () {
+    $(&#39;#datatable-example&#39;).DataTable({
+        responsive: true
+    });
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样，插件就会帮你把你想要的效果展示出来了，再加上实时搜索，效果简直不能更赞。&lt;/p&gt;
+
+&lt;p&gt;但这在实际应用中用的应该还是比较少，毕竟稍微上点规模的公司需要处理的内容就不止10000那么少了。&lt;/p&gt;
+
+&lt;h2 id=&#34;后端处理分页&#34;&gt;后端处理分页&lt;/h2&gt;
+
+&lt;p&gt;先要理解几个概念。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;draw 请求的当前次数&lt;/li&gt;
+&lt;li&gt;start 返回结果的开始位置&lt;/li&gt;
+&lt;li&gt;length 返回结果的长度&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;我这里为了简单起见，把数组当做数据源了，根据传入的参数不同，返回数组的不同部分。&lt;/p&gt;
+
+&lt;p&gt;一般来说，返回的数据里需要这些字段&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;{
+  &amp;quot;draw&amp;quot;: 1,
+  &amp;quot;recordsTotal&amp;quot;: 57,
+  &amp;quot;recordsFiltered&amp;quot;: 57,
+  &amp;quot;data&amp;quot;: [
+    [
+      &amp;quot;Airi&amp;quot;,
+      &amp;quot;Satou&amp;quot;,
+      &amp;quot;Accountant&amp;quot;,
+      &amp;quot;Tokyo&amp;quot;,
+      &amp;quot;28th Nov 08&amp;quot;,
+      &amp;quot;$162,700&amp;quot;
+    ],
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在页面上需要有&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;table class=&amp;quot;table table-striped table-bordered table-hover&amp;quot; id=&amp;quot;datatable-example&amp;quot;&amp;gt;
+    &amp;lt;thead&amp;gt;
+        &amp;lt;tr&amp;gt;
+            &amp;lt;th&amp;gt;Column1&amp;lt;/th&amp;gt;
+            &amp;lt;th&amp;gt;Column2&amp;lt;/th&amp;gt;
+            &amp;lt;th&amp;gt;Column3&amp;lt;/th&amp;gt;
+            &amp;lt;th&amp;gt;Column4&amp;lt;/th&amp;gt;
+            &amp;lt;th&amp;gt;Column5&amp;lt;/th&amp;gt;
+            &amp;lt;th&amp;gt;Column6&amp;lt;/th&amp;gt;
+        &amp;lt;tr&amp;gt;
+    &amp;lt;/thead&amp;gt;
+&amp;lt;/table&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后把&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;$(document).ready(function () {
+    $(&#39;#datatable-example&#39;).DataTable({
+        responsive: true
+    });
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;替换成&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;$(document).ready(function () {
+    $(&#39;#datatable-example&#39;).DataTable({
+        responsive: true,
+        serverSide: true,
+        processing: true,
+        ajax: &amp;quot;ajax.php&amp;quot;
+    });
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中，serverSide选项表示使用服务端分页，processing表示加载表格的时候会在表格上覆盖一个『加载中』的类似弹层，而ajax就是数据的来源了。具体代码见。。&lt;/p&gt;
+
+&lt;p&gt;那你可能要说了，我的数据返回的可是正宗的HashTable，我指明是HashTable是因为PHP中数组也是HashTable，指的是Python里的字典。该怎么办呢？&lt;/p&gt;
+
+&lt;p&gt;相应的，如果返回的每列数据是这样的(其实这才是从数据库中取出来的样子)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;{
+      &amp;quot;first_name&amp;quot;: &amp;quot;Jennifer&amp;quot;,
+      &amp;quot;last_name&amp;quot;: &amp;quot;Chang&amp;quot;,
+      &amp;quot;position&amp;quot;: &amp;quot;Regional Director&amp;quot;,
+      &amp;quot;office&amp;quot;: &amp;quot;Singapore&amp;quot;,
+      &amp;quot;start_date&amp;quot;: &amp;quot;14th Nov 10&amp;quot;,
+      &amp;quot;salary&amp;quot;: &amp;quot;$357,650&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;那只需要把&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;$(document).ready(function () {
+    $(&#39;#datatable-example&#39;).DataTable({
+        responsive: true,
+        serverSide: true,
+        processing: true,
+        ajax: &amp;quot;ajax.php&amp;quot;
+    });
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;替换成&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;$(document).ready(function () {
+    $(&#39;#datatable-example&#39;).DataTable({
+        responsive: true,
+        serverSide: true,
+        processing: true,
+        ajax: &amp;quot;ajax.php&amp;quot;,
+        columns: [
+            { &amp;quot;data&amp;quot;: &amp;quot;first_name&amp;quot; },
+            { &amp;quot;data&amp;quot;: &amp;quot;last_name&amp;quot; },
+            { &amp;quot;data&amp;quot;: &amp;quot;position&amp;quot; },
+            { &amp;quot;data&amp;quot;: &amp;quot;office&amp;quot; },
+            { &amp;quot;data&amp;quot;: &amp;quot;start_date&amp;quot; },
+            { &amp;quot;data&amp;quot;: &amp;quot;salary&amp;quot; }
+        ]
+    });
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;就可以了。&lt;/p&gt;
+
+&lt;p&gt;这是数据库的最简单的情况，那如果我用了ORM，取出来的就是对象了，这就免不了『嵌套对象』了。不管是Python的数组（PHP中key是数组的）还是字典（PHP中key是字符串的），都是一样的处理方式，都是最直观的表示法，把&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;$(document).ready(function () {
+    $(&#39;#datatable-example&#39;).DataTable({
+        responsive: true,
+        serverSide: true,
+        processing: true,
+        ajax: &amp;quot;ajax.php&amp;quot;,
+        columns: [
+            { &amp;quot;data&amp;quot;: &amp;quot;first_name&amp;quot; },
+            { &amp;quot;data&amp;quot;: &amp;quot;last_name&amp;quot; },
+            { &amp;quot;data&amp;quot;: &amp;quot;position&amp;quot; },
+            { &amp;quot;data&amp;quot;: &amp;quot;office&amp;quot; },
+            { &amp;quot;data&amp;quot;: &amp;quot;start_date&amp;quot; },
+            { &amp;quot;data&amp;quot;: &amp;quot;salary&amp;quot; }
+        ]
+    });
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;替换成&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;$(document).ready(function () {
+    $(&#39;#datatable-example&#39;).DataTable({
+        responsive: true,
+        serverSide: true,
+        processing: true,
+        ajax: &amp;quot;ajax.php&amp;quot;,
+        columns: [
+            { &amp;quot;data&amp;quot;: &amp;quot;first_name&amp;quot; },
+            { &amp;quot;data&amp;quot;: &amp;quot;last_name.other&amp;quot; },
+            { &amp;quot;data&amp;quot;: &amp;quot;position.2&amp;quot; },
+            { &amp;quot;data&amp;quot;: &amp;quot;office&amp;quot; },
+            { &amp;quot;data&amp;quot;: &amp;quot;start_date&amp;quot; },
+            { &amp;quot;data&amp;quot;: &amp;quot;salary&amp;quot; }
+        ]
+    });
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;即可。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Firefox Date.parse()方法行为不一致的兼容方案</title>
+      <link>http://localhost:1313/javascript/Firefox-Date.parse-exception/</link>
+      <pubDate>Mon, 25 Jan 2016 12:14:35 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/javascript/Firefox-Date.parse-exception/</guid>
+      <description>
+
+&lt;p&gt;事情是这样的，我有两个输入框，用Wdatepicker自定义了日期格式，格式当然是我们中国人最喜欢的Y-M-d H:i:s，然后需要确定后者（结束时间）不能小于前者（开始时间）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;// Firefox incompatible
+var start = $(&amp;quot;#start&amp;quot;).val();
+var end = $(&amp;quot;#end&amp;quot;).val();
+retrun Date.parse(end) - Date.parse(start) &amp;gt; 0 ? true : false;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Chrome下测试没问题，当时负责的同事就上线了。（因为这个是内部用的，只有两三个同事用，所以规定一下大家都用Chrome没有问题）&lt;/p&gt;
+
+&lt;p&gt;后来发现Firefox下不管两个日期怎么填，总会提示不对，跟了一下发现&lt;code&gt;Date.parse(end)&lt;/code&gt;和&lt;code&gt;Date.parse(start)&lt;/code&gt;里面的两个值都是NaN，但在Chrome里却是正常的Unix时间戳。&lt;/p&gt;
+
+&lt;p&gt;这就诡异了，查看了&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Date/parse&#34;&gt;MDN&lt;/a&gt;发现了&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;h3 id=&#34;parameters&#34;&gt;Parameters&lt;/h3&gt;
+
+&lt;h4 id=&#34;datestring&#34;&gt;dateString&lt;/h4&gt;
+
+&lt;p&gt;A string representing an RFC2822 or ISO 8601 date (other formats &lt;strong&gt;may be&lt;/strong&gt; used, but results may be &lt;strong&gt;unexpected&lt;/strong&gt;).&lt;/p&gt;
+
+&lt;p&gt;##ECMAScript 5 ISO-8601 format support&lt;/p&gt;
+
+&lt;p&gt;The date time string may be in ISO 8601 format. For example, &amp;ldquo;2011-10-10&amp;rdquo; (just date) or &amp;ldquo;2011-10-10T14:48:00&amp;rdquo; (date and time) can be passed and parsed. The UTC time zone is used to interpret arguments in ISO 8601 format that do not contain time zone information (note that ECMAScript 2015 specifies that date time strings without a time zone are to be treated as local, not UTC).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;从上面可以看到，Firefox是支持RFC2822 or ISO 8601格式的，但其他格式就呵呵了，或许可以支持，但可能会得到意想不到的结果。&lt;/p&gt;
+
+&lt;p&gt;所以，我们可以认为Chrome在标准之外支持了一些非标准的写法，而Firefox却没有。&lt;/p&gt;
+
+&lt;p&gt;知道了问题所在，就好解决了。&lt;/p&gt;
+
+&lt;p&gt;在比较之前把时间里面的空格替换成&amp;rdquo;T&amp;rdquo;即可。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;// Firefox compatible
+var start = $(&amp;quot;#start&amp;quot;).val();
+var end = $(&amp;quot;#end&amp;quot;).val();
+
+start = start.replace(/ /, &#39;T&#39;);
+end = start.replace(/ /, &#39;T&#39;);
+retrun Date.parse(end) - Date.parse(start) &amp;gt; 0 ? true : false;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;问题解决。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>HTML中的input[type=radio]的一个小发现</title>
+      <link>http://localhost:1313/javascript/2015-12-04-html-radio-issue/</link>
+      <pubDate>Fri, 04 Dec 2015 23:12:52 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/javascript/2015-12-04-html-radio-issue/</guid>
+      <description>&lt;p&gt;昨天在写一个表单时，一个无意的错误让我发现了HTML radio类型的input的一个特性。&lt;/p&gt;
+
+&lt;p&gt;在一个表单&lt;code&gt;&amp;lt;form&amp;gt;&amp;lt;/form&amp;gt;&lt;/code&gt; 中，相同name的input[type=radio]只有最后一个才会正常的渲染checked。&lt;/p&gt;
+
+&lt;p&gt;也就是说，如果一个表格中有很多条目，这时每一列都会有相同的name，这时你会发现及时每个条目的input[type=radio]都有正确的checked属性，但并不能看到它被选中——只有最后一行正常。&lt;/p&gt;
+
+&lt;p&gt;起初我还以为这是个bug，仔细一想，其实这是更合理的方式。&lt;/p&gt;
+
+&lt;p&gt;因为，在一个表单中，每个不同的name就是一个参数，如果同一个name的参数出现了多次，服务端也会以最后一个为准。如此看来，这样的实现反倒会让开发者在参数输入就发现问题。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>JavaScript闭包深究</title>
+      <link>http://localhost:1313/javascript/2015-12-02-JavaScript-closure-internals/</link>
+      <pubDate>Wed, 02 Dec 2015 21:35:12 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/javascript/2015-12-02-JavaScript-closure-internals/</guid>
+      <description>
+
+&lt;h2 id=&#34;问题来源&#34;&gt;问题来源&lt;/h2&gt;
+
+&lt;p&gt;刚刚看到微信公众号推送的一篇文章, &lt;a href=&#34;http://www.cnblogs.com/xxcanghai/p/4991870.html&#34;&gt;大部分人都会做错的经典JS闭包面试题&lt;/a&gt;,里面出现了一道很有意思的题目，让我有兴趣自己尝试一下。&lt;/p&gt;
+
+&lt;p&gt;题目是这样的&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function fun(n, o) {
+	console.log(o);
+	
+	return {
+		fun: function (m) {
+			return fun(m, n);
+		}
+	};
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;问题是下面这三行的输出分别是什么。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;注意不是问a, b, c的值，是输出。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var a = fun(0);  a.fun(1);  a.fun(2);  a.fun(3);//undefined,?,?,?
+var b = fun(0).fun(1).fun(2).fun(3);//undefined,?,?,?
+var c = fun(0).fun(1);  c.fun(2);  c.fun(3);//undefined,?,?,?
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;答案在最后，如果有兴趣可以先尝试自己分析一下。这道题的答案并没有争议，但我看了原作者的分析之后，感觉到可能有点问题，于是找到了经常翻阅的《JavaScript the Good Parts》再来参详一遍第四章吧，大概翻了一下发现这本书并没有太详细的介绍这部分，于是找了一篇博文&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:refer1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:refer1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;，详细的研究一下。&lt;/p&gt;
+
+&lt;p&gt;函数(function)在JavaScript中是一等公民，老道说它是几乎完美的——当然也存在瑕疵，当你用过它变态的&lt;code&gt;this&lt;/code&gt;特性以后，肯定会对这句话的严谨表示赞同。&lt;/p&gt;
+
+&lt;p&gt;我们知道，在JavaScript中创建对象时，对象字面量会连接到&lt;code&gt;Object.prototype&lt;/code&gt;。而函数对象会连接到&lt;code&gt;Function.prototype&lt;/code&gt;。那么&lt;code&gt;Function.prototype&lt;/code&gt;又连接到谁呢？答案还是&lt;code&gt;Object.prototype&lt;/code&gt;。因为在JavaScript中，函数、数组、对象(指我们经常见到的JSON对象)都是对象(特指原型链的对象)。&lt;/p&gt;
+
+&lt;h2 id=&#34;探究&#34;&gt;探究&lt;/h2&gt;
+
+&lt;p&gt;根据《JavaScript the Good Parts》的说法，函数的定义有4个要素。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;// 创建一个名为add的变量，并把一个函数赋值给它
+
+var add = function (a, b) {
+	return a + b;
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;函数字面量包括4个部分：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;保留字&lt;code&gt;function&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;函数名&lt;/li&gt;
+&lt;li&gt;包围在圆括号内的一组参数&lt;/li&gt;
+&lt;li&gt;包围在花括号中的一组语句，它是函数的主题，在函数调用时被执行&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;从上面函数的定义可以看到，这个&lt;code&gt;add&lt;/code&gt; 并不是函数字面量的一部分。而作为函数字面量的函数名却可以不存在，这也就是匿名函数。&lt;/p&gt;
+
+&lt;p&gt;重点来了：&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;函数字面量可以出现在任何允许表达式出现的地方。函数也可以被定义在其他函数中。一个内部函数除了可以访问自己的参数和变量，同时也能自由访问把它嵌套在其中的父函数的参数与变量。通过函数字面量创建的函数对象包含一个连到外部上下文的连接。这被称为闭包(closure)。它是JavaScript强大表现力的来源。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;函数的定义方式&#34;&gt;函数的定义方式&lt;/h3&gt;
+
+&lt;p&gt;先来看一下JavaScript定义函数的各种方法&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function A() {}     // 函数声明
+var B = function () {}; // 函数表达式
+var C = (function () {}); // 带有分组操作符的函数表达式
+var D = function foo() {}; // 命名的函数表达式
+var E = (function () {
+            return function () {};
+        }());           // 返回函数的立即执行的函数表达式
+var F = new Function (); // 函数构造器
+var G = new Function () {}; // 特殊情况，对象构造器
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;不看不知道，竟然还有那么多种方式，老实说，我只有过第1、2、5这三种，并且没有区分的那么细致。下面详细的剖析一下这种方式的使用场景。&lt;/p&gt;
+
+&lt;h4 id=&#34;a-name-函数声明-a-函数声明&#34;&gt;&lt;a name=&#34;函数声明&#34;&gt;&lt;/a&gt;函数声明&lt;/h4&gt;
+
+&lt;h5 id=&#34;a-name-作用域提升-a-作用域提升&#34;&gt;&lt;a name=&#34;作用域提升&#34;&gt;&lt;/a&gt;作用域提升&lt;/h5&gt;
+
+&lt;p&gt;这种方式是见到的最多的声明函数的方式了，而且这种方式会引发『作用域提升』(Hoisting)，不知道是不是这么翻译，但我一说下面的你就知道是什么意思了。&lt;/p&gt;
+
+&lt;p&gt;如果这么写&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;A();
+function A() {
+    console.log(&#39;foo&#39;);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;你可能会担心出现&lt;code&gt;A is not a function&lt;/code&gt;这种错误吧？但是这里不会有，一切都会正常运行。因为在执行这段代码时，解释器会把它当做下面的这样来执行&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function A() {
+    console.log(&#39;foo&#39;);
+}
+A();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样当然不会有问题了。&lt;/p&gt;
+
+&lt;p&gt;这里说到变量的作用域提升，你可能会想到下面这种例子，&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;console.log(A);
+
+var A = &#39;foo&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这时也会发生一个变量提升，但不同的是，这段代码等同于下面的&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var A;
+
+console.log(A);
+
+A = &#39;foo&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;所以，这段代码的输出会是&lt;code&gt;undefined&lt;/code&gt;，而不是&lt;code&gt;A is not defined&lt;/code&gt;的错误信息。也就是说，这种方式的变量作用域提升只会把变量的&lt;strong&gt;声明&lt;/strong&gt;提升，而不会把&lt;strong&gt;定义&lt;/strong&gt;提升。&lt;/p&gt;
+
+&lt;p&gt;变量声明和函数声明方式的不同了，上面说了，函数在JavaScript里是可以赋值给变量的，那么用函数表达式定义的函数也是一个变量，本质上会和上面&lt;strong&gt;变量作用域提升&lt;/strong&gt;出现同样的效果。即&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;B();
+
+var B = function () {
+    console.log(&#39;foo&#39;);
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;并不会有输出，并且会报错，&lt;code&gt;B is not a function&lt;/code&gt;，因为它等同于&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var B;
+
+B();
+
+B = function () {
+    console.log(&#39;foo&#39;);
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在执行函数B的时候，B只是一个变量声明，解释器并不知道它是一个函数或者一个普通的变量，但看报错结果&lt;code&gt;B is not a function&lt;/code&gt;就可以知道，在执行函数B的时候，解释器是知道B的存在的，也就是B已经被声明过，只是它不知道它是函数而已，否则报的错就是&lt;code&gt;B is not defined&lt;/code&gt;了。&lt;/p&gt;
+
+&lt;h5 id=&#34;不能在-if-或其他条件语句中使用函数声明&#34;&gt;不能在&lt;code&gt;if&lt;/code&gt;或其他条件语句中使用函数声明&lt;/h5&gt;
+
+&lt;p&gt;也就是说，不能这样&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;if (true) {
+    function foo() {
+        return &#39;foo&#39;;
+    }
+} else {
+    function foo() {
+        return &#39;bar&#39;;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;当我想在&lt;a href=&#34;http:jsbin.com&#34;&gt;JSbin&lt;/a&gt;中执行这段代码时，它报出了以下错误
+&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/b_Screen%20Shot%202015-12-05%20at%2010.20.25%20PM.png&#34; alt=&#34;条件语句中用函数声明报错&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;建议的方式是这样的&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var foo;
+
+if (true) {
+    foo = function () {
+        return &#39;foo&#39;;
+    };
+} else {
+    foo = function () {
+        return &#39;bar&#39;;
+    };
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;永远不要&lt;/strong&gt;这样写，不同的浏览器可能会表现出不同的行为。&lt;/p&gt;
+
+&lt;h5 id=&#34;必须有函数名&#34;&gt;必须有函数名&lt;/h5&gt;
+
+&lt;p&gt;声明一个没有赋值的函数是不能不带函数名的，也就是，无法这样声明以下函数&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function () {
+    return &#39;blahblah&#39;;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/b_Screen%20Shot%202015-12-05%20at%2010.24.19%20PM.png&#34; alt=&#34;用函数声明的方式声明不带函数名的函数报错信息&#34; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;a-name-函数表达式-a-函数表达式&#34;&gt;&lt;a name=&#34;函数表达式&#34;&gt;&lt;/a&gt;函数表达式&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;var B = function () {};&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;函数表达式和函数声明的方式很类似，但不同的是函数被赋值给了一个变量。要知道函数在JavaScript里并不是primitive的，也就是说它是可以再分解的，但这并不妨碍函数是JavaScript世界的一等公民，它可以被赋值给变量，可以作为其他函数的返回值，可以作为参数传递给其他变量也可以存储在其他数据结构中。&lt;/p&gt;
+
+&lt;h5 id=&#34;匿名函数&#34;&gt;匿名函数&lt;/h5&gt;
+
+&lt;p&gt;虽然函数赋值给了一个变量，但这个函数仍然是一个匿名函数，因为在函数定义的4个要素里，缺少了『函数名』这一要素。&lt;/p&gt;
+
+&lt;h5 id=&#34;变量的作用域提升&#34;&gt;变量的作用域提升&lt;/h5&gt;
+
+&lt;p&gt;这在&lt;a href=&#34;#作用域提升&#34;&gt;上一节&lt;/a&gt;中已经讲过，这里略过。&lt;/p&gt;
+
+&lt;h4 id=&#34;带有分组操作符的函数表达式&#34;&gt;带有分组操作符的函数表达式&lt;/h4&gt;
+
+&lt;p&gt;这种写法很应该很少见，或者说只会出现在测试题中了，因为它除了会带来迷惑之外并没有什么卵用（如果真有实际用处，请一定告诉我）。&lt;/p&gt;
+
+&lt;p&gt;可以这样理解这种写法。
+当你写&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function () {}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;的时候，它是一个『函数声明』，函数声明没有函数名是不正确的。而当你给它加上一对括号，那么它就成了一个『函数表达式』，还记得吗？函数表达式是可以赋值给变量的。&lt;/p&gt;
+
+&lt;p&gt;这时候就可以把&lt;code&gt;(function () {})&lt;/code&gt;理解成一个没有被赋值的函数表达式。它的存在是没有意义的，就像你写了一个这样的表达式&lt;code&gt;&#39;foo&#39;;&lt;/code&gt;，它能有什么意义？对，它是一个字符串，谁都知道它是一个字符串，但它并没有被赋值给任何一个变量，换言之，在依赖『引用计数』做垃圾回收的语言里（没有研究过JavaScript是不是这种），它在执行时是会被回收的——因为它并没有被引用过。只有当&lt;code&gt;var C = (function () {});&lt;/code&gt;时才有意义，而这时它和&lt;code&gt;var C = function () {};&lt;/code&gt;的意义是一样的。&lt;/p&gt;
+
+&lt;h4 id=&#34;带有变量名的函数声明&#34;&gt;带有变量名的函数声明&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;var D = function foo() {}&lt;/code&gt; 这种写法简直综合了&lt;a href=&#34;#函数声明&#34;&gt;函数声明&lt;/a&gt;和&lt;a href=&#34;#函数表达式&#34;&gt;函数表达式&lt;/a&gt;，搞得更让人摸不到头脑了。&lt;/p&gt;
+
+&lt;h5 id=&#34;函数名只在函数内部可见&#34;&gt;函数名只在函数内部可见&lt;/h5&gt;
+
+&lt;p&gt;在这种情况下，函数名在函数外部是不可见的，例如&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var D = function foo(){
+  console.log(typeof foo);
+};
+D();                       // function
+console.log(typeof foo);   // undefined
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;需要递归执行时很有用&#34;&gt;需要递归执行时很有用&lt;/h5&gt;
+
+&lt;p&gt;想一下它的应用场景，在函数内部可以调用自己，但外部不需要知道它的实现机制。外部调用它仍然可以用变量名，然而调用变量名一次，却可以递归的调用函数内部的实现，是不是很酷炫呢？&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var countdown = function a(count){
+  if(count &amp;gt; 0) {
+    count--;
+    return a(count);  // we can also do this: a(--count), which is less clear
+  }
+  console.log(&#39;end of recursive function&#39;);
+}
+countdown(5);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;debug时很有用&#34;&gt;debug时很有用&lt;/h5&gt;
+
+&lt;p&gt;这个嘛，看你有没有需要了，因为匿名的函数表达式是没有名字的，那再函数内部调用自己的时候也就无法记录被调用的函数名了，但如果函数表达式也有了名字，那事情就变得很奇妙了。&lt;/p&gt;
+
+&lt;h5 id=&#34;jscript的实现有坑&#34;&gt;JScript的实现有坑&lt;/h5&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://kangax.github.io/nfe/&#34;&gt;kangax&lt;/a&gt;指出，IE的ECMAScript实现——JScript对这一特性的实现是有坑的，所以，如果有对这方面的需求的话，最好回避这个功能。&lt;/p&gt;
+
+&lt;h4 id=&#34;立即执行的函数表达式&#34;&gt;立即执行的函数表达式&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;var E = (function () { return function () {}; }())&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;要理解这一特性，先要把它做的事情分解&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;执行一个函数&lt;/li&gt;
+&lt;li&gt;函数的返回值是函数&lt;/li&gt;
+&lt;li&gt;将返回的函数赋给一个变量&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;为了深入浅出的理解这种做法，可以先尝试一种已经接受的方式，&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var foo = function () {
+    return &#39;bar&#39;;
+}
+
+var output = foo();
+console.log(output);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;很显然，这段代码的输出就是&lt;code&gt;bar&lt;/code&gt;。没什么好说的。&lt;/p&gt;
+
+&lt;p&gt;但是经过上面的讨论，我们知道了
+&lt;code&gt;var foo = function () { return function () {}; }&lt;/code&gt;是等价于&lt;code&gt;var foo = (function () { return function () {}; })&lt;/code&gt;的，那么同时加个括号呢？对，
+就变成了&lt;code&gt;(function () { return function () {}; })()&lt;/code&gt;。到这里，这种写法是不是就很好理解了呢？&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;mark&gt;注意&lt;/mark&gt;&lt;/strong&gt;这个特性很重要，尤其在模块模式下隐藏一些信息时很有用。最常见的jQuery就用到了这种方法。&lt;/p&gt;
+
+&lt;h4 id=&#34;构造器&#34;&gt;构造器&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;var F = new Function();&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;这是一种很老的并且已经不推荐使用的写法。而且，根据老道的推荐，所有直接使用构造器，也就是使用了&lt;code&gt;new&lt;/code&gt;关键字的方式都不推荐使用。这是因为他是一个强迫症——好吧，原因如下：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;JavaScript的&lt;code&gt;new&lt;/code&gt;运算符创建一个继承于其运算数的原型的新对象，然后调用该运算数，把新创建的对象绑定给&lt;code&gt;this&lt;/code&gt;。这给运算数（应该是一个构造器函数）一个机会在返回给请求者前自定义新创建的对象。
+如果忘记了使用&lt;code&gt;new&lt;/code&gt;运算符，得到的就是一个普通的函数调用，并且&lt;code&gt;this&lt;/code&gt;被绑定到全局对象，而不是创建新的对象。这意外着当你的函数尝试去初始化新成员属性时它将会污染全局变量。这是一件非常糟糕的事情（老道非常不愿意看到JavaScript语言里的变量名的污染）。而且既没有编译时警告，也没有运行时警告。
+按照惯例，打算域&lt;code&gt;new&lt;/code&gt;结合使用的函数应该以首字母大写的形式命名，并且首字母大写形式应该只用来命名那些构造器函数。这个约定帮助我们进行区分（然而我还没有看到我修改的代码里真的遵守这个约定的），便于我们发现那些JavaScript语言自身经常忘记但却会带来昂贵代价的错误。
+&lt;strong&gt;一个更好的应对策略就是根本不去使用&lt;code&gt;new&lt;/code&gt;关键字。&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&#34;使用方法&#34;&gt;使用方法&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var F = new Function (&#39;arg1&#39;, &#39;arg2&#39;, &#39;console.log(arg1 + &amp;quot;, &amp;quot; + arg2)&#39;);
+F(&#39;foo&#39;, &#39;bar&#39;); // &#39;foo, bar&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;避免使用-new-操作符&#34;&gt;避免使用&lt;code&gt;new&lt;/code&gt;操作符&lt;/h5&gt;
+
+&lt;h5 id=&#34;怪癖&#34;&gt;怪癖&lt;/h5&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://developer.mozilla.org/en/JavaScript/Reference/Functions_and_function_scope#Function_constructor_vs._function_declaration_vs._function_expression&#34;&gt;MDN开发文档&lt;/a&gt;指出了另一个这种方式不好的地方，它不能正确的创建闭包。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function foo () {
+    var bar = &#39;bar&#39;;
+    
+    var first = new Function(&#39;console.log(typeof bar&#39;)&#39;);
+    first(); //undefined
+    
+    var second = function () {
+        console.log(typeof bar);
+    };
+    second(); // string
+}
+
+foo();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;从结果可以看到，使用构造器创建的函数并不能正确的创建闭包，所以，这种方式还是不要用了。&lt;/p&gt;
+
+&lt;h4 id=&#34;特殊情况&#34;&gt;特殊情况&lt;/h4&gt;
+
+&lt;p&gt;说它是特殊情况是因为虽然用了&lt;code&gt;function&lt;/code&gt;关键字，但它并没有意义。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;new function() {}&lt;/code&gt;创建一个对象并且调用这个匿名函数来作为它的构造函数。如果函数返回的是一个对象，它的结果就是一个对象，否则就会从头创建一个对象并且函数在这个新函数的上下文中执行。（好绕，回头但针对这个问题再另起一篇）。&lt;/p&gt;
+
+&lt;p&gt;如果看到这了，你还没有整明白文章开头的那道题，那我也没有办法了。&lt;/p&gt;
+
+&lt;p&gt;答案：
+//a: undefined,0,0,0
+//b: undefined,0,1,2
+//c: undefined,0,1,1&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:refer1&#34;&gt;&lt;a href=&#34;http://davidbcalhoun.com/2011/different-ways-of-defining-functions-in-javascript-this-is-madness/&#34;&gt;Different Ways of Defining Functions in JavaScript (This Is Madness!)&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:refer1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Bower使用简明教程</title>
+      <link>http://localhost:1313/javascript/2015-10-08-Bower%E4%BD%BF%E7%94%A8%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/</link>
+      <pubDate>Thu, 08 Oct 2015 18:10:45 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/javascript/2015-10-08-Bower%E4%BD%BF%E7%94%A8%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/</guid>
+      <description>&lt;p&gt;最近接触到Node.js，于是摇身一变前后端全部用JavaScript实现，这样其实导致界限不清晰了——其实很清晰，但当你看一个.js文件的时候总是要想一下这是前端逻辑还是后端逻辑，感觉怪怪的。后端需要的模块可以用npm这个大杀器安装，虽然前端的依赖也可以用它解决，但其实有更专业的解决方案——&lt;a href=&#34;http://bower.io&#34;&gt;bower&lt;/a&gt;。官方简介里面其实并没有提到它是专门用来解决前端依赖的，看它的用例以及别的项目的使用情况也可以看到
+，通常的用法就是&lt;code&gt;&amp;lt;script src=&amp;quot;bower_components/xxx_lib/xxxx.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;&lt;/code&gt;，这就已经很明显了，不是吗？&lt;/p&gt;
+
+&lt;p&gt;以我这次项目中用到的&lt;code&gt;webrtc-adapter&lt;/code&gt;为例，写一个简单的使用流程。&lt;/p&gt;
+
+&lt;p&gt;首先要安装它&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;npm install [-g] bower&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;什么？没有装npm？那你可以先去搜索一下了。这里我提一点，因为Debian打包时把Node.js的二进制文件命名为&lt;code&gt;nodejs&lt;/code&gt;，而很多第三方包在用的时候第一行其实是&lt;code&gt;#!/usr/bin/env node&lt;/code&gt;，这样就会提示找不到Node.js的可执行文件，遇到这个情况有两种解决方案。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;安装nodejs-legacy包&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;sudo apt-get install nodejs-legacy&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;自己创建一个node&lt;a href=&#34;https://en.wikipedia.org/wiki/Symbolic_link&#34;&gt;符号链接&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;sudo ln -s /usr/bin/nodejs /usr/bin/node&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;然后要知道需要用的模块的名字，比如我这是在&lt;a href=&#34;https://github.com/webrtc/adapter&#34;&gt;adapter&lt;/a&gt;的文档里发现的这个名字。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;bower install webrtc-adapter&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;安装完成之后会在当前目录创建一个名为&lt;code&gt;bower_components&lt;/code&gt;的目录，其实就是把你要的repo下载到本地了。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;需要注意的是，当我们选择了使用bower作为包管理工具时，就默认排除了我更喜欢的另外一种方式——CDN。对，为了减轻自己的服务器的压力，通常会把一些公用的库的js的引用放在那些免费提供的CDN上，比如又拍云等等。那既然选择了bower的方式，就继续吧。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;假设我们是在一个git repo里面进行开发，你肯定不希望提交的时候把bower_components里的东西也提交，而是只保留一个清单文件，这个清单文件列出了已经下载的库的名称和版本信息。所以&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;bower init&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;那么问题来了，如果写完这个之后我又加了个依赖，难道还要手工修改&lt;code&gt;bower.json&lt;/code&gt;文件吗？当然不需要！只需要在安装的时候加个参数bower就帮你完成了&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;bower install jquery --save&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;这时会出现一个很神奇的交互界面，放心的填写自己的项目信息吧，注意前面的一长串信息都引用的库(依赖)没有关系，而是你自己的项目信息。最后会提示是否把已经下载的库加入本项目的依赖中，而且默认是Y（是），所以直接回车就行。一路回车就会看到当前目录下生成了一个&lt;code&gt;bower.json&lt;/code&gt;文件。但这还没完，这解决了不需要提交下载的依赖文件的问题，但没有解决不让git提交它们的问题，这时就需要&lt;code&gt;.gitignore&lt;/code&gt;文件出场了。&lt;/p&gt;
+
+&lt;p&gt;在当前目录下新建&lt;code&gt;.gitignore&lt;/code&gt;文件，添加以下内容&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;node_modules
+bower_components
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;经过上面的步骤，就可以放心的提交最小化的项目了。而部署项目的时候只需要再执行&lt;code&gt;bower install&lt;/code&gt;和&lt;code&gt;npm install&lt;/code&gt;就可以了。&lt;/p&gt;
+
+&lt;p&gt;更多详细信息可以参考&lt;code&gt;bower help&lt;/code&gt;。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;关于&lt;code&gt;npm install&lt;/code&gt;需要的&lt;code&gt;package.json&lt;/code&gt;这里没有提到，有兴趣的同学可以自行查找。&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>jsonp原理全解析</title>
+      <link>http://localhost:1313/javascript/2015-08-11-jsonp%E5%8E%9F%E7%90%86%E5%85%A8%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Tue, 11 Aug 2015 23:40:32 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/javascript/2015-08-11-jsonp%E5%8E%9F%E7%90%86%E5%85%A8%E8%A7%A3%E6%9E%90/</guid>
+      <description>
+
+&lt;p&gt;昨天写了一篇关于iframe间跨域通讯问题的总结，想着既然提到了jsonp这个长久以来曽令我困惑的技术，就再总结一篇吧。&lt;/p&gt;
+
+&lt;p&gt;主要参考了&lt;a href=&#34;http://www.cnblogs.com/dowinning/archive/2012/04/19/json-jsonp-jquery.html&#34;&gt;这篇文章&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h2 id=&#34;起因&#34;&gt;起因&lt;/h2&gt;
+
+&lt;p&gt;jsonp是为了解决跨域请求而产生的技术，这里的跨域并不是iframe之间通讯的那种，后者是禁止了一个域的js操作位于另一个域的资源，往往是为了在iframe之间传递变量，而jsonp则是为了解决跨域请求接口。但说到底，还是同源策略引起的。&lt;/p&gt;
+
+&lt;h2 id=&#34;原理&#34;&gt;原理&lt;/h2&gt;
+
+&lt;p&gt;jsonp的出现是优秀的工程师智慧的结晶。可能是受到“所有带src属性的标签都可以跨域访问资源”这个事实的启发。设想一下，诸如&lt;code&gt;&amp;lt;script&amp;gt;/&amp;lt;img&amp;gt;/&amp;lt;iframe&lt;/code&gt;这些标签，它们请求后返回的是脚本或者图片或者页面，那么能不能返回一个函数调用呢？当然能。&lt;/p&gt;
+
+&lt;p&gt;如，在本地的页面上定义一个函数&lt;code&gt;function_example&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;script&amp;gt;
+    function function_example() {
+        alert(&amp;quot;我是本地定义的函数&amp;quot;);
+    }
+&amp;lt;/script&amp;gt;
+&amp;lt;script src=&amp;quot;http://remotehost.com/remote.js&amp;quot;/&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;《JavaScript高级程序设计》第一章提到了脚本加载是按照顺序执行的，也就是说在加载remote.js时，前面定义&lt;code&gt;function_example&lt;/code&gt;的脚本已经加载了，即该函数已经定义了。那么如果在remote.js中调用该函数，会出现什么情况呢？当然函数就被执行了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function_example();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面就是jsonp实现的基础原理。&lt;/p&gt;
+
+&lt;h2 id=&#34;实践&#34;&gt;实践&lt;/h2&gt;
+
+&lt;p&gt;那么具体到使用应该怎么操作呢？
+不要看到在第一个例子中引入了remote.js文件就误以为我们真的是要引入js文件了，要记得我们的目的是请求服务接口，所以，服务端应该返回类似&lt;code&gt;function_example()&lt;/code&gt;这样的形式才可以，也即需要返回一个由函数名包含的结果，括号中才是真正的结果，那么结果当然要用JavaScript原生支持的json格式才完美了。所以我们看到的jsonp的返回值多数形如&lt;code&gt;callback({&amp;quot;aa&amp;quot;: &amp;quot;bb&amp;quot;, &amp;quot;cc&amp;quot;: &amp;quot;dd&amp;quot;})&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;前端&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;script&amp;gt;
+    function handler(result) {
+        alert(result.login);
+    }
+    
+    var url = &amp;quot;http://remotehost.com/index.php?name=frost&amp;amp;pass=123&amp;amp;callback=handler&amp;quot;;
+    var script = document.createElement(&amp;quot;script&amp;quot;);
+    script.setAttribute(&amp;quot;src&amp;quot;, url);
+    document.getElementsByTagName(&amp;quot;head&amp;quot;)[0].appendChild(script);
+&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;那服务端应该怎么处理呢？&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;&amp;lt;?php
+
+$name = $_GET[&#39;name&#39;];
+$pass = $_GET[&#39;pass&#39;];
+$callback = $_GET[&#39;callback&#39;];
+// do something
+
+$result = [
+    &amp;quot;login&amp;quot;: &amp;quot;true&amp;quot;,
+    &amp;quot;other&amp;quot;: &amp;quot;foobar&amp;quot;
+];
+
+echo json_encode($result);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面的代码能完成要求吗？显然不能，因为它返回的是一个json对象，而不是能够执行的js指令。
+因此，最后一句应该写成&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;echo $callback . &#39;(&#39; . $result . &#39;)&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样就完整了。&lt;/p&gt;
+
+&lt;p&gt;这还引出了另外一个安全问题，既然请求可以返回函数调用的代码片段，那么也可以返回任意的代码片段，如果直接&lt;code&gt;eval&lt;/code&gt;执行返回的代码片段就会带来安全隐患，因为你不知道服务器返回的是什么样的调用。&lt;/p&gt;
+
+&lt;h2 id=&#34;应用场景&#34;&gt;应用场景&lt;/h2&gt;
+
+&lt;p&gt;实际使用中就像AJAX一样，虽然用原生的方法也可以写，但毕竟不那么方便，最流行的当然是jQuery了，提供了方便的jsonp支持，就像发送普通的ajax请求一样。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;$.ajax({
+    data: params,
+    url: url,
+    dataType: &amp;quot;jsonp&amp;quot;,
+    jsonp: &amp;quot;callback&amp;quot;,
+    jsonpCallback: &amp;quot;function_name&amp;quot;,
+    success: function (response) {
+        alert(response.result);
+    },
+    error: function () {
+        // other handle
+    }
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;事实上我们不用关心回调函数的名称，因为不管是什么，只要能传递到服务端，两端保持一致就可以保证正常执行。因此，在上面的请求中&lt;code&gt;jsonp/jsonpCallback&lt;/code&gt;参数不是必需的。&lt;/p&gt;
+
+&lt;h2 id=&#34;完整示例&#34;&gt;完整示例&lt;/h2&gt;
+
+&lt;p&gt;看完上面的代码片段有同学可能要问了，那如果客户端不用jsonp的方式调用服务呢？这样返回的结果岂不是错了。对，所以还要做一下适配，就像我们通常会给PHP的超全局变量封装一层获取参数的方法一样，也会给返回前对结果处理的方法做一些统一。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;
+echo preResult(json_encode($result));
+
+function preResult($encodedResult) {
+    $callback = $_GET[&#39;callback&#39;];
+    $postResult = $callback ? $callback . &amp;quot;(&amp;quot; . $result . &amp;quot;)&amp;quot; : $result;
+    
+    return $postResult;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意，上面的代码片段没有做必要的条件判断和异常捕获等操作，生产环境代码中要视具体情况而定。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>iframe间通信方法总结</title>
+      <link>http://localhost:1313/javascript/2015-08-10-iframe%E9%97%B4%E9%80%9A%E4%BF%A1%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Mon, 10 Aug 2015 10:15:56 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/javascript/2015-08-10-iframe%E9%97%B4%E9%80%9A%E4%BF%A1%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/</guid>
+      <description>
+
+&lt;p&gt;在对外提供Web组件时常常会遇到iframe间的通信问题，本文旨在总结目前主流的解决方案，并给出了详细的代码示例。&lt;/p&gt;
+
+&lt;p&gt;解决方案大体有以下几种：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;window.postMessage&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Cross Frame(aba)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;window.name&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;而窗体间的通信问题分为以下几种：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;child和parent之间&lt;/li&gt;
+&lt;li&gt;child和child之间&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;本文代码示例的&lt;a href=&#34;https://github.com/lovelock/cross-iframe-communication-exmaple.git&#34;&gt;代码仓库&lt;/a&gt;。
+下面详细介绍这些方法。&lt;/p&gt;
+
+&lt;h2 id=&#34;window-postmessage&#34;&gt;&lt;code&gt;window.postMessage&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;这种方法有局限，因为是HTML5的API，所以只支持到IE8及以上的IE浏览器，其他现代浏览器当然没有问题。&lt;/p&gt;
+
+&lt;h3 id=&#34;child和parent之间的通信&#34;&gt;child和parent之间的通信&lt;/h3&gt;
+
+&lt;p&gt;child和parent之间用&lt;code&gt;window.postMessage&lt;/code&gt;通信不受&lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy&#34;&gt;同源策略&lt;/a&gt;的限制，只需要在被调用方判断一下是否是可以接受的调用方就可以了。具体是在parent（也就是主window）里实现如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;iframe src=&amp;quot;http://iframe1.unixera.com/iframe1.html&amp;quot; id=&amp;quot;iframe1&amp;quot;&amp;gt;
+&amp;lt;/iframe&amp;gt;
+&amp;lt;div&amp;gt;
+    &amp;lt;input type=&amp;quot;submit&amp;quot; id=&amp;quot;send&amp;quot;/&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;div&amp;gt;
+    &amp;lt;span&amp;gt;Message from Child&amp;lt;/span&amp;gt;
+    &amp;lt;div id=&amp;quot;message_handler&amp;quot;&amp;gt;
+    &amp;lt;/div&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;script src=&amp;quot;iframe1.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;window.onload = function () {
+    var message_handler = document.getElementById(&amp;quot;message_handler&amp;quot;);
+    var btn = document.getElementById(&amp;quot;send&amp;quot;);
+    
+    function sendMessage(e) {
+        e.preventDefault();
+        document.getElementById(&amp;quot;iframe1&amp;quot;).contentWindow.postMessage(&amp;quot;Welcome to unixera.com&amp;quot;, &amp;quot;http://iframe1.unixera.com&amp;quot;);
+    }
+    
+    function receiveMessage(e) {
+        if (e.origin !== &amp;quot;http://container.unixera.com&amp;quot;) {
+            return;
+        }
+        
+        message_handler.innerHTML = e.data;
+        
+        e.source.postMessage(&amp;quot;Response from parent&amp;quot;, e.origin);
+    }
+    
+    if (window.addEventListener) {
+        btn.addEventListener(&#39;click&#39;, sendMessage, false);
+        addEventListener(&#39;message&#39;, receiveMessage, false);
+    } else {
+        btn.attachEvent(&#39;onclick&#39;, sendMessage);
+        attachEvent(&#39;onmessage&#39;, receiveMessage);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;child iframe的代码如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;div&amp;gt;
+    &amp;lt;input type=&amp;quot;submit&amp;quot; id=&amp;quot;send&amp;quot;/&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;div&amp;gt;
+    &amp;lt;span&amp;gt;Message from Parent&amp;lt;/span&amp;gt;
+    &amp;lt;div id=&amp;quot;message_handler&amp;quot;&amp;gt;
+    &amp;lt;/div&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;script src=&amp;quot;iframe1.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;window.onload = function () {
+    var message_handler = document.getElementById(&amp;quot;message_handler&amp;quot;);
+    var btn = document.getElementById(&amp;quot;send&amp;quot;);
+    
+    function sendMessage(e) {
+        e.preventDefault();
+        parent.window.postMessage(&amp;quot;Welcome to unixera.com&amp;quot;, &amp;quot;http://iframe1.unixera.com&amp;quot;);
+    }
+    
+    function receiveMessage(e) {
+        if (e.origin !== &amp;quot;http://container.unixera.com&amp;quot;) {
+            return;
+        }
+        
+        message_handler.innerHTML = e.data;
+        
+        e.source.postMessage(&amp;quot;Response from parent&amp;quot;, e.origin);
+    }
+    
+    if (window.addEventListener) {
+        btn.addEventListener(&#39;click&#39;, sendMessage, false);
+        addEventListener(&#39;message&#39;, receiveMessage, false);
+    } else {
+        btn.attachEvent(&#39;onclick&#39;, sendMessage);
+        attachEvent(&#39;onmessage&#39;, receiveMessage);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;具体代码查看&lt;code&gt;parent-to-child&lt;/code&gt;和&lt;code&gt;child-to-parent&lt;/code&gt;代码分支。&lt;/p&gt;
+
+&lt;h3 id=&#34;child和child之间的通信&#34;&gt;child和child之间的通信&lt;/h3&gt;
+
+&lt;p&gt;主体代码和上面一样，但会遇到跨域的问题——可能你也会注意到了，主window和子iframe之间不存在跨域的问题，即使不是属于同一个一级域，类似&lt;code&gt;www.a.com&lt;/code&gt;和&lt;code&gt;www.b.com&lt;/code&gt;也不会出现问题。但iframe之间的通信就会出现这个问题，在&lt;code&gt;window.postMessage&lt;/code&gt;这个方案中，可以通过设置&lt;code&gt;document.domain = &amp;quot;unixera.com&amp;quot;&lt;/code&gt;，但这个设置也有局限性，如果iframe属于不同的一级域名，就无法设置。因此这种方法只适合站内不同子域间的通信。&lt;/p&gt;
+
+&lt;p&gt;值得注意的是，如果一个主window内存在两个同级的iframe，则三个页面都需要设置&lt;code&gt;document.domain&lt;/code&gt;。&lt;/p&gt;
+
+&lt;h2 id=&#34;cross-frame&#34;&gt;&lt;code&gt;Cross Frame&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;这是一个通用的方法，简单来说是A iframe包含B iframe，在B iframe中调用了相关的接口，完成调用之后获取到结果，&lt;code&gt;location.href&lt;/code&gt;到和A iframe位于同一个域的C iframe，在C iframe中调用A iframe中定义的方法，将B iframe中获取的结果作为参数传到要跳转的url后，在C iframe中通过&lt;code&gt;location.search&lt;/code&gt;变量来获取变量。&lt;/p&gt;
+
+&lt;p&gt;这个方法的基础是，在同一个域下，子iframe可以通过&lt;code&gt;parent.parent_function()&lt;/code&gt;来调用其parent中定义的方法。
+&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/iframe.png&#34; alt=&#34;aba方法图示&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;A页面：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;iframe src=&amp;quot;www.b.com/b.html&amp;quot;&amp;gt;&amp;lt;/iframe&amp;gt;
+&amp;lt;script src=&amp;quot;a.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function a_function (arg) {
+    alert(&amp;quot;I received: &amp;quot; + arg);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;B页面：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;script src=&amp;quot;b.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;$.ajax({
+    data: {
+        &amp;quot;xx&amp;quot;: &amp;quot;yy&amp;quot;
+    },
+    url: &amp;quot;http://www.b.com/go.php&amp;quot;,
+    success: function (response) {
+        location.href = &amp;quot;http://www.a.com/c.html?arg=&amp;quot; + response.result;
+    }
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;C页面：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;script src=&amp;quot;c.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var result = location.search.substring(1);
+var arg = result.split(&amp;quot;=&amp;quot;)[1];
+parent.a_function(arg);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;window-name&#34;&gt;&lt;code&gt;window.name&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;window&lt;/code&gt;对象的&lt;code&gt;name&lt;/code&gt;属性是一个很特殊的属性，在设定了&lt;code&gt;window.name&lt;/code&gt;之后，执行&lt;code&gt;location.href&lt;/code&gt;跳转，&lt;code&gt;window.name&lt;/code&gt;属性仍然不会发生变化，可以通过这种方式实现变量的传递。&lt;/p&gt;
+
+&lt;p&gt;A页面：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;iframe src=&amp;quot;www.b.com/b.html&amp;quot;&amp;gt;&amp;lt;/iframe&amp;gt;
+&amp;lt;script src=&amp;quot;a.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function a_function (arg) {
+    alert(&amp;quot;I received: &amp;quot; + arg);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;B页面：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;script src=&amp;quot;b.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;$.ajax({
+    data: {
+        &amp;quot;xx&amp;quot;: &amp;quot;yy&amp;quot;
+    },
+    url: &amp;quot;http://www.b.com/go.php&amp;quot;,
+    success: function (response) {
+        window.name = response.result;
+        location.href = &amp;quot;http://www.a.com/c.html&amp;quot;;
+    }
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;C页面：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;script src=&amp;quot;c.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var arg = window.name;
+parent.a_function(arg);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这次先介绍这些方法，大家有什么问题或者有更好的方法可以补充。
+其实写这篇总结是因为这次遇到了问题，花了好几天的时间又上网搜索，又是请教公司的前端大牛，才得到一些零碎的知识，但很明显这是不完整的，以后再遇到会继续更新。网上却找不到很完整的教程，其中的一些坑也没有人能详细的总结。故而写下这一篇具有操作性的教程，希望对读者有用。&lt;/p&gt;
+
+&lt;p&gt;有些同学可能会疑问为什么jsonp没有提到，因为我认为它是前端和服务器端通信用到的，虽然和跨域有关，但和iframe并无关系，因此在此未涉及。同理，还有CORS。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Bootstrap Modal用法总结</title>
+      <link>http://localhost:1313/javascript/2015-05-06-bootstrap-modalyong-fa-zong-jie/</link>
+      <pubDate>Wed, 06 May 2015 23:15:41 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/javascript/2015-05-06-bootstrap-modalyong-fa-zong-jie/</guid>
+      <description>
+
+&lt;p&gt;这段时间前端后端同时写，对jQuery和Bootstrap用的比较多，说实话我对Modal很感兴趣，单纯的就是因为它好看，并且看起来友好，不像alert那么暴力，FF的实现还好，而Chrome的alert直接忽视所有其他操作，只能选择不再弹出，但只要选择了这个不再弹出，在重启这个页面之前（刷新没用）就不会再弹出了，真不明白这是什么逻辑。当然最重要的一点是Modal可以交互。&lt;/p&gt;
+
+&lt;p&gt;下面简单说说Modal的用法，当然基本上来自&lt;a href=&#34;http://getbootstrap.com/javascript/&#34;&gt;官方文档&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h2 id=&#34;依赖&#34;&gt;依赖&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;jQuery&lt;/li&gt;
+&lt;li&gt;Bootstrap&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;没有对它们进行安全版本测试，就现在而言，使用最新的版本总是没有问题的。&lt;/p&gt;
+
+&lt;h2 id=&#34;基本组成&#34;&gt;基本组成&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;.modal&lt;/code&gt; Modal的主体div
+
+&lt;ul&gt;
+&lt;li&gt;通常我们会给它指定一个id，因为你总是会希望能更细粒度的控制一个modal的行为吧，况且文档中也说不可以使用叠加的modal，也就是说，同一时间一个页面上只能出现一个modal，如果直接使用&lt;code&gt;.modal&lt;/code&gt; 来控制它的显示和隐藏，早晚会出现问题的&lt;/li&gt;
+&lt;li&gt;还有一个属性是&lt;code&gt;role&lt;/code&gt; ，这个属性很有意思，其实没有什么特别的用途，只是在阅读代码时让你知道它的作用是一个对话框，为什么需要这个呢？因为&lt;code&gt;&amp;lt;div&amp;gt;&lt;/code&gt; 这个标签本身不能表达这个意思，比如&lt;code&gt;&amp;lt;select&amp;gt;&lt;/code&gt; 标签，你一看就知道它一定是一个下拉选择器，但&lt;code&gt;&amp;lt;div&amp;gt;&lt;/code&gt; 呢？所以，这个&lt;code&gt;role&lt;/code&gt; 就是用来说明标签本身无法说明的一些内容，比较常见的还有在一个&lt;code&gt;.nav .nav-tabs&lt;/code&gt; 中的&lt;code&gt;&amp;lt;li&amp;gt;&lt;/code&gt; 标签中，会添加&lt;code&gt;role=&amp;quot;option&amp;quot;&lt;/code&gt; 这样的说明，就是告诉开发者这是一个功能的多个选项之一&lt;/li&gt;
+&lt;li&gt;通常我们会喜欢加上一些动画，最常用的是&lt;code&gt;.fade&lt;/code&gt; ，当然如果你更喜欢直接，也可以忽视它&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tabIndex=&amp;quot;-1&amp;quot;&lt;/code&gt; &lt;a href=&#34;http://jehiah.cz/a/tabindex&#34;&gt;关于这个属性的解释&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;.modal-dialog&lt;/code&gt; 关于这个没有找到更多的解释，我想大概是因为弹出的是一个对话框吧，没有见到更多的类型
+
+&lt;ul&gt;
+&lt;li&gt;同样这个class也可以有叠加选项，&lt;code&gt;.modal-lg/.modal-md/.modal-sm&lt;/code&gt; 分别表示大中小三种型号&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;.modal-content&lt;/code&gt; 当然就是modal的内容了&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;.modal-header&lt;/code&gt; 内容的第一层，头部
+
+&lt;ul&gt;
+&lt;li&gt;可以在其中放置一个关闭按钮，比如右上角的一个&lt;code&gt;x&lt;/code&gt; 等，为了诸如屏幕阅读器之类的用户辅助工具更好的工作，可以在这个关闭按钮上加上&lt;code&gt;aria-labelledby&lt;/code&gt; 属性，值是&lt;code&gt;.modal-title&lt;/code&gt; 的&lt;code&gt;id&lt;/code&gt; ，当然也可以手动用&lt;code&gt;aria-label=&amp;quot;myModalTitle&amp;quot;&lt;/code&gt; 来指定，但动态的写法更方便，不是吗？&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;.modal-title&lt;/code&gt; 放置在&lt;code&gt;.modal-header&lt;/code&gt; 中，modal的标题&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;.modal-body&lt;/code&gt;  modal的正文部分，需要显示的主要内容就在这个部分了&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;.modal-footer&lt;/code&gt; 通常用来放置确认/关闭等按钮
+
+&lt;ul&gt;
+&lt;li&gt;当然我们需要一个关闭modal的按钮，这个按钮需要添加一个&lt;code&gt;data-dismiss=&amp;quot;modal&amp;quot;&lt;/code&gt; 的属性才能正确的完成功能，和上面那个&lt;code&gt;x&lt;/code&gt; 按钮的功能是一样的&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;iframe width=&#34;100%&#34; height=&#34;300&#34; src=&#34;//jsfiddle.net/frostwong/ve96c6fr/embedded/&#34; allowfullscreen=&#34;allowfullscreen&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;经过上面这几步，一个完整的modal对话框就完成了，但问题来了，怎么触发它呢？&lt;/p&gt;
+
+&lt;p&gt;下面来说一下modal的触发方式。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;按钮
+这个应该是最常用的方式。需要注意的有几点&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;data-toggle=&amp;quot;modal&amp;quot;&lt;/code&gt; 指明这个按钮要触发的widget类型是modal，常见的还有
+&lt;code&gt;html
+data-toggle=&amp;quot;modal&amp;quot;
+data-toggle=&amp;quot;collapse&amp;quot;
+data-toggle=&amp;quot;dropdown&amp;quot;
+data-toggle=&amp;quot;tab&amp;quot;
+&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;data-target=&amp;quot;#myModal&amp;quot;&lt;/code&gt; 指明这个按钮要触发的modal的id是&lt;code&gt;myModal&lt;/code&gt;
+有了这两个属性点击这个按钮时就可以触发这个modal了。&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;JavaScript方法
+&lt;code&gt;$(&#39;#myModal&#39;).modal(options)&lt;/code&gt;
+关于&lt;code&gt;options&lt;/code&gt;，有以下几个选项&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;backdrop，值可选布尔值(&lt;code&gt;true/false&lt;/code&gt;)或&lt;code&gt;&#39;static&#39;&lt;/code&gt; ，默认值是&lt;code&gt;true&lt;/code&gt;，当设置为&lt;code&gt;false&lt;/code&gt; 或&lt;code&gt;&#39;static&#39;&lt;/code&gt; 时点击modal外的区域modal不消失，反之会消失&lt;/li&gt;
+&lt;li&gt;keyboard，点击&lt;code&gt;Escape&lt;/code&gt; 键时modal是否消失，默认是&lt;code&gt;true&lt;/code&gt;，可选&lt;code&gt;false&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;show，初始化时modal是否显示，默认&lt;code&gt;false&lt;/code&gt; 不显示
+&lt;code&gt;javascript
+$(&#39;#myModal&#39;).modal({
+	backdrop: &#39;static&#39;,
+	keyboard: false,
+	show: true
+});
+&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;modal方法&#34;&gt;Modal方法&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;$(&#39;#myModal&#39;).modal(options)&lt;/code&gt; 上面已经说过了&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$(&#39;#myModal&#39;).modal(&#39;toggle&#39;)&lt;/code&gt; 手动显示或隐藏modal&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$(&#39;#myModal&#39;).modal(&#39;show&#39;)&lt;/code&gt; 手动显示modal&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$(&#39;#myModal&#39;).modal(&#39;hide&#39;)&lt;/code&gt; 手动隐藏modal&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$(&#39;#myModal&#39;).modal(&#39;handleUpdate&#39;)&lt;/code&gt; 在modal处于显示状态时，如果它的高度有变化，就需要执行这个方法（也仅有这个情况下需要执行这个方法），它会在右边产生一个滚动条，并且把内容向左跳一下。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;iframe width=&#34;100%&#34; height=&#34;300&#34; src=&#34;//jsfiddle.net/frostwong/ya6956pp/embedded/&#34; allowfullscreen=&#34;allowfullscreen&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+
+&lt;h2 id=&#34;modal事件&#34;&gt;Modal事件&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;show.bs.modal&lt;/code&gt; 当&lt;code&gt;show&lt;/code&gt; 方法执行时，立即触发该事件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;shown.bs.modal&lt;/code&gt; 当&lt;code&gt;show&lt;/code&gt; 方法执行时，会等待CSS效果完成之后再触发该事件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;hide.bs.modal&lt;/code&gt; 同1，&lt;code&gt;hide&lt;/code&gt; 方法&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;hidden.bs.modal&lt;/code&gt; 同2， &lt;code&gt;hide&lt;/code&gt; 方法&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;关于Modal还有使用Bootstrap网格系统的部分，但这个部分至少对目前来说用处不多，暂不提。
+&lt;code&gt;options&lt;/code&gt; 中还包括一个&lt;code&gt;remote&lt;/code&gt; 选项，因为已经被废弃，将来（4.0）版本中会移除，故对该主体和它相关的&lt;code&gt;loaded.bs.modal&lt;/code&gt; 都未涉及。&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>jQuery动态生成元素</title>
+      <link>http://localhost:1313/javascript/2015-05-05-jquerydong-tai-sheng-cheng-yuan-su/</link>
+      <pubDate>Tue, 05 May 2015 23:14:20 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/javascript/2015-05-05-jquerydong-tai-sheng-cheng-yuan-su/</guid>
+      <description>
+
+&lt;p&gt;这些天做的项目中频繁遇到类似的问题，比如根据ajax返回的结果动态生成一个table或者select的options。这里做一个简单的总结。&lt;/p&gt;
+
+&lt;h2 id=&#34;生成元素&#34;&gt;生成元素&lt;/h2&gt;
+
+&lt;p&gt;1. 生成table&lt;/p&gt;
+
+&lt;iframe width=&#34;100%&#34; height=&#34;300&#34; src=&#34;//jsfiddle.net/u8aknbe7/embedded/&#34; allowfullscreen=&#34;allowfullscreen&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;2. 生成select&lt;/p&gt;
+
+&lt;iframe width=&#34;100%&#34; height=&#34;300&#34; src=&#34;//jsfiddle.net/frostwong/uvgpew9c/embedded/&#34; allowfullscreen=&#34;allowfullscreen&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+
+&lt;h2 id=&#34;获取元素&#34;&gt;获取元素&lt;/h2&gt;
+
+&lt;p&gt;1. 获取select的值&lt;/p&gt;
+
+&lt;p&gt;这个问题当时花了我不少时间，我们知道，在一个select中，带有selected标签的那个是不用点开就可以看到的那个，解决这个问题就要从这里入手。如果在option列表里没有手工指定哪个是选中的，那么默认是第一个。&lt;/p&gt;
+
+&lt;iframe width=&#34;100%&#34; height=&#34;300&#34; src=&#34;//jsfiddle.net/frostwong/Lxb4sgpu/embedded/&#34; allowfullscreen=&#34;allowfullscreen&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;2. 遍历一个table中tbody的所有元素&lt;/p&gt;
+
+&lt;iframe width=&#34;100%&#34; height=&#34;300&#34; src=&#34;//jsfiddle.net/frostwong/f68y04c7/embedded/&#34; allowfullscreen=&#34;allowfullscreen&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>JavaScript代码约定</title>
+      <link>http://localhost:1313/javascript/2015-05-02-javascriptdai-ma-yue-ding/</link>
+      <pubDate>Sat, 02 May 2015 21:08:49 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/javascript/2015-05-02-javascriptdai-ma-yue-ding/</guid>
+      <description>
+
+&lt;p&gt;原文标题：Code Conventions for the JavaScript Programming Language
+作者：Douglas Crockford&lt;/p&gt;
+
+&lt;p&gt;这是JavaScript编程中的一系列代码约定和规则。灵感来自于Sun的Code Conventions for the Java Programming Language。当然，因为JavaScript不是Java，所以这篇文章也完全不同于前者。&lt;/p&gt;
+
+&lt;p&gt;对于一个组织而言，代码库的质量和软件的长期价值成正比。在它的生命周期内，一个程序会经手很多人。如果一个程序可以清晰的传达它的结构和和特点，在不远的将来修改时就不太可能会崩溃。&lt;/p&gt;
+
+&lt;p&gt;编码约定有助于减少代码的脆性。&lt;/p&gt;
+
+&lt;p&gt;所有JavaScript代码都是公开发送的。它也应该总是出版物的质量。&lt;/p&gt;
+
+&lt;p&gt;整齐很重要。&lt;/p&gt;
+
+&lt;h2 id=&#34;javascript文件&#34;&gt;JavaScript文件&lt;/h2&gt;
+
+&lt;p&gt;JavaScript程序应该以&lt;code&gt;.js&lt;/code&gt;文件保存和传输。
+JavaScript不应该嵌入在HTML文件中，除非代码是针对一个特定的session。将JS代码嵌入在HTML中，会导致由于不能通过缓存和压缩来减小页面体积而使其显著增加。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;lt;script src=filename.js&lt;/code&gt;标签在&lt;code&gt;&amp;lt;body&amp;gt;&amp;lt;/body&amp;gt;&lt;/code&gt;标签中出现的越晚越好。这减小了其他页面组件的的脚本加载而带来的影响。没有必要用&lt;code&gt;language&lt;/code&gt;或&lt;code&gt;type&lt;/code&gt;属性。决定MIME类型是服务器而不是脚本标签的职责。&lt;/p&gt;
+
+&lt;h2 id=&#34;缩进&#34;&gt;缩进&lt;/h2&gt;
+
+&lt;p&gt;缩进的单位是4个空格。应该避免使用制表符，因为（在21世纪的今天）仍然没有取代制表符的标准。使用空格会产生更大的文件体积，但在内网这个增长不会很明显，而且这个差异会被minification缩小。&lt;/p&gt;
+
+&lt;h2 id=&#34;行长度&#34;&gt;行长度&lt;/h2&gt;
+
+&lt;p&gt;避免长于80个字符的行。当一个语句在一行不合适时，可能需要断行。把断行放在操作符之后，理想情况下放在逗号后面。操作符后面的换行会减少因为插入分号而掩盖的复制粘贴错误的可能性。下一行应该缩进8个空格。&lt;/p&gt;
+
+&lt;h2 id=&#34;注释&#34;&gt;注释&lt;/h2&gt;
+
+&lt;p&gt;写注释时慷慨一些吧。留一些信息给将来可能会读到的人（可能是你自己），他可能会需要理解你做的事情。注释需要写好并写清晰，就像它们要标注的代码一样。偶尔一个幽默的金块儿可能会得到感恩，但挫折和怨恨可不能。&lt;/p&gt;
+
+&lt;p&gt;保持注释的更新很重要。有错误的注释会让代码更难阅读和理解。&lt;/p&gt;
+
+&lt;p&gt;只做有意义的注释。专注于那些不能被立即看到的。不要浪费阅读者的时间去看这些东西：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;i = 0; // Set i to zero
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;通常用行注释。留着块注释做正式的文档。&lt;/p&gt;
+
+&lt;h2 id=&#34;变量声明&#34;&gt;变量声明&lt;/h2&gt;
+
+&lt;p&gt;所有的变量都应该在使用前声明。JavaScript不要求如此，但这样做可以让代码更易读并且容易检测到那些没有声明的隐式的全局变量。隐式的全局变量永远都不要用。全局变量的使用要尽量减少。&lt;/p&gt;
+
+&lt;p&gt;在函数题中，&lt;code&gt;var&lt;/code&gt;语句应该是第一条语句。&lt;/p&gt;
+
+&lt;p&gt;最好给每个变量单独的行和注释。如果可能的话，尽量用字母顺序给它们排序。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var currentEntry, // currently selected table entry
+    level,        // indentation level
+    size;         // size of table
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;JavaScript没有块作用域，所以在代码块中定义变量可能会让经验丰富的C系程序员很困惑。在函数开头定义所有的变量。&lt;/p&gt;
+
+&lt;h2 id=&#34;函数声明&#34;&gt;函数声明&lt;/h2&gt;
+
+&lt;p&gt;所有的函数都应该显定义再使用。内部函数应该位于&lt;code&gt;var&lt;/code&gt;语句之后。这样可以更容易的看出在这个作用域内包含的变量。&lt;/p&gt;
+
+&lt;p&gt;函数名和参数列表左括号之间不应该有空格。右括号和大括号之间应该有一个空格。函数体应该缩进4个空格。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>JavaScript执行总结</title>
+      <link>http://localhost:1313/javascript/2015-04-28-javascriptzhi-xing-zong-jie/</link>
+      <pubDate>Tue, 28 Apr 2015 22:03:47 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/javascript/2015-04-28-javascriptzhi-xing-zong-jie/</guid>
+      <description>&lt;p&gt;在所有的场景下，都有一个&lt;strong&gt;将来某个时刻&lt;/strong&gt;会执行的回调函数，这&lt;strong&gt;将来某个时刻&lt;/strong&gt;就是我们所说的&lt;strong&gt;异步流&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;异步执行会被推出&lt;strong&gt;同步流&lt;/strong&gt;。也就是说，当同步代码正在执行时异步代码就不会执行。这就是JavaScript单线程的意义。&lt;/p&gt;
+
+&lt;p&gt;更具体地说，当JS引擎空闲时——没有在执行同步或者异步代码——它会轮询那些被触发的异步回调事件（例如到期时间(setTimeout)，接收到的网络响应(ajax)）并且一一的执行它们。这就是&lt;strong&gt;事件循环&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;也就是说，回调代码有可能会在&lt;strong&gt;所有同步代码&lt;/strong&gt;在它们各自的代码块中&lt;strong&gt;执行完毕&lt;/strong&gt;之后才会执行。&lt;/p&gt;
+
+&lt;p&gt;简而言之，回调函数是被同步创建但异步执行的。除非你知道这个异步函数&lt;strong&gt;确实&lt;/strong&gt;已经执行了，否则你不可以依赖一个异步函数的执行，如何做到呢？&lt;/p&gt;
+
+&lt;p&gt;这很简单，真的。依赖异步函数执行的逻辑应该在异步函数内部开始或调用。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;
+helloAsyncCat(function (result) {
+    alert(result);
+}
+
+function helloAsyncCat(callback) {
+    setTimeout(function () {
+        callback(&#39;Nya&#39;);
+    }, Math.random() * 2000);
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面的代码是一段简单的例子。
+首先，需要为&lt;code&gt;helloAsyncCat&lt;/code&gt;函数添加一个回调函数，它是在异步执行的内部执行的。
+然后，在调用该函数的时候就可以用回调函数中取到的结果进行操作了。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

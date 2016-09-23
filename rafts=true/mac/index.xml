@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Macs on Me &amp; Web</title>
+    <link>http://localhost:1313/mac/</link>
+    <description>Recent content in Macs on Me &amp; Web</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>frostwong@gmail.com (Frost Wong)</managingEditor>
+    <webMaster>frostwong@gmail.com (Frost Wong)</webMaster>
+    <copyright>(c) 2013-2016 Frost Wong. All rights reserved.</copyright>
+    <lastBuildDate>Tue, 09 Aug 2016 14:57:11 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/mac/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>使用ssh-config提升你的生产力</title>
+      <link>http://localhost:1313/mac/use-ssh-config-to-tune-your-productivity-up/</link>
+      <pubDate>Tue, 09 Aug 2016 14:57:11 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/mac/use-ssh-config-to-tune-your-productivity-up/</guid>
+      <description>
+
+&lt;p&gt;我们做服务端开发的，每天最烦心的事情可能就是登陆各种服务器了。在Windows上还好，有SecureCRT还有XShell这种很强大的工具可以用，但在Mac下面选择就很少了。SecureCRT我个人感觉远远不如Windows下的稳定，而渲染效果我当然还是最喜欢iTerm了。其实并没有用到它的很强大的那些功能，比如窗口分割、全局查找等等，最能打动我的其实是智能复制粘贴。不多说了，下面说一下怎样用ssh的config文件来记住登录账户。&lt;/p&gt;
+
+&lt;h2 id=&#34;常规的解决方案&#34;&gt;常规的解决方案&lt;/h2&gt;
+
+&lt;p&gt;我们最习惯用已知的知识来解决新问题。所以当然你会在.bashrc中添加一条&lt;code&gt;alias dev=&#39;ssh root@10.69.41.41&#39;&lt;/code&gt;这种命令了——注意，这个指令在多数环境中其实是不适用的，因为还面临通道机——最让开发头痛的东西。&lt;/p&gt;
+
+&lt;p&gt;所以让我们来发掘一下ssh的强大威力。&lt;/p&gt;
+
+&lt;h2 id=&#34;用ssh-config提高效率&#34;&gt;用ssh config提高效率&lt;/h2&gt;
+
+&lt;h3 id=&#34;可以直连的机器&#34;&gt;可以直连的机器&lt;/h3&gt;
+
+&lt;p&gt;如果可以直连一台机器，比如我的192.168.1.104虚拟机，那就可以在&lt;code&gt;.ssh/config&lt;/code&gt;中添加一段记录&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Host debian
+	Hostname 192.168.1.104
+	Port 22
+	User frost
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;不需重启，现在执行&lt;code&gt;ssh debian&lt;/code&gt;就可以连接debian机器了。&lt;br /&gt;
+那么问题来了，通常来说，Linux环境中是找不到明文存储的密码的，这里也不例外，肯定不会让你把密码直接写在这个配置文件中。要实现重新打开一个标签连接同一台机器不需要重新输密码，有两种方式。&lt;/p&gt;
+
+&lt;h4 id=&#34;1-用key登录&#34;&gt;1. 用key登录&lt;/h4&gt;
+
+&lt;p&gt;具体操作这里不展开，这里只需要把key的路径加在配置文件里即可。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Host debian
+	Hostname 192.168.1.104
+	IdentityFile ~/.ssh/coolio.example.key
+	Port 22
+	User frost
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;即可。这是最简单直接的方式。&lt;/p&gt;
+
+&lt;h4 id=&#34;2-模拟securecrt的-复制会话-功能&#34;&gt;2. 模拟SecureCRT的『复制会话』功能&lt;/h4&gt;
+
+&lt;p&gt;也就是说，在一个标签登录了一台机器之后，会在本地保存一份该会话的标识文件。当重新连接这个机器时，会使用这个临时文件当做认证，直接登录而无需验证。局限是如果重启了终端，就需要重新输入一次密码。&lt;br /&gt;
+要实现这个功能，只需要在&lt;code&gt;.ssh/config&lt;/code&gt;里加入这样一段&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Host *
+ControlMaster auto
+ControlPath ~/.ssh/master-%r@%h:%p
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;你可能要问了，key那么方便，为什么需要这样呢？这是因为我们认为key已经很安全了，但安全组的同事可能觉得也没那么安全，他们希望我们用安全性更高的静态密码+动态口令的方式登录跳板机，而且跳板机是无法存储任何文件的，无法实现保存key。&lt;/p&gt;
+
+&lt;h3 id=&#34;无法直连的机器&#34;&gt;无法直连的机器&lt;/h3&gt;
+
+&lt;p&gt;前面提到了跳板机，登录到跳板机当然不是目的，还要登录各种各样的机器，如果我要经常登录一台跳板机后的机器，难道要每次都先登录跳板机（虽然不用每次都输入密码）然后再手工跳转到另一台机器？当然不是。这里要引入『本地端口转发』的概念。
+说白了就是我们指定一个本地端口，往这个端口发送的所有数据都会通过&lt;strong&gt;跳板机&lt;/strong&gt;被转发到另外一台机器的指定端口。注意两个指定端口不需要是一样的。比如我希望通过本地的2222端口来登录一台开发机的22端口。就需要这样配置一个隧道&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Host tunnel
+	HostName 10.0.0.2
+	LocalForward 2222 10.30.43.23:22
+	User frost
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样执行&lt;code&gt;ssh -f -N tunnel&lt;/code&gt;就会建立这条本地端口转发的隧道。其实还需要一段配置&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Host dev
+	HostName 127.0.0.1
+	Port 2222
+	User root
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;当然，看到&lt;code&gt;ssh -f -N tunnel&lt;/code&gt;这条这么长的指令还是不爽，这时就可以用alias来简化输入了。&lt;/p&gt;
+
+&lt;h3 id=&#34;服务器和本地传输文件&#34;&gt;服务器和本地传输文件&lt;/h3&gt;
+
+&lt;p&gt;其实用SecureCRT或者XShell还有一个很重要的原因是二者对lrzsz这个小工具的支持很好，而几乎所有的终端工具都存在各种问题，iTerm2也不例外。虽然也可以有workaround来解决，但毕竟不是原生，不好用。我也纠结了很久，原来Mac上没有相应的工具是因为真的不需要啊。&lt;br /&gt;
+现在跟我一起做，比如我们前面已经配了一个可以本地直连的远程机器debian，当需要传输文件的时候只需要在本地命令窗口打开&lt;code&gt;sftp debian&lt;/code&gt;就会打开一个交互的shell。那么不要怕，虽然它有很多命令，但我觉得简单的使用只需要记住4组命令就好了，而且其中3组是原来就会的。&lt;br /&gt;
+首先要知道本地和远程的概念，因为你执行了这个命令之后其实已经登陆了了远程机器了，只不过不在bash里面，所以现在你要操作本地的东西时，所有命令都要加上&lt;code&gt;l&lt;/code&gt;也就是local，而远程的就什么都不加了。&lt;br /&gt;
+所以记住下面几个命令：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;lpwd&lt;/code&gt; 查看本地机器当前所在目录&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pwd&lt;/code&gt; 查看远程机器当前所在目录&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;lls&lt;/code&gt; 查看本地机器当前目录下的文件列表&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ls&lt;/code&gt; 查看远程机器当前目录下的文件列表&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;lcd dir&lt;/code&gt; 在本地切换到目标目录&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;cd dir&lt;/code&gt; 在远程主机上切换到目标目录&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;put filename&lt;/code&gt; 把本地的文件放在远程主机的当前位置&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;get filename&lt;/code&gt; 把远程机器上的目录下载到本地当前位置&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;这和SecureCRT的实现方式是完全一样的，XShell好封装了一个两栏的文件管理器呢，这样看来XShell真的是业界良心。&lt;/p&gt;
+
+&lt;p&gt;有人可能会说用expect来实现密码自动填充也是极好的。这个问题，见仁见智吧，至少用了一段时间之后我是不喜欢用expect了，最主要的问题在于窗口的自动缩放，就不展开说了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>rMBP连接1080P显示器显示效果优化</title>
+      <link>http://localhost:1313/mac/low-resolution-display-with-retina-macbookpro/</link>
+      <pubDate>Wed, 20 Jan 2016 14:03:19 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/mac/low-resolution-display-with-retina-macbookpro/</guid>
+      <description>&lt;p&gt;喜大普奔地，公司发了13寸MacBook Pro和Dell 24寸显示器。&lt;/p&gt;
+
+&lt;p&gt;然而，没有转接头，自己买。&lt;/p&gt;
+
+&lt;p&gt;然而，分辨率太渣，同时看两个显示器眼要瞎。&lt;/p&gt;
+
+&lt;p&gt;搜了一大通，发现了这个方法。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;defaults -currentHost delete -globalDomain AppleFontSmoothing
+defaults -currentHost write -globalDomain AppleFontSmoothing -int 1
+defaults -currentHost read -globalDomain AppleFontSmoothing
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中值 &lt;code&gt;1&lt;/code&gt; 可以根据自己的喜好调节，我这里调成1感觉效果比之前好了一点。如果不想要了就用第一条删除预设。&lt;/p&gt;
+
+&lt;p&gt;可以用iTerm做测试，执行之后退出应用，再打开，对比效果。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>OS X完全卸载JDK的方法</title>
+      <link>http://localhost:1313/mac/2015-12-04-uninstall-jdk-from-os-x/</link>
+      <pubDate>Fri, 04 Dec 2015 23:04:43 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/mac/2015-12-04-uninstall-jdk-from-os-x/</guid>
+      <description>&lt;p&gt;刚用OS X时想着可能会用到Java，毕竟Jetbrains的产品都要依赖Java。但新版本的这些IDE都自带java-bundle了，所以就没有必要留着了。&lt;/p&gt;
+
+&lt;p&gt;看了Java官网的指南，发现无法删干净，而在&lt;a href=&#34;https://stackoverflow.com/questions/19039752/removing-java-8-jdk-from-mac/23092014#23092014&#34;&gt;StackOverFlow&lt;/a&gt;上发现了这条，完美！&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;sudo rm -rf /Library/Java/JavaVirtualMachines/jdk&amp;lt;version&amp;gt;.jdk
+sudo rm -rf /Library/PreferencePanes/JavaControlPanel.prefPane
+sudo rm -rf /Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin
+sudo rm -rf /Library/LaunchAgents/com.oracle.java.Java-Updater.plist
+sudo rm -rf /Library/PrivilegedHelperTools/com.oracle.java.JavaUpdateHelper
+sudo rm -rf /Library/LaunchDaemons/com.oracle.java.JavaUpdateHelper.plist
+sudo rm -rf /Library/Preferences/com.oracle.java.Helper-Tool.plist
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;记录一下。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>批量删除iTerm2的主题配置</title>
+      <link>http://localhost:1313/mac/2015-09-20-%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4iTerm2%E7%9A%84%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Sun, 20 Sep 2015 22:03:35 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/mac/2015-09-20-%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4iTerm2%E7%9A%84%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE/</guid>
+      <description>&lt;p&gt;今天手欠把一堆大概有50个的colorscheme导入了iTerm2，最后发现也没有几个好看的，还是我的最爱Solarized最好，于是就想把那些新导入的都删掉，但死活找不到这些文件的路径。上网找了一番之后发现原来它并没有把这些主题文件放在自己的目录里，而是用plist的方式做了配置。那么就要找到这个配置文件了。它在&lt;code&gt;~/Library/Preferences/com.googlecode.iterm2.plist&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;这时我激动万分，用我最爱的Vim打开它一看——竟然是二进制的。这时我们就有两种方法对它做修改了。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;用支持plist修改的编辑器。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;很显然这种方式更方便，但要知道这文件位于&lt;code&gt;~/Library&lt;/code&gt;中，正常在Finder中是找不到这个路径的，而在命令行中是无法调起Xcode的编辑器的，这时就用到了Finder的Go to Folder功能，在里面输入上面提到的路径，回车就可以在Finder中打开这个路径了，然后用Xcode的编辑器打开，你会发现里面又一个Color相关的属性，点开一看，哇，好多配置，直接点击减号就删除了，保存，重启iTerm2，看看你导入的那些配置还在不在了。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;把它转换成纯文本格式，然后用普通的文本编辑器编辑，保存后重新转换格式。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;有了上面的方法，这个方法就显得有点多余了，但如果你不是一个开发者，没有安装Xcode——貌似不是开发者也不会装iTerm2——那这种方法就奏效了。
+首先为了保险起见，还是把这个文件备份一下。
+然后，用&lt;code&gt;plutil -convert xml1 com.googlecode.iterm2.plist&lt;/code&gt;命令把plist转换成xml格式的纯文本。这时就可以用Vim打开了，同样找到上面说的Color相关的属性，批量删除之。
+在然后用&lt;code&gt;plutil -convert binary1 com.googlecode.iterm2.plist&lt;/code&gt;命令把plist转换成二进制文件。
+最后把修改后的文件放回原来的位置。重启iTerm2，搞定收工。&lt;/p&gt;
+
+&lt;p&gt;补充一下，&lt;code&gt;plutil -convert&lt;/code&gt;接受三种格式的转换，&lt;code&gt;xml1/binary1/json&lt;/code&gt;,所以其实第二步转换成json理论上也是可以的，但修改就没有那么方便了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Mac使用VMware Fusion安装Ubuntu</title>
+      <link>http://localhost:1313/mac/2015-08-31-Mac%E4%BD%BF%E7%94%A8VMware-Fusion%E5%AE%89%E8%A3%85Ubuntu/</link>
+      <pubDate>Mon, 31 Aug 2015 19:37:00 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/mac/2015-08-31-Mac%E4%BD%BF%E7%94%A8VMware-Fusion%E5%AE%89%E8%A3%85Ubuntu/</guid>
+      <description>&lt;p&gt;越来越觉得我用Mac和Windows也没有什么区别。&lt;/p&gt;
+
+&lt;p&gt;用Windows的时候是因为没有类Unix环境，所以需要在虚拟机里面搭建一些Web环境，然后用SecureCRT或者XShell登录进行操作。当然主要是用VirtualBox比较多，因为它比较轻量，功能也没有什么缺陷。非要说缺陷，我觉得VMware的NAT功能比VirtualBox要好。前者是建立了一个192.168开头的虚拟网段，虚拟机使用这个网段的IP，虚拟机可以和宿主机相互通信，并且在类似学校的需要认证才能上网的环境下是可以直接上网的。但VirtualBox就不行了，它
+的NAT模式默认用的是10.网段的地址，如果要用宿主机访问虚拟机，就需要端口转发，说起来容易，但谁也不想去操作，否则只能用桥接模式了，但在需要认证的时候就不行了，尤其是某些帐号只能允许一个客户端在线时。&lt;/p&gt;
+
+&lt;p&gt;抛却Windows的诸多不便，用上了Mac却不想让一堆随时可能修改的开发环境把Mac环境搞乱，编程语言的那些东西还好，但各种服务就不想在Mac上搭建了，所以虚拟机还是唯一的出路了。PD总刷存在感，在Launchpad里面加上一堆难看的图标，受不了。有时需要带图像界面的Ubuntu，这时VirtualBox的性能就成了问题，最终找到了Vmware Fusion了，这才是一款踏踏实实的产品，VMware的产品一直都那么让人信赖。&lt;/p&gt;
+
+&lt;p&gt;闲言少叙，其实我要说的是在高分屏下如何解决Ubuntu糊掉的问题。&lt;/p&gt;
+
+&lt;p&gt;之前用PD的时候也看到这个方法，但没有用，这下在VMware Fusion上面可以。&lt;/p&gt;
+
+&lt;p&gt;很简单，在&amp;rdquo;All Settings/Display&amp;rdquo;中找到&amp;rdquo;Scale for menu and title bars&amp;rdquo;，把这个bar拉到2就可以了。当然如果你觉得2太大了，也可以选择1.5或者其他。我觉得2是最合适的，也正是正常大小，因为Mac屏幕的分辨率宽和高分别是普通分辨率的2倍，调成2倍就和在普通屏幕上一样大小了，但不会糊掉。&lt;/p&gt;
+
+&lt;p&gt;废话好多。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Rime输入法在Mac上的应用</title>
+      <link>http://localhost:1313/mac/2015-08-12-Rime%E8%BE%93%E5%85%A5%E6%B3%95%E5%9C%A8Mac%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/</link>
+      <pubDate>Wed, 12 Aug 2015 17:22:29 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/mac/2015-08-12-Rime%E8%BE%93%E5%85%A5%E6%B3%95%E5%9C%A8Mac%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;天啊，过几天要回家陪老婆生孩子，现在在赶项目，我竟然还在这里瞎写，真是罪过。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;在我用Linux的那几年，输入法一直用的是Fcitx，而引擎用的是Rime，输入方案是double_pinyin_mspy。用Mac也有一段时间了，想着Rime虽然跨平台，但现在项目好像没有那么活跃了，于是就用了最流行的搜狗输入法，但用起来总感觉还是不那么舒服，可能是我有开源的洁癖？管他呢，还是想尝试一下这个鼠须管。&lt;/p&gt;
+
+&lt;p&gt;首先说一下它的优点：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;高度可定制&lt;/li&gt;
+&lt;li&gt;开源，没有安全隐患&lt;/li&gt;
+&lt;li&gt;轻量，快速，完全无卡顿&lt;/li&gt;
+&lt;li&gt;对使用场景优化，可定制默认英文的应用&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;缺点也很明显——没有词库，需要从新培养。&lt;/p&gt;
+
+&lt;p&gt;但我觉得它自带的词库其实也已经够用了，我本身也不是那么赶潮流的人，而且输入的大多是计算机相关的词汇，所以这个对我的影响并不大。&lt;/p&gt;
+
+&lt;p&gt;好了，现在就来说一下安装和配置环节吧。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;brew cask install squirrel&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;然后它就会提示你输入密码了，然后给一堆提示，然后就安装好了。这时你会看到状态栏已经多了一个输入法图标，没错就是它。&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/squirrel.png&#34; alt=&#34;系统状态栏图标&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;现在就可以体验一下它的极速输入体验了。&lt;/p&gt;
+
+&lt;p&gt;那么来配置一下它吧。&lt;/p&gt;
+
+&lt;p&gt;先说一下配置的原理。Rime自带了很多很多的默认配置，写在&lt;code&gt;squirrel.yaml&lt;/code&gt;，&lt;code&gt;default.yaml&lt;/code&gt;等配置文件中，当然如果要追究YAML的格式规范，那就超出本文的范畴了。而我们可以自定义名为&lt;code&gt;squirrel.custom.yaml&lt;/code&gt;和&lt;code&gt;default.custom.yaml&lt;/code&gt;来修改配置。而这个配置会在我们点击&lt;code&gt;Deploy&lt;/code&gt;时作为补丁打到默认配置中，相应的，默认的配置文件的内容也会发生变化。&lt;/p&gt;
+
+&lt;p&gt;我主观上认为微软的双拼方案是最流行的方案（或者它的变种搜狗双拼）因为我用的就是它！但事实上OS X自带的双拼方案却只有自然码，很蛋疼。我的修改主要在两个方面，输入方案和外观样式。&lt;/p&gt;
+
+&lt;p&gt;打开&lt;code&gt;Library/Input Methods/Squirrel.app/Contents/SharedSupport&lt;/code&gt;会看到一系列的&lt;code&gt;bin&lt;/code&gt;和&lt;code&gt;yaml&lt;/code&gt;文件，其中&lt;code&gt;bin&lt;/code&gt;是用来支持各种输入方案的，而&lt;code&gt;yaml&lt;/code&gt;是相应的配置这些方案的。如果要使用微软双拼方案，就把&lt;code&gt;double_pinyin_mspy.schema.yaml&lt;/code&gt;拷贝到&lt;code&gt;Library/Rime&lt;/code&gt;目录里，或者做个软链，然后在&lt;code&gt;Library/Rime&lt;/code&gt;中新建一个&lt;code&gt;default.custome.yaml&lt;/code&gt;文件，输入下面的内容：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;patch:
+    schema_list:
+        - schema: double_pinyin_mspy
+        - schema: luna_pinyin_simp
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后重新部署一下，就可以看到效果了，输入方案剩下朙月拼音和微软双拼了。&lt;/p&gt;
+
+&lt;p&gt;这时发现默认的皮肤虽然好看，但是字体太大了，所以就调小一些吧，而且竖行的选字界面也不太习惯，调成横向的吧。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;# squirrel.custom.yaml
+patch:
+    &amp;quot;style/horizontal&amp;quot;: true
+    &amp;quot;style/font_point&amp;quot;: 16
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;再重新部署一下，看起来很舒服，用起来也舒服了吧。&lt;/p&gt;
+
+&lt;p&gt;解释一下优点中的第四点，这对程序员来说是极好的，因为写代码主要是英文，输入中文的概率很低，而Rime自带了一些默认为英文输入的配置，例如Alfred/Terminal/iTerm2等，这一点简直是不能再贴心了，当然如果你想，是可以自定义这些设置的。如果想深度定制，可以看下官方的而文档。&lt;/p&gt;
+
+&lt;p&gt;好了，兴奋完了，回去好好赶项目了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>使用homebrew提升使用Mac的幸福感</title>
+      <link>http://localhost:1313/mac/2015-06-26-homebrewshi-yong-xin-de/</link>
+      <pubDate>Fri, 26 Jun 2015 10:25:07 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/mac/2015-06-26-homebrewshi-yong-xin-de/</guid>
+      <description>&lt;p&gt;作为Linux派系的程序员，我喜欢Linux的原因很大程度上是它的包管理工具，RedHat系的rpm/yum/dnf/zypper，Debian系的dpkg/apt-get/aptitude，还有小众点的pacman/emerge/port，这些东西最大的用途就是&lt;strong&gt;让用户可以方便的安装软件&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;Windows没有，Mac有AppStore，但在我大天朝，并没有什么卵用，经常连不上，连上下载慢。&lt;/p&gt;
+
+&lt;p&gt;所以我们可以用&lt;a href=&#34;https://brew.sh&#34;&gt;Homebrew&lt;/a&gt;了。&lt;/p&gt;
+
+&lt;p&gt;它的作用其实就是为Mac提供本应该是苹果提供的包管理工具。&lt;/p&gt;
+
+&lt;p&gt;同事问我在Mac 上安装软件的问题，我看到是下载的过程出了问题，并且出在证书上，想起来之前看到说curl在某个版本之后就把证书和二进制文件打包在一起了，就想着让她更新一下curl试试看。我之前在自己的机器上也用brew安装过curl，但并没有注意到其实安装的版本默认并没有生效。&lt;/p&gt;
+
+&lt;p&gt;这里要引出的一种安装方式就是&lt;code&gt;keg-only&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;看到这我就想插一句，国外的程序员们可真会玩儿，能给软件起很有意思的名字，连其中的组件都很有意思。比如这里，homehrew默认是把软件安装在&lt;code&gt;/usr/local/Cellar&lt;/code&gt;目录中的，而&lt;code&gt;Cellar&lt;/code&gt;的意思是&lt;strong&gt;酒窖&lt;/strong&gt;。如果你了解过&lt;code&gt;FreeBSD&lt;/code&gt;的目录树结构，就知道它这么做的意义了，是要把同一个来源的文件组织在一起，不扰乱整个目录树。相应的，&lt;code&gt;keg-only&lt;/code&gt;中的&lt;code&gt;keg&lt;/code&gt;的意思是&lt;strong&gt;酒桶&lt;/strong&gt;。就让我试着用平实的语言来解释一下：&lt;/p&gt;
+
+&lt;p&gt;Homebrew安装软件分为&lt;a href=&#34;http://stackoverflow.com/questions/4691403/keg-only-homebrew-formulas&#34;&gt;两种情况&lt;/a&gt;。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;系统没有自带的&lt;br /&gt;
+这个没什么好说的，因为如果系统没有带，我们安装完相应的软件之后就自动的将编译好的二进制文件软链接到&lt;code&gt;PATH&lt;/code&gt;中，这样才会生效。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;系统自带的&lt;br /&gt;
+如果系统自带的有这个软件，那么问题就不好办了，是直接覆盖呢，还是应该给用户一些选择？本着上面说过的原则，尽量少的影响原来的目录树，那么它在安装完二进制文件之后并没有做建软链的那一步操作，这就是所谓的&lt;code&gt;keg-only&lt;/code&gt;的意思了。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;那么，如果我要更新curl，而OS X发行时本就是带着curl的，应该怎么办呢？当然作者已经替我们想到了这一点，&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;brew link curl --force
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样，它就会把需要的二进制链接到&lt;code&gt;PATH&lt;/code&gt;中，要注意这时这些路径中是存在相应的二进制文件的，正是homebrew不敢确定是不是要直接帮我们做这些操作，才给我们提供了这个命令。&lt;/p&gt;
+
+&lt;p&gt;那么如果你之前已经安装了不少软件了，发现有好几个没有建软链，难道要手工的一个一个执行？当然不用，可以参考下面的&lt;a href=&#34;http://apple.stackexchange.com/questions/123900/is-there-a-quick-way-to-relink-my-homebrew-kegs&#34;&gt;脚本&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;ls -1 /usr/local/Library/LinkedKegs | while read line; do
+    echo $LINE
+    brew unlink $LINE
+    brew link $LINE --force
+done
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面的脚本是利用了homebrew将&lt;code&gt;LinkedKegs&lt;/code&gt;目录设置成了存放所有二进制文件的路径的特点，将其全部取出，删除全部软链，而后重新建立软链。&lt;/p&gt;
+
+&lt;p&gt;其实也可以将&lt;code&gt;ls -1 /usr/local/Library/LinkedKegs&lt;/code&gt;替换成&lt;code&gt;brew list -1&lt;/code&gt;也可。&lt;/p&gt;
+
+&lt;p&gt;另外别的诸如&lt;code&gt;brew install&lt;/code&gt;，&lt;code&gt;brew uninstall&lt;/code&gt;的方法就不说了。&lt;/p&gt;
+
+&lt;p&gt;我不是一个Python爱好者，只是一个用户，偶尔写点Python，但即便这样也会遭遇版本问题，&lt;code&gt;brew install python3 python2&lt;/code&gt;一站式解决所有问题。&lt;/p&gt;
+
+&lt;p&gt;多说一点，现在很多语言都开发了包管理工具，我知道的有pip、npm、composer、gem，甚至我最不了解的Java，像Maven估计也是用来做这种事情的。&lt;/p&gt;
+
+&lt;p&gt;这其实就是在帮&lt;strong&gt;操作系统或者说发行版减负&lt;/strong&gt;。之前没有这些语言的包管理器的时候都是需要系统给打包，比如各种pip的包，那现在，它就成了跨平台的，每个发行版只需要维护Python的包，只要用户有了Python就有了pip，有了pip就有了无限的可能。&lt;/p&gt;
+
+&lt;p&gt;但我发现周围根本没有人用这些东西，虽然Mac的普及率很高，但大部分人都没有听过这些东西，我们的PHP程序员本来也不必关心别的语言的东西，但了解一些提高效率的东西还是很有必要的。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>和接口调用方联调的经验教训</title>
+      <link>http://localhost:1313/mac/2015-06-26-he-jie-kou-diao-yong-fang-lian-diao-de-jing-yan-jiao-xun/</link>
+      <pubDate>Fri, 26 Jun 2015 10:22:18 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/mac/2015-06-26-he-jie-kou-diao-yong-fang-lian-diao-de-jing-yan-jiao-xun/</guid>
+      <description>&lt;p&gt;一个同事做的接口，今天他请假没有来，就临时由我协助接口调用方联调。&lt;/p&gt;
+
+&lt;p&gt;这是一个很简单的接口。但浪费了近一天的时间。&lt;/p&gt;
+
+&lt;p&gt;我是第一次看这部分代码，得出的结论是该接口接受两个参数，然后进行后面的处理。但是对方调用时总是出错，我不明白这原因，于是让对方把调用的参数发给我，结果发现他传入了三个参数，而且有一个必须的参数意思一样但变量名不同，并且可选值也不同。&lt;/p&gt;
+
+&lt;p&gt;当时我就懵逼了。&lt;/p&gt;
+
+&lt;p&gt;我说这调用的不对啊！！！结果对方上来给我一个文档截图，说他是按照这个文档调用的。&lt;/p&gt;
+
+&lt;p&gt;这时我又懵逼了，为什么不事先给我这个文档?&lt;/p&gt;
+
+&lt;p&gt;我手指在键盘上飞舞，然后我这边再用相同的参数调用接口，OK，没有任何问题。但是对方不停的告诉我不行、不行还是不行。&lt;/p&gt;
+
+&lt;p&gt;究竟哪里出了问题？&lt;/p&gt;
+
+&lt;p&gt;而且由于同事的懒于配置，这个开发环境连日志都没法记录。然后我就往里面一步一步的跟，终于跟到了调用平台接口的地方也看不到什么问题。终于我把那个调用的方法外套了一层&lt;code&gt;try catch&lt;/code&gt;，并把&lt;code&gt;Exception&lt;/code&gt;的内容打印出来，真相终于大白。&lt;/p&gt;
+
+&lt;p&gt;原来是我用的开发机上没有调用这个平台接口的权限，而我用的我自己的账户测试，不需要再调用这个接口，但对方的却不是这样，因此这个地方通不过。&lt;/p&gt;
+
+&lt;p&gt;这时已经中午了，吃了饭下午再搞。&lt;/p&gt;
+
+&lt;p&gt;下午我想着配到仿真环境应该没有问题了，就给对方发过去了一个IP，让他配上这个IP再来测试。于是我胸有成竹的让他调用接口，但他仍然不通过。&lt;/p&gt;
+
+&lt;p&gt;这时我又懵逼了！！！&lt;/p&gt;
+
+&lt;p&gt;怎么可能！？？我自己取消了那个权限之后仍让可以正常调用，问题出在哪里呢？中间我跟他发了好几次IP，生怕他没有配好hosts。结果我查了一下accesslog发现他的请求并没有进入我部署代码的这台机器，我就问他，你到底有没有按我给你的IP配置hosts啊？他这时也自信满满的给我发来了一张&lt;strong&gt;上午让他配置的环境&lt;/strong&gt;的ping的截图。&lt;/p&gt;
+
+&lt;p&gt;我简直不知道说什么好了。&lt;/p&gt;
+
+&lt;p&gt;难道他以为我发给他一个IP是发着玩的吗？尼玛不知道干啥的你问啊，何况我都已经告诉你了让你配上这个。。。。&lt;/p&gt;
+
+&lt;p&gt;于是他重新配置了hosts，所有问题都解决了。&lt;/p&gt;
+
+&lt;p&gt;真是一个曲折的事件，一个本来五分钟就能搞定的东西，从上午十点搞到了下午三点多。&lt;/p&gt;
+
+&lt;p&gt;从这件事上可以总结出几点联调接口的经验：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;一定要先确认双方用的环境是不是同一个(hosts配置)。
+即使业务日志无法获取，但起码要能看到accesslog，看一下对方的请求有没有发送到目标机器上。&lt;/li&gt;
+&lt;li&gt;如果确认完之后仍然有问题，那么就一步一步的往里面跟，如果调用平台接口有问题，首先想到的就是权限问题。因为有些敏感操作并不是每台开发机都有权限的。如果因为这个浪费大量的时间，就不值得了。&lt;/li&gt;
+&lt;li&gt;谨防破窗效应。这里是说原来的代码或者开发环境已经是千疮百孔了，调试等非常不方便，如果任由它这样发展下去，那它只能进一步的变坏。虽然没有大块的时间去整理它，但要慢慢地优化它，最终整个团队一定会发现这种变化，如果大家能一起践行，那代码的质量一定会越来越好。&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>关于smcFanControl的一点感想</title>
+      <link>http://localhost:1313/mac/2015-06-06-guan-yu-smcfancontrolde-yi-dian-gan-xiang/</link>
+      <pubDate>Sat, 06 Jun 2015 15:39:24 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/mac/2015-06-06-guan-yu-smcfancontrolde-yi-dian-gan-xiang/</guid>
+      <description>&lt;p&gt;前天晚上看了池建强先生的《MacTalk：人生元编程》，其中提到了很多关于Mac和OS X的东西，其中一点引起了我的注意，那就是关于夏天电脑发热严重，怎样避免呢？那么作者就提到了smcFanControl。&lt;/p&gt;
+
+&lt;p&gt;由于我是首次用Mac OS X，不太懂什么是smc等等，抱着好奇的心情就找来安装了，装上后很惊喜的发现它会让你手动调节风扇的转速——然而这个好奇没有坚持一分钟我就意识到这个软件不能用——因为它会让操作系统无法按需调节风扇的转速。也就是说，它通过修改底层的系统参数把风扇的控制由自动模式切换到了手动模式。&lt;/p&gt;
+
+&lt;p&gt;这个问题就很难搞了。&lt;/p&gt;
+
+&lt;p&gt;当然我看到这个问题的时候第一反应肯定是上网去寻找答案，然而发现的大多数言论都是在批评这个软件的，说它永久性的修改了底层的参数，只能通过用BootCamp安装一个Windows，然后在Windows里安装一个Everest云云的东西修改了这个参数才能好等等的说法。&lt;/p&gt;
+
+&lt;p&gt;在我看来，这些想法根本就是阴谋论，它们不知道，软件的作者写这个免费软件的初衷肯定是解决自己的问题，如果它把一个问题解决成这个样子，那么这个软件肯定不会有那么高的知名度，相信池建强先生也不会在书中推荐。&lt;/p&gt;
+
+&lt;p&gt;smc的原理我不太懂，但大概可以理解成是和Linux的内核参数类似的东西吧，就我的知识来看，例如要修改系统打开的最大文件数，那么可以给它传一个参数过去，立即生效，但重启系统之后就失效了，解决方案就是把这个配置写死在一个配置文件中。回到smcFanControl上来，作者已经在网站上声明了这个实现方式，也就是传参数给内核，直接决定风扇的转速。&lt;/p&gt;
+
+&lt;p&gt;我想那些说这个软件修改了参数等等言论的人，可能是把这个软件设置成了开机启动，然后每次开机时风扇都会变成手动模式，而这时他们很气愤，于是就把软件卸载了，然后就找各种办法消除这个影响，于是人云亦云，把这个作者说成了阴谋家。&lt;/p&gt;
+
+&lt;p&gt;由这件事我想到了单纯的程序员们，我们写某个软件最初肯定是为了解决问题，不管最终你拿到的版本针对你的情况解决问题的程度如何，千万不要马上就怀疑作者的动机，因为没有人会费那么大的力气去故意做一个让人生气的软件，遇到问题的时候如果找不到现成的解决方案，那最好的方式就是联系作者，让他帮你解决，当然你也不用指望这个，因为谁也没有义务免费帮你解决问题。但如果你经常混开源社区就会知道，这些程序员书呆子们其实是恨单纯的，他们把自己的作品看做孩子一样，如果你能有针对性的提出问题，他们通常都会很热情的帮你解决的。看看Github的火爆情况就知道了。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

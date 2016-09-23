@@ -1,0 +1,657 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linuxes on Me &amp; Web</title>
+    <link>http://localhost:1313/linux/</link>
+    <description>Recent content in Linuxes on Me &amp; Web</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>frostwong@gmail.com (Frost Wong)</managingEditor>
+    <webMaster>frostwong@gmail.com (Frost Wong)</webMaster>
+    <copyright>(c) 2013-2016 Frost Wong. All rights reserved.</copyright>
+    <lastBuildDate>Sat, 03 Sep 2016 17:20:45 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/linux/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>DeepinLinux体验报告</title>
+      <link>http://localhost:1313/linux/deepin-linux-experience/</link>
+      <pubDate>Sat, 03 Sep 2016 17:20:45 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/linux/deepin-linux-experience/</guid>
+      <description>
+
+&lt;h2 id=&#34;为什么要写这篇文章&#34;&gt;为什么要写这篇文章&lt;/h2&gt;
+
+&lt;p&gt;今天忽然看到知乎上的通知，发现两年前写的一篇答案现在还有人在关注和评论&lt;a href=&#34;https://www.zhihu.com/question/19694358/answer/26227403?group_id=748099576984006656#comment-158674705&#34;&gt;有人用国产的deepin吗？和其它Linux版本相比，有什么优点和不足呢？&amp;ndash;郁蓝的答案&lt;/a&gt;。也是无意间看到了有人让我再更新一下体验的要求（其实这个评论是很早之前的了，只不过今天刚注意到）。
+&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/DeepinScreenshot20160814221945.png&#34; alt=&#34;知乎答案评论截图&#34; /&gt;
+虽然我也不是什么大神，但从我个人的感情来说，我还是很希望深度能做的更好的，所以就花了几个小时真的感受了一下。下面是我认为还比较中肯的看法。&lt;/p&gt;
+
+&lt;h2 id=&#34;体验&#34;&gt;体验&lt;/h2&gt;
+
+&lt;h3 id=&#34;1-官方网站-https-www-deepin-org&#34;&gt;1. &lt;a href=&#34;https://www.deepin.org/&#34;&gt;官方网站&lt;/a&gt;&lt;/h3&gt;
+
+&lt;h4 id=&#34;华而不实&#34;&gt;华而不实&lt;/h4&gt;
+
+&lt;p&gt;不得不说，这个网站初看上去还是挺好看的，但实际一看就是一个展示页，而且有相当的&lt;strong&gt;应付了事&lt;/strong&gt;的成分。那个国际排名也多少有点忽悠的感觉。。。
+&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/DeepinScreenshot20160814225102.png&#34; alt=&#34;深度官网展示&#34; /&gt;
+因为对细节的展示很少，文档也是七零八碎，像我这样阅发行版无数的人当然很快就找到了安装方法（其实也没有找，只是按照经验），但对于完全不懂Linux的新手来说，很可能看一下就撤了。&lt;/p&gt;
+
+&lt;h4 id=&#34;功能缺失&#34;&gt;功能缺失&lt;/h4&gt;
+
+&lt;p&gt;即便这样，我觉得很多我关心的信息在网站上都没有展示出来。我是一名软件开发人员，说的更笼统一些是一名上班族，那从一个上班族的角度来看，如果要我从Windows迁移到Deepin OS，我会关注哪些东西？当然是办公软件的使用。这个&lt;strong&gt;办公软件&lt;/strong&gt;是广义上的，包括&lt;strong&gt;QQ,RTX,Office,搜狗输入法，邮件&lt;/strong&gt;等等，这个问题，产品经理肯定想过，因为我用了之后发现确实他们已经解决了，但在页面上并没有展示出来。甚至，我的希望是&lt;strong&gt;在页面上能有一个搜索框，我在安装之前就能知道哪些软件我能用，让我不会产生后顾之忧&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;h4 id=&#34;细节不到位&#34;&gt;细节不到位&lt;/h4&gt;
+
+&lt;p&gt;我甚至点到了社区板块，看了一下更新日志，比如这篇&lt;a href=&#34;http://blog.deepin.org/2016/08/update-record-of-applications-in-deepin-store-2016-08/&#34;&gt;深度商店应用更新记录汇总2016-08&lt;/a&gt;。这样的汇总我实在是不想看，感觉就像是用awk+xargs处理了一下只把应用名打印出来的样子。我看到了两个问题：
+&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/DeepinScreenshot20160814225410.png&#34; alt=&#34;社区网页展示&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- 没有版本号，**差评**
+- 应用名太拥挤，看起来不直观
+- 层级不能回退，都实现成这样的控件竟然不能点击，简直不能忍
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我看到右侧其实是又很多这种更新汇总的，我觉得这作为一个正常人是都能看得到的问题，但就是不知道为什么那么久了都还一直这样。这期的我看到下面又评论说到没有版本号的事情，管理员（不知道是不是）说下次会带上。&lt;/p&gt;
+
+&lt;h4 id=&#34;小结&#34;&gt;小结&lt;/h4&gt;
+
+&lt;p&gt;总的感觉就是&lt;strong&gt;华而不实&lt;/strong&gt;，对细节的考虑不到位，简直浪费了程序员们的辛苦劳动。东西再好，展示的窗口都不做好，怎么吸引人呢？我觉得要么就传统一些，做一个像&lt;a href=&#34;https://www.archlinux.org/&#34;&gt;ArchLinux官网&lt;/a&gt;那样的纯展示性网站，引导用户去一个完备的Wiki站点，要么就学一学现在的手机厂商，把现代化的网页做的详细一些，别让用户费了半天劲把页面从最上面拉到最下面了却发现什么也没看明白。&lt;/p&gt;
+
+&lt;h3 id=&#34;1-安装直观感受&#34;&gt;1. 安装直观感受&lt;/h3&gt;
+
+&lt;p&gt;没有LiveCD，差评。
+很不理解的一点，我刻好了优盘启动盘准备先在LiveCD里体验一下，看到启动项只有一个&lt;strong&gt;Start installation&lt;/strong&gt;我就懵逼了。。。这是跟国产的流氓软件学的，不让尝，先买了再说么？&lt;/p&gt;
+
+&lt;h3 id=&#34;2-缺点&#34;&gt;2. 缺点&lt;/h3&gt;
+
+&lt;p&gt;整个安装界面就有些搞不清楚。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;没有保留像Ubuntu那样可以&lt;strong&gt;对用户透明的和其他系统共存&lt;/strong&gt;的功能。（貌似最近的这版从基于Ubuntu迁移到了Debian Sid，这样就可以解释了，关于迁移的事情后面会说）&lt;/li&gt;
+&lt;li&gt;对高清屏的支持不好，这在上面的截图里都已经可以看到了，我的电脑是15寸1080P屏幕，显示的字体太小，伤眼睛&lt;/li&gt;
+&lt;li&gt;选择完语言之后就没得回去了，只能往后，不能往前，这有点蛋疼&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;好在安装过程很顺利，也很快。这点很赞。&lt;/p&gt;
+
+&lt;h3 id=&#34;3-亮点&#34;&gt;3. 亮点&lt;/h3&gt;
+
+&lt;p&gt;吐槽完了也得有点亮点吧，也不旺我把Ubuntu分区都干掉装这个啊。界面风格没啥好说的，还提供了三种模式
+&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/DeepinScreenshot20160814180441.png&#34; alt=&#34;默认Dock模式&#34; /&gt;
+&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/DeepinScreenshot20160814230948.png&#34; alt=&#34;Windows Dock模式1&#34; /&gt;
+&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/DeepinScreenshot20160814231109.png&#34; alt=&#34;Windows Dock模式2&#34; /&gt;
+看完上面三张图，你有什么感受？对，没有自己的灵魂，学谁都没学像。学苹果却没有Magic动画，学Windows又没有开始菜单。而且控制面板放在最右边是什么鬼？是为了适应触摸屏？模仿Windows8的交互？看吧，Windows10已经回归了，我估计这个控制面板也要改成传统模式了。
+&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/DeepinScreenshot20160814231725.png&#34; alt=&#34;控制面板&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;说了这些发现还是吐槽，真正的亮点在终端。貌似是修改版的Quake，但我可没有在Quake里面找到过这个功能，简直贴心。
+&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/DeepinScreenshot20160814232511.png&#34; alt=&#34;SSH管理功能&#34; /&gt;
+试了一下，简直弱鸡啊，也仅仅是个管理，连私钥都不支持。好吧，完成度不高，忍了。&lt;/p&gt;
+
+&lt;p&gt;应用商店的资源还是挺丰富的，常用的差不多都有——其实本来Gnome也都有了。重点在于深度为用户提供了几乎0成本使用QQ的机会，这点很重要，一直以来对中国用户来说，Linux最大的痛点不就是没有QQ么？
+其他软件也是开箱即用，完整度还可以，但完成度有待提高。&lt;/p&gt;
+
+&lt;h3 id=&#34;4-混乱&#34;&gt;4. 混乱&lt;/h3&gt;
+
+&lt;p&gt;整个一下午用下来最大的感受就是&lt;strong&gt;混乱&lt;/strong&gt;，看起来深度桌面更像是基于Gnome的，也带了不少Gnome系的应用，但它其实又在Gnome的基础上加上了自己的想法，让体验变得更加不统一了。比如应用打开首选项的方式和图标都不统一，有些按钮的位置那是真隐晦，谁能看出来那是按钮我服谁。
+&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/DeepinScreenshot20160814235541.png&#34; alt=&#34;界面高度不统一&#34; /&gt;
+至于其中的某些Qt的应用带了的体验不一致这里就不说了，目前也没什么好的解决办法。&lt;/p&gt;
+
+&lt;h3 id=&#34;5-期望&#34;&gt;5. 期望&lt;/h3&gt;
+
+&lt;p&gt;总的来说，功能做的还是不错的，因为加入了Windows上常用的软件，使得它基本上算是一个开箱即用的操作系统。尤其是搜狗输入法的加成，让它对普通用户的友好程度大增。我搜了一下，软件源里面是包含Jetbrains家的应用的。只不过版本比较老了而已。看起来也没有对其进行什么修改，不知道是什么耽搁了它和上游的同步。现在这个Quake的SSH管理功能太弱鸡，如果可以，我希望能把Windows上的XShell引进来，毕竟Mac和Linux上都没有一款这么好用的终端。&lt;/p&gt;
+
+&lt;p&gt;总之，深度的这款操作系统还是很能解决中国人用Linux的痛点的，这些痛点真的不是加个天气软件和农历日历就能解决的。很多使用习惯的问题需要去引导和克服。有人说，有这闲工夫通过各种技术手段让Windows上的软件跑在Linux上还不如大力发展Linux的原生应用，简直是Naive，如果原生的这么好做，也就不会有CrossOver这样的收费软件了。这毕竟是软件提供商的问题，他们不重视，作为用户也只能想别的办法了，起码在目前看来，这种方式是最行之有效又一针见血的。&lt;/p&gt;
+
+&lt;p&gt;我想提的建议是，产品经理要是没什么大问题的话就换了吧，现在的真心不称职。包括网站的和桌面端的，抄别人的东西都抄不到精髓，那只能说自己都不知道想抄什么。那壁纸怎么那么像一加天气的背景呢？看我还是个耿直的boy，一加的ROM不行，确实是开发不给力，而Deepin做不好，产品要负大部分责任。&lt;/p&gt;
+
+&lt;p&gt;感谢深度在Linux国产化的进程中的突出贡献。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>修复因为过量卸载引起的Debian无法上网</title>
+      <link>http://localhost:1313/linux/fix-Debian-network-problem/</link>
+      <pubDate>Thu, 21 Jan 2016 16:21:46 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/linux/fix-Debian-network-problem/</guid>
+      <description>&lt;p&gt;之前在公司的开发机上装了Debian + Gnome3，后来发了rMBP就基本用不上了，把桌面环境卸载了当服务器用吧，但卸载完之后发现无法上网了，忙的一直没有时间整它，今天抽个10分钟搞一搞。&lt;/p&gt;
+
+&lt;p&gt;我猜大概是这样的，某些服务——依赖Gnome3桌面环境，被卸载了，所以开机后不会自动启动网络了。&lt;/p&gt;
+
+&lt;p&gt;我之前的经验大概是&lt;code&gt;ifup / ifconfig eth0 up/ dhclient&lt;/code&gt;之类的命令，但发现都不好使了。上Debian的Wiki上看了下，修改&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# /etc/network/interfaces
+auto eth0
+iface eth0 inet dhcp
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;重启一下就好了。&lt;/p&gt;
+
+&lt;p&gt;我不理解的是为什么之前的方法都失效了，而且改了非要重启才能生效。&lt;/p&gt;
+
+&lt;p&gt;很久不研究Linux的这些东西了，出了问题竟然束手无策。但我还是相信，通常Linux上的问题都能通过修改某些文件解决，不像Windows那样改注册表，那我真是无能为力了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Shell脚本获取文件名</title>
+      <link>http://localhost:1313/linux/bash-basename-ext/</link>
+      <pubDate>Sat, 09 Jan 2016 21:38:27 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/linux/bash-basename-ext/</guid>
+      <description>&lt;p&gt;我的需求是把一些原来后缀是markdown的文本重命名为md，这个需求很low了，但其实也很有技巧，你可以一个一个的重命名，没有问题，但作为一个对Unix大道甚为叹服的人，还是应该寻求更好的方法。&lt;/p&gt;
+
+&lt;p&gt;简单搜索了一下，发现了&lt;a href=&#34;https://stackoverflow.com/questions/2664740/extract-file-basename-without-path-and-extension-in-bash/2664746#2664746&#34;&gt;StackOverFlow&lt;/a&gt;上的答案。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ s=/the/path/foo.txt
+$ echo ${s##*/}
+foo.txt
+$ s=${s##*/}
+$ echo ${s%.txt}
+foo
+$ echo ${s%.*}
+foo
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;好吧，只看到这里就行了，问题已经解决。不是我不想继续研究&lt;a href=&#34;http://www.gnu.org/software/bash/manual/bashref.html#Shell-Parameter-Expansion&#34;&gt;Bash参考文档&lt;/a&gt;，只是实在没有这个必要了，我还要研究Symfony3，研究建立起Symfony的Bundles，然后搞点Python满足平时的处理日志、甚至是Web编程的需要。。。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Vagrant使用说明</title>
+      <link>http://localhost:1313/linux/2015-11-03-Vagrant%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/</link>
+      <pubDate>Tue, 03 Nov 2015 15:43:55 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/linux/2015-11-03-Vagrant%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/</guid>
+      <description>
+
+&lt;h1 id=&#34;创建自己的box&#34;&gt;创建自己的box&lt;/h1&gt;
+
+&lt;h2 id=&#34;安装&#34;&gt;安装&lt;/h2&gt;
+
+&lt;h3 id=&#34;最小化安装&#34;&gt;最小化安装&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;用户vagrant，密码vagrant&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;这个安装的时候设置就好了，如果是CentOS会让你选择是否让这个用户做管理员，勾选就好了。其他的后面再设置。
+2. 设置.ssh/authorized_keys&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mkdir -p $HOME/.ssh
+wget --no-check-certificate https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub -O $HOME/.ssh/authorized_keys
+chmod 0700 $HOME/.ssh
+chmod 0600 $HOME/.ssh/authorized_keys
+chown -R vagrant $HOME/.ssh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;这里原来就是以vagrant@vagrant为例，后来觉得vagrant这个单词不好拼，索性改用户名吧，为了方便不同用户名的读者复制代码，把里面的绝对路径都改成了带环境变量的。改了用户名以后用&lt;code&gt;vagrant ssh&lt;/code&gt;就没法直接登录了，需要在Vagrantfile里面指定
+`config.ssh.username = &amp;ldquo;frost&amp;rdquo;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;更新系统&#34;&gt;更新系统&lt;/h3&gt;
+
+&lt;p&gt;Debian:
+&lt;code&gt;sudo apt-get update &amp;amp;&amp;amp; sudo apt-get dist-upgrade&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;CentOS:
+&lt;code&gt;sudo yum update&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;安装virtualbox-guest-additions&#34;&gt;安装VirtualBox Guest Additions&lt;/h3&gt;
+
+&lt;p&gt;设备-&amp;gt;安装VirtualBox Guest Additions，就可以把相应的iso『放在』虚拟机的光驱里。只有安装了这些附加功能才能正常用端口映射和目录同步功能。&lt;/p&gt;
+
+&lt;p&gt;Debian&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;apt-get install build-essential module-assistant
+m-a prepare
+cd /media/cdrom
+sh VBoxLinuxAdditions-x86.run
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;CentOS&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo yum groupinstall &amp;quot;Development Tools&amp;quot;
+sudo yum install kernel-devel
+sudo mkdir /media/cdrom/
+sudo mount /dev/cdrom /media/cdrom/
+sudo ./VBoxLinuxAdditions.run
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;配置用户权限&#34;&gt;配置用户权限&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;设置vagrant用户的sudo权限
+Debian:
+&lt;code&gt;root@debian:~# gpasswd -a vagrant sudo&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;设置vagrant用户的sudo权限无需密码&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;code&gt;root@debian:~# visudo&lt;/code&gt;
+把下面这行&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;%sudo	ALL=(ALL:ALL) ALL
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;改成&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;%sudo	ALL=(ALL:ALL) NOPASSWD:ALL
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这是Debian的习惯，CentOS系的用的组是wheel，所以也是一样把相应的wheel组的设置改一下。&lt;/p&gt;
+
+&lt;h3 id=&#34;其他&#34;&gt;其他&lt;/h3&gt;
+
+&lt;p&gt;如果还要安装其他的包，这时候可以开始了，当然也可以之后用vagrant登陆再安装。&lt;/p&gt;
+
+&lt;h2 id=&#34;打包&#34;&gt;打包&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;vagrant package --base Debian --output Debian.box&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;添加&#34;&gt;添加&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;vagrant box add --name Debian Debian.box&lt;/code&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;设置自己的box&#34;&gt;设置自己的box&lt;/h1&gt;
+
+&lt;h2 id=&#34;生成配置&#34;&gt;生成配置&lt;/h2&gt;
+
+&lt;p&gt;到你喜欢的目录执行&lt;code&gt;vagrant init&lt;/code&gt;，会生成一个Vagrantfile的文件，按下面的说明做一些修改。&lt;/p&gt;
+
+&lt;h2 id=&#34;基本配置&#34;&gt;基本配置&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;config.ssh.insert_key = false
+config.vm.box = &amp;quot;Debian&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;同步目录&#34;&gt;同步目录&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;config.vm.synced_folder &amp;quot;./Code&amp;quot;, &amp;quot;/home/vagrant/Code&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;端口映射&#34;&gt;端口映射&lt;/h2&gt;
+
+&lt;p&gt;这里只添加一条HTTP用的80端口，需要其他的可以再添加。
+&lt;code&gt;config.vm.network &amp;quot;forwarded_port&amp;quot;, guest: 80, host: 8000&lt;/code&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;使用自己的box&#34;&gt;使用自己的box&lt;/h1&gt;
+
+&lt;h2 id=&#34;开机&#34;&gt;开机&lt;/h2&gt;
+
+&lt;p&gt;正常开机&lt;code&gt;vagrant up&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;关机&#34;&gt;关机&lt;/h2&gt;
+
+&lt;p&gt;优雅的关机&lt;code&gt;vagrant halt&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;登陆&#34;&gt;登陆&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;vagrant ssh&lt;/code&gt;因为前面已经设置了免密码登陆，所以这时候就可以很任性的随意登陆了。&lt;/p&gt;
+
+&lt;h1 id=&#34;后记&#34;&gt;后记&lt;/h1&gt;
+
+&lt;p&gt;所以现在我们安装完一个完整的方便分发的开发环境了，然而有什么用呢？&lt;/p&gt;
+
+&lt;p&gt;想象一下这样的场景，你有一台配置还可以的Windows电脑，然后你需要Linux下的开发环境。这时问题来了，如果你装个虚拟机，在虚拟机里开发，那你就和你喜欢的IDE无缘了—-这么说有点绝对，你还是可以用sftp之类的协议实现文件同步的，但明显没有我们现在这种方式优雅。&lt;/p&gt;
+
+&lt;p&gt;设置一个同步目录，你在本地任性的用你喜欢的任何IDE写代码，写完之后访问127.0.0.1:8080就可以访问，这是一种什么样的体验啊？（当然，如果你有多个域名要用，还是配个本地域名比较好）&lt;/p&gt;
+
+&lt;p&gt;还有，你说我是Mac，什么服务器，开发语言都可以安装在本地，和Linux也没有什么差别。这个问题我也考虑过，但我个人的爱好是把他们隔离开。你的Mac上安装个Apache了，Nginx了总感觉怪怪的，而且搞不好这些东西哪里配置不好你的宿主机都无法工作了。所以，用虚拟机是成本最低的一种方式了。&lt;/p&gt;
+
+&lt;p&gt;我上面总结的这些仅限于&lt;strong&gt;个人&lt;/strong&gt;使用，团队用的话还需要更多的配置，例如前面使用了insecure key，这就是不适合团队用的——但我还没有见过有团队用这个东西，至于puppet/chef更是没见过了。需要用到的时候再了解也不晚。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>给Linux新手的一些建议</title>
+      <link>http://localhost:1313/linux/2015-10-19-%E7%BB%99Linux%E6%96%B0%E6%89%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E5%BB%BA%E8%AE%AE/</link>
+      <pubDate>Mon, 19 Oct 2015 21:49:06 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/linux/2015-10-19-%E7%BB%99Linux%E6%96%B0%E6%89%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E5%BB%BA%E8%AE%AE/</guid>
+      <description>
+
+&lt;p&gt;由于关注了知乎上Linux相关的一些话题，总是断断续续的有人邀请我回答各种Linux的问题——开始看到这种邀请的时候其实我是拒绝的，因为我觉得这种问题网上大把大把的答案，怎么还会有人问呢？后来回想了一下自己当初的经历才明白，原来就是有了太多的教程，而很多写教程的人自己都不怎么明白，怎么能讲的清楚呢？&lt;/p&gt;
+
+&lt;p&gt;闲话少说，还是来谈谈自己的看法吧。&lt;/p&gt;
+
+&lt;p&gt;邀请我回答的这些问题中，以CentOS安装在个人笔记本或台式机上的问题居多，这里且不论这些提问者完全不想着去用搜索功能了，我就在想这个误区从哪里起始呢？&lt;/p&gt;
+
+&lt;p&gt;多数人都知道《鸟哥的Linux私房菜》，甚至有人听别人说这是Linux入门的圣书，恨不得买来马上研读一番，而事实上多数买来的人也并没有读。重点是这本书里用的是CentOS。&lt;/p&gt;
+
+&lt;p&gt;于是乎很多不明就里的『学习者』就开始上网搜索如何在自己的笔记本上安装CentOS的教程，这其中会有一些比较极端，把原来的系统格掉，直接上Linux，而更多人则是选择双系统。&lt;/p&gt;
+
+&lt;p&gt;这里我想重申一下我在知乎上的观点，如果你想在实体机上体验Linux，那么不要在你的笔记本或者台式机上安装CentOS，Ubuntu/Fedora/OpenSUSE是可以尝试的，这其中还是比较推荐Ubuntu，毕竟它的桌面版就顾名思义就是为桌面而生的，经过这么多年的发展稳定性也已经不错了。相反，CentOS本身面向的就是那些需要用企业级的RHEL而又不想付费的企业用户，它的目标是安装在机房里整整齐齐的刀片机上，而不是你的笔记本——它没法忍受你的双显卡，这种协议的限制导致它不能用一些字体的补丁，导致字体看起来眼睛都要瞎了。&lt;/p&gt;
+
+&lt;p&gt;鉴于大多数初学者目前都是Windows『重度用户』的事实，我的建议是安装一个VirtualBox，到&lt;a href=&#34;http://mirror.bit.edu.cn&#34;&gt;北京理工大学开源镜像站&lt;/a&gt;:[1]下载一个Debian的CD镜像，然后把Linux安装到虚拟机中。&lt;/p&gt;
+
+&lt;p&gt;下面是理由。&lt;/p&gt;
+
+&lt;h2 id=&#34;为什么是debian&#34;&gt;为什么是Debian？&lt;/h2&gt;
+
+&lt;p&gt;因为轻量，相比CentOS对新手更为友好，更新更为迅速。我就不说什么自由相关的了，这些情怀的东西等你体会到了它的好处以后再谈也不晚。&lt;/p&gt;
+
+&lt;p&gt;首先是轻量，我以前做运维的时候曾经蛋疼的测试过几个系统，时间是2013年12月份，测试的系统是Debian/FreeBSD/Ubuntu Server，忘记有没有CentOS了。测试方法就是在虚拟机的配置中逐步减少分配给虚拟机的内存大小，果然第一个挂掉的就是Ubuntu，在内存等于128M的时候已经提示无法开机，而当我把FreeBSD的内存设置到64M的时候它仍然很流畅，并且内存占用只有10M左右，而Debian比前者占用要稍高一些，但也能保证流畅运行。考虑到大多数同学的2G或者4G的内存，所以虚拟机能轻量就轻量吧。至于FreeBSD，毕竟不是主流，参考资料也比较少，虽然我自己比较喜欢，但也仅仅是喜欢，并不推荐。&lt;/p&gt;
+
+&lt;p&gt;那友好在什么地方呢？&lt;/p&gt;
+
+&lt;h3 id=&#34;友好体现在默认开启的服务上&#34;&gt;友好体现在默认开启的服务上&lt;/h3&gt;
+
+&lt;p&gt;安装时有多种选择，你可以像我一样安装一个没有只有系统基本组件的裸系统，也可以安装一个带基本的桌面环境的系统，甚至还可以选择一些服务，如邮件服务、HTTP服务等。这里我推荐还是最小安装。安装过程很直观。当然现在的CentOS的安装器也不错，只是没有选择安装类型而已。&lt;/p&gt;
+
+&lt;p&gt;Debian在安装过程中会让你填写一个在线的镜像源地址，这里可以填写我上面的推荐，安装完成开机以后你就可以用这个镜像源更新系统了。很方便吧？另外很重要的一点是安装完之后的系统默认网络服务是开启的，也就是说你是直接可以上网的，这也是CentOS让我很不解的一点，从我接触到它开始，它一直是默认不开启网络服务的，这让一些新手很受伤。&lt;/p&gt;
+
+&lt;p&gt;还有一点很重要，对很多想要接触Linux的同学来说，很可能就是为了用LAMP/LNMP的环境，但用CentOS时你可能会莫名其妙的遇到403错误，然后你找遍各种论坛，费了半天劲，原来就是SELinux惹的祸。这个玩意我们平时虽然不怎么用得到，但真的很让你摸不着看头脑。我也没有细究其使用，通常大家都关掉了，因为实在太难用了。&lt;/p&gt;
+
+&lt;p&gt;多说两句，它的大概意思就是每个文件（目录在Linux看来也是文件）除了我们知道的rwx权限，i(mmutable)还有粘滞位(Sticky bit)之外，还有另外一套权限机制，也就是所谓的上下文信息了。举例来说，它给可以提供Web服务的目录一个特殊权限，如果你在Apache/Nginx里配置了别的vhost，比如默认是在/var/www目录下，而你在/srv/http目录下新建了vhost，那就别想好好过了，因为后者是不具备提供Web服务的权限的，反过来说，外界是无法通过Http请求访问这个目录里的内容的，所以你就得到了403。当然如果知道问题症结的话也很容易解决，只需要给后者赋予同样的上下文信息即可——然并卵，我们通常的做法是
+1. 临时做法&lt;code&gt;sudo setenforce 0&lt;/code&gt;
+2. 永久做法是把&lt;code&gt;/etc/sysconfig/selinux&lt;/code&gt;中的&lt;code&gt;SELINUX=enforcing　&lt;/code&gt;改成&lt;code&gt;SELINUX=disabled&lt;/code&gt;，重启&lt;/p&gt;
+
+&lt;p&gt;我要说的是Debian默认就不开启这个让人迷惑的功能。&lt;/p&gt;
+
+&lt;p&gt;至于iptables这个大神器当然是要学的，不过好在现在两个平台上都有了简单的前端工具，Debian系有&lt;code&gt;ufw&lt;/code&gt;，一看这名字就知道是Ubuntu贡献的，RH平台上有&lt;code&gt;firewalld&lt;/code&gt;。值得一提的是&lt;code&gt;ufw&lt;/code&gt;b本身就是在iptables之外让用户可以更直观的操作防火墙，而后者则是直接让iptables做了备选方案，可说是一个替代iptables的服务，当然底层也还是ipfilter(这里我不太确定它封装的是iptables还是ipfilter)。默认没有安装iptables-services，而如果要用iptables，就需要&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo systemctl mask firewalld
+sudo systemctl sopt firewalld
+sudo systemctl unmask iptables
+sudo systemctl start iptables
+sudo systemctl enable iptables
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;2015-10-25更新
+刚刚又发现一个神奇的东西，因为昨天花了点时间捣鼓了一下Vagrant，发现这玩意儿还真是出奇的好用，又能用Linux上的运行环境又能用宿主机上的IDE，虽然我是个Vim党，但也无法阻挡PhpStorm的诱惑啊。
+好了，我想说的是这个
+&lt;img src=&#34;http://7xn2pe.com1.z0.glb.clouddn.com/b_屏幕快照%202015-10-25%20下午3.45.13.png&#34; alt=&#34;Debian打包的MySQL/MariaDB默认使用utf8mb4字符集&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这就是一个社区的偏好问题了，前面的文章也已经提到过字符集的问题，Debian竟然从发行版打包时优化了这个问题，赞一个。&lt;/p&gt;
+
+&lt;h3 id=&#34;友好体现在方便的软件安装上&#34;&gt;友好体现在方便的软件安装上&lt;/h3&gt;
+
+&lt;p&gt;曾经我一度以为Windows的软件安装方式是最好的，下一步下一步，多方便，而Linux还要找这种包，配置、编译、安装，多麻烦。直到我了解到原来还有&lt;code&gt;apt-get&lt;/code&gt;这种包管理利器。然而，你Debian有&lt;code&gt;apt-get&lt;/code&gt;，那我CentOS有&lt;code&gt;yum&lt;/code&gt;啊，怎么你就能胜我一筹呢？原因并不在于两种工具的区别，当然我更喜欢&lt;code&gt;apt-get&lt;/code&gt;，毕竟有&lt;code&gt;apt-get autoremove&lt;/code&gt;，而在于软件仓库。在Debian的仓库里，有vim-nox这个包含了所有脚本语言支持的Vim发行版——如果可以这么说的话，让你在安装提高效率的Vim插件的时候不必受限于这些因素；有下载神器axel，一个&lt;code&gt;axel -n 10 some_url&lt;/code&gt;撑满你的带宽，过多的就不解释了。&lt;/p&gt;
+
+&lt;h3 id=&#34;友好体现在便捷的系统升级&#34;&gt;友好体现在便捷的系统升级&lt;/h3&gt;
+
+&lt;p&gt;我个人是喜欢用Debian Sid，也就是不稳定版的，是因为它的软件包最新，我说这话你不要不以为然，当你发现一个很新奇的东西想尝试一下，看下自己的CentOS，这个库太老，这个库仓库里没有，这时候你就知道一个&lt;code&gt;apt-get update &amp;amp;&amp;amp; apt-get dist-upgrade&lt;/code&gt;是多么爽了，永远保持最新。&lt;/p&gt;
+
+&lt;h2 id=&#34;为什么是北京理工大学镜像站&#34;&gt;为什么是北京理工大学镜像站？&lt;/h2&gt;
+
+&lt;p&gt;这个就是细枝末节的东西了，我最开始是用校内的&lt;a href=&#34;http://mirror.buaa.edu.cn&#34;&gt;北京航空航天大学开源镜像站&lt;/a&gt;的，只可惜它只在校内可以访问，离开学校以后就用&lt;a href=&#34;http://mirrors.ustc.edu.cn&#34;&gt;中国科技大学开源镜像站&lt;/a&gt;，这个可以说是国内镜像站里面看起来最现代化、文档最齐全的，但毕竟服务器在合肥（？），还不如找个北京的，于是就看到了我们的兄弟院校北京理工。速度不错。&lt;/p&gt;
+
+&lt;h2 id=&#34;为什么是virtualbox&#34;&gt;为什么是VirtualBox？&lt;/h2&gt;
+
+&lt;p&gt;当然，除了VB，你在Windows上还有VMware Workstation和VMware Player可供选择，我这里没有讽刺谁的意思，毕竟自己也用过不少盗版软件，但后我估计VMware估计没有多少人买得起，既然开源也是一种选择，就没有必要再去搞什么破解了，能用就行，这也是学习过程中的一个重要原则，在找工具的过程中不要忘了自己用这个工具的目的。&lt;/p&gt;
+
+&lt;p&gt;要注意的是VirtualBox默认用的NAT网络方式和VMware是不同的，前者是真正意义上的NAT，你的宿主机网卡和虚拟机网卡所在不是同一个网段，例如宿主机在192.168网段，而虚拟机就会在10.0网段，这样宿主机和虚拟机是无法直接通信的，我指的是ssh远程登录。而VMware不同，它的默认比较人性化，默认就可以。&lt;/p&gt;
+
+&lt;p&gt;当然要改变这个并不难，只需要把虚拟机关机，在网络设置里面设置成网桥(bridged)模式，再开机，就会发现虚拟机和宿主机在同一个网段了。&lt;/p&gt;
+
+&lt;p&gt;可不要小瞧VirtualBox，虽然是开源项目，但它的虚拟硬盘技术可是各种虚拟机技术里最厉害的，随度相当快。&lt;/p&gt;
+
+&lt;h2 id=&#34;为什么是cd镜像&#34;&gt;为什么是CD镜像？&lt;/h2&gt;
+
+&lt;p&gt;我认为DVD镜像已经是上个时代的产物了，现在应该被淘汰。&lt;/p&gt;
+
+&lt;p&gt;那个时候网速慢，下载个软件包要等上很久，于是各家Linux发行商就用派光盘的方式售卖安装盘，把默认没有安装的软件包都打包在一个DVD里，它既可以当做安装盘，又可以当做软件仓库。然而现在网络那么发达，根本没有必要用这种方式了，而且这种方式有一个缺点是无法更新——是的，你只能安装，无法更新，因为光盘是死的，它的内容就是刻录时的内容。&lt;/p&gt;
+
+&lt;p&gt;CD就好很多了，一般400多M，下载下来也很快，安装迅速，好处不胜枚举。&lt;/p&gt;
+
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+
+&lt;p&gt;最终我的建议是在VirtualBox中安装Debian虚拟机，配置网桥模式，用XShell（伪）远程登录。最好在你配置好自己比较喜欢的环境之后把虚拟机Clone一份，这样如果把Clone的弄坏了，可以很快的复制一个出来，成本几乎为0，就省去了安装的麻烦。毕竟你学会了安装Linux并没有什么卵用，尤其是双系统。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>CentOS7防火墙简单配置</title>
+      <link>http://localhost:1313/linux/CentOS7%E9%98%B2%E7%81%AB%E5%A2%99%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Sun, 12 Jul 2015 17:46:00 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/linux/CentOS7%E9%98%B2%E7%81%AB%E5%A2%99%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE/</guid>
+      <description>&lt;p&gt;防火墙这么个复杂的东西没有一个标准的配置方式真是太烦了，iptables的命令太繁琐，时间长了不用就忘记了，忘记可以记下来，可到了RHEL7竟然又加了个wrapper，叫什么firewall-cmd，我的天，你看看你取了个什么名字吧，不得不说红帽的人真是没有品位。&lt;/p&gt;
+
+&lt;p&gt;言归正传，通常我们的工作环境其实也打不到这个7，也不会接触这个东西。&lt;/p&gt;
+
+&lt;p&gt;打开一个端口
+&lt;code&gt;sudo firewall-cmd --zone=public --add-port=80/tcp --permanent&lt;/code&gt;
+这就添加了一个80/tcp的端口
+然后需要&lt;code&gt;reload&lt;/code&gt;一下
+&lt;code&gt;sudo firewall-cmd --reload&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;说它是个wrapper是因为不管是这个&lt;code&gt;firewall-cmd&lt;/code&gt;还是Ubuntu的&lt;code&gt;ufw&lt;/code&gt;其实都是对&lt;code&gt;iptables&lt;/code&gt;系列命令的一个封装，无非就是三步&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;添加一条记录&lt;/li&gt;
+&lt;li&gt;把这条记录写入内存&lt;/li&gt;
+&lt;li&gt;如果下次开机后还要它生效，那就把它写入文件&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;相应的，&lt;code&gt;ufw&lt;/code&gt;的操作如下&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Unix文件属性小全</title>
+      <link>http://localhost:1313/linux/2015-06-26-unixwen-jian-shu-xing-xiao-quan/</link>
+      <pubDate>Fri, 26 Jun 2015 18:48:56 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/linux/2015-06-26-unixwen-jian-shu-xing-xiao-quan/</guid>
+      <description>&lt;p&gt;玩Linux的最经常碰到的问题中，文件属性（权限）的问题应当属相当多见的。而今天又碰到了一个新鲜事儿，属性中又出现了一个特殊字符&lt;code&gt;@&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;由于在搜索引擎中搜索特殊符号挺困难，我花了十几分钟才搜到相关的内容。原来是OS X上的文件独有的一个属性值，它代表该文件还有&lt;code&gt;extended&lt;/code&gt;字段，而具体这个字段的内容是什么就要用&lt;code&gt;xattr -l&lt;/code&gt;来查看了。&lt;/p&gt;
+
+&lt;p&gt;既然碰到了这个问题，我就索性总结一下这个问题。以下的测试基于CentOS 7，与OS X相关部分基于OS X 10.10.3。&lt;/p&gt;
+
+&lt;p&gt;在Linux文件系统中，文件的属性分为X种。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;文件类型&lt;/p&gt;
+
+&lt;p&gt;分为三种：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;- 普通文件&lt;/li&gt;
+&lt;li&gt;d 目录&lt;/li&gt;
+&lt;li&gt;l 链接文件&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;rwx权限&lt;/p&gt;
+
+&lt;p&gt;rwx权限分为三组，分别为&lt;strong&gt;所属用户&lt;/strong&gt;，&lt;strong&gt;所属组其他用户&lt;/strong&gt;，&lt;strong&gt;其他用户&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;这里要注意的是对一个目录而言，&lt;code&gt;wx&lt;/code&gt;权限对普通文件来说很容易理解，即该用户是否有执行该文件的权限，但对目录而言就不好理解了。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;如果一个用户对一个目录有&lt;code&gt;w&lt;/code&gt;权限，则表示他可以在该目录中新建或删除或修改文件。&lt;/li&gt;
+&lt;li&gt;如果一个用户对一个目录有&lt;code&gt;x&lt;/code&gt;权限，则表示他可以进入该目录。&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;
+[frost@localhost test]$ mkdir w_directory
+[frost@localhost test]$ sudo chmod -w w_directory/
+chmod: w_directory/: new permissions are r-xrwxr-x, not r-xr-xr-x
+[frost@localhost test]$ cd w_directory/
+[frost@localhost w_directory]$ touch testfile
+touch: cannot touch ‘testfile’: Permission denied
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;给用户去掉&lt;code&gt;w&lt;/code&gt;权限之后就无法对目录中的文件做任何修改了。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;
+[frost@localhost test]$ sudo chmod -x x_directory
+[sudo] password for frost:
+[frost@localhost test]$ ls -l
+total 0
+dr-xrwxr-x. 2 frost frost 6 Jun 20 07:18 w_directory
+drw-rw-r--. 2 frost frost 6 Jun 20 07:22 x_directory
+[frost@localhost test]$ cd x_directory/
+-bash: cd: x_directory/: Permission denied
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;给用户取消&lt;code&gt;x&lt;/code&gt;权限之后该用户就无法进入该目录了。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;特殊权限&lt;/p&gt;
+
+&lt;p&gt;分为三种：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Set UID
+当&lt;code&gt;s&lt;/code&gt;这个标识出现在文件所属用户的&lt;code&gt;x&lt;/code&gt;的权限位上时，例如&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;
+-rwsr-xr-x. 1 root root 27832 Jun 10  2014 /usr/bin/passwd
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;此时就被称为Set UID，简称为SUID的特殊权限，它具有下列的特性&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;SUID权限只对二进制程序(binary program)有效&lt;/li&gt;
+&lt;li&gt;执行者对于该程序需要有&lt;code&gt;x&lt;/code&gt;权限&lt;/li&gt;
+&lt;li&gt;本权限仅在执行程序的过程中有效(run-time)&lt;/li&gt;
+&lt;li&gt;执行者将具有该程序所属用户的权限&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;看起来还是不好理解，那么举个例子吧。&lt;/p&gt;
+
+&lt;p&gt;比如我拿到一个新的机器就喜欢给它装上最喜欢的zsh，装完之后就要修改我的默认shell。明确两点：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;默认shell的配置文件是&lt;code&gt;/etc/passwd&lt;/code&gt;文件，我作为普通用户是没有这个文件的读写权限的&lt;/li&gt;
+&lt;li&gt;修改默认shell的命令是&lt;code&gt;/usr/bin/chsh&lt;/code&gt;，这个文件的属性如下&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;
+-rws--x--x. 1 root root 23856 May 12 09:43 /usr/bin/chsh
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个文件是属于root用户的，但当我执行这个文件时，就(暂时)拥有了root用户的权限，就可以修改这个文件了。
+        其实这段细节是从《鸟哥的Linux私房菜》里学到的，但书中说的是用户自己修改密码的例子，我想举个不同的例子来说明同一个问题，但显然我这个例子没有鸟哥的例子好。因为作为对比，鸟哥还说了&lt;code&gt;cat&lt;/code&gt;命令没有这个&lt;code&gt;SUID&lt;/code&gt;权限，所以&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;
+[frost@localhost test]$ cat /etc/shadow
+cat: /etc/shadow: Permission denied
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;会得到这个结果，这个例子好就好在即使是root用户也是没有&lt;code&gt;/etc/shadow&lt;/code&gt;这个文件的读写权限的，只能强制写入，但&lt;code&gt;/etc/passwd&lt;/code&gt;这个文件的权限就比前者宽很多了。说到这个程度，估计读者应该也能明白其中的原理了。&lt;/p&gt;
+
+&lt;p&gt;另外需要注意的是，SUID仅仅可以用在二进制程序上，不能用在脚本上。因为脚本也只是调用别的二进制程序。同时SUID对目录也是无效的。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Set GID&lt;/p&gt;
+
+&lt;p&gt;当&lt;code&gt;s&lt;/code&gt;标识出现在文件所属组的其他用户的&lt;code&gt;x&lt;/code&gt;位置上，则称为Set GID，即SGID。与SUID不同，SGID可以设置文件和目录。&lt;/p&gt;
+
+&lt;p&gt;SGID具有如下的功能：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;SGID对二进制程序有效&lt;/li&gt;
+&lt;li&gt;程序执行者对该程序来说具有&lt;code&gt;x&lt;/code&gt;权限&lt;/li&gt;
+&lt;li&gt;执行者在执行的过程中将暂时获得所属组其他用户的权限&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Sticky Bit&lt;/p&gt;
+
+&lt;p&gt;Sticky Bit，即SBIT只针对目录有效，而对普通文件无效。其作用是：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;使用者对此目录有&lt;code&gt;wx&lt;/code&gt;权限&lt;/li&gt;
+&lt;li&gt;使用者在该目录下新建文件或目录时，仅有自己与root才有权利删除该文件&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;换句话说，如果一个用户是一个目录的所属用户组的其他用户或其他用户的身份，并且具有该目录的&lt;code&gt;w&lt;/code&gt;权限，如前所述，他可以随意修改或删除目录中的任何文件——即使该文件是属于别人的。但如果对该目录加上SBIT权限，则该用户就只能修改或删除属于他自己的文件了。&lt;/p&gt;
+
+&lt;p&gt;特殊权限的设置与普通权限大同小异。同样是用数字代替权限&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;数字&lt;/th&gt;
+&lt;th&gt;权限&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;SUID&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;SGID&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;SBIT&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;在设置时将特殊权限置于普通权限的前面，比如要给一个目录设置SBIT权限&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;
+[frost@localhost ~]$ sudo chmod 1775 test
+[frost@localhost ~]$ ls -l
+drwxrwxr-t. 4 frost frost   42 Jun 20 07:22 test
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;隐藏属性&lt;/p&gt;
+
+&lt;p&gt;隐藏属性对于系统的安全性上很重要。相关的两个命令式&lt;code&gt;chattr/lsattr&lt;/code&gt;。但是之前的Ext2/Ext3/Ext4文件系统对于隐藏属性有完整的支持，但RHEL 7之后，默认的文件系统变成了xfs，它只对隐藏属性提供部分支持，不过对于正常的使用来说也已经足够了。&lt;/p&gt;
+
+&lt;p&gt;不常用的就不说了，可以从鸟哥的书中去查，最常用的就数&lt;code&gt;i&lt;/code&gt;属性了，其次是&lt;code&gt;a&lt;/code&gt;属性。&lt;/p&gt;
+
+&lt;p&gt;其中，&lt;code&gt;i = imutable&lt;/code&gt;，&lt;code&gt;a = append&lt;/code&gt;，那么这个意思就已经很明显了，前者表示文件是不可修改的，即使是root也不可以，而后者表示只可以对该文件进行添加操作，而不能进行别的修改或者删除。这两个属性只有root用户才可以设置。&lt;/p&gt;
+
+&lt;p&gt;在哪里会用到呢？比如你不希望有用户随便添加具有sudo权限的用户，那就可以给&lt;code&gt;/etc/sudoers&lt;/code&gt;文件添加&lt;code&gt;i&lt;/code&gt;属性，这时当不明所以的具有sudo权限的其他用户想再添加一个用户时就会提示&lt;code&gt;permission denied&lt;/code&gt;了。&lt;/p&gt;
+
+&lt;p&gt;这几个属性就不像上面的那些用&lt;code&gt;chmod&lt;/code&gt;进行操作了，而是&lt;code&gt;chattr&lt;/code&gt;，并且它们也没有对应的数字，只需要用&lt;code&gt;+a&lt;/code&gt;, &lt;code&gt;-a&lt;/code&gt;, &lt;code&gt;+i&lt;/code&gt;, &lt;code&gt;-i&lt;/code&gt;就可以了。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;正常点的属性说的差不多了，下面聊聊OS X下独有的属性。那个可恶的&lt;code&gt;@&lt;/code&gt;符号。&lt;/p&gt;
+
+&lt;p&gt;那么这个属性是怎么来的呢？正常情况下它会是一个一个的键值对，也就是一个属性对应一个值，但我们也可以在finder里右键显示简介，然后再注释里面加上一些内容，这时这个文件就会有一个&lt;code&gt;@&lt;/code&gt;属性了。&lt;/p&gt;
+
+&lt;p&gt;如果一个tar包在Mac里有扩展属性，那到了Linux里解压的时候就会出现问题，要解决这个问题，可以先复制一份不带扩展属性的文件，然后再到Linux中解压。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;
+cp -XR xxx.tar.gz xxx.linux.tar.gz
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>我的Linux之路</title>
+      <link>http://localhost:1313/linux/2015-05-02-wo-de-linuxzhi-lu/</link>
+      <pubDate>Sat, 02 May 2015 15:26:15 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/linux/2015-05-02-wo-de-linuxzhi-lu/</guid>
+      <description>&lt;p&gt;说出来可能会让人笑话，但现在从事做软件开发的我，在大学之前我几乎没有接触过电脑。大一的时候同学陪我去买电脑，那是第一次“拥有”一台电脑，那是一台没有预装Windows的华硕A42，于是我们去沙河镇上买D版系统盘，买的是XP，但谁知道怎么装都没法用，后来我自己研究的过程中就知道了Windows 7, 然后就发现原来这个机器的双显卡配置是无法用XP的，这个过程中就不停的上网搜索操作系统相关的内容，我已经忘记了是哪天发现了Linux这个单词，然后了解了相关的Wiki之后，我知道了这是一个叫做Linus的牛人开发的，后来呢，原来还有一个叫做Debian的GNU Linux发行版，然后就Ubuntu，发现这个怎么看怎么别扭，哦，原来还有个RHEL，哇塞，这个好高端，企业采用的啊，可惜当时大二，沙河校区的图书馆馆藏有限，能看到的书基本上全部是关于Red Hat Linux 9.0的，这个让我很不明白，为什么现在没有这个9.0了呢？当我傻傻分不清楚的时候在自己的笔记本上装了当时刚刚发布的RHEL6.0，咔咔的把硬盘上的所有资料全部搞没了。：(
+后来就学乖了，在Windows 7里面装虚拟机尝试各种发行版，甚至FreeBSD/OpenBSD以致Darwin/Open Solaris都尝试过，这也算哥们儿最疯狂的时候吧。
+当觉得自己的水平可以了就把硬盘格了，装了个Fedora17，老老实实的用了半年，这期间确实发现了Linux的优点，可能现在总结不出来具体的条款了，但就一条——舒服的命令行已经可以让我毫不犹豫的放弃Windows了。当然，我不是计算机专业的，我们的专业需要写Word和各种乱七八糟的东西，反正就是越来越觉得Linux实际上并不适合没有毕业的我的日常使用，中间又回归了一段时间Windows。
+当快毕业的时候买了一台新电脑，买的时候就确定了即将毕业的我不会再怎么用Windows，也不会玩游戏，于是就搞了一台Clevo的准系统，w650sz，i7 4700M，8G内存，最重要的是它没有独显——也就没有必要再去搞什么bumblebee的双显卡切换了。&lt;/p&gt;
+
+&lt;p&gt;毕业后，我理所应当的做了程序员，我的电脑就再也没有被Windows占领过。现在用着的ArchLinux + i3-wm还是毕业那天晚上装的，用的旧了很多配置都搞的很舒服就不会再想从头再来了，而且Linux上的很多效率工具是Windows上无论怎么配置都得不到的，这个只有真正用过的人才能体会到。&lt;/p&gt;
+
+&lt;p&gt;所以，如果题主是想从别人这里问来使用Linux的体验，倒不如真的dive into it，自己亲身体验，你会发现它的好。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

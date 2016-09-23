@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.16" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Open+Sans|Marcellus+SC'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <link rel="stylesheet" href="http://localhost:1313/css/styles.css">
+    <link rel="stylesheet" href="http://localhost:1313/css/custom.css">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://localhost:1313//index.xml">
+
+    
+    <title>vim常用插件收藏及简单说明 - Me &amp; Web</title>
+    <meta property='og:title' content="vim常用插件收藏及简单说明 - Me &amp; Web">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://localhost:1313/vim/2015-04-26-vimchang-yong-cha-jian-shou-cang-ji-jian-dan-shuo-ming/">
+    
+    
+
+  </head>
+
+  <body>
+
+    <header class="site">
+      <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://localhost:1313/">Me &amp; Web&nbsp;&nbsp;致力于创作可操作性更好的文章</a>
+          </div>
+
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://localhost:1313/">Home</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/about">About</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/categories/">Categories</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/tags/">Tags</a></li>
+              
+              
+            </ul>
+            
+          </div>
+
+        </div>
+      </nav>
+    </header>
+
+    <div class="site">
+      <div class="container">
+
+
+
+<div class="single">
+
+    <div class="row">
+        <div class="col-md-8">
+
+            <article class="single" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+                <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://localhost:1313/"/>
+                <meta itemprop="dateModified" content="2015-04-26T01:18:12&#43;08:00">
+                <meta itemprop="headline" content="vim常用插件收藏及简单说明">
+                <meta itemprop="description" content="使用VIM也有四五年的时间了，期间自己搞过配置也用过不少别人的配置，但总是觉得哪里不对，很多配置我永远都用不到，但它的存在导致了VIM启动缓">
+                <meta itemprop="url" content="http://localhost:1313/vim/2015-04-26-vimchang-yong-cha-jian-shou-cang-ji-jian-dan-shuo-ming/">
+                <div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+                    <meta itemprop="url" content="http://localhost:1313/images/default.jpg" />
+                    <meta itemprop="width" content="800">
+                    <meta itemprop="height" content="800">
+                </div>
+                <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+                    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+                        <meta itemprop="url" content="http://localhost:1313/images/logo.jpg">
+                        <meta itemprop="width" content="100">
+                        <meta itemprop="height" content="100">
+                    </div>
+                    <meta itemprop="name" content="Me &amp; Web">
+                </div>
+                <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <meta itemprop="name" content="">
+                </div>
+
+                <header class="article-header">
+                    <time itemprop="datePublished" pubdate="pubdate" datetime="2015-04-26T01:18:12&#43;08:00">Sun, Apr 26, 2015</time>
+                    <h1 class="article-title">vim常用插件收藏及简单说明</h1>
+                </header>
+
+                <div class="article-body" itemprop="articleBody">
+                    <p>使用VIM也有四五年的时间了，期间自己搞过配置也用过不少别人的配置，但总是觉得哪里不对，很多配置我永远都用不到，但它的存在导致了VIM启动缓慢，也有速度很快，声称awesome的配置文件，实际使用起来
+离自己的需求还差的很远，因此我想先在此把自己需要的功能整理规划一下，然后自己搞一套既能适应现在的习惯又能不浪费性能的配置。</p>
+
+<p>下面是有需要的插件列表：</p>
+
+<ol>
+<li><p>插件管理工具 <a href="https://github.com/gmarik/Vundle.vim">gmarik/Vundle.vim</a></p></li>
+
+<li><p>查找工具</p>
+
+<ul>
+<li><a href="https://github.com/scrooloose/nerdtree">scrooloose/nerdtree</a> + <a href="https://github.com/jistr/vim-nerdtree-tabs">vim-nerdtree-tabs</a> 像Project一样展示目录树</li>
+<li>ag 快速搜索目录中的文件</li>
+<li>ctrlp + ctrlp-funky 搜索文件 + 搜索当前文件中的函数</li>
+<li><a href="https://github.com/amix/open_file_under_cursor.vim">open_file_under_cursor</a> 打开位于光标下方的文件</li>
+<li>Tagbar 显示tag列表</li>
+<li>taglist 函数跳转（可以跨文件）</li>
+<li>vim-multiple-cursors 多光标编辑</li>
+<li>EasyMotion 快速查找</li>
+</ul></li>
+
+<li><p>语言相关</p>
+
+<ul>
+<li>Python klen/php-mode 可认为是个Python IDE，功能强大，以一当十</li>
+<li>PHP StanAngeloff/php.vim 语法高亮</li>
+<li>JavaScript
+
+<ul>
+<li>jslint/jshint JS语法检查</li>
+<li>pangloss/vim-javascript</li>
+<li>jelera/vim-javascript-syntax</li>
+<li>vim-coffe-script</li>
+</ul></li>
+<li>html
+
+<ul>
+<li>Emmet.vim 神器，不怎么用，但还是留着吧，尝试着用一下</li>
+</ul></li>
+<li>css
+
+<ul>
+<li>Better CSS Syntax for Vim</li>
+</ul></li>
+<li>Markdown
+
+<ul>
+<li>vim-markdown 这个不能没有</li>
+<li>Markdown syntax</li>
+</ul></li>
+<li>JSON
+
+<ul>
+<li>JSON.vim</li>
+</ul></li>
+</ul></li>
+
+<li><p>补全工具</p>
+
+<ul>
+<li>YouCompleteMe 补全神器，就是编译起来挺麻烦的</li>
+<li>SuperTab 不用Tab的补全就不是真正的补全</li>
+<li>ultisnips 代码片段，需要学习</li>
+</ul></li>
+
+<li><p>语法检查</p>
+
+<ul>
+<li>syntastic</li>
+</ul></li>
+
+<li><p>代码整洁</p>
+
+<ul>
+<li>vim-surround 方便的为选中的部分添加成对的符号</li>
+<li>vim-comentary 方便的注释/取消注释</li>
+<li>Tabular 符号对齐</li>
+<li>EasyAlign</li>
+<li>Indent Guides 代码缩进</li>
+</ul></li>
+
+<li><p>版本控制</p>
+
+<ul>
+<li>fugitive.vim git wrapper</li>
+</ul></li>
+
+<li><p>系统工具</p>
+
+<ul>
+<li>vimproc.vim vim内的交互式shell</li>
+<li><del>quickrun 在vim内执行脚本 用的时候一直觉得很不方便，因为执行结果会在一个新的window打开，还要再关闭现在已经配置好了一个快捷键，执行完回车即可关闭结果</del></li>
+</ul></li>
+
+<li><p>杂项</p>
+
+<ul>
+<li>airline 漂亮的状态栏</li>
+<li>kien/rainbow_parentheses.vim 给成对的符号显示不同的颜色</li>
+<li>Gundo 显示历史改动</li>
+</ul></li>
+</ol>
+
+<p>能想到的插件就是这些，除了这些还需要加上一些我个人比较喜欢的定制</p>
+
+<ol>
+<li><p>相对行号，因为之前用NertCommenter，如果要注释掉下面的几行，就直接看左边的行号而不需要再像绝对行号的时候那么数了。</p></li>
+
+<li><p>把&rdquo;;&ldquo;映射给&rdquo;:&ldquo;，因为Normal模式下&rdquo;;&ldquo;很不常用，而&rdquo;:&ldquo;很常用，两个应该换一换。</p></li>
+
+<li><p>Leader键用&rdquo;,&ldquo;，不知道当初是哪个配置把我带到这个沟里的，现在适应了就很难改了。</p></li>
+</ol>
+
+                </div>
+
+
+                <aside>
+                    
+
+                    <div class="section share">
+                        <a href="http://v.t.sina.com.cn/share/share.php?src=bm&url=http%3a%2f%2flocalhost%3a1313%2fvim%2f2015-04-26-vimchang-yong-cha-jian-shou-cang-ji-jian-dan-shuo-ming%2f&title=vim%e5%b8%b8%e7%94%a8%e6%8f%92%e4%bb%b6%e6%94%b6%e8%97%8f%e5%8f%8a%e7%ae%80%e5%8d%95%e8%af%b4%e6%98%8e" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-weibo"></i></a>
+                    </div>
+
+                    
+                    <div class="section">
+                        
+                        <div class="ds-thread" data-thread-key="" data-title="vim常用插件收藏及简单说明" data-url="http://localhost:1313/vim/2015-04-26-vimchang-yong-cha-jian-shou-cang-ji-jian-dan-shuo-ming/"></div>
+                        
+
+                        
+                        <script type="text/javascript">
+                            var duoshuoQuery = {short_name:"UnixAgain"};
+                        (function() {
+                            var ds = document.createElement('script');
+                            ds.type = 'text/javascript';ds.async = true;
+                            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                            ds.charset = 'UTF-8';
+                            (document.getElementsByTagName('head')[0]
+                             || document.getElementsByTagName('body')[0]).appendChild(ds);
+                        })();
+                        </script>
+                    </div>
+                    
+                    
+                </aside>
+
+            </article>
+
+        </div>
+        <div class="col-md-4">
+            
+<aside class="site">
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">LatestPosts</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/java/use-slf4j-and-log4j-to-log-your-applications/" class="list-group-item">slf4j配合log4j来给你的应用打log</a>
+      
+      <a href="http://localhost:1313/java/create-and-run-java-application-with-maven/" class="list-group-item">使用maven创建和运行Java应用</a>
+      
+      <a href="http://localhost:1313/linux/deepin-linux-experience/" class="list-group-item">DeepinLinux体验报告</a>
+      
+      <a href="http://localhost:1313/java/mvn-tutorial-for-novice/" class="list-group-item">给Java新手看的mvn指南</a>
+      
+      <a href="http://localhost:1313/mac/use-ssh-config-to-tune-your-productivity-up/" class="list-group-item">使用ssh-config提升你的生产力</a>
+      
+      <a href="http://localhost:1313/miscs/talk-about-transgene-foods/" class="list-group-item">谈谈转基因食物</a>
+      
+      <a href="http://localhost:1313/php/understanding-PHP-container/" class="list-group-item">理解PHP的Service Container</a>
+      
+      <a href="http://localhost:1313/git/git-in-practice/" class="list-group-item">多人协作场景下的git</a>
+      
+      <a href="http://localhost:1313/php/internals/create-functions/" class="list-group-item">为PHP添加全局函数</a>
+      
+      <a href="http://localhost:1313/php/internals/create-skeleton-of-extension/" class="list-group-item">PHP扩展实战——扩展的骨架</a>
+      
+    </div>
+  </div>
+
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">category</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/categories/php" class="list-group-item">php</a>
+      
+      <a href="http://localhost:1313/categories/javascript" class="list-group-item">javascript</a>
+      
+      <a href="http://localhost:1313/categories/miscs" class="list-group-item">miscs</a>
+      
+      <a href="http://localhost:1313/categories/mac" class="list-group-item">mac</a>
+      
+      <a href="http://localhost:1313/categories/linux" class="list-group-item">linux</a>
+      
+      <a href="http://localhost:1313/categories/symfony" class="list-group-item">symfony</a>
+      
+      <a href="http://localhost:1313/categories/git" class="list-group-item">git</a>
+      
+      <a href="http://localhost:1313/categories/blog" class="list-group-item">blog</a>
+      
+      <a href="http://localhost:1313/categories/java" class="list-group-item">java</a>
+      
+      <a href="http://localhost:1313/categories/python" class="list-group-item">python</a>
+      
+    </div>
+  </div>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">tag</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/tags/php" class="list-group-item">php</a>
+      
+      <a href="http://localhost:1313/tags/miscs" class="list-group-item">miscs</a>
+      
+      <a href="http://localhost:1313/tags/mac" class="list-group-item">mac</a>
+      
+      <a href="http://localhost:1313/tags/javascript" class="list-group-item">javascript</a>
+      
+      <a href="http://localhost:1313/tags/linux" class="list-group-item">linux</a>
+      
+      <a href="http://localhost:1313/tags/%E6%89%A9%E5%B1%95" class="list-group-item">扩展</a>
+      
+      <a href="http://localhost:1313/tags/git" class="list-group-item">git</a>
+      
+      <a href="http://localhost:1313/tags/java" class="list-group-item">java</a>
+      
+      <a href="http://localhost:1313/tags/bootstrap" class="list-group-item">bootstrap</a>
+      
+      <a href="http://localhost:1313/tags/ios" class="list-group-item">ios</a>
+      
+    </div>
+  </div>
+  
+
+</aside>
+
+
+        </div>
+    </div>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site">
+      <div class="container">
+        <p>(c) 2013-2016 Frost Wong. All rights reserved.</p>
+        <p>Powered by <a href="http://gohugo.io" target="_blank" rel="nofollow">Hugo</a>, Theme <a href="https://github.com/dim0627/hugo_theme_beg" target="_blank" rel="nofollow">beg</a> designed by <a href="http://yet.unresolved.xyz" target="_blank" rel="nofollow">Daisuke Tsuji</a></p>
+      </div>
+    </footer>
+
+    <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+
+  <script data-no-instant>document.write('<script src="/livereload.js?mindelay=10"></' + 'script>')</script></body>
+</html>
+

@@ -12,6 +12,7 @@ paginatePath = "page"
     toc = true
     disqusShortname = "unixera"
     duoshuoShortname = "UnixAgain"
+    Slogan = "致力于创作可操作性更好的文章"
 
 [permalinks]
     post = "/:year/:month/:day/:slug/"
@@ -19,7 +20,6 @@ paginatePath = "page"
 
 [taxonomies]
     Tags = "tags"
-    Topics = "topics"
     Categories = "categories"
 
 [author]
