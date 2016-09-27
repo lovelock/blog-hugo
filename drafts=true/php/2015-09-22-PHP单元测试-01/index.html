@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.16" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Open+Sans|Marcellus+SC'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <link rel="stylesheet" href="http://localhost:1313/css/styles.css">
+    <link rel="stylesheet" href="http://localhost:1313/css/custom.css">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://localhost:1313//index.xml">
+
+    
+    <title>PHP单元测试-01 - Me &amp; Web</title>
+    <meta property='og:title' content="PHP单元测试-01 - Me &amp; Web">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://localhost:1313/php/2015-09-22-PHP%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-01/">
+    <meta name="description" content="PHP单元测试基础">
+    
+
+  </head>
+
+  <body>
+
+    <header class="site">
+      <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://localhost:1313/">Me &amp; Web&nbsp;&nbsp;致力于创作可操作性更好的文章</a>
+          </div>
+
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://localhost:1313/">Home</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/about">About</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/categories/">Categories</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/tags/">Tags</a></li>
+              
+              
+            </ul>
+            
+          </div>
+
+        </div>
+      </nav>
+    </header>
+
+    <div class="site">
+      <div class="container">
+
+
+
+<div class="single">
+
+    <div class="row">
+        <div class="col-md-8">
+
+            <article class="single" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+                <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://localhost:1313/"/>
+                <meta itemprop="dateModified" content="2015-09-22T15:49:52&#43;08:00">
+                <meta itemprop="headline" content="PHP单元测试-01">
+                <meta itemprop="description" content="我自认对这种比较系统的知识总是比较欠缺，所以还是花点时间补充上比较好。 这里说一下PHP的单元测试。 首先是搭建可以进行单元测试的环境，这里我首">
+                <meta itemprop="url" content="http://localhost:1313/php/2015-09-22-PHP%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-01/">
+                <div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+                    <meta itemprop="url" content="http://localhost:1313/images/default.jpg" />
+                    <meta itemprop="width" content="800">
+                    <meta itemprop="height" content="800">
+                </div>
+                <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+                    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+                        <meta itemprop="url" content="http://localhost:1313/images/logo.jpg">
+                        <meta itemprop="width" content="100">
+                        <meta itemprop="height" content="100">
+                    </div>
+                    <meta itemprop="name" content="Me &amp; Web">
+                </div>
+                <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <meta itemprop="name" content="">
+                </div>
+
+                <header class="article-header">
+                    <time itemprop="datePublished" pubdate="pubdate" datetime="2015-09-22T15:49:52&#43;08:00">Tue, Sep 22, 2015</time>
+                    <h1 class="article-title">PHP单元测试-01</h1>
+                </header>
+
+                <div class="article-body" itemprop="articleBody">
+                    
+
+<p>我自认对这种比较系统的知识总是比较欠缺，所以还是花点时间补充上比较好。</p>
+
+<p>这里说一下PHP的单元测试。</p>
+
+<p>首先是搭建可以进行单元测试的环境，这里我首选的还是Debian Sid。</p>
+
+<pre><code>sudo apt-get install phpunit
+</code></pre>
+
+<p>一条命令就可以安装单元测试所需要的各种依赖了，之所以选择这种可能不是最新的包的安装方式是因为pear(pecl)在国内的访问速度毕竟不怎么理想，既然我们有一个优秀的<code>apt</code>了，何必还要费那劲呢？</p>
+
+<h2 id="初识单元测试">初识单元测试</h2>
+
+<p>首先，一个类对应一个测试类。</p>
+
+<pre><code>.
+├── FrostWong.php
+└── FrostWongTest.php
+
+0 directories, 2 files
+</code></pre>
+
+<pre><code class="language-php">// FrostWong.php
+
+&lt;?php
+
+class FrostWong
+{
+    public function sayHi()
+    {
+        return &quot;Hi, UnitTest.\n&quot;;
+    }
+
+    public function altb($a, $b)
+    {
+        return $a &gt; $b;
+    }
+}
+</code></pre>
+
+<pre><code class="language-php">// FrostWongTest.php
+
+&lt;?php
+
+require 'PHPUnit/Autoload.php';
+require 'FrostWong.php';
+
+class FrostWongTest extends PHPUnit_Framework_TestCase
+{
+    public function testSayHi()
+    {
+        $fw = new FrostWong();
+        $this-&gt;assertEquals(&quot;Hi, UnitTest.\n&quot;, $fw-&gt;sayHi());
+    }
+
+    public function testAltb()
+    {
+        $fw = new FrostWong();
+        $this-&gt;assertTrue($fw-&gt;altb(4, 3));
+    }
+}
+</code></pre>
+
+<p>然后，就可以执行单元测试了。</p>
+
+<p><code>phpunit FrostWongTest</code></p>
+
+<p>这个命令有几个需要注意的问题：</p>
+
+<ol>
+<li>命令行参数是<code>FrostWongTest</code>而不是<code>FrostWongTest.php</code>，这一点和命令行用<code>java</code>执行<code>class</code>文件时有异曲同工之妙：）。</li>
+<li>PHP执行包含路径的问题，检查你的<code>php.ini</code>文件，看其中<code>include_path</code>一行，看其中有没有包含<code>.</code>，也就是当前路径。如果不包含，那么执行上面的语句时就会出现<code>Cannot open file FrostWongTest.php</code>的错误，然后什么都不会发生。</li>
+</ol>
+
+<h2 id="setup">setUp</h2>
+
+<p>你一定也注意到了，因为被测试的类中有两个方法，所以就初始化了两次<code>FrostWong</code>类，PHPUnit当然给我们提供了更好的方式，那就是<code>setUp</code>，我理解的<code>setUp</code>就是一个用来初始化需要的变量的模板方法。同样的还有<code>tearDown</code>方法。</p>
+
+<p>所以上面测试用例的第二版就是</p>
+
+<pre><code class="language-php">&lt;?php
+
+require 'PHPUnit/Autoload.php';
+require 'FrostWong.php';
+
+class FrostWongTest extends PHPUnit_Framework_TestCase
+{
+    function setUp()
+    {
+        $this-&gt;fw = new FrostWong();
+    }
+
+    public function testSayHi()
+    {
+        $this-&gt;assertEquals(&quot;Hi, UnitTest.\n&quot;, $this-&gt;fw-&gt;sayHi());
+    }
+
+    public function testAltb()
+    {
+        $this-&gt;assertTrue($this-&gt;fw-&gt;altb(4, 3));
+    }
+}
+</code></pre>
+
+<p>好了，现在你一定已经对PHP端单元测试有了大致的印象了，下一篇会讲一些常用的<code>assert</code>方法，来进行实际的操练。</p>
+
+                </div>
+
+
+                <aside>
+                    <div class="section"><a href="http://localhost:1313/tags/php/" class="tag">PHP</a> </div>
+
+                    <div class="section share">
+                        <a href="http://v.t.sina.com.cn/share/share.php?src=bm&url=http%3a%2f%2flocalhost%3a1313%2fphp%2f2015-09-22-PHP%25E5%258D%2595%25E5%2585%2583%25E6%25B5%258B%25E8%25AF%2595-01%2f&title=PHP%e5%8d%95%e5%85%83%e6%b5%8b%e8%af%95-01" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-weibo"></i></a>
+                    </div>
+
+                    
+                    <div class="section">
+                        
+                        <div class="ds-thread" data-thread-key="" data-title="PHP单元测试-01" data-url="http://localhost:1313/php/2015-09-22-PHP%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-01/"></div>
+                        
+
+                        
+                        <script type="text/javascript">
+                            var duoshuoQuery = {short_name:"UnixAgain"};
+                        (function() {
+                            var ds = document.createElement('script');
+                            ds.type = 'text/javascript';ds.async = true;
+                            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                            ds.charset = 'UTF-8';
+                            (document.getElementsByTagName('head')[0]
+                             || document.getElementsByTagName('body')[0]).appendChild(ds);
+                        })();
+                        </script>
+                    </div>
+                    
+                    
+                </aside>
+
+            </article>
+
+        </div>
+        <div class="col-md-4">
+            
+<aside class="site">
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">LatestPosts</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/linux/deepin-linux-experience/" class="list-group-item">DeepinLinux 体验报告</a>
+      
+      <a href="http://localhost:1313/java/mvn-tutorial-for-novice/" class="list-group-item">给Java新手看的mvn指南</a>
+      
+      <a href="http://localhost:1313/mac/use-ssh-config-to-tune-your-productivity-up/" class="list-group-item">使用ssh-config提升你的生产力</a>
+      
+      <a href="http://localhost:1313/miscs/talk-about-transgene-foods/" class="list-group-item">谈谈转基因食物</a>
+      
+      <a href="http://localhost:1313/php/internals/create-skeleton-of-extension/" class="list-group-item">PHP扩展实战——扩展的骨架</a>
+      
+      <a href="http://localhost:1313/php/internals/class-prototype-in-php/" class="list-group-item">PHP扩展实战——用PHP实现类的原型</a>
+      
+      <a href="http://localhost:1313/php/internals/schedules/" class="list-group-item">PHP扩展实战——目标和计划</a>
+      
+      <a href="http://localhost:1313/php/php-generator-and-iterator/" class="list-group-item">使用PHP生成器和迭代器</a>
+      
+      <a href="http://localhost:1313/php/internals/introduction/" class="list-group-item">PHP扩展实战——背景介绍</a>
+      
+      <a href="http://localhost:1313/php/log-bench/" class="list-group-item">seaslog 和 error_log性能大比拼</a>
+      
+    </div>
+  </div>
+
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">category</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/categories/javascript" class="list-group-item">javascript</a>
+      
+      <a href="http://localhost:1313/categories/php" class="list-group-item">php</a>
+      
+      <a href="http://localhost:1313/categories/miscs" class="list-group-item">miscs</a>
+      
+      <a href="http://localhost:1313/categories/mac" class="list-group-item">mac</a>
+      
+      <a href="http://localhost:1313/categories/linux" class="list-group-item">linux</a>
+      
+      <a href="http://localhost:1313/categories/blog" class="list-group-item">blog</a>
+      
+      <a href="http://localhost:1313/categories/git" class="list-group-item">git</a>
+      
+      <a href="http://localhost:1313/categories/python" class="list-group-item">python</a>
+      
+      <a href="http://localhost:1313/categories/ios" class="list-group-item">ios</a>
+      
+      <a href="http://localhost:1313/categories/mysql" class="list-group-item">mysql</a>
+      
+    </div>
+  </div>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">tag</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/tags/miscs" class="list-group-item">miscs</a>
+      
+      <a href="http://localhost:1313/tags/php" class="list-group-item">php</a>
+      
+      <a href="http://localhost:1313/tags/linux" class="list-group-item">linux</a>
+      
+      <a href="http://localhost:1313/tags/mac" class="list-group-item">mac</a>
+      
+      <a href="http://localhost:1313/tags/javascript" class="list-group-item">javascript</a>
+      
+      <a href="http://localhost:1313/tags/%E6%89%A9%E5%B1%95" class="list-group-item">扩展</a>
+      
+      <a href="http://localhost:1313/tags/git" class="list-group-item">git</a>
+      
+      <a href="http://localhost:1313/tags/bootstrap" class="list-group-item">bootstrap</a>
+      
+      <a href="http://localhost:1313/tags/ios" class="list-group-item">ios</a>
+      
+      <a href="http://localhost:1313/tags/jquery" class="list-group-item">jquery</a>
+      
+    </div>
+  </div>
+  
+
+</aside>
+
+
+        </div>
+    </div>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site">
+      <div class="container">
+        <p>(c) 2013-2016 Frost Wong. All rights reserved.</p>
+        <p>Powered by <a href="http://gohugo.io" target="_blank" rel="nofollow">Hugo</a>, Theme <a href="https://github.com/dim0627/hugo_theme_beg" target="_blank" rel="nofollow">beg</a> designed by <a href="http://yet.unresolved.xyz" target="_blank" rel="nofollow">Daisuke Tsuji</a></p>
+      </div>
+    </footer>
+
+    <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+
+  <script data-no-instant>document.write('<script src="/livereload.js?mindelay=10"></' + 'script>')</script></body>
+</html>
+

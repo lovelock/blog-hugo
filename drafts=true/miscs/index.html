@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.16" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Open+Sans|Marcellus+SC'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <link rel="stylesheet" href="http://localhost:1313/css/styles.css">
+    <link rel="stylesheet" href="http://localhost:1313/css/custom.css">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://localhost:1313//index.xml">
+
+    
+    <title>Miscs - Me &amp; Web</title>
+    <meta property='og:title' content="Miscs - Me &amp; Web">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://localhost:1313/miscs/">
+    
+    
+
+  </head>
+
+  <body>
+
+    <header class="site">
+      <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://localhost:1313/">Me &amp; Web&nbsp;&nbsp;致力于创作可操作性更好的文章</a>
+          </div>
+
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://localhost:1313/">Home</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/about">About</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/categories/">Categories</a></li>
+              
+              
+              
+              <li><a href="http://localhost:1313/tags/">Tags</a></li>
+              
+              
+            </ul>
+            
+          </div>
+
+        </div>
+      </nav>
+    </header>
+
+    <div class="site">
+      <div class="container">
+
+
+<div class="list">
+
+  <div class="row">
+    <div class="col-md-8">
+      <header class="page-title">Miscs</header>
+
+      
+      <article class="li">
+  <header>
+    <div class="date">Sun, Jul 17, 2016</div>
+    <div class="title"><a href="http://localhost:1313/miscs/talk-about-transgene-foods/">谈谈转基因食物</a></div>
+  </header>
+  <div class="body">这件事情其实我没有怎么关注过，到超市去买油什么的也是全凭一时冲动，没有固定的品牌和品种。 因为我是生物专业毕业的，知道的人难免会让我谈谈关于转</div>
+
+  
+  <footer>
+    <a href="http://localhost:1313/miscs/talk-about-transgene-foods/" class="btn btn-default">Read More…</a>
+  </footer>
+  
+</article>
+<hr>
+
+      
+      <article class="li">
+  <header>
+    <div class="date">Wed, Jan 13, 2016</div>
+    <div class="title"><a href="http://localhost:1313/miscs/2015-11-28-my-thoughts-about-programming/">我的编程心得——第一篇章</a></div>
+  </header>
+  <div class="body">可见性 Visibility 关于变量和函数等的可见性我真是无语了。 作为PHP程序员，我们知道所有PHP类都是public的，也就是说一个类对其他任何类都是可见的</div>
+
+  
+  <footer>
+    <a href="http://localhost:1313/miscs/2015-11-28-my-thoughts-about-programming/" class="btn btn-default">Read More…</a>
+  </footer>
+  
+</article>
+<hr>
+
+      
+      <article class="li">
+  <header>
+    <div class="date">Sat, Jan 9, 2016</div>
+    <div class="title"><a href="http://localhost:1313/miscs/static-dynamic-strong-weak-types-of-language/">谈谈动/静态类型和强/弱类型</a></div>
+  </header>
+  <div class="body">作为一个PHP程序员，这个问题本来不应该是我考虑的。 我需要知道仅仅是如果我的程序需要接受一个integer作为输入，拿到输入后最好能intval($var)一下，保证输入的是integer。而让我感到不理解的是，为什么PHP的强制类型转换会做成(int)$var这种方式，按照正常人的理解，不管int/string是关键字还是函数，要么作为int $var，这样具有迷惑性，因为在别的语言里这都是用来声明变量的，要么int($var)，这都很容易理解，然而。。。 好了，想到这个问题是因为这两天算是深入的用了Python的一些功能，当然主要还是用来处理日志，当我发现当我将两个从dict中取出的值相加，然后和一个数字的值对比时，并没有出现我要的结果。于是就查了下Python的类型。原来Python是动态类型，同时是强类型。 我看到网上很多人对这个问题还挺迷惑。刚看了PHP对于类型的解释，其实很能说明问题。 PHP 在变量定义中不需要（或不支持）明确的类型定义；变量类型是根据使用该变量的上下文所决定的。也就是说，如果把一个 string 值赋给变量 $var，$var 就成了一个 string。如果又把一个integer 赋给 $var，那它就成了一个integer。 这，就是标准的动态类型了。相应的，var a = 20 :Int，声明了变量a=20，同时指定该变量的类型是Int，如果var a = '20': Int在编译时就会报错，没错这就是静态类型（这是Swift的语法）。有人可能就会拿这个举例说C也是静态类型——的确，我也会认为它是静态类型，因为它也需要指定类型才可以定义——然而，判断是否是静态类型的根据并不在此，而是像知乎@姚培森的答案中说的，是根据它是否所有程序都是well behaved。这个就太深了，我就不深究了，毕竟对C的研究也不深，说错了还不如不说。 那再来看看让我误解的Python，无疑，Python和PHP一样在定义变量时也是不需要指定的，但对PHP来说， $a = 1; $b = '2'; echo $a + $b; 这样的代码完全没有问题。但到了Python这里 a = 1 b = '2' print(a + b) # 没错，我选择Python3 结果呢: Trt recent call last): File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt; TypeError: unsupported operand type(s) for +: 'int' and 'str' 这就是强类型和弱类型的区别了。强类型不允许出现forbidden behaviors。 从这一点也就可以理解为什么Python的JIT很早前就做出来了，而前段时间鸟哥还在说之前尝试做过PHP的JIT，但发现难度太大，而现在的PHP7实际就是在为后面的JIT铺路呢。</div>
+
+  
+  <footer>
+    <a href="http://localhost:1313/miscs/static-dynamic-strong-weak-types-of-language/" class="btn btn-default">Read More…</a>
+  </footer>
+  
+</article>
+<hr>
+
+      
+      <article class="li">
+  <header>
+    <div class="date">Sun, Nov 22, 2015</div>
+    <div class="title"><a href="http://localhost:1313/miscs/2015-11-22-Facebook%E7%9A%84%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C/">Facebook的用户体验</a></div>
+  </header>
+  <div class="body">上个星期登录Gmail突然发现多了好多Facebook的动态，仔细一看，原来我的头像都已经被别人换了。好吧，这还是我人生第一次帐号被盗的经历</div>
+
+  
+  <footer>
+    <a href="http://localhost:1313/miscs/2015-11-22-Facebook%E7%9A%84%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C/" class="btn btn-default">Read More…</a>
+  </footer>
+  
+</article>
+<hr>
+
+      
+      <article class="li">
+  <header>
+    <div class="date">Fri, Oct 9, 2015</div>
+    <div class="title"><a href="http://localhost:1313/miscs/2015-10-09-%E4%B9%9F%E8%B0%88%E5%B0%81%E6%9D%80/">也谈封杀</a></div>
+  </header>
+  <div class="body">看到读《robbin 谈社区运营：封杀的艺术》有感提到了社区之间的封杀，因为我用社区比较少，最近才接触到Coding.net这个优秀的工具，所</div>
+
+  
+  <footer>
+    <a href="http://localhost:1313/miscs/2015-10-09-%E4%B9%9F%E8%B0%88%E5%B0%81%E6%9D%80/" class="btn btn-default">Read More…</a>
+  </footer>
+  
+</article>
+<hr>
+
+      
+      <article class="li">
+  <header>
+    <div class="date">Thu, Oct 8, 2015</div>
+    <div class="title"><a href="http://localhost:1313/miscs/2015-10-08-%E8%BF%99%E4%B8%80%E5%A4%A9%EF%BC%8C%E5%B0%B1%E8%BF%99%E6%A0%B7%E8%BF%87%E5%8E%BB%E4%BA%86/">这一天，就这样过去了</a></div>
+  </header>
+  <div class="body">我是来自中国大陆的一名开发者。 最近的项目需要用到WebRTC相关的技术，通过搜索引擎找到了http://www.html5rocks.com</div>
+
+  
+  <footer>
+    <a href="http://localhost:1313/miscs/2015-10-08-%E8%BF%99%E4%B8%80%E5%A4%A9%EF%BC%8C%E5%B0%B1%E8%BF%99%E6%A0%B7%E8%BF%87%E5%8E%BB%E4%BA%86/" class="btn btn-default">Read More…</a>
+  </footer>
+  
+</article>
+<hr>
+
+      
+      <article class="li">
+  <header>
+    <div class="date">Sun, Sep 20, 2015</div>
+    <div class="title"><a href="http://localhost:1313/miscs/2015-09-20-%E7%89%A2%E9%AA%9A/">打破矛盾</a></div>
+  </header>
+  <div class="body">感觉这段时间自己处在一个很郁闷的时期，能意识到却又跳不出来。就像夜里做梦，有时会知道自己是在做梦，在梦里大喊大叫却听不到任何声音——那种无助</div>
+
+  
+  <footer>
+    <a href="http://localhost:1313/miscs/2015-09-20-%E7%89%A2%E9%AA%9A/" class="btn btn-default">Read More…</a>
+  </footer>
+  
+</article>
+<hr>
+
+      
+      <article class="li">
+  <header>
+    <div class="date">Fri, Jul 10, 2015</div>
+    <div class="title"><a href="http://localhost:1313/miscs/%E4%B9%9F%E8%B0%88%E5%88%9B%E4%B8%9A/">也谈创业</a></div>
+  </header>
+  <div class="body">我竟然在标签里写了“情怀”两个字。 自从罗永浩做了锤子手机，“情怀”就变成了一个被用烂了的词，但不可否认的是，它是确实存在的东西。 今天中午和同</div>
+
+  
+  <footer>
+    <a href="http://localhost:1313/miscs/%E4%B9%9F%E8%B0%88%E5%88%9B%E4%B8%9A/" class="btn btn-default">Read More…</a>
+  </footer>
+  
+</article>
+<hr>
+
+      
+      <article class="li">
+  <header>
+    <div class="date">Fri, Jun 12, 2015</div>
+    <div class="title"><a href="http://localhost:1313/miscs/2015-06-12-wei-lao-ren-zai-di-tie-shang-shuai-dao-xiang-dao-de/">一位老人在地铁上摔倒想到的</a></div>
+  </header>
+  <div class="body">今天地铁上还是像往常一样那么多人，我终于在站了近半小时之后有了一个座位。 不知道何时在我左边的左边出现了一位白发苍苍，大概60多岁的老太太。我</div>
+
+  
+  <footer>
+    <a href="http://localhost:1313/miscs/2015-06-12-wei-lao-ren-zai-di-tie-shang-shuai-dao-xiang-dao-de/" class="btn btn-default">Read More…</a>
+  </footer>
+  
+</article>
+<hr>
+
+      
+      <article class="li">
+  <header>
+    <div class="date">Fri, May 8, 2015</div>
+    <div class="title"><a href="http://localhost:1313/miscs/2015-05-08-activexkong-jian-zai-liu-lan-qi-zhong-shi-yong-de-zhu-yi-shi-xiang/">ActiveX控件在浏览器中使用的注意事项</a></div>
+  </header>
+  <div class="body">好吧，我承认这段事件做的工作是和前端的关系比较大，但其实最主要的功能是我们的合作方提供的一个ActiveX控件完成的，而我需要让我的用户在浏</div>
+
+  
+  <footer>
+    <a href="http://localhost:1313/miscs/2015-05-08-activexkong-jian-zai-liu-lan-qi-zhong-shi-yong-de-zhu-yi-shi-xiang/" class="btn btn-default">Read More…</a>
+  </footer>
+  
+</article>
+<hr>
+
+      
+      
+<nav>
+  <ul class="pager">
+
+    
+    <li class="disabled"><a href="#">Previous</a></li>
+    
+
+    
+    <li><a href="http://localhost:1313/miscs/page/2">Next</a></li>
+    
+
+  </ul>
+</nav>
+
+
+
+    </div>
+    <div class="col-md-4">
+      
+<aside class="site">
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">LatestPosts</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/linux/deepin-linux-experience/" class="list-group-item">DeepinLinux 体验报告</a>
+      
+      <a href="http://localhost:1313/java/mvn-tutorial-for-novice/" class="list-group-item">给Java新手看的mvn指南</a>
+      
+      <a href="http://localhost:1313/mac/use-ssh-config-to-tune-your-productivity-up/" class="list-group-item">使用ssh-config提升你的生产力</a>
+      
+      <a href="http://localhost:1313/miscs/talk-about-transgene-foods/" class="list-group-item">谈谈转基因食物</a>
+      
+      <a href="http://localhost:1313/php/internals/create-skeleton-of-extension/" class="list-group-item">PHP扩展实战——扩展的骨架</a>
+      
+      <a href="http://localhost:1313/php/internals/class-prototype-in-php/" class="list-group-item">PHP扩展实战——用PHP实现类的原型</a>
+      
+      <a href="http://localhost:1313/php/internals/schedules/" class="list-group-item">PHP扩展实战——目标和计划</a>
+      
+      <a href="http://localhost:1313/php/php-generator-and-iterator/" class="list-group-item">使用PHP生成器和迭代器</a>
+      
+      <a href="http://localhost:1313/php/internals/introduction/" class="list-group-item">PHP扩展实战——背景介绍</a>
+      
+      <a href="http://localhost:1313/php/log-bench/" class="list-group-item">seaslog 和 error_log性能大比拼</a>
+      
+    </div>
+  </div>
+
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">category</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/categories/javascript" class="list-group-item">javascript</a>
+      
+      <a href="http://localhost:1313/categories/php" class="list-group-item">php</a>
+      
+      <a href="http://localhost:1313/categories/miscs" class="list-group-item">miscs</a>
+      
+      <a href="http://localhost:1313/categories/mac" class="list-group-item">mac</a>
+      
+      <a href="http://localhost:1313/categories/linux" class="list-group-item">linux</a>
+      
+      <a href="http://localhost:1313/categories/blog" class="list-group-item">blog</a>
+      
+      <a href="http://localhost:1313/categories/git" class="list-group-item">git</a>
+      
+      <a href="http://localhost:1313/categories/python" class="list-group-item">python</a>
+      
+      <a href="http://localhost:1313/categories/ios" class="list-group-item">ios</a>
+      
+      <a href="http://localhost:1313/categories/mysql" class="list-group-item">mysql</a>
+      
+    </div>
+  </div>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">tag</h2>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://localhost:1313/tags/miscs" class="list-group-item">miscs</a>
+      
+      <a href="http://localhost:1313/tags/php" class="list-group-item">php</a>
+      
+      <a href="http://localhost:1313/tags/linux" class="list-group-item">linux</a>
+      
+      <a href="http://localhost:1313/tags/mac" class="list-group-item">mac</a>
+      
+      <a href="http://localhost:1313/tags/javascript" class="list-group-item">javascript</a>
+      
+      <a href="http://localhost:1313/tags/%E6%89%A9%E5%B1%95" class="list-group-item">扩展</a>
+      
+      <a href="http://localhost:1313/tags/git" class="list-group-item">git</a>
+      
+      <a href="http://localhost:1313/tags/bootstrap" class="list-group-item">bootstrap</a>
+      
+      <a href="http://localhost:1313/tags/ios" class="list-group-item">ios</a>
+      
+      <a href="http://localhost:1313/tags/jquery" class="list-group-item">jquery</a>
+      
+    </div>
+  </div>
+  
+
+</aside>
+
+
+    </div>
+  </div>
+
+</div>
+      </div>
+    </div>
+
+    <footer class="site">
+      <div class="container">
+        <p>(c) 2013-2016 Frost Wong. All rights reserved.</p>
+        <p>Powered by <a href="http://gohugo.io" target="_blank" rel="nofollow">Hugo</a>, Theme <a href="https://github.com/dim0627/hugo_theme_beg" target="_blank" rel="nofollow">beg</a> designed by <a href="http://yet.unresolved.xyz" target="_blank" rel="nofollow">Daisuke Tsuji</a></p>
+      </div>
+    </footer>
+
+    <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+
+  <script data-no-instant>document.write('<script src="/livereload.js?mindelay=10"></' + 'script>')</script></body>
+</html>
+

@@ -1,11 +1,10 @@
 +++
-categories = ["Linux"]
-title = "DeepinLinux体验报告"
+title = "DeepinLinux 体验报告"
 date = "2016-09-03T17:20:45+08:00"
 description = "也许是国内最好的Linux发行版试用评测"
 isCJKLanguage = true
-tags = ["deepin"]
-topics = ["linux"]
+categories = ["Linux"]
+tags = ["deepin", "linux"]
 draft = false
 +++
 
@@ -52,7 +51,7 @@ draft = false
 好在安装过程很顺利，也很快。这点很赞。
     
 ### 3. 亮点
-吐槽完了也得有点亮点吧，也不旺我把Ubuntu分区都干掉装这个啊。界面风格没啥好说的，还提供了三种模式
+吐槽完了也得有点亮点吧，也不枉我把Ubuntu分区都干掉装这个啊。界面风格没啥好说的，还提供了三种模式
 ![默认Dock模式][4]
 ![Windows Dock模式1][5]
 ![Windows Dock模式2][6]
@@ -89,3 +88,5 @@ draft = false
   [7]: http://7xn2pe.com1.z0.glb.clouddn.com/DeepinScreenshot20160814231725.png
   [8]: http://7xn2pe.com1.z0.glb.clouddn.com/DeepinScreenshot20160814232511.png
   [9]: http://7xn2pe.com1.z0.glb.clouddn.com/DeepinScreenshot20160814235541.png
+
+

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Firewall on Me &amp; Web</title>
+    <link>http://localhost:1313/tags/firewall/</link>
+    <description>Recent content in Firewall on Me &amp; Web</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>frostwong@gmail.com (Frost Wong)</managingEditor>
+    <webMaster>frostwong@gmail.com (Frost Wong)</webMaster>
+    <copyright>(c) 2013-2016 Frost Wong. All rights reserved.</copyright>
+    <lastBuildDate>Sun, 12 Jul 2015 17:46:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/firewall/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>CentOS7防火墙简单配置</title>
+      <link>http://localhost:1313/linux/CentOS7%E9%98%B2%E7%81%AB%E5%A2%99%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Sun, 12 Jul 2015 17:46:00 +0000</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/linux/CentOS7%E9%98%B2%E7%81%AB%E5%A2%99%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE/</guid>
+      <description>&lt;p&gt;防火墙这么个复杂的东西没有一个标准的配置方式真是太烦了，iptables的命令太繁琐，时间长了不用就忘记了，忘记可以记下来，可到了RHEL7竟然又加了个wrapper，叫什么firewall-cmd，我的天，你看看你取了个什么名字吧，不得不说红帽的人真是没有品位。&lt;/p&gt;
+
+&lt;p&gt;言归正传，通常我们的工作环境其实也打不到这个7，也不会接触这个东西。&lt;/p&gt;
+
+&lt;p&gt;打开一个端口
+&lt;code&gt;sudo firewall-cmd --zone=public --add-port=80/tcp --permanent&lt;/code&gt;
+这就添加了一个80/tcp的端口
+然后需要&lt;code&gt;reload&lt;/code&gt;一下
+&lt;code&gt;sudo firewall-cmd --reload&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;说它是个wrapper是因为不管是这个&lt;code&gt;firewall-cmd&lt;/code&gt;还是Ubuntu的&lt;code&gt;ufw&lt;/code&gt;其实都是对&lt;code&gt;iptables&lt;/code&gt;系列命令的一个封装，无非就是三步&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;添加一条记录&lt;/li&gt;
+&lt;li&gt;把这条记录写入内存&lt;/li&gt;
+&lt;li&gt;如果下次开机后还要它生效，那就把它写入文件&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;相应的，&lt;code&gt;ufw&lt;/code&gt;的操作如下&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

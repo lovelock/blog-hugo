@@ -84,40 +84,12 @@
     <div class="date">Thu, Sep 22, 2016</div>
     <div class="title"><a href="http://localhost:1313/java/create-and-run-java-application-with-maven/">使用maven创建和运行Java应用</a></div>
   </header>
-  <div class="body"><ol>
-<li>创建应用</li>
-</ol>
+  <div class="body">最近这段时间在研究Storm，虽然不是研究源码而是研究使用，也让我这个自认为会写Java HelloWorld的菜鸟感到了深深的无力感。尤其是打开一本书，上面第一行代码就执行报错时我的心情可想而知了。 1. 创建应用 因为我最近的使用场景是创建一个普通项目（区别于Web项目），所以直接用mvn archetype:generate根据提示如果默认一路点下来会生成一个简单应用的骨架。 注意：如果你在哪里看到mvn archetype:create这样的写法，而在你的机器上执行出错，不用怀疑，因为你看到的资料太老了，而你用的是新版的maven，按我的写法没有错。 如果需要生成webapp类型应用，比如一个基于SpringFramework的应用就不是831了，而是类似这样 mvn archetype:generate -DarchetypeArtifactId=maven-archetype-webapp\ -DinteractiveMode=false \ -DgroupId=com.unixera.webapp \ -DartifactId=spring-example 具体再到里面怎么写应用这里就不展开了，如果有时间的话会有相关的文章单独来介绍。 2. 打包应用 经过上面的mvn archetype:generate命令之后，创建的目录类似这样 如果再往深了看，是这样的 其中最需要注意的就是pom.xml这个文件，关于maven的简单使用可以参考我之前写的给Java新手看的mvn指南 写完了应用当然是希望执行它，我们知道Java程序是需要编译成字节码之后才能执行的，当你学Java的HelloWorld时一般是告诉你 javac HelloWorld.java java HelloWorld 这没有问题，但问题是当我们用maven管理一个项目时当然就不能这么去操作了，就像写C代码时直接用gcc编译和写Makefile使用make来管理项目是一样的道理。 普通的jar包 mvn compile 这时可以尝试在根目录里执行mvn compile看看结果。 这相当于执行javac，只不过根据mvn的默认配置，它把编译生成的class文件放在了指定的位置，那它究竟生成了哪些文件呢？ 可以看到，它并没有生成我们希望的可以发布的jar包。 mvn package 我们知道，其实jar包的本质就是zip，是把项目执行需要的资源全部打包（此处不准确，后面会谈）在一起发布的方式。而mvn package执行的就是打包的过程。 这里的输出结果也验证了之前的文章中提到的说法。 compile test package install是一套流程，执行后面的命令时会重复执行前面的命令 再来看mvn package生成了哪些文件（只看target目录即可） 重点关注红线标注的jar包，这是我们需要的。 这就是jar包中的所有东西。你可能知道执行一个jar包需要的命令时java -jar xxxx.jar，然并卵，这时执行这个是会出错的。解决方法后面会说。 jar-with-dependencies 下面来解释一下为什么简单的打包并不能生成可以直接执行的jar包。 首先需要了解一点Manifest的知识2。简单来说，就是一个jar包需要Manifest文件中包含指定的内容才可以执行。那我们根据前面的经验，用mvn package生成的jar包中是包含META-INF/MANIFEST.MF的，实际上jar包运行需要的就是这个所谓的Manifest文件。 打开它看一下 根据Java SE官方文档3, 一个Manifest文件中至少需要包含Main-Class字段才可以使之使用java -jar命令执行。 那我们来试着修改一下 首先把jar包解压： 然后修改META-INF/MANIFEST.MF文件，改成 一般需要把应用和它的依赖打到同一个包里面，所以就需要配置jar-with-dependencies 然后配置一下execute single 3. 执行应用 java</div>
 
-<p>因为我最近的使用场景是创建一个普通项目（区别于Web项目），所以直接用<code>mvn archetype:generate</code>根据提示如果默认一路点下来会生成一个简单应用的骨架。</p>
-
-<blockquote>
-<p>注意：如果你在哪里看到<code>mvn archetype:create</code>这样的写法，而在你的机器上执行出错，不用怀疑，因为你看到的资料太老了，而你用的是新版的maven，按我的写法没有错。</p>
-</blockquote>
-
-<p>如果需要生成webapp类型应用，比如一个机遇SpringFramework的应用就不是831了，而是类似这样</p>
-
-<pre><code>mvn archetype:generate -DarchetypeArtifactId=maven-archetype-webapp\
-                        -DinteractiveMode=false \
-                        -DgroupId=com.unixera.webapp \
-                        -DartifactId=spring-example
-</code></pre>
-
-<ol>
-<li>打包应用</li>
-</ol>
-
-<p>一般需要把应用和它的依赖打到同一个包里面，所以就需要配置jar-with-dependencies
-然后配置一下execute single</p>
-
-<ol>
-<li>执行应用</li>
-</ol>
-
-<p><code>java -cp $CLASSPATH -jar /path/to/jar-with-dependencies.jar</code></p>
-
-<p>mvn生成的还需要在pom.xml中配置主class</p>
-</div>
-
+  
+  <footer>
+    <a href="http://localhost:1313/java/create-and-run-java-application-with-maven/" class="btn btn-default">Read More…</a>
+  </footer>
   
 </article>
 <hr>
@@ -141,7 +113,7 @@
       
       <a href="http://localhost:1313/java/create-and-run-java-application-with-maven/" class="list-group-item">使用maven创建和运行Java应用</a>
       
-      <a href="http://localhost:1313/linux/deepin-linux-experience/" class="list-group-item">DeepinLinux体验报告</a>
+      <a href="http://localhost:1313/linux/deepin-linux-experience/" class="list-group-item">DeepinLinux 体验报告</a>
       
       <a href="http://localhost:1313/java/mvn-tutorial-for-novice/" class="list-group-item">给Java新手看的mvn指南</a>
       
@@ -200,11 +172,11 @@
       
       <a href="http://localhost:1313/tags/miscs" class="list-group-item">miscs</a>
       
+      <a href="http://localhost:1313/tags/linux" class="list-group-item">linux</a>
+      
       <a href="http://localhost:1313/tags/mac" class="list-group-item">mac</a>
       
       <a href="http://localhost:1313/tags/javascript" class="list-group-item">javascript</a>
-      
-      <a href="http://localhost:1313/tags/linux" class="list-group-item">linux</a>
       
       <a href="http://localhost:1313/tags/%E6%89%A9%E5%B1%95" class="list-group-item">扩展</a>
       

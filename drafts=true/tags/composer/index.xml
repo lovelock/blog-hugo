@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Composer on Me &amp; Web</title>
+    <link>http://localhost:1313/tags/composer/</link>
+    <description>Recent content in Composer on Me &amp; Web</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>frostwong@gmail.com (Frost Wong)</managingEditor>
+    <webMaster>frostwong@gmail.com (Frost Wong)</webMaster>
+    <copyright>(c) 2013-2016 Frost Wong. All rights reserved.</copyright>
+    <lastBuildDate>Sat, 09 Jan 2016 21:11:33 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/composer/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>创建一个PSR-4规范的composer包</title>
+      <link>http://localhost:1313/php/2016-01-14-create-a-composer-package/</link>
+      <pubDate>Sat, 09 Jan 2016 21:11:33 +0800</pubDate>
+      <author>frostwong@gmail.com (Frost Wong)</author>
+      <guid>http://localhost:1313/php/2016-01-14-create-a-composer-package/</guid>
+      <description>
+
+&lt;h3 id=&#34;下载安装composer&#34;&gt;下载安装Composer&lt;/h3&gt;
+
+&lt;p&gt;到&lt;a href=&#34;https://getcomposer.org/download/&#34;&gt;composer官网&lt;/a&gt;按照指示下载。官方建议的是用&lt;code&gt;curl -sS https://getcomposer.org/installer | php&lt;/code&gt;这条命令。可能有些同学会迷惑这是在干什么，这其实是为了保证你下载到的总是最新的composer。分析一下，首先看到了管道，把前面curl获取的结果交给php执行，执行的结果就是下载了一个最新的&lt;code&gt;composer.phar&lt;/code&gt;到当前目录下。这时虽然也可以说已经能用了，但通常我还会把它链接到&lt;code&gt;/usr/local/bin&lt;/code&gt;目录下，方便使用。
+&lt;code&gt;sudo ln -s /home/frost/packages/composer.phar /usr/local/bin/composer&lt;/code&gt;
+这时在终端输入&lt;code&gt;composer&lt;/code&gt;就应该能看到它的帮助信息了。&lt;/p&gt;
+
+&lt;h3 id=&#34;配置packagist&#34;&gt;配置Packagist&lt;/h3&gt;
+
+&lt;p&gt;原本这不是必需的，但由于众所周知的原因，我还是建议配置一下。具体见&lt;a href=&#34;http://pkg.phpcomposer.com/&#34;&gt;这里&lt;/a&gt;。
+&lt;code&gt;composer config -g repositories.packagist composer http://packagist.phpcomposer.com&lt;/code&gt;就可以了。&lt;/p&gt;
+
+&lt;h2 id=&#34;composer-json&#34;&gt;composer.json&lt;/h2&gt;
+
+&lt;p&gt;简单起见，这里使用monolog/monolog为例。
+要使用composer，首先需要一个&lt;code&gt;composer.json&lt;/code&gt;文件，它描述了项目依赖关系及其他一些元信息。&lt;/p&gt;
+
+&lt;h3 id=&#34;require-关键字&#34;&gt;&lt;code&gt;require&lt;/code&gt;关键字&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;require&lt;/code&gt;可能是你第一个也是唯一需要制定的东西。它用来告诉Composer你的项目需要依赖哪些包。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;{
+	&amp;quot;require&amp;quot;: {
+		&amp;quot;monolog/monolog&amp;quot;: &amp;quot;1.0.*&amp;quot;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如你所见，&lt;code&gt;require&lt;/code&gt;接受一个包含包名(monolog/monolog)和版本限制(1.0.*)的映射的对象。&lt;/p&gt;
+
+&lt;h3 id=&#34;包名&#34;&gt;包名&lt;/h3&gt;
+
+&lt;p&gt;包名由vendor名和项目名组成。两者经常会是相同的——vendor名的存在只是为了避免名称冲突。它可以允许两个人创建同一个名称的库&lt;code&gt;json&lt;/code&gt;，这样两个包名就可能是&lt;code&gt;igorw/json&lt;/code&gt;和&lt;code&gt;seldaek/json&lt;/code&gt;了。
+这里我们“需要”&lt;code&gt;monolog/monolog&lt;/code&gt;，所以vendor名和项目名一样。建议对项目使用唯一的名字。稍后还允许同一个命名空间下的多个项目。如果你在维护一个库，这可以让你很容易的把它分成多个解耦的小部分。&lt;/p&gt;
+
+&lt;h3 id=&#34;包版本&#34;&gt;包版本&lt;/h3&gt;
+
+&lt;p&gt;上面的例子中我们“需要”版本&lt;code&gt;1.0.*&lt;/code&gt;，这表示&lt;code&gt;1.0&lt;/code&gt;版本的所有分支。
+版本限制可以用多种不同的方式，&lt;a href=&#34;https://getcomposer.org/doc/articles/versions.md&#34;&gt;这里&lt;/a&gt;给出了详细的解释。&lt;/p&gt;
+
+&lt;h3 id=&#34;稳定性&#34;&gt;稳定性&lt;/h3&gt;
+
+&lt;p&gt;默认情况下只考虑稳定版本。如果你也希望用RC, beta, alpha或者开发版，可以用&lt;a href=&#34;https://getcomposer.org/doc/04-schema.md#package-links&#34;&gt;稳定性标识&lt;/a&gt;。为了不用为每个包单独设置稳定性标识，还可以用&lt;a href=&#34;https://getcomposer.org/doc/04-schema.md#minimum-stability&#34;&gt;最小稳定性&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;安装依赖&#34;&gt;安装依赖&lt;/h3&gt;
+
+&lt;p&gt;要安装依赖，只需要执行&lt;code&gt;composer install&lt;/code&gt;即可。
+这会找到符合版本限制的最新版本的&lt;code&gt;monolog/monolog&lt;/code&gt;，并且把它下载到&lt;code&gt;vendor&lt;/code&gt;目录。把第三方的代码放在一个名为&lt;code&gt;vendor&lt;/code&gt;的目录是一个规范。在本例中，会把它放在&lt;code&gt;vendor/monolog/monolog&lt;/code&gt;。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;如果你使用git，通常会把&lt;code&gt;vendor&lt;/code&gt;目录放在&lt;code&gt;.gitignore&lt;/code&gt;中。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;你会注意到&lt;code&gt;composer install&lt;/code&gt;命令还会在当前目录下生成一个&lt;code&gt;composer.lock&lt;/code&gt;文件。&lt;/p&gt;
+
+&lt;h3 id=&#34;composer-lock-锁文件&#34;&gt;&lt;code&gt;composer.lock&lt;/code&gt;锁文件&lt;/h3&gt;
+
+&lt;p&gt;安装完依赖后，Composer会把它安装的精确版本号写入&lt;code&gt;composer.lock&lt;/code&gt;文件中。它把项目锁定在某个特定的版本号。
+把&lt;code&gt;composer.lock&lt;/code&gt;文件和&lt;code&gt;composer.json&lt;/code&gt;一起提交到版本控制中。这很重要，因为&lt;code&gt;install&lt;/code&gt;命令会检查锁文件是否存在，如果存在，它就会下载指定的精确版本，否则就会按照&lt;code&gt;composer.json&lt;/code&gt;的描述下载符合约束的最新版本。
+这意味着每个下载了你的项目的人看到的都是&lt;strong&gt;完全&lt;/strong&gt;相同的代码，不会因为依赖更新了就自动更新依赖。&lt;code&gt;update&lt;/code&gt;命令会将依赖更新到符合要求的最新版本，然后更新锁文件。
+&lt;code&gt;update&lt;/code&gt;命令也可以指定单独的包名来更新指定的包。&lt;/p&gt;
+
+&lt;h3 id=&#34;packagist&#34;&gt;Packagist&lt;/h3&gt;
+
+&lt;p&gt;Packagist是Composer的信息库。一个Composer信息库本质上是一个包的源——从这里你可以获取包。Packagist希望成为每个人用的中心信息库。这意味着你可以自动&lt;code&gt;require&lt;/code&gt;任何这里存在的包。&lt;/p&gt;
+
+&lt;h3 id=&#34;自动加载&#34;&gt;自动加载&lt;/h3&gt;
+
+&lt;p&gt;对于指定了自动加载信息的库，Composer会生成一个&lt;code&gt;vendor/autoload.php&lt;/code&gt;文件。你可以放心的&lt;code&gt;include&lt;/code&gt;这个文件而Composer会完成剩下的工作。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;require __DIR__ . &#39;/vendor/autoload.php&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这让使用第三方代码很方便。比如，如果你的项目依赖Monolog，你可以马上开始使用它的类，它会被自动加载。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;$log = new Monolog\Logger(&#39;name&#39;);
+$log-&amp;gt;pushHandler(new Monolog\Handler\StreamHandler(&#39;app.log&#39;, Monolog\Logger::WARNING));
+$log-&amp;gt;addWarning(&#39;FOO&#39;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;你还可以把自己的代码添加到&lt;code&gt;composer.json&lt;/code&gt;的&lt;code&gt;autoload&lt;/code&gt;字段。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;{
+	&amp;quot;autoload&amp;quot;: {
+		&amp;quot;psr-4&amp;quot;: {&amp;quot;Acme\\&amp;quot;: &amp;quot;src/&amp;quot;}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Composer就会为Acme命名空间注册一个PSR-4的自动加载器。
+这里你定义の一个命名空间到目录的映射。&lt;code&gt;src&lt;/code&gt;目录会是你的项目的根目录，和&lt;code&gt;vendor&lt;/code&gt;在同级目录。比如文件&lt;code&gt;src/Foo.php&lt;/code&gt;包含&lt;code&gt;Acme\Foo&lt;/code&gt;类。
+在添加了&lt;code&gt;autoload&lt;/code&gt;字段之后，需要重新运行&lt;code&gt;dump-autoload&lt;/code&gt;来重新生成&lt;code&gt;vendor/autoload.php&lt;/code&gt;文件。包含这个文件还会返回一个自动加载器的实例，你可以把返回值存储下来并且添加更多的命名空间。这在测试时会很有用。比如&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;$loader = require __DIR__ . &#39;/vender/autoload.php&#39;;
+$loader-&amp;gt;add(&#39;Acme\\Test\\&#39;, __DIR__);
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
