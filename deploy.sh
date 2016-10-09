@@ -6,18 +6,18 @@ if [ $# -eq 1 ]
   then msg="$1"
 fi
 
-# Push Hugo content 
+# Push Hugo content
 git add -A
 git commit -m "$msg"
 git push origin master
 
-
-# Build the project. 
+# Build the project.
 hugo # if using a theme, replace by `hugo -t <yourtheme>`
 
 # Go To Public folder
 cd public
 # Add changes to git.
+
 git add -A
 
 # Commit changes.
