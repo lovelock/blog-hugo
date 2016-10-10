@@ -24,7 +24,6 @@ mvn archetype:generate -DarchetypeArtifactId=maven-archetype-webapp\
                         -DgroupId=com.unixera.webapp \
                         -DartifactId=spring-example
 ```
-
 具体再到里面怎么写应用这里就不展开了，如果有时间的话会有相关的文章单独来介绍。
 
 ### 2. 打包应用
