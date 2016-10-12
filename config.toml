@@ -2,25 +2,27 @@ baseurl = "http://unixera.com/"
 languageCode = "en-us"
 title = "Me & Web"
 copyright = "(c) 2013-2016 Frost Wong. All rights reserved."
-theme = "beg"
+theme = "tech"
 # Pagination
 canonifyurls = true
 paginate = 10
 paginatePath = "page"
 
+
 [params]
     toc = true
-    disqusShortname = "unixera"
     duoshuoShortname = "UnixAgain"
     Slogan = "致力于创作可操作性更好的文章"
+    SyntaxHighlightTheme = "github.min.css"
+    Author = "Frost Wong"
 
 [permalinks]
     post = "/:year/:month/:day/:slug/"
     code = "/:slug/"
 
 [taxonomies]
-    Tags = "tags"
-    Categories = "categories"
+    Tags = "Tags"
+    Categories = "Categories"
 
 [author]
     name = "Frost Wong"
@@ -28,25 +30,25 @@ paginatePath = "page"
 
 [menu]
     [[menu.main]]
-        name = "Home"
+        name = "首页"
         pre = "<i class = 'fa fa-home fa-fw'></i>"
         weight = 0
         identifier = "home"
         url = "/"
     [[menu.main]]
-        name = "Tags"
+        name = "标签"
         pre = "<i class='fa fa-list fa-fw'></i>"
         weight = 1
         identifier = "tags"
         url = "/tags/"
     [[menu.main]]
-        name = "Categories"
+        name = "分类"
         pre = "<i class='fa fa-list fa-fw'></i>"
         weight = 1
         identifier = "categories"
         url = "/categories/"
     [[menu.main]]
-        name = "About"
+        name = "关于作者"
         pre = "<i class='fa fa-list fa-fw'></i>"
         weight = 1
         identifier = "about"
