@@ -2,6 +2,7 @@
 date = "2016-10-10T17:53:14+08:00"
 title = "在本地单机部署Hadoop/Storm运行环境"
 categories = ["Java"]
+isCJKLanguage = true
 tags = ["Storm", "Kafka", "Java"]
 
 +++
@@ -11,7 +12,7 @@ tags = ["Storm", "Kafka", "Java"]
 由于要在小组内做一个关于Storm的分享，涉及到我负责开发的大数据项目，本着开放的原则，把我做的准备工作记录下来，提前发给可能参会的同事。  
 要演示的项目目前为止用到了Apache的多个项目，包括Kafka, Storm, Hadoop(HDFS, Hive), ZooKeeper等，项目刚刚起步，很多基础设施还不完善，比如现在是在本地开发完成之后直接部署到线上环境的，这次演示可不能直接在线上环境做了，故而在本地的台式机上部署了一下**伪集群**，用来作为演示和以后开发测试用的环境。
 
-<!--more-->
+
 ## 准备工作
 
 说明：

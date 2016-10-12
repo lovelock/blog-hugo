@@ -4,6 +4,7 @@ draft = true
 title = "使用Electron创建跨平台应用"
 tags = ["Electron", "JavaScript"]
 categories = ["FrondEnd"]
+isCJKLanguage = true
 
 +++
 1. 在mainProcess中无法获取页面DOM元素

@@ -3,6 +3,7 @@ title = "一个真实Storm应用源码解析"
 draft = true
 date = "2016-10-11T16:41:18+08:00"
 categories = ["Java"]
+isCJKLanguage = true
 tags = ["Java", "Storm"]
 +++
 
@@ -10,7 +11,7 @@ tags = ["Java", "Storm"]
 
 这里是Storm分享的内容。我自己也是初学者，这里抛砖引玉，希望大家多多指教。为简单起见，本应用用的是Java实现，没有用到Storm的多语言支持和更高层面的Trident Topology。源码详见[storm-demo](https://github.com/lovelock/storm-demo)。
 
-<!--more-->
+
 ## 基本概念介绍
 
 ### 概述
