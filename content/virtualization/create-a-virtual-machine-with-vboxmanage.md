@@ -4,12 +4,12 @@ tags = [
   "VitualBox",
   "Linux",
 ]
-drfat = true
+draft = true
 categories = [
   "Virtualization",
 ]
 date = "2016-10-13T16:35:22+08:00"
-title = "使用VboxManage创建虚拟机"
+title = "使用VBoxManage创建虚拟机"
 
 +++
 
