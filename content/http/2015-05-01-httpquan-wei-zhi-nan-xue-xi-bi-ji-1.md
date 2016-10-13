@@ -2,6 +2,7 @@
 categories = ["Http"]
 title  = "HTTP权威指南学习笔记[1]"
 isCJKLanguage = true
+draft=true
 date = "2015-05-01T22:33:03+08:00"
 tags = ["http"]
 +++
