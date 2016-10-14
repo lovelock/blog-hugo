@@ -96,20 +96,21 @@ UUID: 4afd6d6d-9cee-4efe-89a6-b752644711f0
 Settings file: '/home/hadoop/VirtualBox VMs/CentOS7/CentOS7.vbox'
 
 // 创建磁盘控制器
-$ VBoxManage storagectl 4afd6d6d-9cee-4efe-89a6-b752644711f0 --add sata --controller IntelAHCI --name "SATA Controller"
+$ VBoxManage storagectl CentOS7 --add sata --controller IntelAHCI --name "SATA Controller"
 
 // 绑定磁盘控制器
-$ VBoxManage storageattach 4afd6d6d-9cee-4efe-89a6-b752644711f0 --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium CentOS7.vdi
+$ VBoxManage storageattach CentOS7 --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium CentOS7.vdi
 
 // 创建光盘驱动器
-$ VBoxManage storagectl 4afd6d6d-9cee-4efe-89a6-b752644711f0 --name "IDE Controller" --add ide
+$ VBoxManage storagectl CentOS7 --name "IDE Controller" --add ide
 
 // 绑定光盘控制器
-$ VBoxManage storageattach 4afd6d6d-9cee-4efe-89a6-b752644711f0 --storagectl "IDE Controller" --port 0 --device 0 --type dvddrive --medium ~/Downloads/CentOS-7-x86_64-Minimal-1511.iso
+$ VBoxManage storageattach CentOS7 --storagectl "IDE Controller" --port 0 --device 0 --type dvddrive --medium ~/Downloads/CentOS-7-x86_64-Minimal-1511.iso
 
 // 设置网络连接方式为桥接
-$ VBoxManage modifyvm 4afd6d6d-9cee-4efe-89a6-b752644711f0 --nic1 bridged --bridgeadapter1 eno1
+$ VBoxManage modifyvm CentOS7 --nic1 bridged --bridgeadapter1 eno1 --vrde on --vrdeaddress 0.0.0.0 --vrdeport 5010 --memory 1024 --cpus 1
 
+$ VBoxManage startvm CentOS7 --type=headless
 
 ```
 
