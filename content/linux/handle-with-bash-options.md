@@ -7,7 +7,6 @@ tags = [
   "Bash",
   "CLI",
 ]
-draft = true
 date = "2016-10-14T15:40:58+08:00"
 title = "用Bash编写漂亮的命令行程序"
 
