@@ -4,7 +4,6 @@ tags = [
   "VitualBox",
   "Linux",
 ]
-draft = true
 categories = [
   "Virtualization",
 ]
@@ -138,4 +137,15 @@ $ VBoxManage startvm CentOS7 --type=headless
 2. 复制snapshot并命名
 
 这两步就可以创建一个以前面的虚拟机为基础的虚拟机，而系统又不会占用两套存储空间，也步要求它有多高的性能，只要能说名问题即可。
+
+先查看一下当前有哪些虚拟机（注意：snapshot是另外一种实体，查看vm的命令是查看不到snapshot的）
+![](http://ww1.sinaimg.cn/large/65e4f1e6gw1f8v1dqo36oj20yw05etat.jpg)
+看一下指定的虚拟机是否已经有snapshot(这里只是不想给已经有snapshot的虚拟机再创建新的，其实是没有问题的)
+![](http://ww1.sinaimg.cn/large/65e4f1e6gw1f8v1ffm5tcj216002omy7.jpg)
+创建新的snapshot并查看是否创建成功
+![](http://ww1.sinaimg.cn/large/65e4f1e6gw1f8v1ig2xsuj21kw07en04.jpg)
+
+`VBoxManage clonevm Debian-original --options link --name Debian-cluster-01 --register`
+
+这样就克隆了一个新的虚拟机，并且注册到VirtualBox中，下面启动新的虚拟机的步骤就和前面直接创建新虚拟机一样了。 
 
