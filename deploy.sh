@@ -7,7 +7,7 @@ if [ $# -eq 1 ]
 fi
 
 # Push Hugo content
-git add -A
+git add . -A
 git commit -m "$msg"
 git push origin master
 
