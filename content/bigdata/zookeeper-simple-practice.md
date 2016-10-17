@@ -2,7 +2,6 @@
 categories = ["BigData"]
 date = "2016-10-12T23:36:09+08:00"
 isCJKLanguage = true
-draft=true
 tags = ["zookeeper"]
 title = "ZooKeeper原理简介和简单使用"
 
