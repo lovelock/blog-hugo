@@ -49,7 +49,7 @@ Apache Storm是一个自由并且开源的**分布式实时**计算系统.它使
 1. ZooKeeper  
     [ZooKeeper](http://zookeeper.apache.org/)是一个分布式的配置分发服务。Storm和Kafka都是无状态的，它们的工作需要外部服务为其维持状态，如Storm从Kafka中取数据时需要的partition编号和offset偏移量等诸如此类的信息。ZooKeeper会综合分析Spout和Bolt发送来的ack或者fail请求来决定是否更新offset。如下图所示
 
-   ![](http://ww3.sinaimg.cn/large/65e4f1e6jw1f8wd8tm94ij21kw097q5h.jpg)
+    ![](http://ww3.sinaimg.cn/large/65e4f1e6jw1f8wd8tm94ij21kw097q5h.jpg)
 
 2. Kafka  
     [Kafka](http://kafka.apache.org/)是一个分布式的消息系统。支持**点对点**和**发布-订阅**两种消息模式。在和Storm配合中，充当**数据来源**的角色。用[KafkaSpout](https://github.com/apache/storm/tree/master/external/storm-kafka)和Storm进行组合。
