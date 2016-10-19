@@ -80,9 +80,9 @@ Apache Storm是一个自由并且开源的**分布式实时**计算系统.它使
 
     ![](http://ww3.sinaimg.cn/large/65e4f1e6jw1f8wdqv4tuqj218y0ji41l.jpg)
 
-    这两个是回调方法，分别在ack unit向其发送ack或fail请求时被触发，一般而言，ack方法由于通知Kafka发送下一条数据，fail方法用于通知Kafka重发上一条数据。
+    这两个是回调方法，分别在acker向其发送ack或fail请求时被触发，一般而言，ack方法由于通知Kafka发送下一条数据，fail方法用于通知Kafka重发上一条数据。
 
-    > 关于ack unit，可以理解为Storm中处理bolt的ack或fail请求的总线，它接收到相应的请求后，做简单的异或处理，并把结果发送给Spout。
+    > Storm中有个特殊的task名叫acker，它们负责跟踪Spout发出的每一个Tuple的Tuple树（因为一个Tuple通过Spout发出了，经过每一个Bolt处理后，会生成一个新的Tuple发送出去）。当acker（框架自启动的task）发现一个Tuple树已经处理完成了，它会发送一个消息给产生这个Tuple的那个task。
 
 3.  Bolt  
      Bolt是真正写处理逻辑的地方，比如在本例中，我们要做以下几件事：
