@@ -40,7 +40,7 @@ title = "使用VBoxManage创建虚拟机"
 
 首先要创建一块磁盘。
 
-1. `--name <name>` 创建的设备的名字
+1. `--filename <name>` 创建的设备的名字
 2. `--format VDI|VMDK|VHD` 创建的设备的格式，默认是vdi，当年我做云主机运维的时候还测试过各种虚拟化磁盘格式的性能，vdi的性能是所有可选项里面最快的，值得信赖
 3. `--size <megabytes>` 创建的磁盘的大小，以M为单位
 
