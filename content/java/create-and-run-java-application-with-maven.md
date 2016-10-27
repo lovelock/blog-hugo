@@ -87,37 +87,37 @@ java HelloWorld
 
 所以我们知道了直接生成的jar包不能执行是因为Manifest中缺少了指定Main-Class的指令。那么既然我们使用了mvn，依赖了pom.xml，那mvn当然是能帮我们直接解决这个问题的，不然要自己每次解压、修改再压缩得累死了。
 
-根据Maven官方文档[4], 在`pom.xml`中添加plugin配置即可
+根据这个答案[4], 在`pom.xml`中添加plugin配置即可
 ```xml
 <dependencies>
 ...
 </dependencies>
 
-<build>
-  <plugins>
+ <build>
+    <plugins>
       <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-jar-plugin</artifactId>
-      <version>2.6</version>
-      <configuration>
-        <archive>
-          <manifest>
-            <mainClass>com.unixera.mvn.App</mainClass>
-          </manifest>
-        </archive>
-      </configuration>
-    </plugin>
-  </plugins>
-</build>
-
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>com.unixera.mvn.App</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
 ```
 再执行`mvn package`生成的jar包的Manifest中就会带有Main-Class的信息了。
 
 #### jar-with-dependencies
 
-现在我们终于有了一个可以正常工作的类了，不妨给它添加一个依赖吧。比如我在另外一篇文章中提到的slf4j[5]。具体做法可以参考该文章。这里只谈打包的问题。现在我们的pom.xml主体部分应该是这样的：
-![](http://ww3.sinaimg.cn/large/006y8lVajw1f88leultmzj30tm10k43x.jpg)
+现在我们终于有了一个可以正常工作的类了，不妨给它添加一个依赖吧。比如我在另外一篇文章中提到的slf4j[5]。
+具体做法可以参考该文章。这里只谈打包的问题。现在我们的pom.xml文件中在dependencies段中应该包含这样一段：
+![](http://ww2.sinaimg.cn/large/006y8lVajw1f96nuir9vnj30m405ygmi.jpg)
 我在App.java中添加了slf4j的用例。按照之前的做法，仍然
 ![](http://ww3.sinaimg.cn/large/006y8lVajw1f88lgk9cxxj31cs1787fv.jpg)
 ![](http://ww4.sinaimg.cn/large/006y8lVajw1f88lgxno8yj311u090jv3.jpg)
@@ -130,9 +130,11 @@ java HelloWorld
 **其实就是动态加载**。和写C时用到的.so文件是一个道理。如果希望我们的程序能到处能运行的话，最好把它的依赖都打成.a文件，然后和项目代码打成一个完整的包，所有依赖的类库都在同一个包里就不存在这种问题了。
 所以需要引入一个新的打包方式`jar-with-dependencies`。
 
-根据mvn文档[6]，需要引入一个新的过程——Assembly。所以需要新的插件，在pom.xml中添加
-![](http://ww3.sinaimg.cn/large/006y8lVajw1f88lybcex8j30xm0ditb1.jpg)
+根据同样根据上面那个答案,还需要添加如下的配置
+![](http://ww2.sinaimg.cn/large/006y8lVajw1f96nstiz0qj30uy0ssn0y.jpg)
 再重新执行上面的过程，可以运行了。
+
+> 本来在上面的文章中引用的是maven的官方文档，后来在实际使用中发现那种方式经常失效，对照自己试验成功后的文章也不奏效，于是找到了前面提到的答案，看来即使是官方文档，也还是需要民间的工程师们来发现最佳实践啊。
 
 ### 3. 执行应用
 
@@ -148,8 +150,5 @@ java HelloWorld
 [1]: http://ww1.sinaimg.cn/large/006y8lVajw1f840c2rryxj31ey100n83.jpg
 [2]: https://docs.oracle.com/javase/tutorial/deployment/jar/manifestindex.html
 [3]: https://docs.oracle.com/javase/tutorial/deployment/jar/appman.html
-[4]: https://maven.apache.org/shared/maven-archiver/examples/classpath.html#Make
+[4]: http://stackoverflow.com/questions/574594/how-can-i-create-an-executable-jar-with-dependencies-using-maven
 [5]: http://unixera.com/java/use-slf4j-and-log4j-to-log-your-applications/
-
-
-
