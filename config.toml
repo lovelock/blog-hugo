@@ -21,8 +21,8 @@ paginatePath = "page"
     code = "/:slug/"
 
 [taxonomies]
-    Tags = "Tags"
-    Categories = "Categories"
+    Tags = "tags"
+    Categories = "categories"
 
 [author]
     name = "Frost Wong"
