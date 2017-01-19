@@ -53,4 +53,3 @@ categories = ["PHP"]
    ![](https://ww2.sinaimg.cn/large/006tNbRwly1fbuwu3xeyjj31kw0kggpw.jpg)
 
    对其中吧定义写在下面的做法不要惊奇，因为我把声明写在头文件中了。至于PHP7的版本应该怎么写，只能待我把PHP5研究透了再来继续写了。
-

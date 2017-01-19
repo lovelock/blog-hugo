@@ -45,3 +45,4 @@ ZEND_SET_GLOBAL_VAR("aVar", new_var);
 ```
 
 ![](https://ww3.sinaimg.cn/large/006tNbRwly1fbuyfmvy90j30z403q0tk.jpg)
+
