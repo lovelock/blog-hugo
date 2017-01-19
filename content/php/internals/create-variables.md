@@ -1,6 +1,6 @@
 +++
 date = "2017-01-18T18:08:53+08:00"
-title = "创建变量"
+title = "创建变量(PHP5.x扩展)"
 categories = ["PHP"]
 tags = ["PHP","扩展"]
 isCJKLanguage = true
